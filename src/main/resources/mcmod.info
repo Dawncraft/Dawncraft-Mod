@@ -1,0 +1,16 @@
+[
+{
+  "modid": "wcscience",
+  "name": "Wc's Sience Mod",
+  "description": "A Sience mod by Wc.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Wdawning/Wc-s-science-Mod",
+  "updateUrl": "https://github.com/Wdawning/Wc-s-science-Mod",
+  "authorList": ["DawningW&QingChenW(Wc)"],
+  "credits": "WdawningStudio makes this mod.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

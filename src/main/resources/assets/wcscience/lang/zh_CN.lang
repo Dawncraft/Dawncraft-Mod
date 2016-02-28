@@ -1,0 +1,5 @@
+﻿
+itemGroup.MagneticAndElectricity=磁力和电力
+item.magnetIngot.name=磁石锭
+tile.magnetOre.name=磁石矿
+tile.magnetBlock.name=磁石块
