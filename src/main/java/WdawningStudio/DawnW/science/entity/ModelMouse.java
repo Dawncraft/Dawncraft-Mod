@@ -4,112 +4,89 @@
 // Keep in mind that you still need to fill in some blanks
 // - ZeuX
 
+package WdawningStudio.DawnW.science.entity;
 
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.model.ModelRenderer;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-
-
-
-package net.minecraft.src;
-
-public class ModelNew extends ModelBase
+@SideOnly(Side.CLIENT)
+public class ModelMouse extends ModelBase
 {
   //fields
-    ModelRenderer Head;
-    ModelRenderer Body;
-    ModelRenderer Tail;
-    ModelRenderer Leg1;
-    ModelRenderer Leg2;
-    ModelRenderer Leg3;
-    ModelRenderer Leg4;
-    ModelRenderer Ear1;
-    ModelRenderer Ear2;
-  
-  public ModelNew()
-  {
-    textureWidth = 64;
-    textureHeight = 32;
+    private ModelRenderer Head;
+    private ModelRenderer Body;
+    private ModelRenderer Tail;
+    private ModelRenderer Leg1;
+    private ModelRenderer Leg2;
+    private ModelRenderer Leg3;
+    private ModelRenderer Leg4;
+    private ModelRenderer Ear1;
+    private ModelRenderer Ear2;
     
-      Head = new ModelRenderer(this, 0, 0);
-      Head.addBox(-4F, -4F, -8F, 8, 8, 8);
-      Head.setRotationPoint(0F, 15F, -4F);
-      Head.setTextureSize(64, 32);
-      Head.mirror = true;
-      setRotation(Head, 0F, 0F, 0F);
-      Body = new ModelRenderer(this, 32, 0);
-      Body.addBox(-3F, -3F, 0F, 6, 6, 10);
-      Body.setRotationPoint(0F, 15F, -4F);
-      Body.setTextureSize(64, 32);
-      Body.mirror = true;
-      setRotation(Body, 0F, 0F, 0F);
-      Tail = new ModelRenderer(this, 0, 18);
-      Tail.addBox(-1F, -1F, 0F, 2, 2, 8);
-      Tail.setRotationPoint(0F, 15F, 6F);
-      Tail.setTextureSize(64, 32);
-      Tail.mirror = true;
-      setRotation(Tail, -0.0698132F, 0F, 0F);
-      Leg1 = new ModelRenderer(this, 22, 19);
-      Leg1.addBox(-1F, 0F, -1F, 2, 6, 2);
-      Leg1.setRotationPoint(2F, 18F, 3F);
-      Leg1.setTextureSize(64, 32);
-      Leg1.mirror = true;
-      setRotation(Leg1, 0F, 0F, 0F);
-      Leg2 = new ModelRenderer(this, 22, 19);
-      Leg2.addBox(-1F, 0F, -1F, 2, 6, 2);
-      Leg2.setRotationPoint(-2F, 18F, 3F);
-      Leg2.setTextureSize(64, 32);
-      Leg2.mirror = true;
-      setRotation(Leg2, 0F, 0F, 0F);
-      Leg3 = new ModelRenderer(this, 22, 19);
-      Leg3.addBox(-1F, 0F, -1F, 2, 6, 2);
-      Leg3.setRotationPoint(-2F, 18F, -2F);
-      Leg3.setTextureSize(64, 32);
-      Leg3.mirror = true;
-      setRotation(Leg3, 0F, 0F, 0F);
-      Leg4 = new ModelRenderer(this, 22, 19);
-      Leg4.addBox(-1F, 0F, -1F, 2, 6, 2);
-      Leg4.setRotationPoint(2F, 18F, -2F);
-      Leg4.setTextureSize(64, 32);
-      Leg4.mirror = true;
-      setRotation(Leg4, 0F, 0F, 0F);
-      Ear1 = new ModelRenderer(this, 32, 20);
-      Ear1.addBox(0F, -5F, 0F, 5, 5, 1);
-      Ear1.setRotationPoint(2F, 13F, -10F);
-      Ear1.setTextureSize(64, 32);
-      Ear1.mirror = true;
-      setRotation(Ear1, 0F, 0F, 0F);
-      Ear2 = new ModelRenderer(this, 32, 20);
-      Ear2.addBox(-5F, -5F, 0F, 5, 5, 1);
-      Ear2.setRotationPoint(-2F, 13F, -10F);
-      Ear2.setTextureSize(64, 32);
-      Ear2.mirror = true;
-      setRotation(Ear2, 0F, 0F, 0F);
-  }
+    public ModelMouse()
+    {  	
+    	this.Head = new ModelRenderer(this, 0, 0);
+    	this.Head.addBox(-4F, -4F, -8F, 8, 8, 8);
+    	this.Head.setRotationPoint(0F, 15F, -4F);
+    	this.Body = new ModelRenderer(this, 32, 0);
+    	//this.Body.addBox(-3F, -3F, 0F, 6, 6, 10);
+    	//this.Body.setRotationPoint(0F, 15F, -4F);
+    	this.Body.addBox(-3F, 0F, -3F, 6, 10, 6);
+    	this.Body.setRotationPoint(0F, 15F, -4F);
+    	this.Tail = new ModelRenderer(this, 0, 18);
+    	this.Tail.addBox(-1F, -1F, 0F, 2, 2, 8);
+    	this.Tail.setRotationPoint(0F, 15F, 6F);
+    	this.Leg1 = new ModelRenderer(this, 22, 19);
+    	this.Leg1.addBox(-1F, 0F, -1F, 2, 6, 2);
+    	this.Leg1.setRotationPoint(2F, 18F, 3F);
+    	this.Leg2 = new ModelRenderer(this, 22, 19);
+    	this.Leg2.addBox(-1F, 0F, -1F, 2, 6, 2);
+    	this.Leg2.setRotationPoint(-2F, 18F, 3F);
+    	this.Leg3 = new ModelRenderer(this, 22, 19);
+    	this.Leg3.addBox(-1F, 0F, -1F, 2, 6, 2);
+    	this.Leg3.setRotationPoint(-2F, 18F, -2F);
+    	this.Leg4 = new ModelRenderer(this, 22, 19);
+    	this.Leg4.addBox(-1F, 0F, -1F, 2, 6, 2);
+    	this.Leg4.setRotationPoint(2F, 18F, -2F);
+    	this.Ear1 = new ModelRenderer(this, 32, 20);
+    	this.Ear1.addBox(0F, -5F, 0F, 5, 5, 1);
+    	this.Ear1.setRotationPoint(2F, 13F, -10F);
+    	this.Ear2 = new ModelRenderer(this, 32, 20);
+    	this.Ear2.addBox(-5F, -5F, 0F, 5, 5, 1);
+    	this.Ear2.setRotationPoint(-2F, 13F, -10F);
+    }
+    
+    @Override
+    public void render(Entity entity, float limbSwing, float limbSwingAmount, float rotateFloat, float rotateYaw,
+            float rotatePitch, float scale)
+    {
+        this.setRotationAngles(limbSwing, limbSwingAmount, rotateFloat, rotateYaw, rotatePitch, scale, entity);
+        this.Head.render(scale);
+        this.Body.render(scale);
+        this.Tail.render(scale);
+        this.Leg1.render(scale);
+        this.Leg2.render(scale);
+        this.Leg3.render(scale);
+        this.Leg4.render(scale);
+        this.Ear1.render(scale);
+        this.Ear2.render(scale);
+    }
   
-  public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.render(entity, f, f1, f2, f3, f4, f5);
-    setRotationAngles(f, f1, f2, f3, f4, f5);
-    Head.render(f5);
-    Body.render(f5);
-    Tail.render(f5);
-    Leg1.render(f5);
-    Leg2.render(f5);
-    Leg3.render(f5);
-    Leg4.render(f5);
-    Ear1.render(f5);
-    Ear2.render(f5);
-  }
-  
-  private void setRotation(ModelRenderer model, float x, float y, float z)
-  {
-    model.rotateAngleX = x;
-    model.rotateAngleY = y;
-    model.rotateAngleZ = z;
-  }
-  
-  public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5)
-  {
-    super.setRotationAngles(f, f1, f2, f3, f4, f5);
-  }
+    @Override
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float rotateFloat, float rotateYaw,
+            float rotatePitch, float scale, Entity entity)
+    {
+        this.Head.rotateAngleX = rotatePitch / (180F / (float)Math.PI);
+        this.Head.rotateAngleY = rotateYaw / (180F / (float)Math.PI);
+        this.Body.rotateAngleX = ((float)Math.PI / 2F);
+        this.Leg1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.Leg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.Leg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount;
+        this.Leg4.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+    }
 
 }

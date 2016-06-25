@@ -1,21 +1,38 @@
-﻿
+﻿//The english language setting of Wc's seience Mod by Wc.
+
 itemGroup.Furniture=Furniture
 itemGroup.Magnetic=Magnetic
 itemGroup.Electricity=Electricity
 itemGroup.Computer=Computer
-itemGroup.Robot=Robot
+itemGroup.Machine=Machine
+itemGroup.Food=Food
+itemGroup.Magic=Magic
+itemGroup.Flans=Flans
 itemGroup.ColourEgg=Colour Egg
 
+item.magnet.name=magnet
 item.magnetIngot.name=Magnet ingot
-item.bucketPetroleum.name=Petroleum Bucket
+item.magnetStick.name=Magnet stick
+item.magnetBall.name=Magnet ball
+item.magnetCard.name=Magnet card
+item.bucketPetroleum.name=Petroleum bucket
+item.simpleCPU.name=Simple CPU
+item.highCPU.name=High CPU
+item.proCPU.name=Pro CPU
+item.superCPU.name=Super CPU
 
 tile.magnetOre.name=Magnet ore
 tile.magnetBlock.name=Magnet block
 tile.superChest.name=Super Chest
 tile.fluidPetroleum.name=Petroleum
+tile.simpleComputer.name=simple computer
+tile.highComputer.name=High computer
+tile.proComputer.name=Pro computer
+tile.superComputer.name=Super computer
 
 fluid.petroleum=Petroleum
 
+item.magnetSword.name=Magnet Sword
 item.goldiamondSword.name=§eGol§fd§biamond §5Sword
 
 item.magnetHelmet.name=Magnet Helmet
@@ -23,10 +40,19 @@ item.magnetChestplate.name=Magnet Chestplate
 item.magnetLeggings.name=Magnet Leggings
 item.magnetBoots.name=Magnet Boots
 
+item.cakeEgg.name=Cake Egg
+
 item.faeces.name=§6faeces
 item.gerHeart.name=§7The Heart Of Large Ger
+item.brainDead.name=Brain dead medicine
+
+entity.Mouse.name=mouse
+entity.Savage.name=savage
+entity.GerKing.name=The king of Ger
 
 potion.gerPower=The Ger's power
+potion.badGer=Become Ger
+potion.brainDead=Brain ead
 
 achievement.science.Ger=You are Ger
 achievement.science.Ger.desc=Died by Ger King

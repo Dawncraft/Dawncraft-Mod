@@ -4,8 +4,10 @@ itemGroup.Furniture=家具
 itemGroup.Energy=能源
 itemGroup.Magnetic=磁力
 itemGroup.Computer=电脑
-itemGroup.Robot=机器人
+itemGroup.Machine=机械
 itemGroup.Food=食物
+itemGroup.Magic=魔法
+itemGroup.Flans=枪械
 itemGroup.ColourEgg=彩蛋
 
 item.magnet.name=磁铁
@@ -21,7 +23,7 @@ item.superCPU.name=超级CPU
 
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
-tile.magnetDoor.name=磁铁门
+//tile.magnetDoor.name=磁铁门
 tile.superChest.name=炒鸡工具箱
 tile.fluidPetroleum.name=石油
 tile.simpleComputer.name=普通电脑
@@ -45,6 +47,7 @@ item.faeces.name=§6屎
 item.gerHeart.name=§7巨Ger之心
 item.brainDead.name=脑残片
 
+entity.Mouse.name=老鼠
 entity.Savage.name=野蛮人
 entity.GerKing.name=Ger王
 

@@ -1,10 +1,10 @@
 # TXT
-.txt
+*.txt
 
 # others
-.setting
-.classpath
-.project
+*.setting
+*.classpath
+*.project
 
 # Windows image file caches
 Thumbs.db

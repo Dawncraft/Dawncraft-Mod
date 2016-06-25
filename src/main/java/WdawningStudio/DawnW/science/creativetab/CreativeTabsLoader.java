@@ -13,8 +13,10 @@ public class CreativeTabsLoader
     public static CreativeTabs tabFurniture;
     public static CreativeTabs tabEnergy;
     public static CreativeTabs tabMagnetic;
+    public static CreativeTabs tabMachine;
     public static CreativeTabs tabComputer;
-    public static CreativeTabs tabRobot;
+    public static CreativeTabs tabMagic;
+    public static CreativeTabs tabFlans;
     public static CreativeTabs tabFood;
     public static CreativeTabs tabColourEgg;
 
@@ -44,6 +46,14 @@ public class CreativeTabsLoader
                 return ItemLoader.magnetIngot;
             }
         }; 
+    	tabMachine = new CreativeTabs("Machine")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return Item.getItemFromBlock(Blocks.furnace);
+            }
+        };
     	tabComputer = new CreativeTabs("Computer")
         {
             @Override
@@ -52,15 +62,23 @@ public class CreativeTabsLoader
                 return Item.getItemFromBlock(BlockLoader.simpleComputer);
             }
         };
-    	tabRobot = new CreativeTabs("Robot")
+    	tabFood = new CreativeTabs("Food")
         {
             @Override
             public Item getTabIconItem()
             {
-                return Item.getItemFromBlock(BlockLoader.simpleComputer);
+                return ItemLoader.cakeEgg;
             }
         };
-    	tabFood = new CreativeTabs("Food")
+    	tabMagic = new CreativeTabs("Magic")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return ItemLoader.cakeEgg;
+            }
+        };
+    	tabFlans = new CreativeTabs("Flans")
         {
             @Override
             public Item getTabIconItem()

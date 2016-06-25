@@ -23,7 +23,7 @@ public class BlockComputer extends Block
 		super(computerType);
 	}
 
-	//Simple computer case
+    //Simple computer case
     public static class SimpleComputer extends BlockComputer
     {
     	public SimpleComputer()

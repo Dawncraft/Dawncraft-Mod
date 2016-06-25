@@ -42,9 +42,11 @@ public class EntityLoader
     
     public EntityLoader()
     {
+        registerEntity(EntityMouse.class, "Mouse", 64, 3, true);
         registerEntity(EntitySavage.class, "Savage", 64, 3, true);
         registerEntity(EntityGerKing.class, "GerKing", 64, 3, true);
         registerEntity(EntityMagnetBall.class, "MagnetBall", 64, 10, true);
+        registerEntityEgg(EntityMouse.class, 0x5b0f00, 0x573131);
         registerEntityEgg(EntitySavage.class, 0x795949, 0x513830);
         registerEntityEgg(EntityGerKing.class, 0x795949, 0x800000);
         registerEntitySpawn(EntitySavage.class, 40, 2, 6, EnumCreatureType.CREATURE, BiomeGenBase.plains);
@@ -53,6 +55,7 @@ public class EntityLoader
     @SideOnly(Side.CLIENT)
     public static void registerRenders()
     {
+        registerEntityRender(EntityMouse.class, new RenderMouse(Minecraft.getMinecraft().getRenderManager()));
         registerEntityRender(EntitySavage.class, new RenderSavage(Minecraft.getMinecraft().getRenderManager()));
         registerEntityRender(EntityGerKing.class, new RenderGerKing(Minecraft.getMinecraft().getRenderManager()));
         registerEntityRender(EntityMagnetBall.class,
