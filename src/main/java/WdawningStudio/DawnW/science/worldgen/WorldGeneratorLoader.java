@@ -20,7 +20,7 @@ public class WorldGeneratorLoader
     {
         magnetoreGenerator = new IWorldGenerator()
         {
-        	public final WorldGenMinable magnetoreGenerator = new WorldGenMinable(BlockLoader.magnet_ore.getDefaultState(), 8);
+        	public final WorldGenMinable magnetoreGenerator = new WorldGenMinable(BlockLoader.magnetOre.getDefaultState(), 8);
 
         	@Override
             public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)

@@ -8,8 +8,8 @@
   "url": "https://github.com/Wdawning/Wc-s-science-Mod",
   "updateUrl": "https://github.com/Wdawning/Wc-s-science-Mod",
   "authorList": ["DawningW&QingChenW(Wc)"],
-  "credits": "WdawningStudio makes this mod.",
-  "logoFile": "",
+  "credits": "Made by WdawningStudio.",
+  "logoFile": "assets/wcscience/textures/wdawning_logo.png",
   "screenshots": [],
   "dependencies": []
 }

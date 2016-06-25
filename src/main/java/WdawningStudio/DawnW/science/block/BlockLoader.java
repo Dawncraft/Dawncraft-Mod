@@ -2,10 +2,10 @@ package WdawningStudio.DawnW.science.block;
 
 import WdawningStudio.DawnW.science.science;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -13,20 +13,66 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockLoader
 {
-    public static Block magnet_ore = new BlockMagnet_ore();
-    public static Block magnet_block = new BlockMagnet_block();
-
+	//Furniture
+    public static Block wchest = new BlockWchest();
+	//magnet
+    public static Block magnetOre = new BlockMagnetOre();
+    public static Block magnetBlock = new BlockMagnetBlock();
+//    public static Block magnetDoor = new BlockMagnetDoor();
+    //energy
+    
+    public static Block fluidPetroleum = new BlockFluidPetroleum();
+    //computer
+    public static Block simpleComputer = new BlockComputer.SimpleComputer();
+	public static Block highComputer = new BlockComputer.HighComputer();
+    public static Block proComputer = new BlockComputer.ProComputer();
+    public static Block superComputer = new BlockComputer.SuperComputer();
+    //robot
+    
+    //color egg
+    
+    
     public BlockLoader(FMLPreInitializationEvent event)
     {
-        register(magnet_ore, "magnet_ore"); 
-        register(magnet_block, "magnet_block"); 
+    	//Furniture
+        register(wchest, "super_chest"); 
+    	//magnet
+        register(magnetOre, "magnet_ore"); 
+        register(magnetBlock, "magnet_block");
+ //       register(magnetDoor, "magnet_door"); 
+        //energy
+        register(fluidPetroleum, "petroleum");
+        //computer
+        register(simpleComputer, "simple_computer");
+        register(highComputer, "high_computer");
+		register(proComputer, "pro_computer");
+        register(superComputer, "super_computer");
+        //robot
+        
+        //color egg
+        
     }
 
     @SideOnly(Side.CLIENT)
     public static void registerRenders()
     {
-        registerRender(magnet_ore, "magnet_ore");
-        registerRender(magnet_block, "magnet_block");    
+    	//Furniture
+        registerRender(wchest, "super_chest"); 
+    	//magnet
+        registerRender(magnetOre, "magnet_ore");
+        registerRender(magnetBlock, "magnet_block");
+ //       registerRender(magnetDoor, "magnet_door"); 
+        //energy
+        registerRender(fluidPetroleum, "petroleum");
+        //computer
+        registerRender(simpleComputer, "simple_computer");
+        registerRender(highComputer, "high_computer"); 
+		registerRender(proComputer, "pro_computer");
+        registerRender(superComputer, "super_computer");
+        //robot
+        
+        //color egg
+        
     }
 
     private static void register(Block block, String name)

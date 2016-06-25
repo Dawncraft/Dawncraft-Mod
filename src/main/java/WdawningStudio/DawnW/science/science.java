@@ -9,10 +9,11 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 /**
    @author QingChenW
-   @version B0.1
+   @version is mcmod.version
 **/
 
 @Mod(modid = science.MODID, name = science.NAME, version = science.VERSION, acceptedMinecraftVersions = "[1.8,)")
@@ -21,11 +22,11 @@ public class science
 {
     public static final String MODID = "wcscience";
     public static final String NAME = "Wc's Sience Mod";
-    public static final String VERSION = "B0.1";
+    public static final String VERSION = "For mc1.8";
 
     @Instance(science.MODID)
     public static science instance;
-
+    
     @SidedProxy(clientSide = "WdawningStudio.DawnW.science.client.ClientProxy", serverSide = "WdawningStudio.DawnW.science.common.CommonProxy")
     public static CommonProxy proxy;
     

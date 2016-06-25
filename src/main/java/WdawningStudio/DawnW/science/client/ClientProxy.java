@@ -1,7 +1,8 @@
 package WdawningStudio.DawnW.science.client;
 
+import WdawningStudio.DawnW.science.client.FluidRenderLoader;
 import WdawningStudio.DawnW.science.common.CommonProxy;
-
+import WdawningStudio.DawnW.science.entity.EntityRenderLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -13,6 +14,7 @@ public class ClientProxy extends CommonProxy
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+        new FluidRenderLoader(event);
     }
 
     @Override
@@ -20,6 +22,7 @@ public class ClientProxy extends CommonProxy
     {
         super.init(event);
         new ItemRenderLoader();
+        new EntityRenderLoader();
     }
 
     @Override

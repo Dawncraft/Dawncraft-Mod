@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "wcscience:high_computer" }
+    }
+}
