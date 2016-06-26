@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "wcscience:blocks/electricity/electricity_furnace_side",
+        "front": "wcscience:blocks/electricity/electricity_furnace_on",
+        "side": "wcscience:blocks/electricity/electricity_furnace_side"
+    }
+}

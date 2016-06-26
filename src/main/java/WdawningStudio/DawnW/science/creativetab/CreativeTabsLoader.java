@@ -51,7 +51,7 @@ public class CreativeTabsLoader
             @Override
             public Item getTabIconItem()
             {
-                return Item.getItemFromBlock(Blocks.furnace);
+                return Item.getItemFromBlock(BlockLoader.machineFurnace);
             }
         };
     	tabComputer = new CreativeTabs("Computer")
@@ -83,7 +83,7 @@ public class CreativeTabsLoader
             @Override
             public Item getTabIconItem()
             {
-                return ItemLoader.cakeEgg;
+                return ItemLoader.flanRPG;
             }
         };
     	tabColourEgg = new CreativeTabs("ColourEgg")

@@ -6,8 +6,11 @@ import WdawningStudio.DawnW.science.creativetab.CreativeTabsLoader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
@@ -28,7 +31,7 @@ public class BlockComputer extends Block
     {
     	public SimpleComputer()
     	{
-    		super(Material.glass);
+    		super(Material.iron);
     		this.setUnlocalizedName("simpleComputer");
     		this.setHarvestLevel("ItemPickaxe", 1);
     		this.setHardness(3.0f);
@@ -44,7 +47,7 @@ public class BlockComputer extends Block
     {
     	public HighComputer()
     	{
-    		super(Material.glass);
+    		super(Material.iron);
     		this.setUnlocalizedName("highComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
     		this.setHardness(3.0f);
@@ -60,7 +63,7 @@ public class BlockComputer extends Block
     {
     	public ProComputer()
     	{
-    		super(Material.glass);
+    		super(Material.iron);
     		this.setUnlocalizedName("proComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
     		this.setHardness(3.0f);
@@ -76,7 +79,7 @@ public class BlockComputer extends Block
     {
     	public SuperComputer()
     	{
-    		super(Material.glass);
+    		super(Material.iron);
     		this.setUnlocalizedName("superComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
     		this.setHardness(3.0f);
@@ -87,40 +90,44 @@ public class BlockComputer extends Block
     	}
     }
     
-/*
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
-    {
-        this.setDefaultFacing(worldIn, pos, state);
-    }
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
 
-    private void setDefaultFacing(World worldIn, BlockPos pos, IBlockState state)
-    {
-        if (!worldIn.isRemote)
-        {
-            Block block = worldIn.getBlockState(pos.north()).getBlock();
-            Block block1 = worldIn.getBlockState(pos.south()).getBlock();
-            Block block2 = worldIn.getBlockState(pos.west()).getBlock();
-            Block block3 = worldIn.getBlockState(pos.east()).getBlock();
-            EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+	@Override
+	public boolean isFullCube()
+	{
+		return false;
+	}
+    
+	//方块状态太难弄了,我不玩♂你♀行了吧.........
+	//其实是从家具mod里抄的,太无耻!!!!!!!!
+	/*
+	@Override
+	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+	{
+		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+		return state.withProperty(FACING, placer.getHorizontalFacing());
+	}
 
-            if (enumfacing == EnumFacing.NORTH && block.isFullBlock() && !block1.isFullBlock())
-            {
-                enumfacing = EnumFacing.SOUTH;
-            }
-            else if (enumfacing == EnumFacing.SOUTH && block1.isFullBlock() && !block.isFullBlock())
-            {
-                enumfacing = EnumFacing.NORTH;
-            }
-            else if (enumfacing == EnumFacing.WEST && block2.isFullBlock() && !block3.isFullBlock())
-            {
-                enumfacing = EnumFacing.EAST;
-            }
-            else if (enumfacing == EnumFacing.EAST && block3.isFullBlock() && !block2.isFullBlock())
-            {
-                enumfacing = EnumFacing.WEST;
-            }
+	@Override
+	public int getMetaFromState(IBlockState state)
+	{
+		return ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
+	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta)
+	{
+		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+	}
 
-            worldIn.setBlockState(pos, state.withProperty(FACING, enumfacing), 2);
-        }
-    }*/
+	@Override
+	protected BlockState createBlockState()
+	{
+		return new BlockState(this, new IProperty[] { FACING });
+	}
+	*/
 }

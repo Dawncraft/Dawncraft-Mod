@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "wcscience:blocks/machine/iron_furnace_top",
+        "front": "wcscience:blocks/machine/iron_furnace_off",
+        "side": "blocks/iron_block"
+    }
+}

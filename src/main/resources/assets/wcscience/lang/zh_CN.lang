@@ -21,11 +21,13 @@ item.highCPU.name=高级CPU
 item.proCPU.name=专业CPU
 item.superCPU.name=超级CPU
 
+tile.superChest.name=炒鸡工具箱
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
 //tile.magnetDoor.name=磁铁门
-tile.superChest.name=炒鸡工具箱
+tile.electricityFurnace.name=热能发电机
 tile.fluidPetroleum.name=石油
+tile.machineFurnace.name=电炉
 tile.simpleComputer.name=普通电脑
 tile.highComputer.name=高级电脑
 tile.proComputer.name=专业电脑
@@ -35,6 +37,9 @@ fluid.petroleum=石油
 
 item.magnetSword.name=磁能脉冲剑
 item.goldiamondSword.name=§e黄金§b钻石§5剑
+
+item.flanRPG.name=火箭筒
+item.flanRPGRocket.name=导弹
 
 item.magnetHelmet.name=磁石头盔
 item.magnetChestplate.name=磁石胸甲

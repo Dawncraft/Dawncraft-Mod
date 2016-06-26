@@ -5,6 +5,7 @@ import WdawningStudio.DawnW.science.item.ItemLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderSnowball;
+import net.minecraft.client.renderer.entity.RenderTNTPrimed;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -46,6 +47,7 @@ public class EntityLoader
         registerEntity(EntitySavage.class, "Savage", 64, 3, true);
         registerEntity(EntityGerKing.class, "GerKing", 64, 3, true);
         registerEntity(EntityMagnetBall.class, "MagnetBall", 64, 10, true);
+        registerEntity(EntityFlanBomb.class, "FlanBomb", 64, 10, true);
         registerEntityEgg(EntityMouse.class, 0x5b0f00, 0x573131);
         registerEntityEgg(EntitySavage.class, 0x795949, 0x513830);
         registerEntityEgg(EntityGerKing.class, 0x795949, 0x800000);
@@ -58,9 +60,10 @@ public class EntityLoader
         registerEntityRender(EntityMouse.class, new RenderMouse(Minecraft.getMinecraft().getRenderManager()));
         registerEntityRender(EntitySavage.class, new RenderSavage(Minecraft.getMinecraft().getRenderManager()));
         registerEntityRender(EntityGerKing.class, new RenderGerKing(Minecraft.getMinecraft().getRenderManager()));
-        registerEntityRender(EntityMagnetBall.class,
-                new RenderSnowball(Minecraft.getMinecraft().getRenderManager(), ItemLoader.magnetBall,
-                        Minecraft.getMinecraft().getRenderItem()));
+        registerEntityRender(EntityMagnetBall.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
+        		ItemLoader.magnetBall, Minecraft.getMinecraft().getRenderItem()));
+        registerEntityRender(EntityFlanBomb.class, new RenderSnowball(Minecraft.getMinecraft().getRenderManager(),
+        		ItemLoader.flanRPGRocket, Minecraft.getMinecraft().getRenderItem()));
     }
 
     @SideOnly(Side.CLIENT)

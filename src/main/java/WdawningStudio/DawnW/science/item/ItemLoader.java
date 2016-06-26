@@ -40,6 +40,9 @@ public class ItemLoader
     public static ItemSword goldiamondSword = new ItemGoldiamondSword();
     public static ItemSword magnetSword = new ItemMagnetSword();
     
+    public static Item flanRPG = new ItemFlanRPG();
+    public static Item flanRPGRocket = new ItemFlanRPGRocket();
+    
     public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", science.MODID + ":" + "magnet", 11, new int[]{ 1, 5, 4, 2}, 10);
     public static ItemArmor magnetHelmet = new ItemMagnetArmor.Helmet();
     public static ItemArmor magnetChestplate = new ItemMagnetArmor.Chestplate();
@@ -69,6 +72,9 @@ public class ItemLoader
         //Tool
         register(goldiamondSword, "goldiamond_sword"); 
         register(magnetSword, "magnet_sword"); 
+        
+        register(flanRPG, "flan_RPG");
+        register(flanRPGRocket, "flan_RPG_rocket");
         
         register(magnetHelmet, "magnet_helmet");
         register(magnetChestplate, "magnet_chestplate");
@@ -100,6 +106,9 @@ public class ItemLoader
         //Tool
         registerRender(goldiamondSword, "goldiamond_sword"); 
         registerRender(magnetSword, "magnet_sword"); 
+        
+        registerRender(flanRPG, "flan_RPG");
+        registerRender(flanRPGRocket, "flan_RPG_rocket");
         
         registerRender(magnetHelmet, "magnet_helmet");
         registerRender(magnetChestplate, "magnet_chestplate");

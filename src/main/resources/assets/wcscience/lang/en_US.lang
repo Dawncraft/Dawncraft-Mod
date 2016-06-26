@@ -24,7 +24,9 @@ item.superCPU.name=Super CPU
 tile.magnetOre.name=Magnet ore
 tile.magnetBlock.name=Magnet block
 tile.superChest.name=Super Chest
+tile.electricityFurnace.name=Heat electric generator
 tile.fluidPetroleum.name=Petroleum
+tile.machineFurnace.name=Electricity furnace
 tile.simpleComputer.name=simple computer
 tile.highComputer.name=High computer
 tile.proComputer.name=Pro computer
@@ -34,6 +36,9 @@ fluid.petroleum=Petroleum
 
 item.magnetSword.name=Magnet Sword
 item.goldiamondSword.name=§eGol§fd§biamond §5Sword
+
+item.flanRPG.name=RPG-7
+item.flanRPGRocket.name=RPG rocket
 
 item.magnetHelmet.name=Magnet Helmet
 item.magnetChestplate.name=Magnet Chestplate
