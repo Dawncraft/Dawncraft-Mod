@@ -1,0 +1,8 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "top": "dawncraft:blocks/electricity/electricity_furnace_side",
+        "front": "dawncraft:blocks/electricity/electricity_furnace_on",
+        "side": "dawncraft:blocks/electricity/electricity_furnace_side"
+    }
+}

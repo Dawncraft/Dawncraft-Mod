@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "burning=false,facing=east": { "model": "dawncraft:iron_furnace", "y": 90, "uvlock": true },
+        "burning=true,facing=east": { "model": "dawncraft:iron_furnace_burning", "y": 90, "uvlock": true },
+        "burning=false,facing=north": { "model": "dawncraft:iron_furnace" },
+        "burning=true,facing=north": { "model": "dawncraft:iron_furnace_burning" },
+        "burning=false,facing=south": { "model": "dawncraft:iron_furnace", "y": 180, "uvlock": true },
+        "burning=true,facing=south": { "model": "dawncraft:iron_furnace_burning", "y": 180, "uvlock": true },
+        "burning=false,facing=west": { "model": "dawncraft:iron_furnace", "y": 270, "uvlock": true },
+        "burning=true,facing=west": { "model": "dawncraft:iron_furnace_burning", "y": 270, "uvlock": true }
+    }
+}

@@ -1,15 +1,15 @@
 [
 {
-  "modid": "wcscience",
-  "name": "Wc's Sience Mod",
-  "description": "A Sience mod by Wc.",
+  "modid": "dawncraft",
+  "name": "Dawn Craft Mod",
+  "description": "A Minecraft mod by WDawning Studio.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://github.com/Wdawning/Wc-s-science-Mod",
-  "updateUrl": "https://github.com/Wdawning/Wc-s-science-Mod",
-  "authorList": ["DawningW&QingChenW(Wc)"],
-  "credits": "Made by WdawningStudio.",
-  "logoFile": "assets/wcscience/textures/wdawning_logo.png",
+  "url": "https://github.com/Wdawning/Dawn-Craft-Mod",
+  "updateUrl": "https://github.com/Wdawning/Dawn-Craft-Mod",
+  "authorList": ["DawningW","QingChenW(Wc)"],
+  "credits": "Made by Wdawning Studio.",
+  "logoFile": "assets/dawncraft/textures/wdawning_logo.png",
   "screenshots": [],
   "dependencies": []
 }
