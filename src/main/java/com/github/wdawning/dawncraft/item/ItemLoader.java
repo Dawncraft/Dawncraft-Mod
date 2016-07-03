@@ -40,6 +40,7 @@ public class ItemLoader
     public static ItemSword goldiamondSword = new ItemGoldiamondSword();
     public static ItemSword magnetSword = new ItemMagnetSword();
     
+    public static Item flanAK47 = new ItemFlanAK47();
     public static Item flanRPG = new ItemFlanRPG();
     public static Item flanRPGRocket = new ItemFlanRPGRocket();
     
@@ -73,6 +74,7 @@ public class ItemLoader
         register(goldiamondSword, "goldiamond_sword"); 
         register(magnetSword, "magnet_sword"); 
         
+        register(flanAK47, "flan_AK47");
         register(flanRPG, "flan_RPG");
         register(flanRPGRocket, "flan_RPG_rocket");
         
@@ -107,6 +109,7 @@ public class ItemLoader
         registerRender(goldiamondSword, "goldiamond_sword"); 
         registerRender(magnetSword, "magnet_sword"); 
         
+        registerRender(flanAK47, "flan_AK47");
         registerRender(flanRPG, "flan_RPG");
         registerRender(flanRPGRocket, "flan_RPG_rocket");
         

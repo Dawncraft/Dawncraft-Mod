@@ -11,10 +11,11 @@ import net.minecraft.world.World;
 
 public class ItemFlan extends Item
 {
-    public ItemFlan()
+    public ItemFlan(int maxDamage)
     {
         this.maxStackSize = 1;
         this.setFull3D();
+        this.setMaxDamage(maxDamage);
         this.setCreativeTab(CreativeTabsLoader.tabFlans);
     }
 	

@@ -1,35 +1,35 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.entity.EntityFlanBomb;
-
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemFlanRPG extends ItemFlan
+public class ItemFlanAK47 extends ItemFlan
 {
-    public ItemFlanRPG()
+    public ItemFlanAK47()
     {
-        super(28);
-        this.setUnlocalizedName("flanRPG");
+        super(423);
+        this.setUnlocalizedName("flanAK47");
     }
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     { 
-    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRPGRocket))
+    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow))
     	{
         if (!playerIn.capabilities.isCreativeMode)
         {
             itemStackIn.damageItem(1, playerIn);
-            playerIn.inventory.consumeInventoryItem(ItemLoader.flanRPGRocket);
+            playerIn.inventory.consumeInventoryItem(Items.arrow);
         }
         
         worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         
         if (!worldIn.isRemote)
         {
-            worldIn.spawnEntityInWorld(new EntityFlanBomb(worldIn, playerIn));
+            worldIn.spawnEntityInWorld(new EntityArrow(worldIn, playerIn, 4.0F));
         }
     	}
         
