@@ -1,8 +1,10 @@
 package com.github.wdawning.dawncraft.block;
 
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
+import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -10,19 +12,21 @@ import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class BlockMachineFurnace extends Block
+public class BlockMachineEleFurnace extends BlockContainer
 {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool BURNING = PropertyBool.create("burning");
     
-    public BlockMachineFurnace()
+    public BlockMachineEleFurnace()
     {
         super(Material.iron);
-        this.setUnlocalizedName("machineFurnace");
+        this.setUnlocalizedName("machineEleFurnace");
         this.setHardness(2.5F);
         this.setStepSound(Block.soundTypeMetal);
         this.setCreativeTab(CreativeTabsLoader.tabMachine);
@@ -46,8 +50,34 @@ public class BlockMachineFurnace extends Block
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
             EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        worldIn.setBlockState(pos, state.cycleProperty(BURNING));
-        return true;
+        if (worldIn.isRemote)
+        {
+            return true;
+        }
+        else
+        {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+
+            if (tileentity instanceof TileEntityMachineEleFurnace)
+            {
+                playerIn.displayGUIChest((TileEntityMachineEleFurnace)tileentity);
+            }
+
+            return true;
+        }
+    }
+    
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+    	TileEntity tileentity = worldIn.getTileEntity(pos);
+
+        if (tileentity instanceof TileEntityMachineEleFurnace)
+        {
+            InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityMachineEleFurnace)tileentity);
+                worldIn.updateComparatorOutputLevel(pos, this);
+        }
+        
+        super.breakBlock(worldIn, pos, state);
     }
     
     @Override
@@ -64,5 +94,38 @@ public class BlockMachineFurnace extends Block
         int facing = ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
         int burning = ((Boolean) state.getValue(BURNING)).booleanValue() ? 4 : 0;
         return facing | burning;
+    }
+    
+    public static void setState(boolean active, World worldIn, BlockPos pos)
+    {
+        IBlockState iblockstate = worldIn.getBlockState(pos);
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+
+        if (active)
+        {
+            worldIn.setBlockState(pos, BlockLoader.heatGenerator.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BURNING, Boolean.TRUE), 3);
+        }
+        else
+        {
+            worldIn.setBlockState(pos, BlockLoader.heatGenerator.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BURNING, Boolean.FALSE), 3);
+        }
+
+        if (tileentity != null)
+        {
+            tileentity.validate();
+            worldIn.setTileEntity(pos, tileentity);
+        }
+    }
+    
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta)
+	{
+		return new TileEntityMachineEleFurnace();
+	}
+	
+    @Override
+    public int getRenderType()
+    {
+        return 3;
     }
 }

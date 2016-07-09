@@ -8,6 +8,7 @@ import com.github.wdawning.dawncraft.entity.EntityLoader;
 import com.github.wdawning.dawncraft.fluid.FluidLoader;
 import com.github.wdawning.dawncraft.item.ItemLoader;
 import com.github.wdawning.dawncraft.potion.PotionLoader;
+import com.github.wdawning.dawncraft.tileentity.TileEntityLoader;
 import com.github.wdawning.dawncraft.worldgen.WorldGeneratorLoader;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -18,12 +19,13 @@ public class CommonProxy
 {
     public void preInit(FMLPreInitializationEvent event)
     {
-        new FluidLoader(event);
         new ConfigLoader(event);
+        new FluidLoader(event);
         new CreativeTabsLoader(event);
         new BlockLoader(event);
         new ItemLoader(event);
         new PotionLoader(event);
+        new TileEntityLoader(event);
     }
 
     public void init(FMLInitializationEvent event)

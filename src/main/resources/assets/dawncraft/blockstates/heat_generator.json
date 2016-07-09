@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "burning=false,facing=east": { "model": "dawncraft:heat_generator", "y": 90, "uvlock": true },
+        "burning=true,facing=east": { "model": "dawncraft:heat_generator_burning", "y": 90, "uvlock": true },
+        "burning=false,facing=north": { "model": "dawncraft:heat_generator" },
+        "burning=true,facing=north": { "model": "dawncraft:heat_generator_burning" },
+        "burning=false,facing=south": { "model": "dawncraft:heat_generator", "y": 180, "uvlock": true },
+        "burning=true,facing=south": { "model": "dawncraft:heat_generator_burning", "y": 180, "uvlock": true },
+        "burning=false,facing=west": { "model": "dawncraft:heat_generator", "y": 270, "uvlock": true },
+        "burning=true,facing=west": { "model": "dawncraft:heat_generator_burning", "y": 270, "uvlock": true }
+    }
+}

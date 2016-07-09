@@ -1,10 +1,10 @@
 ﻿//Wc的科技Mod，中文语言文件，作者Wc
-
-itemGroup.Furniture=家具
 itemGroup.Energy=能源
 itemGroup.Magnetic=磁力
 itemGroup.Computer=电脑
 itemGroup.Machine=机械
+itemGroup.Materials2=科技材料
+itemGroup.Furniture=家具
 itemGroup.Food=食物
 itemGroup.Magic=魔法
 itemGroup.Flans=枪械
@@ -25,9 +25,9 @@ tile.superChest.name=炒鸡工具箱
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
 //tile.magnetDoor.name=磁铁门
-tile.electricityFurnace.name=热能发电机
+tile.heatGenerator.name=热能发电机
 tile.fluidPetroleum.name=石油
-tile.machineFurnace.name=电炉
+tile.machineEleFurnace.name=电炉
 tile.simpleComputer.name=普通电脑
 tile.highComputer.name=高级电脑
 tile.proComputer.name=专业电脑

@@ -5,6 +5,7 @@ import com.github.wdawning.dawncraft.item.ItemLoader;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -15,7 +16,7 @@ public class CreativeTabsLoader
     public static CreativeTabs tabMagnetic;
     public static CreativeTabs tabMachine;
     public static CreativeTabs tabComputer;
-    public static CreativeTabs tabBuilding;
+    public static CreativeTabs tabMaterials2;
     public static CreativeTabs tabFurniture;
     public static CreativeTabs tabFood;
     public static CreativeTabs tabMagic;
@@ -24,14 +25,6 @@ public class CreativeTabsLoader
 
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
-    	tabBuilding = new CreativeTabs("Build")
-        {
-            @Override
-            public Item getTabIconItem()
-            {
-                return Item.getItemFromBlock(Blocks.brick_block);
-            }
-        };
     	tabEnergy = new CreativeTabs("Energy")
         {
             @Override
@@ -62,6 +55,14 @@ public class CreativeTabsLoader
             public Item getTabIconItem()
             {
                 return Item.getItemFromBlock(BlockLoader.simpleComputer);
+            }
+        };
+    	tabMaterials2 = new CreativeTabs("Materials2")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return Items.stick;
             }
         };
     	tabFurniture = new CreativeTabs("Furniture")

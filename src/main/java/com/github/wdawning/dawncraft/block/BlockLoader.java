@@ -22,11 +22,11 @@ public class BlockLoader
     public static Block magnetBlock = new BlockMagnetBlock();
 //    public static Block magnetDoor = new BlockMagnetDoor();
     //energy
-    public static Block electricityFurnace = new BlockElectricityFurnace();
+    public static Block heatGenerator = new BlockEleHeatGenerator();
     
     public static Block fluidPetroleum = new BlockFluidPetroleum();
     //machine
-    public static Block machineFurnace = new BlockMachineFurnace();
+    public static Block machineFurnace = new BlockMachineEleFurnace();
     //computer
     public static Block simpleComputer = new BlockComputer.SimpleComputer();
 	public static Block highComputer = new BlockComputer.HighComputer();
@@ -46,7 +46,7 @@ public class BlockLoader
  //       register(magnetDoor, "magnet_door"); 
         //energy
         register(fluidPetroleum, "petroleum");
-        register(electricityFurnace, "ele_furnace");
+        register(heatGenerator, "heat_generator");
         //machine
         register(machineFurnace, "iron_furnace");
         //computer
@@ -69,7 +69,7 @@ public class BlockLoader
  //       registerRender(magnetDoor, "magnet_door"); 
         //energy
         registerRender(fluidPetroleum, "petroleum");
-        registerRender(electricityFurnace, "ele_furnace");
+        registerRender(heatGenerator, "heat_generator");
         //machine
         registerRender(machineFurnace, "iron_furnace");
         //computer
