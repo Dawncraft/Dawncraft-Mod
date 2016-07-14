@@ -6,8 +6,11 @@ import com.github.wdawning.dawncraft.crafting.CraftingLoader;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 import com.github.wdawning.dawncraft.entity.EntityLoader;
 import com.github.wdawning.dawncraft.fluid.FluidLoader;
+import com.github.wdawning.dawncraft.gui.ContainerEleHeatGenerator;
+import com.github.wdawning.dawncraft.gui.GuiLoader;
 import com.github.wdawning.dawncraft.item.ItemLoader;
 import com.github.wdawning.dawncraft.potion.PotionLoader;
+import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
 import com.github.wdawning.dawncraft.tileentity.TileEntityLoader;
 import com.github.wdawning.dawncraft.worldgen.WorldGeneratorLoader;
 
@@ -26,6 +29,7 @@ public class CommonProxy
         new ItemLoader(event);
         new PotionLoader(event);
         new TileEntityLoader(event);
+        new GuiLoader(event);
     }
 
     public void init(FMLInitializationEvent event)

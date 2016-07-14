@@ -1,24 +1,27 @@
-package com.github.wdawning.dawncraft.container;
+package com.github.wdawning.dawncraft.gui;
+
+import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnaceFuel;
+import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerMachineEleFurnace extends Container
 {
-    private final IInventory eleHeatGenerator;
+    private final TileEntityMachineEleFurnace machineEleFurnace;
     
-	public ContainerMachineEleFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
-        this.eleHeatGenerator = furnaceInventory;
-        this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
+	public ContainerMachineEleFurnace(InventoryPlayer playerInventory, TileEntityMachineEleFurnace tile) {
+        this.machineEleFurnace = tile;
+        this.addSlotToContainer(new Slot(tile, 0, 56, 53));
+        this.addSlotToContainer(new SlotFurnaceOutput(playerInventory.player, tile, 1, 116, 35));
+        
         int i;
-
         for (i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
@@ -36,7 +39,7 @@ public class ContainerMachineEleFurnace extends Container
 	@Override
 	public boolean canInteractWith(EntityPlayer player)
 	{
-		return this.eleHeatGenerator.isUseableByPlayer(player);
+		return this.machineEleFurnace.isUseableByPlayer(player);
 	}
 	
 	@Override

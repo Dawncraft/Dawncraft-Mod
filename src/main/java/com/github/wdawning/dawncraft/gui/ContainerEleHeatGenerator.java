@@ -1,4 +1,6 @@
-package com.github.wdawning.dawncraft.container;
+package com.github.wdawning.dawncraft.gui;
+
+import java.util.Iterator;
 
 import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
 
@@ -13,16 +15,21 @@ import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerEleHeatGenerator extends Container
 {
-    private final IInventory eleHeatGenerator;
+    private final TileEntityEleHeatGenerator eleHeatGenerator;
+	private int lastBurnTime = 0;
+	private int lastCurrentItemBurnTime = 0;
+	private int lastElectric = 0;
     
-	public ContainerEleHeatGenerator(InventoryPlayer playerInventory, IInventory furnaceInventory) {
-        this.eleHeatGenerator = furnaceInventory;
-        this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
+	public ContainerEleHeatGenerator(InventoryPlayer playerInventory, TileEntityEleHeatGenerator tile) {
+        this.eleHeatGenerator = tile;
+        this.addSlotToContainer(new SlotFurnaceFuel(tile, 0, 55, 46));
+        
         int i;
-
         for (i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
@@ -43,6 +50,38 @@ public class ContainerEleHeatGenerator extends Container
 		return this.eleHeatGenerator.isUseableByPlayer(player);
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int par1, int par2)
+	{
+		this.eleHeatGenerator.setField(par1, par2);
+	}
+	
+	@Override
+	public void detectAndSendChanges()
+	{
+		super.detectAndSendChanges();
+		Iterator var1 = this.crafters.iterator();
+		while (var1.hasNext())
+		{
+			ICrafting var2 = (ICrafting) var1.next();
+
+			if (this.lastBurnTime != this.eleHeatGenerator.getField(0)) {
+				var2.sendProgressBarUpdate(this, 0, this.eleHeatGenerator.getField(0));
+			}
+
+			if (this.lastCurrentItemBurnTime != this.eleHeatGenerator.getField(1)) {
+				var2.sendProgressBarUpdate(this, 1, this.eleHeatGenerator.getField(1));
+			}
+			
+			if (this.lastElectric != this.eleHeatGenerator.getField(2)) {
+				var2.sendProgressBarUpdate(this, 2, this.eleHeatGenerator.getField(2));
+			}
+		}
+		this.lastBurnTime = this.eleHeatGenerator.getField(0);
+		this.lastCurrentItemBurnTime = this.eleHeatGenerator.getField(1);
+		this.lastElectric = this.eleHeatGenerator.getField(2);
+	}
+	
 	@Override
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
@@ -54,25 +93,22 @@ public class ContainerEleHeatGenerator extends Container
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
             
-            if (index != 0)
+            if (TileEntityEleHeatGenerator.isItemFuel(itemstack1))
             {
-                if (TileEntityEleHeatGenerator.isItemFuel(itemstack1))
-                {
-                    if (!this.mergeItemStack(itemstack1, 0, 0, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (index >= 1 && index < 28)
-                {
-                    if (!this.mergeItemStack(itemstack1, 28, 37, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (index >= 28 && index < 37 && !this.mergeItemStack(itemstack1, 1, 27, false))
+
+            }
+            else if (index >= 1 && index < 28)
+            {
+                if (!this.mergeItemStack(itemstack1, 28, 37, false))
                 {
                     return null;
+                }
+            }
+            else if (index >= 28 && index < 37)
+            {
+            	if (!this.mergeItemStack(itemstack1, 1, 27, false))
+                {
+                	return null;
                 }
             }
             else if (!this.mergeItemStack(itemstack1, 1, 37, false))

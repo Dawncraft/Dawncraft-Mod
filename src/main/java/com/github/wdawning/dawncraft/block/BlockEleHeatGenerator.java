@@ -1,5 +1,6 @@
 package com.github.wdawning.dawncraft.block;
 
+import com.github.wdawning.dawncraft.dawncraft;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
 
@@ -63,7 +64,7 @@ public class BlockEleHeatGenerator extends BlockContainer
 
             if (tileentity instanceof TileEntityEleHeatGenerator)
             {
-                playerIn.displayGUIChest((TileEntityEleHeatGenerator)tileentity);
+                playerIn.openGui(dawncraft.instance, ((TileEntityEleHeatGenerator) tileentity).getGuiID(), worldIn, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;

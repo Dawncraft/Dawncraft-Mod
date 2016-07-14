@@ -3,7 +3,7 @@ package com.github.wdawning.dawncraft.tileentity;
 import javax.swing.plaf.basic.BasicComboBoxUI.ItemHandler;
 
 import com.github.wdawning.dawncraft.block.BlockMachineEleFurnace;
-import com.github.wdawning.dawncraft.container.ContainerMachineEleFurnace;
+import com.github.wdawning.dawncraft.gui.ContainerMachineEleFurnace;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -167,7 +167,7 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
 	
 	@Override
 	public String getCommandSenderName() {
-        return this.hasCustomName() ? this.eleFurnaceCustomName : "container.eleFurnace";
+        return this.hasCustomName() ? this.eleFurnaceCustomName : "container.MachineEleFurnace";
 	}
 
 	@Override
@@ -234,7 +234,7 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-        return side == EnumFacing.DOWN ? slotsRight : (side == EnumFacing.UP ? slotsLeft : null);
+        return side == EnumFacing.DOWN ? slotsRight : slotsLeft;
 	}
 
 	@Override
@@ -247,14 +247,9 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
         return true;
 	}
 	
-    public String getGuiID()
+    public int getGuiID()
     {
-        return "dawncarft:iron_furnace";
-    }
-
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
-    {
-        return new ContainerMachineEleFurnace(playerInventory, this);
+        return 65;
     }
 
 	@Override

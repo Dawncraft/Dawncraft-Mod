@@ -1,7 +1,9 @@
 package com.github.wdawning.dawncraft.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.container.ContainerEleHeatGenerator;
 import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -20,11 +22,14 @@ public class GuiEleHeatGenerator extends GuiContainer
     private static final ResourceLocation heatGeneratorGuiTextures = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/container/heat_generator.png");
     private final InventoryPlayer playerInventory;
     private final TileEntityEleHeatGenerator tileEleHeatGenerator;
+    private List texts = new ArrayList();
     
-	public GuiEleHeatGenerator(InventoryPlayer playerInv, TileEntityEleHeatGenerator furnaceInv) {
-		super(new ContainerEleHeatGenerator(playerInv, furnaceInv));
+	public GuiEleHeatGenerator(InventoryPlayer playerInv, TileEntityEleHeatGenerator tile)
+	{
+		super(new ContainerEleHeatGenerator(playerInv, tile));
         this.playerInventory = playerInv;
-        this.tileEleHeatGenerator = furnaceInv;
+        this.tileEleHeatGenerator = tile;
+        texts.add(this.tileEleHeatGenerator.getField(2) + "A/" + this.tileEleHeatGenerator.getField(3) + "A");
 	}
 	
 	@Override
@@ -43,18 +48,23 @@ public class GuiEleHeatGenerator extends GuiContainer
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+        
         int i1;
-
+        
         if (TileEntityFurnace.isBurning(this.tileEleHeatGenerator))
         {
             i1 = this.getBurnLeftScaled(13);
-            this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 1);
+            this.drawTexturedModalRect(k + 55, l + 29 + 12 - i1, 176, 12 - i1, 14, i1 + 1);
         }
 
-        i1 = this.getElectricScaled(24);
-        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+        i1 = this.getElectricScaled(32);
+        this.drawTexturedModalRect(k + 105, l + 30 + 31 - i1, 176, 14 + 31 - i1, 14, i1 + 1);
         
-        this.fontRendererObj.drawString(this.tileEleHeatGenerator.getField(2) + "A/" + this.tileEleHeatGenerator.getField(3) + "A", k + 56, l + 36 + 12 - i1, 4210752);
+        if (mouseX > k + 105 && mouseX < k + 105 + 14 && mouseY > l + 30 + 31 - 32 && mouseY < l + 30 + 32 + 1)
+        {
+        	texts.set(0, this.tileEleHeatGenerator.getField(2) + "A/" + this.tileEleHeatGenerator.getField(3) + "A");
+        	drawHoveringText(texts, mouseX, mouseY);
+        }
     }
 	
     private int getBurnLeftScaled(int pixels)
@@ -73,6 +83,10 @@ public class GuiEleHeatGenerator extends GuiContainer
     {
         int j = this.tileEleHeatGenerator.getField(2);
         int k = this.tileEleHeatGenerator.getField(3);
+        if (j > k)
+        {
+        	j = k;
+        }
         return k != 0 && j != 0 ? j * pixels / k : 0;
     }
 }

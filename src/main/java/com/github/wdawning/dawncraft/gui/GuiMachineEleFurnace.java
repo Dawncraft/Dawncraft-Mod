@@ -1,7 +1,6 @@
 package com.github.wdawning.dawncraft.gui;
 
 import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.container.ContainerMachineEleFurnace;
 import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -22,11 +21,11 @@ public class GuiMachineEleFurnace extends GuiContainer
     private final InventoryPlayer playerInventory;
     private final TileEntityMachineEleFurnace tileEleFurnace;
 
-    public GuiMachineEleFurnace(InventoryPlayer playerInv, TileEntityMachineEleFurnace furnaceInv)
+    public GuiMachineEleFurnace(InventoryPlayer playerInv, TileEntityMachineEleFurnace tile)
     {
-        super(new ContainerMachineEleFurnace(playerInv, furnaceInv));
+        super(new ContainerMachineEleFurnace(playerInv, tile));
         this.playerInventory = playerInv;
-        this.tileEleFurnace = furnaceInv;
+        this.tileEleFurnace = tile;
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)

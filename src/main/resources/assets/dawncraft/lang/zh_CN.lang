@@ -63,6 +63,9 @@ potion.badGer=Ger化
 //potion.=混乱
 potion.brainDead=脑残
 
+container.eleHeatGenerator=热能发电机
+container.MachineEleFurnace=电炉
+
 achievement.science.Ger=你Ger啊
 achievement.science.Ger.desc=被Ger王Ger死
 

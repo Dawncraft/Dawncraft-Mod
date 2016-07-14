@@ -3,7 +3,7 @@ package com.github.wdawning.dawncraft.tileentity;
 import javax.swing.plaf.basic.BasicComboBoxUI.ItemHandler;
 
 import com.github.wdawning.dawncraft.block.BlockEleHeatGenerator;
-import com.github.wdawning.dawncraft.container.ContainerEleHeatGenerator;
+import com.github.wdawning.dawncraft.gui.ContainerEleHeatGenerator;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFurnace;
@@ -38,7 +38,7 @@ import net.minecraft.world.World;
 
 public class TileEntityEleHeatGenerator extends TileEntity implements IUpdatePlayerListBox, ISidedInventory
 {
-    private static final int[] slots = new int[] {0};
+    private static final int[] slot = new int[] {0};
 	private ItemStack[] eleFurnaceItemStacks = new ItemStack[1];
     private String eleHeatGeneratorCustomName;
     protected int burnTime = 0;
@@ -185,7 +185,7 @@ public class TileEntityEleHeatGenerator extends TileEntity implements IUpdatePla
 	
 	@Override
 	public String getCommandSenderName() {
-        return this.hasCustomName() ? this.eleHeatGeneratorCustomName : "container.eleFurnace";
+        return this.hasCustomName() ? this.eleHeatGeneratorCustomName : "container.eleHeatGenerator";
 	}
 
 	@Override
@@ -253,7 +253,7 @@ public class TileEntityEleHeatGenerator extends TileEntity implements IUpdatePla
 
 	@Override
 	public int[] getSlotsForFace(EnumFacing side) {
-        return side == EnumFacing.DOWN ? slots : (side == EnumFacing.UP ? slots : null);
+        return slot;
 	}
 
 	@Override
@@ -276,19 +276,14 @@ public class TileEntityEleHeatGenerator extends TileEntity implements IUpdatePla
         return true;
 	}
 	
-    public String getGuiID()
+    public int getGuiID()
     {
-        return "dawncarft:heat_generator";
-    }
-
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
-    {
-        return new ContainerEleHeatGenerator(playerInventory, this);
+        return 33;
     }
 
 	@Override
 	public void update() {
-        boolean flag = this.isBurning();
+        boolean LastBurning = this.isBurning();
         boolean isBurning = false;
 
         if (this.isBurning())
@@ -296,48 +291,50 @@ public class TileEntityEleHeatGenerator extends TileEntity implements IUpdatePla
             --this.burnTime;
         }
         
-        if(this.electric > 0)
-        {
-        	--this.electric;
-        }
-
         if (!this.worldObj.isRemote)
         {
-                if (!this.isBurning() && this.canSmelt())
+        	if (!this.isBurning() && this.canSmelt())
+            {
+                this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.eleFurnaceItemStacks[0]);
+
+                if (this.isBurning())
                 {
-                    this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.eleFurnaceItemStacks[0]);
+                    isBurning = true;
 
-                    if (this.isBurning())
+                    if (this.eleFurnaceItemStacks[0] != null)
                     {
-                        isBurning = true;
+                        --this.eleFurnaceItemStacks[0].stackSize;
 
-                        if (this.eleFurnaceItemStacks[0] != null)
+                        if (this.eleFurnaceItemStacks[0].stackSize == 0)
                         {
-                            --this.eleFurnaceItemStacks[0].stackSize;
-
-                            if (this.eleFurnaceItemStacks[0].stackSize == 0)
-                            {
-                                this.eleFurnaceItemStacks[0] = eleFurnaceItemStacks[0].getItem().getContainerItem(eleFurnaceItemStacks[0]);
-                            }
+                        	this.eleFurnaceItemStacks[0] = eleFurnaceItemStacks[0].getItem().getContainerItem(eleFurnaceItemStacks[0]);
                         }
                     }
                 }
-
-                if (this.isBurning() && this.canSmelt())
-                {
-                    if (this.electric <= this.maxElectric)
-                    {
-                        this.electric = this.electric + 3;
-                        isBurning = true;
-                    }
-                }
             }
 
-            if (flag != this.isBurning())
+            if (this.isBurning() && this.canSmelt())
             {
                 isBurning = true;
-                BlockEleHeatGenerator.setState(this.isBurning(), this.worldObj, this.pos);
+                if (this.electric++ < this.maxElectric)
+                {
+                	++this.electric;
+                }
             }
+            else
+            {
+                if (this.electric > 0)
+                {
+                	--this.electric;
+                }
+            }
+        }
+
+        if (LastBurning != this.isBurning())
+        {
+            isBurning = true;
+            BlockEleHeatGenerator.setState(this.isBurning(), this.worldObj, this.pos);
+        }
 
         if (isBurning)
         {
@@ -389,7 +386,13 @@ public class TileEntityEleHeatGenerator extends TileEntity implements IUpdatePla
     
     private boolean canSmelt()
     {
-    	if(electric < maxElectric) return true;
-		return false;
+    	if(this.electric < this.maxElectric) 
+    	{
+    		return true;
+    	}
+    	else
+    	{
+    		return false;
+    	}
     }
 }

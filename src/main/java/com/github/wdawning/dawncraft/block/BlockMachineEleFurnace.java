@@ -1,6 +1,8 @@
 package com.github.wdawning.dawncraft.block;
 
+import com.github.wdawning.dawncraft.dawncraft;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
+import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
 import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
 
 import net.minecraft.block.Block;
@@ -60,7 +62,7 @@ public class BlockMachineEleFurnace extends BlockContainer
 
             if (tileentity instanceof TileEntityMachineEleFurnace)
             {
-                playerIn.displayGUIChest((TileEntityMachineEleFurnace)tileentity);
+                playerIn.openGui(dawncraft.instance, ((TileEntityMachineEleFurnace) tileentity).getGuiID(), worldIn, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;
@@ -74,7 +76,7 @@ public class BlockMachineEleFurnace extends BlockContainer
         if (tileentity instanceof TileEntityMachineEleFurnace)
         {
             InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityMachineEleFurnace)tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+            worldIn.updateComparatorOutputLevel(pos, this);
         }
         
         super.breakBlock(worldIn, pos, state);
@@ -103,11 +105,11 @@ public class BlockMachineEleFurnace extends BlockContainer
 
         if (active)
         {
-            worldIn.setBlockState(pos, BlockLoader.heatGenerator.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BURNING, Boolean.TRUE), 3);
+            worldIn.setBlockState(pos, BlockLoader.machineFurnace.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BURNING, Boolean.TRUE), 3);
         }
         else
         {
-            worldIn.setBlockState(pos, BlockLoader.heatGenerator.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BURNING, Boolean.FALSE), 3);
+            worldIn.setBlockState(pos, BlockLoader.machineFurnace.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)).withProperty(BURNING, Boolean.FALSE), 3);
         }
 
         if (tileentity != null)
