@@ -30,6 +30,7 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
     private static final int[] slotsRight = new int[] {1};
 	private ItemStack[] eleFurnaceItemStacks = new ItemStack[2];
     private String eleFurnaceCustomName;
+    private TileEntityEleHeatGenerator eleHeatGenerator;
     private boolean isBurning = false;
     private int cookTime = 0;
     private int totalCookTime = 0;
@@ -255,18 +256,10 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
 	@Override
 	public void update() {
         boolean flag = this.isBurning();
-        boolean hasElectric = true;//Test...
-/*        TileEntityEleHeatGenerator eleHeatGenerator = TileEleHeatGenerator;
-        boolean hasElectric = eleHeatGenerator.getField(2) > 0 ? true : false;
-
-        if (this.isBurning())
-        {
-            eleHeatGenerator.setField(2, eleHeatGenerator.getField(2) - 1);
-        }*/
         
         if (!this.worldObj.isRemote)
         {
-            if (!this.isBurning() && !hasElectric)
+            if (!this.isBurning() && !this.hasElectric())
             {
                 if (!this.isBurning() && this.cookTime > 0)
                 {
@@ -277,7 +270,7 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
             {
                 if (!this.isBurning() && this.canSmelt())
                 {
-                    if (hasElectric)
+                    if (this.hasElectric())
                     {
                     	this.isBurning = true;
                     }
@@ -286,6 +279,7 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
                 if (this.isBurning() && this.canSmelt())
                 {
                     ++this.cookTime;
+                    --eleHeatGenerator.electric;
 
                     if (this.cookTime == this.totalCookTime)
                     {
@@ -317,6 +311,29 @@ public class TileEntityMachineEleFurnace extends TileEntity implements IUpdatePl
     public boolean isBurning()
     {
         return this.isBurning;
+    }
+    
+    public boolean hasElectric()
+    {
+    	BlockPos pos = this.getPos();
+    	BlockPos newPos = new BlockPos(pos.getX(), pos.getY() + 1, pos.getZ());
+    	TileEntity tileEntity = worldObj.getTileEntity(newPos);
+    	if(tileEntity instanceof TileEntityEleHeatGenerator)
+    	{
+    		eleHeatGenerator = (TileEntityEleHeatGenerator) tileEntity;
+    		if(eleHeatGenerator.getField(2) > 0)
+    		{
+    			return true;
+    		}
+    		else
+    		{
+    			return false;
+    		}
+    	}
+    	else
+    	{
+    		return false;
+    	}
     }
     
     public int getCookTime(ItemStack stack)

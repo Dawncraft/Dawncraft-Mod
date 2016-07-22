@@ -8,7 +8,7 @@ import net.minecraftforge.common.AchievementPage;
 
 public class AchievementLoader
 {
-    public static Achievement Ger = new Achievement("achievement.science.Ger", "science.Ger", 0, 0, ItemLoader.gerHeart, null);
+    public static Achievement Ger = new Achievement("achievement.dawncraft.Ger", "dawncraft.Ger", 0, 0, ItemLoader.gerHeart, null);
     //AchievementList.XX
 
     public AchievementLoader()

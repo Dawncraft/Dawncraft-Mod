@@ -1,6 +1,7 @@
 package com.github.wdawning.dawncraft.item;
 
 import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -17,9 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemLoader
 {
     //Item
-    public static Item magnet = new ItemMagnet();
-    public static Item magnetIngot = new ItemMagnetIngot();
-    public static Item magnetStick = new ItemMagnetStick();
+    public static Item magnet = new Item().setUnlocalizedName("magnet").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Item magnetIngot = new Item().setUnlocalizedName("magnetIngot").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Item magnetStick = new Item().setUnlocalizedName("magnetStick").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetBall = new ItemMagnetBall();
     public static Item magnetCard = new ItemMagnetCard();
     public static Item bucketPetroleum = new ItemBucketPetroleum(); 
@@ -28,10 +29,15 @@ public class ItemLoader
     public static Item highCPU = new ItemComputerCPU.HighCPU(); 
     public static Item proCPU = new ItemComputerCPU.ProCPU(); 
     public static Item superCPU = new ItemComputerCPU.SuperCPU(); 
-    //Food
-    public static ItemFood cakeEgg = new ItemCakeEgg();
     
-    public static ItemFood faeces = new ItemFaeces();
+    public static Item funny = new Item().setUnlocalizedName("funny").setCreativeTab(CreativeTabsLoader.tabColourEgg);
+    
+    public static Item chinese = new ItemRecord("chinese").setUnlocalizedName("record");
+    public static Item dj = new ItemRecord("dj").setUnlocalizedName("record");
+    //Food
+    public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabFood);
+    
+    public static Item faeces = new ItemFaeces();
     public static ItemFood gerHeart = new ItemGerHeart();
     public static ItemFood brainDead = new ItemBrainDead();
     //Tool
@@ -42,7 +48,7 @@ public class ItemLoader
     
     public static Item flanAK47 = new ItemFlanAK47();
     public static Item flanRPG = new ItemFlanRPG();
-    public static Item flanRPGRocket = new ItemFlanRPGRocket();
+    public static Item flanRPGRocket = new Item().setUnlocalizedName("flanRPGRocket").setMaxStackSize(16).setCreativeTab(CreativeTabsLoader.tabFlans);
     
     public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", dawncraft.MODID + ":" + "magnet", 11, new int[]{ 1, 5, 4, 2}, 10);
     public static ItemArmor magnetHelmet = new ItemMagnetArmor.Helmet();
@@ -64,6 +70,11 @@ public class ItemLoader
         register(highCPU, "high_CPU");
         register(proCPU, "pro_CPU");
         register(superCPU, "super_CPU");
+        
+        register(funny, "funny");
+        
+        register(chinese, "record_chinese");
+        register(dj, "record_dj");
         //Food
         register(cakeEgg, "cake_egg");
         
@@ -99,6 +110,11 @@ public class ItemLoader
         registerRender(highCPU, "high_CPU");
         registerRender(proCPU, "pro_CPU");
         registerRender(superCPU, "super_CPU");
+        
+        registerRender(funny, "funny");
+        
+        registerRender(chinese, "record_chinese");
+        registerRender(dj, "record_dj");
         //Food
         registerRender(cakeEgg, "cake_egg");
         

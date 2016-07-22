@@ -25,8 +25,9 @@ public class CommonProxy
         new ConfigLoader(event);
         new FluidLoader(event);
         new CreativeTabsLoader(event);
-        new BlockLoader(event);
         new ItemLoader(event);
+        new BlockLoader(event);
+        new OreDictionaryLoader(event);
         new PotionLoader(event);
         new TileEntityLoader(event);
         new GuiLoader(event);

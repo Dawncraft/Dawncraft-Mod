@@ -1,5 +1,7 @@
 package com.github.wdawning.dawncraft.block;
 
+import java.util.List;
+
 import com.github.wdawning.dawncraft.dawncraft;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
@@ -15,10 +17,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockEleHeatGenerator extends BlockContainer
 {

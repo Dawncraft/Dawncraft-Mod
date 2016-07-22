@@ -1,8 +1,10 @@
 package com.github.wdawning.dawncraft.block;
 
 import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -22,6 +24,7 @@ public class BlockLoader
     public static Block magnetBlock = new BlockMagnetBlock();
 //    public static Block magnetDoor = new BlockMagnetDoor();
     //energy
+    public static Block wire = new BlockWire();
     public static Block heatGenerator = new BlockEleHeatGenerator();
     
     public static Block fluidPetroleum = new BlockFluidPetroleum();
@@ -45,8 +48,9 @@ public class BlockLoader
         register(magnetBlock, "magnet_block");
  //       register(magnetDoor, "magnet_door"); 
         //energy
-        register(fluidPetroleum, "petroleum");
         register(heatGenerator, "heat_generator");
+        register(wire, "wire");
+        register(fluidPetroleum, "petroleum");
         //machine
         register(machineFurnace, "iron_furnace");
         //computer
@@ -68,8 +72,9 @@ public class BlockLoader
         registerRender(magnetBlock, "magnet_block");
  //       registerRender(magnetDoor, "magnet_door"); 
         //energy
-        registerRender(fluidPetroleum, "petroleum");
         registerRender(heatGenerator, "heat_generator");
+        registerRender(wire, "wire");
+        registerRender(fluidPetroleum, "petroleum");
         //machine
         registerRender(machineFurnace, "iron_furnace");
         //computer

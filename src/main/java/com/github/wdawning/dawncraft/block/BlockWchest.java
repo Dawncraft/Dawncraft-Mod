@@ -1,8 +1,8 @@
 package com.github.wdawning.dawncraft.block;
 
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
+//import com.github.wdawning.dawncraft.tileentity.TileEntityWchest;
 
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

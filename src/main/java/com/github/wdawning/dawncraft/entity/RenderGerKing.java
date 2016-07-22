@@ -25,7 +25,7 @@ public class RenderGerKing extends RenderBiped
 
 	protected void preRenderCallbackGerKing(EntityLivingBase entity, float partialTickTime)
 	{
-        GlStateManager.scale(2.0F, 2.0F, 2.0F);
+//        GlStateManager.scale(1.0F, 1.0F, 1.0F);
 	}
 
 	@Override

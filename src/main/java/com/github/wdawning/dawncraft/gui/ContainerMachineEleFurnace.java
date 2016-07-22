@@ -1,24 +1,31 @@
 package com.github.wdawning.dawncraft.gui;
 
+import java.util.Iterator;
+
 import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceOutput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ContainerMachineEleFurnace extends Container
 {
     private final TileEntityMachineEleFurnace machineEleFurnace;
+	private int lastCookTime = 0;
+	private int lastTotalCookTime = 0;
     
 	public ContainerMachineEleFurnace(InventoryPlayer playerInventory, TileEntityMachineEleFurnace tile) {
         this.machineEleFurnace = tile;
-        this.addSlotToContainer(new Slot(tile, 0, 56, 53));
+        this.addSlotToContainer(new Slot(tile, 0, 56, 26));
         this.addSlotToContainer(new SlotFurnaceOutput(playerInventory.player, tile, 1, 116, 35));
         
         int i;
@@ -40,6 +47,33 @@ public class ContainerMachineEleFurnace extends Container
 	public boolean canInteractWith(EntityPlayer player)
 	{
 		return this.machineEleFurnace.isUseableByPlayer(player);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int par1, int par2)
+	{
+		this.machineEleFurnace.setField(par1, par2);
+	}
+	
+	@Override
+	public void detectAndSendChanges()
+	{
+		super.detectAndSendChanges();
+		Iterator var1 = this.crafters.iterator();
+		while (var1.hasNext())
+		{
+			ICrafting var2 = (ICrafting) var1.next();
+
+			if (this.lastCookTime != this.machineEleFurnace.getField(0)) {
+				var2.sendProgressBarUpdate(this, 0, this.machineEleFurnace.getField(0));
+			}
+
+			if (this.lastTotalCookTime != this.machineEleFurnace.getField(1)) {
+				var2.sendProgressBarUpdate(this, 1, this.machineEleFurnace.getField(1));
+			}
+		}
+		this.lastCookTime = this.machineEleFurnace.getField(0);
+		this.lastTotalCookTime = this.machineEleFurnace.getField(1);
 	}
 	
 	@Override

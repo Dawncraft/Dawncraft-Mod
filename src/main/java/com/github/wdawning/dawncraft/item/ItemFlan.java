@@ -13,8 +13,8 @@ public class ItemFlan extends Item
 {
     public ItemFlan(int maxDamage)
     {
-        this.maxStackSize = 1;
         this.setFull3D();
+        this.setMaxStackSize(1);
         this.setMaxDamage(maxDamage);
         this.setCreativeTab(CreativeTabsLoader.tabFlans);
     }

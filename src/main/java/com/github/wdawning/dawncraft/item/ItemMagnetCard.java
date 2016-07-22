@@ -10,7 +10,7 @@ public class ItemMagnetCard extends Item
 	{
     	super();
     	this.setUnlocalizedName("magnetCard");
-        this.maxStackSize = 16;
+        this.setMaxStackSize(16);
     	this.setCreativeTab(CreativeTabsLoader.tabMagnetic);
 	}
 }

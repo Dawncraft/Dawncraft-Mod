@@ -14,7 +14,7 @@ public class ItemMagnetBall extends Item
     {
         super();
         this.setUnlocalizedName("magnetBall");
-        this.maxStackSize = 16;
+        this.setMaxStackSize(16);
         this.setCreativeTab(CreativeTabsLoader.tabMagnetic);
     }
     

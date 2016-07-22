@@ -1,0 +1,44 @@
+{
+    "dawncraft.test": {
+        "category": "player", 
+        "sounds": [ 
+            "dawncraft" 
+        ] 
+    },
+	"mob.gerking.death": {
+        "category": "hostile",
+        "sounds": [
+            "mob/gerking/death"
+        ]
+    },
+    "mob.gerking.hurt": {
+        "category": "hostile",
+        "sounds": [
+            "mob/gerking/hurt"
+        ]
+    },
+    "mob.gerking.say": {
+        "category": "hostile",
+        "sounds": [
+            "mob/gerking/say"
+        ]
+    },
+	"dawncraft.records.chinese": {
+        "category": "record", 
+        "sounds": [ 
+		    {
+                "name": "dawncraft:records/chinese",
+                "stream": true
+			}
+        ] 
+    },
+	"dawncraft.records.dj": {
+        "category": "record", 
+        "sounds": [ 
+			{
+            "name": "dawncraft:records/dj",
+            "stream": true
+			}
+        ] 
+    }
+}

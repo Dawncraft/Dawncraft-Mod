@@ -13,6 +13,7 @@ public class TileEntityLoader
     {
         registerTileEntity(TileEntityEleHeatGenerator.class, "EleHeatGenerator");
         registerTileEntity(TileEntityMachineEleFurnace.class, "MachineEleFurnace");
+//        registerTileEntity(TileEntityWchest.class, "SuperChest");
     }
 
     public void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)

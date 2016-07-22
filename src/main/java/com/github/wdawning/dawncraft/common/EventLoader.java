@@ -1,17 +1,21 @@
 package com.github.wdawning.dawncraft.common;
 
 import com.github.wdawning.dawncraft.achievement.AchievementLoader;
+import com.github.wdawning.dawncraft.client.KeyLoader;
 import com.github.wdawning.dawncraft.entity.EntitySavage;
 import com.github.wdawning.dawncraft.item.ItemLoader;
 import com.github.wdawning.dawncraft.potion.PotionLoader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -25,6 +29,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventLoader
 {
@@ -36,6 +43,24 @@ public class EventLoader
     }
     
     //event
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void onKeyInput(InputEvent.KeyInputEvent event)
+    {
+        if (KeyLoader.aim.isPressed())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            player.addChatMessage(new ChatComponentTranslation("功能尚未开放，敬请期待"));
+        }
+        
+        if (KeyLoader.showTime.isPressed())
+        {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            World world = Minecraft.getMinecraft().theWorld;
+            player.addChatMessage(new ChatComponentTranslation("chat.dawncraft.time", world.getTotalWorldTime()));
+        }
+    }
+    
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {

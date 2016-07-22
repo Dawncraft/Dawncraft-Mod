@@ -1,4 +1,4 @@
-﻿//Wc的科技Mod，中文语言文件，作者Wc
+﻿//曙光工艺Mod，中文语言文件，作者Wc
 itemGroup.Energy=能源
 itemGroup.Magnetic=磁力
 itemGroup.Computer=电脑
@@ -10,30 +10,41 @@ itemGroup.Magic=魔法
 itemGroup.Flans=枪械
 itemGroup.ColourEgg=彩蛋
 
+item.bucketPetroleum.name=石油桶
+
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒
 item.magnetBall.name=磁力球
 item.magnetCard.name=磁卡
-item.bucketPetroleum.name=石油桶
+
 item.simpleCPU.name=普通CPU
 item.highCPU.name=高级CPU
 item.proCPU.name=专业CPU
 item.superCPU.name=超级CPU
 
-tile.superChest.name=炒鸡工具箱
+item.funny.name=滑稽
+
+tile.wire.name=电线
+tile.heatGenerator.name=热能发电机
+tile.fluidPetroleum.name=石油
+
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
 //tile.magnetDoor.name=磁铁门
-tile.heatGenerator.name=热能发电机
-tile.fluidPetroleum.name=石油
+
 tile.machineEleFurnace.name=电炉
+
 tile.simpleComputer.name=普通电脑
 tile.highComputer.name=高级电脑
 tile.proComputer.name=专业电脑
 tile.superComputer.name=超级电脑
 
+tile.superChest.name=炒鸡工具箱
+
 fluid.petroleum=石油
+
+item.cakeEgg.name=荷包蛋
 
 item.magnetSword.name=磁能脉冲剑
 item.goldiamondSword.name=§e黄金§b钻石§5剑
@@ -47,11 +58,12 @@ item.magnetChestplate.name=磁石胸甲
 item.magnetLeggings.name=磁石护腿
 item.magnetBoots.name=磁石靴子
 
-item.cakeEgg.name=荷包蛋
-
 item.faeces.name=§6屎
 item.gerHeart.name=§7巨Ger之心
 item.brainDead.name=脑残片
+
+item.record.chinese.desc=聂耳 - 义勇军进行曲
+item.record.dj.desc=Usher - dj got us fallin in love
 
 entity.Mouse.name=老鼠
 entity.Savage.name=野蛮人
@@ -66,7 +78,13 @@ potion.brainDead=脑残
 container.eleHeatGenerator=热能发电机
 container.MachineEleFurnace=电炉
 
-achievement.science.Ger=你Ger啊
-achievement.science.Ger.desc=被Ger王Ger死
+achievement.dawncraft.Ger=你Ger啊
+achievement.dawncraft.Ger.desc=被Ger王Ger死
 
 death.attack.byGer=%s Ger死了
+
+key.categories.dawncraft=曙光工艺
+key.dawncraft.aim=瞄准镜
+key.dawncraft.showTime=显示时间
+
+chat.dawncraft.time=现在时间为：%s

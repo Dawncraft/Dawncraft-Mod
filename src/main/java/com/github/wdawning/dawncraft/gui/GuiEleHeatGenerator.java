@@ -51,7 +51,7 @@ public class GuiEleHeatGenerator extends GuiContainer
         
         int i1;
         
-        if (TileEntityFurnace.isBurning(this.tileEleHeatGenerator))
+        if (this.tileEleHeatGenerator.isBurning())
         {
             i1 = this.getBurnLeftScaled(13);
             this.drawTexturedModalRect(k + 55, l + 29 + 12 - i1, 176, 12 - i1, 14, i1 + 1);

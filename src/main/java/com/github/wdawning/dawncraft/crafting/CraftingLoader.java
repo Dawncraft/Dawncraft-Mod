@@ -8,6 +8,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class CraftingLoader
 {
@@ -21,22 +22,22 @@ public class CraftingLoader
     private static void registerRecipe()
     {
     	//Item
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnet), new Object[]
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnet), new Object[]
         {
-            "% &", "# #", "###", '%', new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()), '&', Items.redstone, '#', ItemLoader.magnetIngot
-        });
-        GameRegistry.addRecipe(new ItemStack(BlockLoader.magnetBlock), new Object[]
+            "% &", "# #", "###", '%', new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()), '&', Items.redstone, '#', "ingotMagnet"
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.magnetBlock), new Object[]
         {
-            "###", "###", "###", '#', ItemLoader.magnetIngot
-        });
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetStick, 4), new Object[]
+            "###", "###", "###", '#', "ingotMagnet"
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetStick, 4), new Object[]
         {
-            "#", "#", '#', ItemLoader.magnetIngot
-        });
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetBall, 4), new Object[]
+            "#", "#", '#', "ingotMagnet"
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetBall, 4), new Object[]
         {
-            "#", '#', ItemLoader.magnetIngot
-        });
+            "#", '#', "ingotMagnet"
+        }));
         //Block
         GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.magnetIngot, 9), BlockLoader.magnetBlock);
         GameRegistry.addRecipe(new ItemStack(BlockLoader.simpleComputer, 2), new Object[]
@@ -58,31 +59,31 @@ public class CraftingLoader
         //Food
         
         //Tools
-		GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
 		{
-				" # ", " # ", " * ", '#', ItemLoader.magnetIngot, '*', ItemLoader.magnetStick
-		});
+				" # ", " # ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
+		}));
         GameRegistry.addRecipe(new ItemStack(ItemLoader.goldiamondSword), new Object[]
         {
                 " % ", " & ", " * ", '%', Items.gold_ingot, '&', Items.diamond, '*', Items.stick
         });
         //
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetHelmet), new Object[]
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetHelmet), new Object[]
         {
-                "###", "# #", '#', ItemLoader.magnetIngot
-        });
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetChestplate), new Object[]
+                "###", "# #", '#', "ingotMagnet"
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetChestplate), new Object[]
         {
-                "# #", "###", "###", '#', ItemLoader.magnetIngot
-        });
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetLeggings), new Object[]
+                "# #", "###", "###", '#', "ingotMagnet"
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetLeggings), new Object[]
         {
-                "###", "# #", "# #", '#', ItemLoader.magnetIngot
-        });
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.magnetBoots), new Object[]
+                "###", "# #", "# #", '#', "ingotMagnet"
+        }));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetBoots), new Object[]
         {
-                "# #", "# #", '#', ItemLoader.magnetIngot
-        });
+                "# #", "# #", '#', "ingotMagnet"
+        }));
     }
 
     private static void registerSmelting()
