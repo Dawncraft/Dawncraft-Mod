@@ -30,7 +30,6 @@ public class EntityLoader
         EntityRegistry.registerEgg(entityClass, eggPrimary, eggSecondary);
     }
     
-    
     private static void registerEntitySpawn(Class<? extends Entity> entityClass, int spawnWeight, int min,
             int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes)
     {

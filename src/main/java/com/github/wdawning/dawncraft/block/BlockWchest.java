@@ -18,6 +18,18 @@ public class BlockWchest extends BlockContainer
         this.setCreativeTab(CreativeTabsLoader.tabFurniture);
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
     }
+    
+	@Override
+	public boolean isOpaqueCube()
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isFullCube()
+	{
+		return false;
+	}
 
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{

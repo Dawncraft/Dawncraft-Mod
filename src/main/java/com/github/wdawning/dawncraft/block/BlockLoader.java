@@ -38,7 +38,6 @@ public class BlockLoader
     
     //color egg
     
-    
     public BlockLoader(FMLPreInitializationEvent event)
     {
     	//Furniture
@@ -74,7 +73,7 @@ public class BlockLoader
         //energy
         registerRender(heatGenerator, "heat_generator");
         registerRender(wire, "wire");
-        registerRender(fluidPetroleum, "petroleum");
+ //       registerRender(fluidPetroleum, "petroleum");
         //machine
         registerRender(machineFurnace, "iron_furnace");
         //computer

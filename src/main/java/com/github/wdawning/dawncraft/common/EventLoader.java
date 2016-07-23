@@ -2,6 +2,7 @@ package com.github.wdawning.dawncraft.common;
 
 import com.github.wdawning.dawncraft.achievement.AchievementLoader;
 import com.github.wdawning.dawncraft.client.KeyLoader;
+import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;
 import com.github.wdawning.dawncraft.entity.EntitySavage;
 import com.github.wdawning.dawncraft.item.ItemLoader;
 import com.github.wdawning.dawncraft.potion.PotionLoader;
@@ -9,18 +10,23 @@ import com.github.wdawning.dawncraft.potion.PotionLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -35,6 +41,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventLoader
 {
+	public static Minecraft mc = Minecraft.getMinecraft();
+	public static final float defaultFov = mc.gameSettings.fovSetting;
+	public static final float fovAmount = 10.0F;
+	
 	//register
     public EventLoader()
     {
@@ -49,8 +59,17 @@ public class EventLoader
     {
         if (KeyLoader.aim.isPressed())
         {
+        	if(mc.gameSettings.fovSetting != fovAmount)
+        	{
+        		mc.gameSettings.fovSetting = fovAmount;
+        	}
+        	else
+        	{
+        		mc.gameSettings.fovSetting = defaultFov;
+        	}
+        	
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            player.addChatMessage(new ChatComponentTranslation("功能尚未开放，敬请期待"));
+            player.addChatMessage(new ChatComponentTranslation("chat.dawncraft.zoom"));
         }
         
         if (KeyLoader.showTime.isPressed())
@@ -73,6 +92,42 @@ public class EventLoader
             event.world.setBlockToAir(blockpos);
             event.result = FluidContainerRegistry.fillFluidContainer(fluidStack, event.current);
             event.setResult(Result.ALLOW);
+        }
+    }
+
+    @SubscribeEvent
+    public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)
+    {
+        if (!event.world.isRemote && event.harvester != null)
+        {
+            ItemStack itemStack = event.harvester.getHeldItem();
+            if (EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.fireBurn.effectId, itemStack) > 0
+                    && itemStack.getItem() != Items.shears)
+            {
+                for (ItemStack stack : event.drops)
+                {
+                    ItemStack newStack = FurnaceRecipes.instance().getSmeltingResult(stack);
+                    if (newStack != null)
+                    {
+                        newStack.stackSize = stack.stackSize;
+                        event.drops.set(event.drops.indexOf(stack), newStack);
+                    }
+                    else if (stack != null)
+                    {
+                        Block block = Block.getBlockFromItem(stack.getItem());
+                        boolean b = (block == null);
+                        if (!b && (block.isFlammable(event.world, event.pos, EnumFacing.DOWN)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.EAST)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.NORTH)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.SOUTH)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.UP)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.WEST)))
+                        {
+                            event.drops.remove(stack);
+                        }
+                    }
+                }
+            }
         }
     }
 

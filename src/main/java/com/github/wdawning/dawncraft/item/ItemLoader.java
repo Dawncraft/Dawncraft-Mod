@@ -34,6 +34,7 @@ public class ItemLoader
     
     public static Item chinese = new ItemRecord("chinese").setUnlocalizedName("record");
     public static Item dj = new ItemRecord("dj").setUnlocalizedName("record");
+    
     //Food
     public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabFood);
     
@@ -43,8 +44,10 @@ public class ItemLoader
     //Tool
     public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F, 16);
     public static final Item.ToolMaterial MAGNET = EnumHelper.addToolMaterial("MAGNET", 2, 452, 6.0F, 2.0F, 10);
+    public static final Item.ToolMaterial HAMMER = EnumHelper.addToolMaterial("HAMMER", 4, 2586, 10.0F, 2.0F, 24);
     public static ItemSword goldiamondSword = new ItemGoldiamondSword();
     public static ItemSword magnetSword = new ItemMagnetSword();
+    public static Item mjolnir = new ItemHammerMjolnir();
     
     public static Item flanAK47 = new ItemFlanAK47();
     public static Item flanRPG = new ItemFlanRPG();
@@ -84,6 +87,7 @@ public class ItemLoader
         //Tool
         register(goldiamondSword, "goldiamond_sword"); 
         register(magnetSword, "magnet_sword"); 
+        register(mjolnir, "mjolnir");
         
         register(flanAK47, "flan_AK47");
         register(flanRPG, "flan_RPG");
@@ -124,6 +128,7 @@ public class ItemLoader
         //Tool
         registerRender(goldiamondSword, "goldiamond_sword"); 
         registerRender(magnetSword, "magnet_sword"); 
+        registerRender(mjolnir, "mjolnir");
         
         registerRender(flanAK47, "flan_AK47");
         registerRender(flanRPG, "flan_RPG");

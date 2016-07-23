@@ -45,5 +45,6 @@ public class dawncraft
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit(event);
+        new LuaTest();
     }
 }

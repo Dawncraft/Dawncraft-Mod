@@ -4,6 +4,7 @@ import com.github.wdawning.dawncraft.achievement.AchievementLoader;
 import com.github.wdawning.dawncraft.block.BlockLoader;
 import com.github.wdawning.dawncraft.crafting.CraftingLoader;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
+import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;
 import com.github.wdawning.dawncraft.entity.EntityLoader;
 import com.github.wdawning.dawncraft.fluid.FluidLoader;
 import com.github.wdawning.dawncraft.gui.ContainerEleHeatGenerator;
@@ -35,12 +36,12 @@ public class CommonProxy
 
     public void init(FMLInitializationEvent event)
     {
-        new EventLoader();
         new CraftingLoader();
         new EntityLoader();
+        new EnchantmentLoader();
         new WorldGeneratorLoader();
         new AchievementLoader();
-        //    new EnchantmentLoader();
+        new EventLoader();
     }
 
     public void postInit(FMLPostInitializationEvent event)

@@ -1,7 +1,6 @@
 package com.github.wdawning.dawncraft.client;
 
 import com.github.wdawning.dawncraft.common.CommonProxy;
-import com.github.wdawning.dawncraft.entity.EntityRenderLoader;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
