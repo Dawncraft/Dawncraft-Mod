@@ -23,7 +23,7 @@ public class ItemHammerMjolnir extends Item
     {
     	this.material = ItemLoader.HAMMER;
     	this.setUnlocalizedName("mjolnir");
-        this.maxStackSize = 1;
+        this.setMaxStackSize(1);
         this.setMaxDamage(material.getMaxUses());
         this.setCreativeTab(CreativeTabsLoader.tabColourEgg);
         this.attackDamage = 6.0F + material.getDamageVsEntity();

@@ -8,6 +8,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -29,6 +30,12 @@ public class ItemLoader
     public static Item highCPU = new ItemComputerCPU.HighCPU(); 
     public static Item proCPU = new ItemComputerCPU.ProCPU(); 
     public static Item superCPU = new ItemComputerCPU.SuperCPU(); 
+    
+    public static Item metalEssence = new Item().setUnlocalizedName("metalEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Item woodEssence = new Item().setUnlocalizedName("woodEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Item waterEssence = new Item().setUnlocalizedName("waterEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Item fireEssence = new Item().setUnlocalizedName("fireEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Item dirtEssence = new Item().setUnlocalizedName("dirtEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
     
     public static Item funny = new Item().setUnlocalizedName("funny").setCreativeTab(CreativeTabsLoader.tabColourEgg);
     
@@ -74,6 +81,12 @@ public class ItemLoader
         register(proCPU, "pro_CPU");
         register(superCPU, "super_CPU");
         
+        register(metalEssence, "metal_essence");
+        register(woodEssence, "wood_essence");
+        register(waterEssence, "water_essence");
+        register(fireEssence, "fire_essence");
+        register(dirtEssence, "dirt_essence");
+        
         register(funny, "funny");
         
         register(chinese, "record_chinese");
@@ -114,6 +127,12 @@ public class ItemLoader
         registerRender(highCPU, "high_CPU");
         registerRender(proCPU, "pro_CPU");
         registerRender(superCPU, "super_CPU");
+        
+        registerRender(metalEssence, "metal_essence");
+        registerRender(woodEssence, "wood_essence");
+        registerRender(waterEssence, "water_essence");
+        registerRender(fireEssence, "fire_essence");
+        registerRender(dirtEssence, "dirt_essence");
         
         registerRender(funny, "funny");
         

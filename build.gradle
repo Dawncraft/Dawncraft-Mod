@@ -51,7 +51,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    compile 'org.luaj:luaj-jse:3.0.1'
+    compile files("libs/luaj-jse-3.0.1.jar")
+    //embedded files('libs/luaj-jse-3.0.1.jar')
 }
 
 processResources

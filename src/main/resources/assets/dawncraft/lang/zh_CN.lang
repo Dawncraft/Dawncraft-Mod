@@ -59,6 +59,8 @@ item.magnetChestplate.name=磁石胸甲
 item.magnetLeggings.name=磁石护腿
 item.magnetBoots.name=磁石靴子
 
+
+
 item.faeces.name=§6屎
 item.gerHeart.name=§7巨Ger之心
 item.brainDead.name=脑残片
@@ -78,6 +80,10 @@ potion.badGer=Ger化
 //potion.=麻痹
 //potion.=混乱
 potion.brainDead=脑残
+
+magic.prefix.spell=施放
+magic.attack.name=攻击法术
+magic.heal.name=治疗术
 
 container.eleHeatGenerator=热能发电机
 container.MachineEleFurnace=电炉

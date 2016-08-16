@@ -4,12 +4,14 @@ import com.github.wdawning.dawncraft.achievement.AchievementLoader;
 import com.github.wdawning.dawncraft.client.KeyLoader;
 import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;
 import com.github.wdawning.dawncraft.entity.EntitySavage;
+import com.github.wdawning.dawncraft.entity.ExtendedPlayer;
 import com.github.wdawning.dawncraft.item.ItemLoader;
 import com.github.wdawning.dawncraft.potion.PotionLoader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -22,6 +24,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -68,16 +71,26 @@ public class EventLoader
         		mc.gameSettings.fovSetting = defaultFov;
         	}
         	
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             player.addChatMessage(new ChatComponentTranslation("chat.dawncraft.zoom"));
         }
         
         if (KeyLoader.showTime.isPressed())
         {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        	EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             World world = Minecraft.getMinecraft().theWorld;
             player.addChatMessage(new ChatComponentTranslation("chat.dawncraft.time", world.getTotalWorldTime()));
         }
+    }
+    
+    @SubscribeEvent
+    public void onEntityConstructing(EntityConstructing event)
+    {
+    if (event.entity instanceof EntityPlayer && ExtendedPlayer.get((EntityPlayer) event.entity) == null)
+    ExtendedPlayer.register((EntityPlayer) event.entity);
+
+    if (event.entity instanceof EntityPlayer && event.entity.getExtendedProperties(ExtendedPlayer.EXT_PROP_NAME) == null)
+    event.entity.registerExtendedProperties(ExtendedPlayer.EXT_PROP_NAME, new ExtendedPlayer((EntityPlayer) event.entity));
     }
     
     @SubscribeEvent
