@@ -11,7 +11,7 @@ public class FluidPetroleum extends Fluid
 {
     public static final ResourceLocation still = new ResourceLocation(dawncraft.MODID + ":" + "fluid/petroleum_still");
     public static final ResourceLocation flowing = new ResourceLocation(dawncraft.MODID + ":" + "fluid/petroleum_flow");
-    protected static final TextureMap texturemap = Minecraft.getMinecraft().getTextureMapBlocks();
+//    protected static final TextureMap texturemap = Minecraft.getMinecraft().getTextureMapBlocks();
 
     public FluidPetroleum()
     {

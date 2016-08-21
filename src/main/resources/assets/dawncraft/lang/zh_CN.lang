@@ -59,7 +59,12 @@ item.magnetChestplate.name=磁石胸甲
 item.magnetLeggings.name=磁石护腿
 item.magnetBoots.name=磁石靴子
 
-
+item.metalEssence.name=金之精华
+item.woodEssence.name=草本精华
+item.waterEssence.name=水之精华
+item.fireEssence.name=火焰精华
+item.dirtEssence.name=土之精华
+item.magicBook.name=神奇魔法书
 
 item.faeces.name=§6屎
 item.gerHeart.name=§7巨Ger之心
@@ -88,6 +93,8 @@ magic.heal.name=治疗术
 container.eleHeatGenerator=热能发电机
 container.MachineEleFurnace=电炉
 
+gui.magic.future=魔法系统尚未开启,敬请期待!
+
 achievement.dawncraft.Ger=你Ger啊
 achievement.dawncraft.Ger.desc=被Ger王Ger死
 
@@ -95,7 +102,7 @@ death.attack.byGer=%s Ger死了
 
 key.categories.dawncraft=曙光工艺
 key.dawncraft.aim=瞄准镜
-key.dawncraft.showTime=显示时间
+key.dawncraft.magic=魔法书
 
 chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
 chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
@@ -103,3 +110,8 @@ chat.dawncraft.zoom=[§6曙光工艺§r] §c警告：§r放大目前为测试功
 chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下吴Ger
 chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的！
+
+commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)
+commands.magic.view=当前玩家魔法值为 %1$s.
+commands.magic.set=已成功设置玩家魔法值，魔法值为 %1$s.
+commands.magic.reset=已成功重置玩家魔法值为 20.

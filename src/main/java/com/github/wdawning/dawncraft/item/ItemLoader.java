@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSword;
@@ -31,6 +32,7 @@ public class ItemLoader
     public static Item proCPU = new ItemComputerCPU.ProCPU(); 
     public static Item superCPU = new ItemComputerCPU.SuperCPU(); 
     
+    public static Item magicBook = new ItemBook().setUnlocalizedName("magicBook").setCreativeTab(CreativeTabsLoader.tabMagic);
     public static Item metalEssence = new Item().setUnlocalizedName("metalEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
     public static Item woodEssence = new Item().setUnlocalizedName("woodEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
     public static Item waterEssence = new Item().setUnlocalizedName("waterEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
@@ -81,6 +83,7 @@ public class ItemLoader
         register(proCPU, "pro_CPU");
         register(superCPU, "super_CPU");
         
+        register(magicBook, "magic_book");
         register(metalEssence, "metal_essence");
         register(woodEssence, "wood_essence");
         register(waterEssence, "water_essence");
@@ -128,6 +131,7 @@ public class ItemLoader
         registerRender(proCPU, "pro_CPU");
         registerRender(superCPU, "super_CPU");
         
+        registerRender(magicBook, "magic_book");
         registerRender(metalEssence, "metal_essence");
         registerRender(woodEssence, "wood_essence");
         registerRender(waterEssence, "water_essence");

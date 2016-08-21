@@ -86,7 +86,7 @@ public class CreativeTabsLoader
             @Override
             public Item getTabIconItem()
             {
-                return ItemLoader.cakeEgg;
+                return ItemLoader.magicBook;
             }
         };
     	tabFlans = new CreativeTabs("Flans")

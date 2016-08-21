@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-import com.github.wdawning.dawncraft.entity.ExtendedPlayer;
+import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 

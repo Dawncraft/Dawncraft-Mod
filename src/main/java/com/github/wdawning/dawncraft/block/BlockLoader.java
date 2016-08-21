@@ -4,6 +4,7 @@ import com.github.wdawning.dawncraft.dawncraft;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;

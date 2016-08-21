@@ -1,0 +1,10 @@
+{
+  "homepage": "https://github.com/Wdawning/Dawn-Craft-Mod/releases",
+  "1.8": {
+    "B0.13": "Look at github page please."
+  },
+  "promos": {
+    "1.8-latest": "B0.13",
+    "1.8-recommended": "B0.12"
+  }
+}

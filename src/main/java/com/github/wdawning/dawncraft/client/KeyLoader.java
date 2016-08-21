@@ -10,14 +10,14 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 public class KeyLoader
 {
     public static KeyBinding aim;
-    public static KeyBinding showTime;
+    public static KeyBinding magic;
     
     public KeyLoader()
     {
         KeyLoader.aim = new KeyBinding("key." + dawncraft.MODID + ".aim", Keyboard.KEY_F, "key.categories." + dawncraft.MODID);
-        KeyLoader.showTime = new KeyBinding("key." + dawncraft.MODID + ".showTime", Keyboard.KEY_H, "key.categories." + dawncraft.MODID);
+        KeyLoader.magic = new KeyBinding("key." + dawncraft.MODID + ".magic", Keyboard.KEY_R, "key.categories." + dawncraft.MODID);
 
         ClientRegistry.registerKeyBinding(KeyLoader.aim);
-        ClientRegistry.registerKeyBinding(KeyLoader.showTime);
+        ClientRegistry.registerKeyBinding(KeyLoader.magic);
     }
 }

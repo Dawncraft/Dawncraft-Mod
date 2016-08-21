@@ -10,6 +10,8 @@
 !gradlew.bat
 !build.gradle
 !gradle.properties
+!version.json
+!updatelog.txt
 
 # include markdowns
 !LICENSE

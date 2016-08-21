@@ -9,6 +9,7 @@ public class LuaTest
 {
 	public LuaTest()
 	{
+		/*
 		ConfigLoader.logger().info("Lua Loader Started.");
 		
 		String script = "assets/dawncraft/lua/hello.lua";
@@ -23,5 +24,6 @@ public class LuaTest
 		chunk.call( LuaValue.valueOf(script) );
 		
 		ConfigLoader.logger().info("Lua Loader Stopped.");
+		*/
 	}
 }

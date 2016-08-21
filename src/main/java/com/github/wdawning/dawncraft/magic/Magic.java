@@ -1,7 +1,7 @@
 package com.github.wdawning.dawncraft.magic;
 
 import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.entity.ExtendedPlayer;
+import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
 import com.github.wdawning.dawncraft.potion.PotionLoader;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -14,14 +14,14 @@ import net.minecraft.world.World;
 public class Magic
 {
     public static final Magic[] magicTypes = new Magic[64];
-    public static final Magic attack = new Magic(0, 4.5F).setMagicName("magic.attack.name");
-    public static final Magic heal = new Magic(1, 4.0F).setMagicName("magic.heal.name");
+    public static final Magic attack = new Magic(0, 4).setMagicName("magic.attack.name");
+    public static final Magic heal = new Magic(1, 4).setMagicName("magic.heal.name");
     
     public final int id;
-    public final float mana;
+    public final int mana;
     public static String name = "";
     
-    public Magic(int magicID, float magicMANA)
+    public Magic(int magicID, int magicMANA)
     {
         this.id = magicID;
         this.mana = magicMANA;
@@ -33,7 +33,7 @@ public class Magic
         return this.id;
     }
     
-    public float getMANA()
+    public int getMANA()
     {
         return this.mana;
     }

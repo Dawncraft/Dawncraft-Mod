@@ -1,21 +1,28 @@
-package com.github.wdawning.dawncraft.entity;
+package com.github.wdawning.dawncraft.extend;
+
+import com.github.wdawning.dawncraft.dawncraft;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import net.minecraftforge.common.util.Constants;
 
 public  class ExtendedPlayer implements IExtendedEntityProperties
 {
 public final static String EXT_PROP_NAME = "ExtendedPlayer";
 private final EntityPlayer player;
-private float currentMana, maxMana;
+private final int maxMana = 20;
+private int currentMana;
 
 public ExtendedPlayer(EntityPlayer player)
 {
 this.player = player;
-this.currentMana = this.maxMana = 20;
+this.currentMana = this.maxMana;
 }
 
 /**
@@ -24,7 +31,7 @@ this.currentMana = this.maxMana = 20;
 */
 public static final void register(EntityPlayer player)
 {
-player.registerExtendedProperties(ExtendedPlayer.EXT_PROP_NAME, new ExtendedPlayer(player));
+player.registerExtendedProperties(EXT_PROP_NAME, new ExtendedPlayer(player));
 }
 
 /**
@@ -41,8 +48,7 @@ public void saveNBTData(NBTTagCompound compound)
 {
 NBTTagCompound properties = new NBTTagCompound();
 
-properties.setFloat("CurrentMana", this.currentMana);
-properties.setFloat("MaxMana", this.maxMana);
+properties.setInteger("Mana", this.currentMana);
 
 compound.setTag(EXT_PROP_NAME, properties);
 }
@@ -50,22 +56,25 @@ compound.setTag(EXT_PROP_NAME, properties);
 @Override
 public void loadNBTData(NBTTagCompound compound)
 {
-NBTTagCompound properties = (NBTTagCompound) compound.getTag(EXT_PROP_NAME);
+	if(compound.hasKey(EXT_PROP_NAME, Constants.NBT.TAG_COMPOUND))
+	{
+		NBTTagCompound properties = compound.getCompoundTag(EXT_PROP_NAME);
 
-this.currentMana = properties.getFloat("CurrentMana");
-this.maxMana = properties.getFloat("MaxMana");
+		this.currentMana = properties.getInteger("Mana");
+	}
 }
 
 @Override
 public void init(Entity entity, World world)
 {
+	
 }
 
 /**
 * Returns true if the amount of mana was consumed or false
 * if the player's current mana was insufficient
 */
-public boolean consumeMana(float amount)
+public boolean consumeMana(int amount)
 {
 boolean flag = this.currentMana >= amount;
 
@@ -75,6 +84,22 @@ this.currentMana = this.currentMana - amount;
 }
 
 return flag;
+}
+
+/**
+* Simple method sets mana
+*/
+public void setMana(int amount)
+{
+if(amount <= 20 && amount >= 0)
+{
+this.currentMana = amount;
+}
+}
+
+public int getMana()
+{
+return this.currentMana;
 }
 
 /**
