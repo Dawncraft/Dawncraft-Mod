@@ -1,0 +1,14 @@
+This is Dawn Craft Mod's update log.
+===========================================================
+0.1.13.0 update log:
+--------------------
+1.Add some items about magic.
+2.Add mana gui in game.
+3.Add a gui about magic and move the air gui.
+4.Add a command to test magic.
+5.Fix IEEP and add Network support about Mana.
+6.Remove Lua test.
+7.Add Server support!!!!!
+8.Add version.json and update log.
+9.Update mcmod.info.
+===========================================================
