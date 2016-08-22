@@ -3,6 +3,7 @@
 
 # include sourcecode
 !src/
+!libs/
 
 # need gradle 
 !gradle/
@@ -10,8 +11,6 @@
 !gradlew.bat
 !build.gradle
 !gradle.properties
-!version.json
-!updatelog.txt
 
 # include markdowns
 !LICENSE
@@ -19,6 +18,8 @@
 !LICENSE-forge.txt
 !README.txt
 !README.md
+!version.json
+!updatelog.txt
 
 # include git important files
 !.gitmodules

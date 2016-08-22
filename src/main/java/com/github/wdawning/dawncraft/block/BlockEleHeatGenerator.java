@@ -32,7 +32,7 @@ public class BlockEleHeatGenerator extends BlockContainer
     
     public BlockEleHeatGenerator()
     {
-        super(Material.iron);
+        super(BlockLoader.MACHINE);
         this.setUnlocalizedName("heatGenerator");
         this.setHardness(2.5F);
         this.setStepSound(Block.soundTypeMetal);

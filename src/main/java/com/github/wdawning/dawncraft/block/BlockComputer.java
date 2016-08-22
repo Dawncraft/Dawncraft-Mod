@@ -21,7 +21,7 @@ public class BlockComputer extends Block
     {
     	public SimpleComputer()
     	{
-    		super(Material.iron);
+    		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("simpleComputer");
     		this.setHarvestLevel("ItemPickaxe", 1);
     		this.setHardness(3.0f);
@@ -37,7 +37,7 @@ public class BlockComputer extends Block
     {
     	public HighComputer()
     	{
-    		super(Material.iron);
+    		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("highComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
     		this.setHardness(3.0f);
@@ -53,7 +53,7 @@ public class BlockComputer extends Block
     {
     	public ProComputer()
     	{
-    		super(Material.iron);
+    		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("proComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
     		this.setHardness(3.0f);
@@ -69,7 +69,7 @@ public class BlockComputer extends Block
     {
     	public SuperComputer()
     	{
-    		super(Material.iron);
+    		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("superComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
     		this.setHardness(3.0f);

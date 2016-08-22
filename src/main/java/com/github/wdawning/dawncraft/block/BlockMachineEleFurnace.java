@@ -27,7 +27,7 @@ public class BlockMachineEleFurnace extends BlockContainer
     
     public BlockMachineEleFurnace()
     {
-        super(Material.iron);
+        super(BlockLoader.MACHINE);
         this.setUnlocalizedName("machineEleFurnace");
         this.setHardness(2.5F);
         this.setStepSound(Block.soundTypeMetal);

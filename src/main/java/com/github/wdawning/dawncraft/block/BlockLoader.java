@@ -10,6 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -18,6 +19,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockLoader
 {
+	//Material
+    public static final Material MACHINE = new MaterialMachine();
+	
 	//Furniture
     public static Block wchest = new BlockWchest();
 	//magnet
@@ -25,7 +29,7 @@ public class BlockLoader
     public static Block magnetBlock = new BlockMagnetBlock();
 //    public static Block magnetDoor = new BlockMagnetDoor();
     //energy
-    public static Block wire = new BlockWire();
+    public static Block pipeWire = new BlockElectricWire();
     public static Block heatGenerator = new BlockEleHeatGenerator();
     
     public static Block fluidPetroleum = new BlockFluidPetroleum();
@@ -49,7 +53,7 @@ public class BlockLoader
  //       register(magnetDoor, "magnet_door"); 
         //energy
         register(heatGenerator, "heat_generator");
-        register(wire, "wire");
+        register(pipeWire, "pipe_wire");
         register(fluidPetroleum, "petroleum");
         //machine
         register(machineFurnace, "iron_furnace");
@@ -73,7 +77,7 @@ public class BlockLoader
  //       registerRender(magnetDoor, "magnet_door"); 
         //energy
         registerRender(heatGenerator, "heat_generator");
-        registerRender(wire, "wire");
+        registerRender(pipeWire, "pipe_wire");
  //       registerRender(fluidPetroleum, "petroleum");
         //machine
         registerRender(machineFurnace, "iron_furnace");

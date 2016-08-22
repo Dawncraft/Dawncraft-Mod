@@ -9,7 +9,7 @@
   "updateUrl": "https://github.com/Wdawning/Dawn-Craft-Mod/releases",
   "updateJSON": "https://raw.githubusercontent.com/Wdawning/Dawn-Craft-Mod/master/version.json",
   "authorList": ["QingChenW(Wc)"],
-  "credits": "Thank Mojang,MCP and Forge.",
+  "credits": "Thank Mojang,MCP,Forge and NeoTech's pipe Blockstate JSON.",
   "logoFile": "assets/dawncraft/textures/wdawning_logo.png",
   "screenshots": [],
   "dependencies": []
