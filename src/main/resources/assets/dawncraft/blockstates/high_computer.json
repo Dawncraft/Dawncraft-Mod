@@ -1,5 +1,12 @@
 {
     "variants": {
-        "normal": { "model": "dawncraft:high_computer" }
+        "power=false,facing=east": { "model": "dawncraft:high_computer", "y": 90, "uvlock": true },
+        "power=true,facing=east": { "model": "dawncraft:high_computer_on", "y": 90, "uvlock": true },
+        "power=false,facing=north": { "model": "dawncraft:high_computer" },
+        "power=true,facing=north": { "model": "dawncraft:high_computer_on" },
+        "power=false,facing=south": { "model": "dawncraft:high_computer", "y": 180, "uvlock": true },
+        "power=true,facing=south": { "model": "dawncraft:high_computer_on", "y": 180, "uvlock": true },
+        "power=false,facing=west": { "model": "dawncraft:high_computer", "y": 270, "uvlock": true },
+        "power=true,facing=west": { "model": "dawncraft:high_computer_on", "y": 270, "uvlock": true }
     }
 }

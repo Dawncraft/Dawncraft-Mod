@@ -4,6 +4,7 @@
 # include sourcecode
 !src/
 !libs/
+!doc/
 
 # need gradle 
 !gradle/

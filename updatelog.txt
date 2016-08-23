@@ -1,5 +1,9 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.1.13.2 update log:
+--------------------
+1.Add Computer's blockstate.But it can't work.
+===========================================================
 0.1.13.1 update log:
 --------------------
 1.Add electricity wire.But it can't work,it only looks good.

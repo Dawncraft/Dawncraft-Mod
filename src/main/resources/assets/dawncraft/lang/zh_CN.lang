@@ -25,7 +25,7 @@ item.superCPU.name=超级CPU
 
 item.funny.name=滑稽
 
-tile.wire.name=电线
+tile.electricityWire.name=电缆
 tile.heatGenerator.name=热能发电机
 tile.fluidPetroleum.name=石油
 

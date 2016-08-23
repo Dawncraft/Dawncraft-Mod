@@ -36,7 +36,7 @@ public class BlockElectricWire extends Block
 	{
 		super(Material.circuits);
         this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, BlockElectricWire.EnumAttachPosition.NONE).withProperty(EAST, BlockElectricWire.EnumAttachPosition.NONE).withProperty(SOUTH, BlockElectricWire.EnumAttachPosition.NONE).withProperty(WEST, BlockElectricWire.EnumAttachPosition.NONE).withProperty(UP, BlockElectricWire.EnumAttachPosition.NONE).withProperty(DOWN, BlockElectricWire.EnumAttachPosition.NONE).withProperty(POWER, Boolean.valueOf(false)));
-        this.setUnlocalizedName("wire");
+        this.setUnlocalizedName("electricityWire");
         this.setHardness(2.0F);
         this.setBlockBounds(0.375F, 0.375F, 0.375F, 0.75F, 0.75F, 0.75F);
         this.setCreativeTab(CreativeTabsLoader.tabEnergy);

@@ -4,16 +4,31 @@ import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockComputer extends Block
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyBool POWER = PropertyBool.create("power");
 	
 	public BlockComputer(Material computerType)
 	{
 		super(computerType);
+		this.setHardness(3.0f);
+		this.setResistance(3.0f);
+		this.setStepSound(soundTypePiston);
+		this.setCreativeTab(CreativeTabsLoader.tabComputer);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+                .withProperty(POWER, Boolean.FALSE));
 	}
 
     //Simple computer case
@@ -24,11 +39,6 @@ public class BlockComputer extends Block
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("simpleComputer");
     		this.setHarvestLevel("ItemPickaxe", 1);
-    		this.setHardness(3.0f);
-        	this.setResistance(3.0f);
-        	this.setStepSound(soundTypePiston);
-            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
-        	this.setCreativeTab(CreativeTabsLoader.tabComputer);
     	}
     }
 
@@ -40,11 +50,6 @@ public class BlockComputer extends Block
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("highComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
-    		this.setHardness(3.0f);
-    		this.setResistance(3.0f);
-    		this.setStepSound(soundTypePiston);
-            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
-    		this.setCreativeTab(CreativeTabsLoader.tabComputer);
     	}
     }
 
@@ -56,11 +61,6 @@ public class BlockComputer extends Block
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("proComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
-    		this.setHardness(3.0f);
-    		this.setResistance(3.0f);
-    		this.setStepSound(soundTypePiston);
-            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
-    		this.setCreativeTab(CreativeTabsLoader.tabComputer);
     	}
     }
 
@@ -72,11 +72,7 @@ public class BlockComputer extends Block
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("superComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
-    		this.setHardness(3.0f);
-    		this.setResistance(3.0f);
-    		this.setStepSound(soundTypePiston);
-            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
-    		this.setCreativeTab(CreativeTabsLoader.tabComputer);
+
     	}
     }
     
@@ -91,34 +87,52 @@ public class BlockComputer extends Block
 	{
 		return false;
 	}
+	
+	@Override
+    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
+    {
+		if(worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.NORTH && worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.SOUTH)
+		{
+            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
+		}
+		else if(worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.WEST && worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.EAST)
+		{
+            this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 0.75F);
+		}
+    }
     
-	//方块状态太难弄了,我不玩♂你♀行了吧.........
-	//其实是从家具mod里抄的,太无耻!!!!!!!!
-  //好吧，其实我会了hi哈哈哈
-	/*
 	@Override
 	public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		IBlockState state = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
-		return state.withProperty(FACING, placer.getHorizontalFacing());
+        IBlockState origin = super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer);
+        return origin.withProperty(FACING, placer.getHorizontalFacing().getOpposite());
 	}
 
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		return ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
+        int facing = ((EnumFacing) state.getValue(FACING)).getHorizontalIndex();
+        int power = ((Boolean) state.getValue(POWER)).booleanValue() ? 4 : 0;
+        return facing | power;
 	}
 	
-	@Override
-	public IBlockState getStateFromMeta(int meta)
-	{
-		return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
-	}
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        EnumFacing facing = EnumFacing.getHorizontal(meta & 3);
+        Boolean power = Boolean.valueOf((meta & 4) != 0);
+        return this.getDefaultState().withProperty(FACING, facing).withProperty(POWER, power);
+    }
 
-	@Override
-	protected BlockState createBlockState()
-	{
-		return new BlockState(this, new IProperty[] { FACING });
-	}
-	*/
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, FACING, POWER);
+    }
+	
+    @Override
+    public int getRenderType()
+    {
+        return 3;
+    }
 }
