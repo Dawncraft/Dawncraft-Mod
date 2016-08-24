@@ -1,5 +1,12 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.1.14.0 update log:
+--------------------
+1.Fix Computer's blockstate.
+2.Move Ore Generator into another class.
+3.Add Dawnworld!!!
+4.Fix server support.
+===========================================================
 0.1.13.2 update log:
 --------------------
 1.Add Computer's blockstate.But it can't work.

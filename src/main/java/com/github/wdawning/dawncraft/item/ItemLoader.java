@@ -32,7 +32,7 @@ public class ItemLoader
     public static Item proCPU = new ItemComputerCPU.ProCPU(); 
     public static Item superCPU = new ItemComputerCPU.SuperCPU(); 
     
-    public static Item magicBook = new ItemBook().setUnlocalizedName("magicBook").setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Item magicBook = new ItemMagicBook();
     public static Item metalEssence = new Item().setUnlocalizedName("metalEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
     public static Item woodEssence = new Item().setUnlocalizedName("woodEssence").setCreativeTab(CreativeTabsLoader.tabMagic);
     public static Item waterEssence = new Item().setUnlocalizedName("waterEssence").setCreativeTab(CreativeTabsLoader.tabMagic);

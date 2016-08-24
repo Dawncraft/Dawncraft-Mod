@@ -1,34 +1,54 @@
 package com.github.wdawning.dawncraft.worldgen;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
 public class WorldTeleporterDawn extends Teleporter
 {
-    public WorldTeleporterDawn(WorldServer p_i1963_1_)
+    private final WorldServer worldServerInstance;
+
+	public WorldTeleporterDawn(WorldServer worldIn)
     {
-            super(p_i1963_1_);
+        super(worldIn);
+        this.worldServerInstance = worldIn;
     }
     
     @Override
-    public boolean placeInExistingPortal(Entity p_77184_1_, double p_77184_2_,
-                    double p_77184_4_, double p_77184_6_, float p_77184_8_)
+    public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
-            return false;
+        return false;
     }
     
     @Override
-    public void placeInPortal(Entity p_77185_1_, double p_77185_2_,
-                    double p_77185_4_, double p_77185_6_, float p_77185_8_)
+    public void placeInPortal(Entity entityIn, float rotationYaw)
     {
-    	
+        int x = MathHelper.floor_double(entityIn.posX);
+        int y = MathHelper.floor_double(entityIn.posY) - 1;
+        int z = MathHelper.floor_double(entityIn.posZ);
+        
+        int x1, z1;
+        for (int j = -2; j <= 2; ++j)
+        {
+            for (int k = -2; k <= 2; ++k)
+            {
+            	x1 = x + j;
+            	z1 = z + k;
+                if(worldServerInstance.getBlockState(new BlockPos(x1, y, z1)) == Blocks.air.getDefaultState())
+                {
+                    this.worldServerInstance.setBlockState(new BlockPos(x1, y, z1), Blocks.obsidian.getDefaultState());
+                }
+            }
+        }
     }
     
     @Override
     public boolean makePortal(Entity p_85188_1_)
     {
-            return false;
+        return false;
     }
     
     @Override

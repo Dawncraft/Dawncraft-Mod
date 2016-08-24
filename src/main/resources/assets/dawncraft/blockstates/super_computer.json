@@ -1,12 +1,12 @@
 {
     "variants": {
-        "power=false,facing=east": { "model": "dawncraft:super_computer", "y": 90, "uvlock": true },
-        "power=true,facing=east": { "model": "dawncraft:super_computer_on", "y": 90, "uvlock": true },
-        "power=false,facing=north": { "model": "dawncraft:super_computer" },
-        "power=true,facing=north": { "model": "dawncraft:super_computer_on" },
-        "power=false,facing=south": { "model": "dawncraft:super_computer", "y": 180, "uvlock": true },
-        "power=true,facing=south": { "model": "dawncraft:super_computer_on", "y": 180, "uvlock": true },
-        "power=false,facing=west": { "model": "dawncraft:super_computer", "y": 270, "uvlock": true },
-        "power=true,facing=west": { "model": "dawncraft:super_computer_on", "y": 270, "uvlock": true }
+        "facing=east,power=false": { "model": "dawncraft:super_computer", "y": 90, "uvlock": true },
+        "facing=east,power=true": { "model": "dawncraft:super_computer_on", "y": 90, "uvlock": true },
+        "facing=north,power=false": { "model": "dawncraft:super_computer" },
+        "facing=north,power=true": { "model": "dawncraft:super_computer_on" },
+        "facing=south,power=false": { "model": "dawncraft:super_computer", "y": 180, "uvlock": true },
+        "facing=south,power=true": { "model": "dawncraft:super_computer_on", "y": 180, "uvlock": true },
+        "facing=west,power=false": { "model": "dawncraft:super_computer", "y": 270, "uvlock": true },
+        "facing=west,power=true": { "model": "dawncraft:super_computer_on", "y": 270, "uvlock": true }
     }
 }

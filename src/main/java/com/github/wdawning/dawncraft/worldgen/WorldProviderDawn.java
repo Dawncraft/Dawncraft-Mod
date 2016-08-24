@@ -21,11 +21,17 @@ public class WorldProviderDawn extends WorldProvider
 	@Override
 	public String getInternalNameSuffix()
 	{
-        return "";
+        return "_dawn";
 	}
 	
 	@Override
     public boolean isSurfaceWorld()
+    {
+        return false;
+    }
+	
+	@Override
+    public boolean canRespawnHere()
     {
         return false;
     }

@@ -11,7 +11,6 @@
 欢迎[加入我们](http://shang.qq.com/wpa/qunwpa?idkey=61928f37c251f45b49f652efc2d90857f24b38b2d5d69859c8d3ae6241479a02) QQ群:**287307326**
 
 ##目录
-[如何构建Mod](#构建Mod)
 
 [开发Mod](#Mod开发)
 
@@ -27,8 +26,9 @@
 
 ##Mod开发
 
-###准备工作
 *在您开始我们的开发工作前，我希望您能耐心地看下去，谢谢。*
+
+###准备工作
 
 想要参加曙光工艺Mod的开发工作，你需要：
 
@@ -44,6 +44,8 @@
 1. 将本mod打包下载并解压到文件夹(这里以D:\wc\Dawn-Craft-Mod为例)
 
 2. 进入该目录并在该目录下执行命令
+   
+    （在目录下按住Shift键并右键可以快速在当前目录打开命令行）
 
     如果你使用的是Microsoft Windows，则运行：
 
@@ -67,7 +69,7 @@
 
     Mod工程的源代码在目录`src/main/java`下，Mod工程的资源文件（如图片、模型等）在目录`src/main/resources`下。
 
-(摘自ustc-zzzz的教程)
+    **(摘自ustc-zzzz的教程)**
 
 ###构建Mod
 
@@ -230,7 +232,7 @@
 >updatelog.txt Mod更新日志
 
 >version.json 版本文件
->
+
 ## 未来展望
 
 等待更新。
