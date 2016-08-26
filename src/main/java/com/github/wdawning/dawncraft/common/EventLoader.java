@@ -1,6 +1,7 @@
 package com.github.wdawning.dawncraft.common;
 
 import com.github.wdawning.dawncraft.achievement.AchievementLoader;
+import com.github.wdawning.dawncraft.block.BlockLoader;
 import com.github.wdawning.dawncraft.client.KeyLoader;
 import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;
 import com.github.wdawning.dawncraft.entity.EntitySavage;
@@ -12,6 +13,7 @@ import com.github.wdawning.dawncraft.potion.PotionLoader;
 import com.github.wdawning.dawncraft.gui.GuiMagicBook;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -19,6 +21,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -32,6 +35,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -44,6 +48,7 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -220,6 +225,23 @@ public class EventLoader
                 NetworkLoader.instance.sendTo(new MessageMagic(amount), player);
             }
         }
+    }
+    
+
+    @SubscribeEvent
+    public void onPlayerToss(ItemTossEvent event)
+    {
+    	if(!event.player.worldObj.isRemote)
+    	{
+        	BlockPos pos = new BlockPos(event.entityItem);
+        	
+        	if(event.player.worldObj.getBlockState(pos) == Blocks.water.getDefaultState())
+        	{
+        		event.setCanceled(true);
+        		
+        		event.player.worldObj.setBlockState(pos, BlockLoader.dawnPortal.getDefaultState());
+        	}
+    	}
     }
     
     @SubscribeEvent

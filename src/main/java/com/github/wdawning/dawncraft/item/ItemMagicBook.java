@@ -26,21 +26,6 @@ public class ItemMagicBook extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
-    	if(!worldIn.isRemote)
-    	{
-    	if(playerIn instanceof EntityPlayerMP)
-    	{
-            ServerConfigurationManager scm = MinecraftServer.getServer().getConfigurationManager();
-            WorldTeleporterDawn teleporter = new WorldTeleporterDawn(MinecraftServer.getServer().worldServerForDimension(23));
-            scm.transferPlayerToDimension((EntityPlayerMP) playerIn, 23, teleporter);
-        }
-    	else
-    	{
-            ServerConfigurationManager scm = MinecraftServer.getServer().getConfigurationManager();
-            WorldTeleporterDawn teleporter = new WorldTeleporterDawn(MinecraftServer.getServer().worldServerForDimension(23));
-            scm.transferEntityToWorld(playerIn, 23,(WorldServer) worldIn,MinecraftServer.getServer().worldServerForDimension(23),teleporter);
-        }
-    	}
 		return itemStackIn;
     }
 }

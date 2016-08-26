@@ -42,6 +42,7 @@ public class BlockLoader
     public static Block superComputer = new BlockComputer.SuperComputer();
     
     //color egg
+    public static Block dawnPortal = new BlockDawnPortal();
     
     public BlockLoader(FMLPreInitializationEvent event)
     {
@@ -63,7 +64,7 @@ public class BlockLoader
 		register(proComputer, "pro_computer");
         register(superComputer, "super_computer");
         //color egg
-        
+        registerWithoutItem(dawnPortal, "dawn_portal");
     }
 
     @SideOnly(Side.CLIENT)
@@ -87,12 +88,17 @@ public class BlockLoader
 		registerRender(proComputer, "pro_computer");
         registerRender(superComputer, "super_computer");
         //color egg
-        
+ //       registerRender(dawnPortal, "dawn_portal");
     }
 
     private static void register(Block block, String name)
     {
         GameRegistry.registerBlock(block, name);
+    }
+    
+    private static void registerWithoutItem(Block block, String name)
+    {
+        GameRegistry.registerBlock(block, null, name);
     }
 
     @SuppressWarnings("unchecked")
