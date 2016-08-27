@@ -3,6 +3,8 @@ package com.github.wdawning.dawncraft.block;
 import java.util.List;
 import java.util.Random;
 
+import com.github.wdawning.dawncraft.achievement.AchievementLoader;
+import com.github.wdawning.dawncraft.worldgen.WorldProviderDawn;
 import com.github.wdawning.dawncraft.worldgen.WorldTeleporterDawn;
 
 import net.minecraft.block.BlockBreakable;
@@ -19,6 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -31,7 +34,8 @@ public class BlockDawnPortal extends BlockBreakable
 	{
 		super(Material.portal, false);
 		this.setUnlocalizedName("dawnPortal");
-        this.setLightLevel(1.0F);
+	    this.setHardness(-1F);
+        this.setLightLevel(0.75F);
 	}
 	
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
@@ -60,54 +64,87 @@ public class BlockDawnPortal extends BlockBreakable
     
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
-        if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null && !worldIn.isRemote)
+        if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null)
         {
-        	if(entityIn.dimension != 23)
+        	if(entityIn instanceof EntityPlayerMP)
         	{
-            	if(entityIn instanceof EntityPlayerMP)
-            	{
-                    worldIn.theProfiler.startSection("changeDimension");
-                    ServerConfigurationManager scm = MinecraftServer.getServer().getConfigurationManager();
-                    WorldTeleporterDawn teleporter = new WorldTeleporterDawn(MinecraftServer.getServer().worldServerForDimension(23));
-                    scm.transferPlayerToDimension((EntityPlayerMP) entityIn, 23, teleporter);
-                    worldIn.theProfiler.endSection();
-                }
-            	else
-            	{
-                    worldIn.theProfiler.startSection("changeDimension");
-                    ServerConfigurationManager scm = MinecraftServer.getServer().getConfigurationManager();
-                    WorldTeleporterDawn teleporter = new WorldTeleporterDawn(MinecraftServer.getServer().worldServerForDimension(23));
-                    scm.transferEntityToWorld(entityIn, 23,(WorldServer) worldIn,MinecraftServer.getServer().worldServerForDimension(23),teleporter);
-                    worldIn.theProfiler.endSection();
-            	}
+    			EntityPlayerMP playerMP = (EntityPlayerMP) entityIn;
+				if (playerMP.dimension != 23)
+				{
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 23, new WorldTeleporterDawn(playerMP.mcServer.worldServerForDimension(23)));
+
+                    BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(new BlockPos(8, 97, 8));
+//                    playerMP.moveToBlockPosAndAngles(blockpos, playerMP.rotationYaw, playerMP.rotationPitch);
+                    playerMP.playerNetServerHandler.setPlayerLocation(blockpos.getX(), blockpos.getY(), blockpos.getZ(), playerMP.rotationYaw, playerMP.rotationPitch);
+                    MinecraftServer.getServer().worldServerForDimension(23).setSpawnPoint(blockpos);
+					
+					playerMP.triggerAchievement(AchievementLoader.dawnArrival);
+				}
+				else
+				{
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0, new WorldTeleporterDawn(playerMP.mcServer.worldServerForDimension(0)));
+					
+                    BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(playerMP.mcServer.worldServerForDimension(0).getSpawnPoint());
+//                    playerMP.moveToBlockPosAndAngles(blockpos, playerMP.rotationYaw, playerMP.rotationPitch);
+                    playerMP.playerNetServerHandler.setPlayerLocation(blockpos.getX(), blockpos.getY(), blockpos.getZ(), playerMP.rotationYaw, playerMP.rotationPitch);
+				}
         	}
-        	else
-        	{
-            	if(entityIn instanceof EntityPlayerMP)
-            	{
-                    worldIn.theProfiler.startSection("changeDimension");
-                    ServerConfigurationManager scm = MinecraftServer.getServer().getConfigurationManager();
-                    WorldTeleporterDawn teleporter = new WorldTeleporterDawn(MinecraftServer.getServer().worldServerForDimension(0));
-                    WorldServer worldserver = MinecraftServer.getServer().worldServerForDimension(0);
-                    scm.transferPlayerToDimension((EntityPlayerMP) entityIn, 0,teleporter);
-                    BlockPos blockpos = worldIn.getTopSolidOrLiquidBlock(worldserver.getSpawnPoint());
-                    entityIn.moveToBlockPosAndAngles(blockpos, entityIn.rotationYaw, entityIn.rotationPitch);
-                    worldIn.theProfiler.endSection();
-                }
-            	else
-            	{
-                    worldIn.theProfiler.startSection("changeDimension");
-                    ServerConfigurationManager scm = MinecraftServer.getServer().getConfigurationManager();
-                    WorldTeleporterDawn teleporter = new WorldTeleporterDawn(MinecraftServer.getServer().worldServerForDimension(0));
-                    WorldServer worldserver = MinecraftServer.getServer().worldServerForDimension(0);
-                    scm.transferEntityToWorld(entityIn, 0,(WorldServer) worldIn,worldserver,teleporter);
-                    BlockPos blockpos = worldIn.getTopSolidOrLiquidBlock(worldserver.getSpawnPoint());
-                    entityIn.moveToBlockPosAndAngles(blockpos, entityIn.rotationYaw, entityIn.rotationPitch);
-                    worldIn.theProfiler.endSection();
-            	}
-        	}
+    		else
+    		{
+    			sendEntityToDimension(entityIn, 23);
+    		}
         }
     }
+    
+	public void sendEntityToDimension(Entity entityIn, int dimensionId)
+	{
+		if (!entityIn.worldObj.isRemote && !entityIn.isDead)
+		{
+			entityIn.worldObj.theProfiler.startSection("changeDimension");
+		    MinecraftServer minecraftserver = MinecraftServer.getServer();
+		    int dim = entityIn.dimension;
+		    WorldServer worldserver = minecraftserver.worldServerForDimension(dim);
+		    WorldServer worldserver1 = minecraftserver.worldServerForDimension(dimensionId);
+		    entityIn.dimension = dimensionId;
+		    
+            if (dim == 23 && dimensionId == 23)
+            {
+                worldserver1 = minecraftserver.worldServerForDimension(0);
+                entityIn.dimension = 0;
+            }
+		    
+		    entityIn.worldObj.removeEntity(entityIn);
+		    entityIn.isDead = false;
+		    entityIn.worldObj.theProfiler.startSection("reposition");
+		    minecraftserver.getConfigurationManager().transferEntityToWorld(entityIn, dim, worldserver, worldserver1,  new WorldTeleporterDawn(worldserver1));
+		    entityIn.worldObj.theProfiler.endStartSection("reloading");
+		    Entity transferEntity = EntityList.createEntityByName(EntityList.getEntityString(entityIn), worldserver1);
+
+		    if (transferEntity != null)
+		    {
+		    	transferEntity.copyDataFromOld(entityIn);
+		    	
+                if (dim == 23 && dimensionId == 23)
+                {
+                    BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(worldserver1.getSpawnPoint());
+                    transferEntity.moveToBlockPosAndAngles(blockpos, transferEntity.rotationYaw, transferEntity.rotationPitch);
+                }
+                else
+                {
+                    BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(new BlockPos(8, 97, 8));
+                    transferEntity.moveToBlockPosAndAngles(blockpos, transferEntity.rotationYaw, transferEntity.rotationPitch);
+                }
+                
+		        worldserver1.spawnEntityInWorld(transferEntity);
+		    }
+
+		    entityIn.isDead = true;
+		    entityIn.worldObj.theProfiler.endSection();
+		    worldserver.resetUpdateEntityTick();
+		    worldserver1.resetUpdateEntityTick();
+		    entityIn.worldObj.theProfiler.endSection();
+		}
+	}
     
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)

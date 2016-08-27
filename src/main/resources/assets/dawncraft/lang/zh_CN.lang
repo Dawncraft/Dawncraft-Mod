@@ -97,6 +97,10 @@ gui.magic.future=魔法系统尚未开启,敬请期待!
 
 achievement.dawncraft.Ger=你Ger啊
 achievement.dawncraft.Ger.desc=被Ger王Ger死
+achievement.dawncraft.dawnPortal=天空之城
+achievement.dawncraft.dawnPortal.desc=建造一个通往曙光世界的传送门
+achievement.dawncraft.dawnArrival=黎明曙光
+achievement.dawncraft.dawnArrival.desc=进入曙光世界
 
 death.attack.byGer=%s Ger死了
 

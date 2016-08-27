@@ -1,5 +1,8 @@
 package com.github.wdawning.dawncraft.common;
 
+import java.util.List;
+import java.util.Random;
+
 import com.github.wdawning.dawncraft.achievement.AchievementLoader;
 import com.github.wdawning.dawncraft.block.BlockLoader;
 import com.github.wdawning.dawncraft.client.KeyLoader;
@@ -13,12 +16,15 @@ import com.github.wdawning.dawncraft.potion.PotionLoader;
 import com.github.wdawning.dawncraft.gui.GuiMagicBook;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -27,10 +33,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.stats.Achievement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -52,6 +60,7 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -134,6 +143,117 @@ public class EventLoader
     }
 
     @SubscribeEvent
+    public void onEntityInteract(EntityInteractEvent event)
+    {
+        EntityPlayer player = event.entityPlayer;
+        if (player.isServerWorld() && event.target instanceof EntitySavage)
+        {
+        	EntitySavage savage = (EntitySavage) event.target;
+            ItemStack stack = player.getCurrentEquippedItem();
+            if (stack != null && (stack.getItem() == ItemLoader.faeces))
+            {
+                player.attackEntityFrom((new DamageSource("byGer")).setDifficultyScaled().setExplosion(), 20.0F);
+                player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
+                savage.setDead();
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onLivingHurt(LivingHurtEvent event)
+    {
+        if (event.source.getDamageType().equals("mob"))
+        {
+            PotionEffect effect = event.entityLiving.getActivePotionEffect(PotionLoader.potionGerPower);
+            if (effect != null)
+            {
+                if (effect.getAmplifier() == 0)
+                {
+                    event.ammount /= 2;
+                }
+                else
+                {
+                    event.ammount = 0;
+                }
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onLivingDeath(LivingDeathEvent event)
+    {
+        if (event.entityLiving instanceof EntityPlayer && event.source.getDamageType().equals("byGer"))
+        {
+            ((EntityPlayer) event.entityLiving).triggerAchievement(AchievementLoader.Ger);
+        }
+        
+        
+        if(!event.entityLiving.worldObj.isRemote && event.entityLiving instanceof EntityPlayer)
+        {
+            EntityPlayerMP player = (EntityPlayerMP) event.entityLiving;
+            if (ExtendedPlayer.get((EntityPlayer) event.entityLiving) != null)
+            {
+            	int amount = 20;
+            	ExtendedPlayer.get((EntityPlayer) event.entityLiving).setMana(amount);
+                NetworkLoader.instance.sendTo(new MessageMagic(amount), player);
+            }
+        }
+    }
+    
+    @SubscribeEvent
+    public void playerTickEvent(PlayerTickEvent event)
+    {
+		EntityPlayer player = event.player;
+		World world = player.worldObj;
+    	
+    	checkForPortalCreation(player, world, 32.0F);
+    }
+    
+    /**
+     * Check for can portal create in world.
+     * From Benimatic's twilight forest Mod.Thanks.
+     * 感谢暮色森林的传送门检查方法
+     * 
+     * @author Benimatic
+     * @param player Check portal around player.
+     * @param world Check in the world.
+     * @param rangeToCheck Check in a range.
+     */
+	private void checkForPortalCreation(EntityPlayer player, World world, float rangeToCheck)
+    {
+		if(world != null && player != null && world.provider.getDimensionId() == 0) 
+		{
+			@SuppressWarnings("unchecked")
+			List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
+			
+			for(EntityItem entityItem : itemList) 
+			{
+				if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
+				{
+					int dx = MathHelper.floor_double(entityItem.posX);
+					int dy = MathHelper.floor_double(entityItem.posY);
+					int dz = MathHelper.floor_double(entityItem.posZ);
+		        	BlockPos pos = new BlockPos(dx, dy , dz);
+	        		player.worldObj.setBlockState(pos, BlockLoader.dawnPortal.getDefaultState());
+	        		world.addWeatherEffect(new EntityLightningBolt(world, dx, dy, dz));
+					player.triggerAchievement(AchievementLoader.dawnPortal);
+				}
+			}
+		}
+	}
+    
+    @SubscribeEvent
+    public void onClonePlayer(PlayerEvent.Clone event)
+    {
+        if(event.wasDeath)
+        {
+        	  NBTTagCompound compound = new NBTTagCompound();
+              ExtendedPlayer.get(event.original).saveNBTData(compound);
+              ExtendedPlayer.get(event.entityPlayer).loadNBTData(compound);
+        }
+    }
+
+    @SubscribeEvent
     public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)
     {
         if (!event.world.isRemote && event.harvester != null)
@@ -168,92 +288,5 @@ public class EventLoader
             }
         }
     }
-
-    @SubscribeEvent
-    public void onLivingHurt(LivingHurtEvent event)
-    {
-        if (event.source.getDamageType().equals("mob"))
-        {
-            PotionEffect effect = event.entityLiving.getActivePotionEffect(PotionLoader.potionGerPower);
-            if (effect != null)
-            {
-                if (effect.getAmplifier() == 0)
-                {
-                    event.ammount /= 2;
-                }
-                else
-                {
-                    event.ammount = 0;
-                }
-            }
-        }
-    }
-    
-    @SubscribeEvent
-    public void onEntityInteract(EntityInteractEvent event)
-    {
-        EntityPlayer player = event.entityPlayer;
-        if (player.isServerWorld() && event.target instanceof EntitySavage)
-        {
-        	EntitySavage savage = (EntitySavage) event.target;
-            ItemStack stack = player.getCurrentEquippedItem();
-            if (stack != null && (stack.getItem() == ItemLoader.faeces))
-            {
-                player.attackEntityFrom((new DamageSource("byGer")).setDifficultyScaled().setExplosion(), 20.0F);
-                player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
-                savage.setDead();
-            }
-        }
-    }
-    
-    @SubscribeEvent
-    public void onLivingDeath(LivingDeathEvent event)
-    {
-        if (event.entityLiving instanceof EntityPlayer && event.source.getDamageType().equals("byGer"))
-        {
-            ((EntityPlayer) event.entityLiving).triggerAchievement(AchievementLoader.Ger);
-        }
-        
-        
-        if(!event.entityLiving.worldObj.isRemote && event.entityLiving instanceof EntityPlayer)
-        {
-            EntityPlayerMP player = (EntityPlayerMP) event.entityLiving;
-            if (ExtendedPlayer.get((EntityPlayer) event.entityLiving) != null)
-            {
-            	int amount = 20;
-            	ExtendedPlayer.get((EntityPlayer) event.entityLiving).setMana(amount);
-                NetworkLoader.instance.sendTo(new MessageMagic(amount), player);
-            }
-        }
-    }
-    
-
-    @SubscribeEvent
-    public void onPlayerToss(ItemTossEvent event)
-    {
-    	if(!event.player.worldObj.isRemote)
-    	{
-        	BlockPos pos = new BlockPos(event.entityItem);
-        	
-        	if(event.player.worldObj.getBlockState(pos) == Blocks.water.getDefaultState())
-        	{
-        		event.setCanceled(true);
-        		
-        		event.player.worldObj.setBlockState(pos, BlockLoader.dawnPortal.getDefaultState());
-        	}
-    	}
-    }
-    
-    @SubscribeEvent
-    public void onClonePlayer(PlayerEvent.Clone event)
-    {
-        if(event.wasDeath)
-        {
-        	  NBTTagCompound compound = new NBTTagCompound();
-              ExtendedPlayer.get(event.original).saveNBTData(compound);
-              ExtendedPlayer.get(event.entityPlayer).loadNBTData(compound);
-        }
-    }
-    
     //end
 }

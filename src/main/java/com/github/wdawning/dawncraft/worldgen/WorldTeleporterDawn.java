@@ -26,7 +26,7 @@ public class WorldTeleporterDawn extends Teleporter
     @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
-        int x = MathHelper.floor_double(entityIn.posX);
+/*        int x = MathHelper.floor_double(entityIn.posX);
         int y = MathHelper.floor_double(entityIn.posY) - 1;
         int z = MathHelper.floor_double(entityIn.posZ);
         
@@ -42,7 +42,7 @@ public class WorldTeleporterDawn extends Teleporter
                     this.worldServerInstance.setBlockState(new BlockPos(x1, y, z1), Blocks.obsidian.getDefaultState());
                 }
             }
-        }
+        }*/
     }
     
     @Override

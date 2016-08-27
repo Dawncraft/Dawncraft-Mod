@@ -17,7 +17,7 @@ public class WorldProviderDawn extends WorldProvider
 	{
         return "Dawnworld";
 	}
-
+	
 	@Override
 	public String getInternalNameSuffix()
 	{
@@ -33,7 +33,7 @@ public class WorldProviderDawn extends WorldProvider
 	@Override
     public boolean canRespawnHere()
     {
-        return false;
+        return true;
     }
 	
 	@Override
