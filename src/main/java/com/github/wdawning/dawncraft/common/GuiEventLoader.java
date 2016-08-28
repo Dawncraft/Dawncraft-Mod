@@ -3,6 +3,7 @@ package com.github.wdawning.dawncraft.common;
 import java.util.Random;
 
 import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.config.ConfigLoader;
 import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
 
 import net.minecraft.block.material.Material;
@@ -56,23 +57,29 @@ public class GuiEventLoader extends Gui
         		mana = ExtendedPlayer.get(entityplayer).getMana();
         		w1 = width / 2 + 91;
         		h1 = height - 39 - 9 - 1;
-        		int ii,i1,i2;
-            
+        		int ii,x,y;
+        		int u = 0;
+        		
+        		if(ConfigLoader.manaRenderType)
+        		{
+        			u = 9;
+        		}
+
         		for (ii = 0; ii < 10; ++ii)
         		{
-        			i1 = w1 - ii * 8 - 9;
-        			i2 = h1;
+        			x = w1 - ii * 8 - 9;
+        			y = h1;
 
-        			this.drawTexturedModalRect(i1, i2, 0, 9, 9, 9);
+        			this.drawTexturedModalRect(x, y, 0, u, 9, 9);
 
         			if (ii * 2 + 1 < mana)
         			{
-        				this.drawTexturedModalRect(i1, i2, 9, 9, 9, 9);
+        				this.drawTexturedModalRect(x, y, 9, u, 9, 9);
         			}
 
         			if (ii * 2 + 1 == mana)
         			{
-        				this.drawTexturedModalRect(i1, i2, 17, 9, 9, 9);
+        				this.drawTexturedModalRect(x, y, 17, u, 9, 9);
         			}
         		}
         		

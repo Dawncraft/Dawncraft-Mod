@@ -3,6 +3,7 @@ package com.github.wdawning.dawncraft.common;
 import com.github.wdawning.dawncraft.achievement.AchievementLoader;
 import com.github.wdawning.dawncraft.block.BlockLoader;
 import com.github.wdawning.dawncraft.command.CommandLoader;
+import com.github.wdawning.dawncraft.config.ConfigLoader;
 import com.github.wdawning.dawncraft.crafting.CraftingLoader;
 import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
 import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;

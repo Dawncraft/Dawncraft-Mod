@@ -1,7 +1,7 @@
 package com.github.wdawning.dawncraft.potion;
 
 import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.common.ConfigLoader;
+import com.github.wdawning.dawncraft.config.ConfigLoader;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;

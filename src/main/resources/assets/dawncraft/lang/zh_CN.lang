@@ -119,3 +119,11 @@ commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩�
 commands.magic.view=当前玩家魔法值为 %1$s.
 commands.magic.set=已成功设置玩家魔法值，魔法值为 %1$s.
 commands.magic.reset=已成功重置玩家魔法值为 20.
+
+dawncraft.configgui.category.dawncraft=曙光工艺基础设置
+dawncraft.configgui.manaRenderType=魔法条渲染方式
+dawncraft.configgui.manaRenderType.tooltip=设置魔法条的渲染形式,True为泰拉瑞亚式,False为炉石传说式,感谢@单大帅的创意.
+dawncraft.configgui.enchantmentFireBurnId=火焰灼烧附魔ID
+dawncraft.configgui.potionGerPowerID=巨ger之力效果ID
+dawncraft.configgui.potionBadGerID=ger化效果ID
+dawncraft.configgui.potionBrainDeadID=脑残效果ID

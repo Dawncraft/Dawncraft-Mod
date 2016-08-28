@@ -6,9 +6,11 @@
     "0.1.13.1": "Look at github page please."
     "0.1.13.2": "Look at github page please."
     "0.1.14.0": "Look at github page please."
+    "0.1.14.1": "Look at github page please."
+    "0.1.14.2": "Look at github page please."
   },
   "promos": {
-    "1.8-latest": "0.1.14.0",
+    "1.8-latest": "0.1.14.2",
     "1.8-recommended": "0.1.13.1"
   }
 }

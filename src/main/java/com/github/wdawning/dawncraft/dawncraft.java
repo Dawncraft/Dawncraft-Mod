@@ -16,13 +16,14 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
    @version mcmod.version
 **/
 
-@Mod(modid = dawncraft.MODID, name = dawncraft.NAME, version = dawncraft.VERSION, acceptedMinecraftVersions = "[1.8,)")
+@Mod(modid = dawncraft.MODID, name = dawncraft.NAME, version = dawncraft.VERSION, guiFactory = dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "[1.8,)")
 
 public class dawncraft
 {
     public static final String MODID = "dawncraft";
     public static final String NAME = "Dawn Craft Mod";
     public static final String VERSION = "1.8";
+    public static final String GUI_FACTORY = "com.github.wdawning.dawncraft.config.ConfigGuiFactory";
 
     @Instance(dawncraft.MODID)
     public static dawncraft instance;

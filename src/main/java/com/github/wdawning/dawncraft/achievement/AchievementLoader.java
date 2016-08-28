@@ -10,9 +10,9 @@ import net.minecraftforge.common.AchievementPage;
 
 public class AchievementLoader
 {
-    public static Achievement Ger = new Achievement("achievement.dawncraft.Ger", "dawncraft.Ger", 0, 0, ItemLoader.gerHeart, null);
-    public static Achievement dawnPortal = new Achievement("achievement.dawncraft.dawnPortal", "dawncraft.dawnPortal", 0, 2, ItemLoader.gerHeart, null);
-    public static Achievement dawnArrival = new Achievement("achievement.dawncraft.dawnArrival", "dawncraft.dawnArrival", 0, 3, ItemLoader.gerHeart, dawnPortal);
+    public static Achievement Ger = new Achievement("achievement.dawncraft.Ger", "dawncraft.Ger", 0, -4, ItemLoader.gerHeart, null);
+    public static Achievement dawnPortal = new Achievement("achievement.dawncraft.dawnPortal", "dawncraft.dawnPortal", 0, -2, Blocks.obsidian, null);
+    public static Achievement dawnArrival = new Achievement("achievement.dawncraft.dawnArrival", "dawncraft.dawnArrival", 2, -2, Items.apple, dawnPortal);
     //AchievementList.XX
 
     public AchievementLoader()
