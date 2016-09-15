@@ -1,4 +1,4 @@
-package com.github.wdawning.dawncraft.common;
+﻿package com.github.wdawning.dawncraft.common;
 
 import java.util.List;
 import java.util.Random;
@@ -118,11 +118,11 @@ public class EventLoader
     {
         if (!event.world.isRemote && event.entity instanceof EntityPlayer)
         {
-            EntityPlayer player = (EntityPlayer) event.entity;
+            EntityPlayerMP player = (EntityPlayerMP) event.entity;
             if (ExtendedPlayer.get(player) != null)
             {
             	int amount = ExtendedPlayer.get(player).getMana();
-                NetworkLoader.instance.sendTo(new MessageMagic(amount), (EntityPlayerMP) player);
+                NetworkLoader.instance.sendTo(new MessageMagic(amount), player);
             }
         }
     }
@@ -245,7 +245,7 @@ public class EventLoader
     @SubscribeEvent
     public void onClonePlayer(PlayerEvent.Clone event)
     {
-        if(event.wasDeath)
+        if(!event.wasDeath)
         {
         	  NBTTagCompound compound = new NBTTagCompound();
               ExtendedPlayer.get(event.original).saveNBTData(compound);

@@ -15,12 +15,12 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockComputer extends Block
+public class BlockComputerCase extends Block
 {
 	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool POWER = PropertyBool.create("power");
 	
-	public BlockComputer(Material computerType)
+	public BlockComputerCase(Material computerType)
 	{
 		super(computerType);
 		this.setHardness(3.0f);
@@ -32,47 +32,54 @@ public class BlockComputer extends Block
 	}
 
     //Simple computer case
-    public static class SimpleComputer extends BlockComputer
+    public static class SimpleComputer extends BlockComputerCase
     {
     	public SimpleComputer()
     	{
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("simpleComputer");
     		this.setHarvestLevel("ItemPickaxe", 1);
+            this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+                    .withProperty(POWER, Boolean.FALSE));
     	}
     }
 
     //High computer case
-    public static class HighComputer extends BlockComputer
+    public static class HighComputer extends BlockComputerCase
     {
     	public HighComputer()
     	{
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("highComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
+            this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+                    .withProperty(POWER, Boolean.FALSE));
     	}
     }
 
     //Pro computer case 
-    public static class ProComputer extends BlockComputer
+    public static class ProComputer extends BlockComputerCase
     {
     	public ProComputer()
     	{
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("proComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
+            this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+                    .withProperty(POWER, Boolean.FALSE));
     	}
     }
 
     //Super computer case
-    public static class SuperComputer extends BlockComputer
+    public static class SuperComputer extends BlockComputerCase
     {
     	public SuperComputer()
     	{
     		super(BlockLoader.MACHINE);
     		this.setUnlocalizedName("superComputer");
     		this.setHarvestLevel("ItemPickaxe", 2);
-
+            this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH)
+                    .withProperty(POWER, Boolean.FALSE));
     	}
     }
     
@@ -91,11 +98,11 @@ public class BlockComputer extends Block
 	@Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
-		if(worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.NORTH && worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.SOUTH)
+		if(worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.NORTH || worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.SOUTH)
 		{
             this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
 		}
-		else if(worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.WEST && worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.EAST)
+		else if(worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.WEST || worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.EAST)
 		{
             this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 0.75F);
 		}

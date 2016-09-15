@@ -4,6 +4,7 @@ import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -26,6 +27,11 @@ public class MessageMagic implements IMessage{
 	public int mana;
 	
 	public MessageMagic(int amount)
+	{
+		this.mana = amount;
+	}
+	
+	public MessageMagic(EntityPlayer entityPlayer,int amount)
 	{
 		this.mana = amount;
 	}
@@ -52,7 +58,7 @@ public class MessageMagic implements IMessage{
         {
             if (ctx.side == Side.CLIENT)
             {
-    			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+    			final EntityPlayer player = (EntityPlayer)Minecraft.getMinecraft().thePlayer;
                 
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
                 {

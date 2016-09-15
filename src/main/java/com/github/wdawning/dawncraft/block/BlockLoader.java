@@ -36,10 +36,10 @@ public class BlockLoader
     //machine
     public static Block machineFurnace = new BlockMachineEleFurnace();
     //computer
-    public static Block simpleComputer = new BlockComputer.SimpleComputer();
-	public static Block highComputer = new BlockComputer.HighComputer();
-    public static Block proComputer = new BlockComputer.ProComputer();
-    public static Block superComputer = new BlockComputer.SuperComputer();
+    public static Block simpleComputer =new BlockComputerCase.SimpleComputer();
+	public static Block highComputer = new BlockComputerCase.HighComputer();
+    public static Block proComputer = new BlockComputerCase.ProComputer();
+    public static Block superComputer = new BlockComputerCase.SuperComputer();
     
     //color egg
     public static Block dawnPortal = new BlockDawnPortal();

@@ -33,7 +33,7 @@ public class Magic
         return this.id;
     }
     
-    public int getMANA()
+    public int getMana()
     {
         return this.mana;
     }
@@ -65,7 +65,7 @@ public class Magic
         
     	if(magic == attack)
     	{
-        	boolean flag = props.consumeMana(magic.getMANA());
+        	boolean flag = props.consumeMana(magic.getMana());
         	if(flag)
         	{
         		playerIn.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 480, 2));
@@ -73,7 +73,7 @@ public class Magic
     	}
     	else if(magic == heal)
     	{
-        	boolean flag = props.consumeMana(magic.getMANA());
+        	boolean flag = props.consumeMana(magic.getMana());
         	if(flag)
         	{
         		playerIn.heal(12.0F);
