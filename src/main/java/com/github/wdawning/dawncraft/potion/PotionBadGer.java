@@ -1,12 +1,12 @@
 package com.github.wdawning.dawncraft.potion;
 
-import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.config.ConfigLoader;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+
+import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.common.ConfigLoader;
 
 public class PotionBadGer extends Potion
 {

@@ -1,9 +1,9 @@
 package com.github.wdawning.dawncraft.block;
 
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
 
 public class BlockMagnetOre extends Block
 {

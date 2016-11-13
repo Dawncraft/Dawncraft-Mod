@@ -1,11 +1,10 @@
 package com.github.wdawning.dawncraft.fluid;
 
-import com.github.wdawning.dawncraft.dawncraft;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fluids.Fluid;
+
+import com.github.wdawning.dawncraft.dawncraft;
 
 public class FluidPetroleum extends Fluid
 {

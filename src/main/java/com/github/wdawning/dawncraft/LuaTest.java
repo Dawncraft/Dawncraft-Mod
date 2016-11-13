@@ -1,10 +1,5 @@
 package com.github.wdawning.dawncraft;
 
-import org.luaj.vm2.*;
-import org.luaj.vm2.lib.jse.*;
-
-import com.github.wdawning.dawncraft.config.ConfigLoader;
-
 public class LuaTest
 {
 	public LuaTest()

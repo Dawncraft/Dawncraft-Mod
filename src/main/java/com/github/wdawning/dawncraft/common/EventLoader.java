@@ -1,49 +1,30 @@
 ﻿package com.github.wdawning.dawncraft.common;
 
-import java.util.List;
-import java.util.Random;
-
-import com.github.wdawning.dawncraft.achievement.AchievementLoader;
-import com.github.wdawning.dawncraft.block.BlockLoader;
-import com.github.wdawning.dawncraft.client.KeyLoader;
-import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;
-import com.github.wdawning.dawncraft.entity.EntitySavage;
-import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
-import com.github.wdawning.dawncraft.item.ItemLoader;
-import com.github.wdawning.dawncraft.network.MessageMagic;
-import com.github.wdawning.dawncraft.network.NetworkLoader;
-import com.github.wdawning.dawncraft.potion.PotionLoader;
-import com.github.wdawning.dawncraft.gui.GuiMagicBook;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -56,13 +37,25 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+
+import com.github.wdawning.dawncraft.block.BlockLoader;
+import com.github.wdawning.dawncraft.client.KeyLoader;
+import com.github.wdawning.dawncraft.client.gui.GuiMagicBook;
+import com.github.wdawning.dawncraft.enchantment.EnchantmentLoader;
+import com.github.wdawning.dawncraft.entity.EntitySavage;
+import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
+import com.github.wdawning.dawncraft.item.ItemLoader;
+import com.github.wdawning.dawncraft.network.MessageMagic;
+import com.github.wdawning.dawncraft.network.NetworkLoader;
+import com.github.wdawning.dawncraft.potion.PotionLoader;
 
 public class EventLoader
 {

@@ -1,13 +1,13 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
 
 public class ItemFaeces extends ItemFood
 {

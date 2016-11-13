@@ -1,13 +1,13 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
 
 public class ItemFlan extends Item
 {

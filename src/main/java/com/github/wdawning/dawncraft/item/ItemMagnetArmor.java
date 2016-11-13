@@ -1,8 +1,8 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-
 import net.minecraft.item.ItemArmor;
+
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
 
 public class ItemMagnetArmor extends ItemArmor
 {

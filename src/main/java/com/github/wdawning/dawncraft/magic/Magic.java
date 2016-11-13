@@ -1,15 +1,12 @@
 package com.github.wdawning.dawncraft.magic;
 
-import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
-import com.github.wdawning.dawncraft.potion.PotionLoader;
-
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.extend.ExtendedPlayer;
 
 public class Magic
 {

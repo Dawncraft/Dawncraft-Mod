@@ -1,0 +1,195 @@
+{
+    "forge_marker" : 1,
+    "defaults" : {
+        "textures" : {
+            "base" : "dawncraft:blocks/electricity/electric_pipe",
+            "extra" : "dawncraft:blocks/electricity/electric_pipe_extras"
+        }
+    },
+    "variants" : {
+        "haselectricity" : {
+            "true" : {},
+            "false" : {}
+        },
+        "up" : {
+            "none" : {
+                "submodel": {
+                    "no_connection_up": {
+                        "model": "dawncraft:pipe",
+                        "x": 90
+                    }
+                }
+            },
+            "connect" : {
+                "submodel": {
+                    "connection_up": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 90
+                    }
+                }
+            },
+            "special" : {
+                "submodel": {
+                    "connection_up": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 90
+                    },
+                    "connection_up_special": {
+                        "model": "dawncraft:pipe_connection_special",
+                        "x": 90
+                    }
+                }
+            }
+        },
+        "down" : {
+            "none" : {
+                "submodel": {
+                    "no_connection_down": {
+                        "model": "dawncraft:pipe",
+                        "x": 270
+                    }
+                }
+            },
+            "connect" : {
+                "submodel": {
+                    "connection_down": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 270
+                    }
+                }
+            },
+            "special" : {
+                "submodel": {
+                    "connection_down": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 270
+                    },
+                    "connection_down_special": {
+                        "model": "dawncraft:pipe_connection_special",
+                        "x": 270
+                    }
+                }
+            }
+        },
+        "north" : {
+            "none" : {
+                "submodel": {
+                    "no_connection_north": {
+                        "model": "dawncraft:pipe",
+                        "x": 180
+                    }
+                }
+            },
+            "connect" : {
+                "submodel": {
+                    "connection_north": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 180
+                    }
+                }
+            },
+            "special" : {
+                "submodel": {
+                    "connection_north": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 180
+                    },
+                    "connection_north_special": {
+                        "model": "dawncraft:pipe_connection_special",
+                        "x": 180
+                    }
+                }
+            }
+        },
+        "south" : {
+            "none" : {
+                "submodel": {
+                    "no_connection_south": {
+                        "model": "dawncraft:pipe",
+                        "x": 0
+                    }
+                }
+            },
+            "connect" : {
+                "submodel": {
+                    "connection_south": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 0
+                    }
+                }
+            },
+            "special" : {
+                "submodel": {
+                    "connection_south": {
+                        "model": "dawncraft:pipe_connection",
+                        "x": 0
+                    },
+                    "connection_south_special": {
+                        "model": "dawncraft:pipe_connection_special",
+                        "x": 0
+                    }
+                }
+            }
+        },
+        "east" : {
+            "none" : {
+                "submodel": {
+                    "no_connection_east": {
+                        "model": "dawncraft:pipe",
+                        "y" : 270
+                    }
+                }
+            },
+            "connect" : {
+                "submodel": {
+                    "connection_east": {
+                        "model": "dawncraft:pipe_connection",
+                        "y" : 270
+                    }
+                }
+            },
+            "special" : {
+                "submodel": {
+                    "connection_east": {
+                        "model": "dawncraft:pipe_connection",
+                        "y" : 270
+                    },
+                    "connection_east_special": {
+                        "model": "dawncraft:pipe_connection_special",
+                        "y" : 270
+                    }
+                }
+            }
+        },
+        "west" : {
+            "none" : {
+                "submodel": {
+                    "no_connection_west": {
+                        "model": "dawncraft:pipe",
+                        "y" : 90
+                    }
+                }
+            },
+            "connect" : {
+                "submodel": {
+                    "connection_west": {
+                        "model": "dawncraft:pipe_connection",
+                        "y" : 90
+                    }
+                }
+            },
+            "special" : {
+                "submodel": {
+                    "connection_west": {
+                        "model": "dawncraft:pipe_connection",
+                        "y": 90
+                    },
+                    "connection_west_special": {
+                        "model": "dawncraft:pipe_connection_special",
+                        "y": 90
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,5 @@
 package com.github.wdawning.dawncraft.entity;
 
-import com.github.wdawning.dawncraft.item.ItemLoader;
-
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
@@ -14,6 +12,8 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.item.ItemLoader;
 
 public class EntitySavage extends EntityAnimal
 {

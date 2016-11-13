@@ -1,8 +1,8 @@
 package com.github.wdawning.dawncraft.enchantment;
 
-import com.github.wdawning.dawncraft.config.ConfigLoader;
-
 import net.minecraft.enchantment.Enchantment;
+
+import com.github.wdawning.dawncraft.common.ConfigLoader;
 
 public class EnchantmentLoader
 {

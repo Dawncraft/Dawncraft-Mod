@@ -1,21 +1,20 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBook;
 import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemSword;
+
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
 
 public class ItemLoader
 {

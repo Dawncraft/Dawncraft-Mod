@@ -1,12 +1,12 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-import com.github.wdawning.dawncraft.entity.EntityMagnetBall;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
+import com.github.wdawning.dawncraft.entity.EntityMagnetBall;
 
 public class ItemMagnetBall extends Item
 {

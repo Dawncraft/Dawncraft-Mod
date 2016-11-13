@@ -1,9 +1,10 @@
 package com.github.wdawning.dawncraft.block;
 
-import com.github.wdawning.dawncraft.fluid.FluidLoader;
-
 import net.minecraft.block.material.Material;
+
 import net.minecraftforge.fluids.BlockFluidClassic;
+
+import com.github.wdawning.dawncraft.fluid.FluidLoader;
 
 public class BlockFluidPetroleum extends BlockFluidClassic
 {

@@ -1,12 +1,6 @@
 package com.github.wdawning.dawncraft.entity;
 
-import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.item.ItemLoader;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.IEntityMultiPart;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -15,20 +9,18 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityPigZombie;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.item.ItemLoader;
 
 public class EntityGerKing extends EntityMob implements IBossDisplayData
 {
@@ -58,15 +50,15 @@ public class EntityGerKing extends EntityMob implements IBossDisplayData
     public int getTotalArmorValue()
     {
         int i = super.getTotalArmorValue() + 4;
-
+        
         if (i > 20)
         {
             i = 20;
         }
-
+        
         return i;
     }
-
+    
     @Override
     public void onLivingUpdate()
     {
@@ -76,12 +68,16 @@ public class EntityGerKing extends EntityMob implements IBossDisplayData
     @Override
     public void onDeath(DamageSource cause)
     {
-    	super.onDeath(cause);
-    	
-        this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, false);
-    	
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        player.addChatMessage(new ChatComponentTranslation("chat.entity.GerKing.say2"));
+        super.onDeath(cause);
+        
+        if (!this.worldObj.isRemote)
+        {
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, false);
+            
+            EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this, 64);
+            // Minecraft.getMinecraft().thePlayer
+            player.addChatMessage(new ChatComponentTranslation("chat.entity.GerKing.say2"));
+        }
     }
     
     @Override
@@ -95,12 +91,12 @@ public class EntityGerKing extends EntityMob implements IBossDisplayData
     {
         return dawncraft.MODID + ":" + "mob.gerking.say";
     }
-
+    
     protected String getHurtSound()
     {
         return dawncraft.MODID + ":" + "mob.gerking.hurt";
     }
-
+    
     protected String getDeathSound()
     {
         return dawncraft.MODID + ":" + "mob.gerking.death";
@@ -108,17 +104,17 @@ public class EntityGerKing extends EntityMob implements IBossDisplayData
     
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)
     {
-    	super.onInitialSpawn(difficulty, livingdata);
-    	
+        super.onInitialSpawn(difficulty, livingdata);
+        
         this.setCurrentItemOrArmor(0, new ItemStack(ItemLoader.mjolnir));
         
-		return livingdata;
+        return livingdata;
     }
     
     public float getEyeHeight()
     {
         float f = 1.74F;
-
+        
         return f;
     }
 }

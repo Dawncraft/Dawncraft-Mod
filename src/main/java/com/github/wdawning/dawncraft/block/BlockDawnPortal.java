@@ -1,12 +1,5 @@
 package com.github.wdawning.dawncraft.block;
 
-import java.util.List;
-import java.util.Random;
-
-import com.github.wdawning.dawncraft.achievement.AchievementLoader;
-import com.github.wdawning.dawncraft.worldgen.WorldProviderDawn;
-import com.github.wdawning.dawncraft.worldgen.WorldTeleporterDawn;
-
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -16,17 +9,22 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
+import java.util.Random;
+
+import com.github.wdawning.dawncraft.common.AchievementLoader;
+import com.github.wdawning.dawncraft.worldgen.WorldTeleporterDawn;
 
 public class BlockDawnPortal extends BlockBreakable
 {

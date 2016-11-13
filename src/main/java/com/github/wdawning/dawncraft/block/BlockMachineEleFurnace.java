@@ -1,13 +1,7 @@
 package com.github.wdawning.dawncraft.block;
 
-import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-import com.github.wdawning.dawncraft.tileentity.TileEntityEleHeatGenerator;
-import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
@@ -19,6 +13,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
+import com.github.wdawning.dawncraft.tileentity.TileEntityMachineEleFurnace;
 
 public class BlockMachineEleFurnace extends BlockContainer
 {

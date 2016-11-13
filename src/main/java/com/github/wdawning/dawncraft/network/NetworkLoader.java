@@ -1,13 +1,13 @@
 package com.github.wdawning.dawncraft.network;
 
-import com.github.wdawning.dawncraft.dawncraft;
-
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+
+import com.github.wdawning.dawncraft.dawncraft;
 
 public class NetworkLoader
 {

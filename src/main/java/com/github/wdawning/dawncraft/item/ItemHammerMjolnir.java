@@ -1,8 +1,5 @@
 package com.github.wdawning.dawncraft.item;
 
-import com.github.wdawning.dawncraft.creativetab.CreativeTabsLoader;
-import com.google.common.collect.Multimap;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -11,8 +8,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.github.wdawning.dawncraft.common.CreativeTabsLoader;
+import com.google.common.collect.Multimap;
 
 public class ItemHammerMjolnir extends Item
 {

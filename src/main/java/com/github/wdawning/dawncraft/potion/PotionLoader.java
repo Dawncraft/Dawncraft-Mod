@@ -1,13 +1,14 @@
 package com.github.wdawning.dawncraft.potion;
 
+import net.minecraft.potion.Potion;
+
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
-import com.github.wdawning.dawncraft.config.ConfigLoader;
-
-import net.minecraft.potion.Potion;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import com.github.wdawning.dawncraft.common.ConfigLoader;
 
 public class PotionLoader
 {

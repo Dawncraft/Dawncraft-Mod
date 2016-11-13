@@ -1,13 +1,13 @@
 package com.github.wdawning.dawncraft.enchantment;
 
-import com.github.wdawning.dawncraft.dawncraft;
-import com.github.wdawning.dawncraft.config.ConfigLoader;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
+import com.github.wdawning.dawncraft.dawncraft;
+import com.github.wdawning.dawncraft.common.ConfigLoader;
 
 public class EnchantmentFireBurn extends Enchantment
 {

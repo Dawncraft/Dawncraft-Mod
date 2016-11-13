@@ -1,11 +1,12 @@
 package com.github.wdawning.dawncraft.client;
 
+import net.minecraft.client.settings.KeyBinding;
+
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+
 import org.lwjgl.input.Keyboard;
 
 import com.github.wdawning.dawncraft.dawncraft;
-
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class KeyLoader
 {
