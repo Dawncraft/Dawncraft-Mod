@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "dawncraft:blocks/electricity/heat_generator_side",
-        "front": "dawncraft:blocks/electricity/heat_generator_off",
-        "side": "dawncraft:blocks/electricity/heat_generator_side"
-    }
-}
