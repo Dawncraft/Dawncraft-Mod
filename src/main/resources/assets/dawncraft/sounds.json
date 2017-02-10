@@ -1,10 +1,4 @@
 {
-    "dawncraft.test": {
-        "category": "player", 
-        "sounds": [ 
-            "dawncraft" 
-        ] 
-    },
 	"mob.gerking.death": {
         "category": "hostile",
         "sounds": [

@@ -1,8 +1,5 @@
 {
     "parent": "builtin/generated",
-    "textures": {
-        "layer0": "dawncraft:items/petroleum_bucket"
-    },
     "display": {
         "thirdperson": {
             "rotation": [ -90, 0, 0 ],
@@ -14,5 +11,8 @@
             "translation": [ 0, 4, 2 ],
             "scale": [ 1.7, 1.7, 1.7 ]
         }
+    },
+    "textures": {
+        "layer0": "dawncraft:items/energy/petroleum_bucket"
     }
 }

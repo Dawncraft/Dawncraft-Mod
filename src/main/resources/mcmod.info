@@ -1,16 +1,16 @@
 [
 {
   "modid": "dawncraft",
-  "name": "Dawn Craft Mod",
-  "description": "A Minecraft mod by Wdawning Studio.",
+  "name": "Dawncraft Mod",
+  "description": "A Minecraft mod by Dawncraft Studio.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "https://github.com/Wdawning/Dawn-Craft-Mod",
-  "updateUrl": "https://github.com/Wdawning/Dawn-Craft-Mod/releases",
-  "updateJSON": "https://raw.githubusercontent.com/Wdawning/Dawn-Craft-Mod/master/version.json",
+  "url": "https://github.com/Dawncraft/Dawncraft-Mod",
+  "updateUrl": "https://github.com/Dawncraft/Dawncraft-Mod/releases",
+  "updateJSON": "https://raw.githubusercontent.com/Dawncraft/Dawncraft-Mod/gh-pages/version.json",
   "authorList": ["QingChenW(Wc)"],
   "credits": "Thank Mojang,MCP,Forge and NeoTech's pipe Blockstate JSON.",
-  "logoFile": "assets/dawncraft/textures/wdawning_logo.png",
+  "logoFile": "assets/dawncraft/textures/dawncraft_logo.png",
   "screenshots": [],
   "dependencies": []
 }

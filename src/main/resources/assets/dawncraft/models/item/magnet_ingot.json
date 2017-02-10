@@ -1,12 +1,9 @@
 {
     "parent": "builtin/generated",
-    "textures": {
-        "layer0": "dawncraft:items/magnet_ingot"
-    },
     "display": {
         "thirdperson": {
             "rotation": [ -90, 0, 0 ],
-            "translation": [ 0, 1, -2 ],
+            "translation": [ 0, 1, -3 ],
             "scale": [ 0.55, 0.55, 0.55 ]
         },
         "firstperson": {
@@ -14,5 +11,8 @@
             "translation": [ 0, 4, 2 ],
             "scale": [ 1.7, 1.7, 1.7 ]
         }
+    },
+    "textures": {
+        "layer0": "dawncraft:items/magnetic/magnet_ingot"
     }
 }
