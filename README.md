@@ -6,7 +6,7 @@
 
 我的世界曙光工艺Mod 版本1.8
 
-曙光工艺采用[MIT协议](https://github.com/Wdawning/Dawn-Craft-Mod/blob/master/LICENSE)开源
+曙光工艺采用[GPLv3协议](https://github.com/Wdawning/Dawn-Craft-Mod/blob/master/LICENSE)开源
 
 欢迎[加入我们](http://shang.qq.com/wpa/qunwpa?idkey=61928f37c251f45b49f652efc2d90857f24b38b2d5d69859c8d3ae6241479a02) QQ群:**287307326**
 
