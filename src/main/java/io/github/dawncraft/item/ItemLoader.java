@@ -3,8 +3,9 @@ package io.github.dawncraft.item;
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.BlockOre;
-import io.github.dawncraft.common.CreativeTabsLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
+import io.github.dawncraft.potion.PotionLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,12 +40,16 @@ public class ItemLoader
     public static Item magnet = new Item().setUnlocalizedName("magnet").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetIngot = new Item().setUnlocalizedName("magnetIngot").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetStick = new Item().setUnlocalizedName("magnetStick").setCreativeTab(CreativeTabsLoader.tabMagnetic);
-    public static Item magnetBall = new ItemMagnetBall().setUnlocalizedName("magnetBall");
+    public static Item magnetBall = new ItemMagnetBall().setUnlocalizedName("magnetBall").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetCard = new Item().setUnlocalizedName("magnetCard").setCreativeTab(CreativeTabsLoader.tabMagnetic).setMaxStackSize(16);
     
-    public static final Item.ToolMaterial MAGNET = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11);
-    public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", dawncraft.MODID + ":" + "magnet", 17, new int[]{ 1, 5, 4, 2}, 12);
-    public static Item magnetSword = new ItemSword(MAGNET);
+    public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11);
+    public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", dawncraft.MODID + ":" + "magnet", 17, new int[]{ 1, 5, 4, 2}, 11);
+    public static Item magnetSword = new ItemSword(MAGNET_TOOL);
+    public static Item magnetAxe = (new ItemTool()).new ItemAxe(MAGNET_TOOL);
+    public static Item magnetPickaxe = (new ItemTool()).new ItemPickaxe(MAGNET_TOOL);
+    public static Item magnetSpade = (new ItemTool()).new ItemSpade(MAGNET_TOOL);
+    public static Item magnetHoe = (new ItemTool()).new ItemHoe(MAGNET_TOOL);
     public static Item magnetHelmet = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 0).setUnlocalizedName("magnetHelmet").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetChestplate = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 1).setUnlocalizedName("magnetChestplate").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetLeggings = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 2).setUnlocalizedName("magnetLeggings").setCreativeTab(CreativeTabsLoader.tabMagnetic);
@@ -62,8 +67,9 @@ public class ItemLoader
     // Furniture
     
     // Food
-    public static Item faeces = ((ItemFood) new ItemFood(1, 0.0F, true).setUnlocalizedName("faeces").setCreativeTab(CreativeTabsLoader.tabFood)).setAlwaysEdible();
-    /*{
+    public static ItemFood faeces = (ItemFood) new ItemFood(1, 0.0F, true)
+    {
+    	@Override
         public void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
         {
             if (!worldIn.isRemote)
@@ -75,7 +81,7 @@ public class ItemLoader
             }
             super.onFoodEaten(stack, worldIn, player);
         }
-    };*/
+    }.setAlwaysEdible().setUnlocalizedName("faeces").setCreativeTab(CreativeTabsLoader.tabFood);
     public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabFood);
     
     // Magic
@@ -92,34 +98,32 @@ public class ItemLoader
     public static Item flanRPGRocket = new Item().setUnlocalizedName("flanRPGRocket").setCreativeTab(CreativeTabsLoader.tabFlans).setMaxStackSize(16);
     
     // ColourEgg
-    public static Item gerHeart = ((ItemFood) new ItemFood(2, 1.0F, false).setUnlocalizedName("gerHeart").setCreativeTab(CreativeTabsLoader.tabColourEgg)).setAlwaysEdible();
-    /*
+    public static Item gerHeart = new ItemFood(2, 1.0F, false)
     {
-    @Override
-    public void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+    	@Override
+    	public void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+    	{
+    		if (!worldIn.isRemote)
+    		{
+    			player.addPotionEffect(new PotionEffect(PotionLoader.potionGerPower.id, 400, 2));
+    			player.addExperience(2000);
+    		}
+    		super.onFoodEaten(stack, worldIn, player);
+    	}
+    }.setAlwaysEdible().setUnlocalizedName("gerHeart").setCreativeTab(CreativeTabsLoader.tabColourEgg);
+    public static Item brainDead = new ItemFood(2, 8.0F, false)
     {
-        if (!worldIn.isRemote)
-        {
-            player.addPotionEffect(new PotionEffect(PotionLoader.potionGerPower.id, 400, 2));
-            player.addExperience(2000);
-        }
-        super.onFoodEaten(stack, worldIn, player);
-    }
-    }
-     */
-    public static Item brainDead = ((ItemFood) new ItemFood(2, 8.0F, false).setUnlocalizedName("brainDead").setCreativeTab(CreativeTabsLoader.tabColourEgg)).setAlwaysEdible();
-    /*{
-    @Override
-    public void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
-    {
-        if (!worldIn.isRemote)
-        {
-            player.addPotionEffect(new PotionEffect(PotionLoader.potionBrainDead.id, 160, 1));
-            player.addExperience(29);
-        }
-        super.onFoodEaten(stack, worldIn, player);
-    }
-    }*/
+    	@Override
+    	public void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
+    	{
+    		if (!worldIn.isRemote)
+    		{
+	            player.addPotionEffect(new PotionEffect(PotionLoader.potionBrainDead.id, 160, 1));
+	            player.addExperience(29);
+    		}
+    		super.onFoodEaten(stack, worldIn, player);
+    	}
+    }.setAlwaysEdible().setUnlocalizedName("brainDead").setCreativeTab(CreativeTabsLoader.tabColourEgg);
     public static Item funny = new Item().setUnlocalizedName("funny").setCreativeTab(CreativeTabsLoader.tabColourEgg);
     
     public static Item chinese = new ItemRecord("chinese").setUnlocalizedName("record").setCreativeTab(CreativeTabsLoader.tabColourEgg);
@@ -142,7 +146,11 @@ public class ItemLoader
         register(magnetStick, "magnet_stick");
         register(magnetBall, "magnet_ball");
         
-        register(magnetSword, "magnet_sword"); 
+        register(magnetSword, "magnet_sword");
+        register(magnetAxe, "magnet_axe");
+        register(magnetPickaxe, "magnet_pickaxe");
+        register(magnetSpade, "magnet_spade");
+        register(magnetHoe, "magnet_hoe");
         register(magnetHelmet, "magnet_helmet");
         register(magnetChestplate, "magnet_chestplate");
         register(magnetLeggings, "magnet_leggings");

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.dawncraft;
-import io.github.dawncraft.common.ConfigLoader;
+import io.github.dawncraft.config.ConfigLoader;
 
 public class GuiScreenConfig extends GuiConfig
 {

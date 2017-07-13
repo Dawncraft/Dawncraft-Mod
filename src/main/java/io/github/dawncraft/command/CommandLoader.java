@@ -1,4 +1,4 @@
-package io.github.dawncraft.server.command;
+package io.github.dawncraft.command;
 
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 

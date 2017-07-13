@@ -4,7 +4,7 @@ import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
-import io.github.dawncraft.common.ConfigLoader;
+import io.github.dawncraft.config.ConfigLoader;
 
 public class LuaTest
 {

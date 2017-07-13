@@ -1,4 +1,4 @@
-package io.github.dawncraft.client;
+package io.github.dawncraft.config;
 
 import org.lwjgl.input.Keyboard;
 

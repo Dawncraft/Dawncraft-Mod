@@ -1,4 +1,4 @@
-package io.github.dawncraft.common;
+package io.github.dawncraft.event;
 
 import java.util.List;
 

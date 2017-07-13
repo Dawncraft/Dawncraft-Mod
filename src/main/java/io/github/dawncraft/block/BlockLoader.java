@@ -1,6 +1,6 @@
 package io.github.dawncraft.block;
 
-import io.github.dawncraft.common.CreativeTabsLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;

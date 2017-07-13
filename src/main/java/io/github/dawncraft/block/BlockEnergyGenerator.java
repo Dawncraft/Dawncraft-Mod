@@ -1,8 +1,8 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.dawncraft;
-import io.github.dawncraft.common.CreativeTabsLoader;
 import io.github.dawncraft.container.GuiLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.tileentity.TileEntityEnergyHeatGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

@@ -1,4 +1,4 @@
-package io.github.dawncraft.client;
+package io.github.dawncraft.client.renderer.item;
 
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.block.BlockLoader;
@@ -49,7 +49,11 @@ public class ItemRenderLoader
         registerRender(ItemLoader.magnetStick);
         registerRender(ItemLoader.magnetBall);
         
-        registerRender(ItemLoader.magnetSword); 
+        registerRender(ItemLoader.magnetSword);
+        registerRender(ItemLoader.magnetAxe);
+        registerRender(ItemLoader.magnetPickaxe);
+        registerRender(ItemLoader.magnetSpade);
+        registerRender(ItemLoader.magnetHoe);
         registerRender(ItemLoader.magnetHelmet);
         registerRender(ItemLoader.magnetChestplate);
         registerRender(ItemLoader.magnetLeggings);

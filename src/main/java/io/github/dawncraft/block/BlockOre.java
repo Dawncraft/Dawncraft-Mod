@@ -2,7 +2,7 @@ package io.github.dawncraft.block;
 
 import java.util.Random;
 
-import io.github.dawncraft.common.CreativeTabsLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;

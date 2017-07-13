@@ -1,6 +1,6 @@
 package io.github.dawncraft.item;
 
-import io.github.dawncraft.common.CreativeTabsLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraft.entity.item.EntityEnderEye;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
@@ -21,7 +21,6 @@ public class ItemMagnetBall extends Item
     {
         super();
         this.setMaxStackSize(16);
-        this.setCreativeTab(CreativeTabsLoader.tabMagnetic);
     }
     
     @Override

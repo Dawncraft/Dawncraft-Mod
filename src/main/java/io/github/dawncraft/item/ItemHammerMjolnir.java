@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Multimap;
 
-import io.github.dawncraft.common.CreativeTabsLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 
 public class ItemHammerMjolnir extends Item
 {

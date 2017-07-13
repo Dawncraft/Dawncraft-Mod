@@ -1,4 +1,4 @@
-package io.github.dawncraft.common;
+package io.github.dawncraft.creativetab;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;

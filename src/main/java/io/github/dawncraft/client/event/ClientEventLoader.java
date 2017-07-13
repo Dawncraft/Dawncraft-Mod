@@ -1,8 +1,9 @@
-package io.github.dawncraft.client;
+package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.common.ConfigLoader;
+import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.config.KeyLoader;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

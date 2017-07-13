@@ -1,4 +1,4 @@
-package io.github.dawncraft.server.command;
+package io.github.dawncraft.command;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.network.MessageMana;

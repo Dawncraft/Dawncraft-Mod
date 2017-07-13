@@ -1,4 +1,4 @@
-package io.github.dawncraft.common;
+package io.github.dawncraft.config;
 
 import org.apache.logging.log4j.Logger;
 

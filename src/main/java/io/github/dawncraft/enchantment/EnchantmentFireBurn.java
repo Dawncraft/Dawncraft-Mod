@@ -1,7 +1,7 @@
 package io.github.dawncraft.enchantment;
 
 import io.github.dawncraft.dawncraft;
-import io.github.dawncraft.common.ConfigLoader;
+import io.github.dawncraft.config.ConfigLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;

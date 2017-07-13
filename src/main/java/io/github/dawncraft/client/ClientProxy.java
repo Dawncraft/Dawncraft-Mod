@@ -1,9 +1,11 @@
 package io.github.dawncraft.client;
 
+import io.github.dawncraft.client.event.ClientEventLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
+import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
-import io.github.dawncraft.common.CommonProxy;
-
+import io.github.dawncraft.config.KeyLoader;
+import io.github.dawncraft.server.ServerProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -13,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  * 
  * @author QingChenW
  */
-public class ClientProxy extends CommonProxy
+public class ClientProxy extends ServerProxy
 {
     @Override
     public void preInit(FMLPreInitializationEvent event)
