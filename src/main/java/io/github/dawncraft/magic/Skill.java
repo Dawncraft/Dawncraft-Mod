@@ -27,13 +27,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author QingChenW
  *
  */
-public class MagicSkill
+public class Skill
 {
     public final int id;
     public final int mana;
     public static String name = "";
     
-    public MagicSkill(int magicID, int magicMANA)
+    public Skill(int magicID, int magicMANA)
     {
         this.id = magicID;
         this.mana = magicMANA;
@@ -49,7 +49,7 @@ public class MagicSkill
         return this.mana;
     }
 
-    public MagicSkill setMagicName(String nameIn)
+    public Skill setMagicName(String nameIn)
     {
         this.name = nameIn;
         return this;
@@ -60,7 +60,7 @@ public class MagicSkill
         return this.name;
     }
     
-    public static void spellMagic(MagicSkill magic, ItemStack stack, World worldIn, EntityPlayer playerIn)
+    public boolean spellMagic(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
         if(!worldIn.isRemote && playerIn.hasCapability(CapabilityLoader.mana, null))
         {
@@ -68,32 +68,34 @@ public class MagicSkill
               int mp = manaCap.getMana();
               if(mp >= 4)
               {
-                  mp = mp - 4;
-                  playerIn.heal(12.0F);
-                  manaCap.setMana(mp);
-                  
-                  MessageMana message = new MessageMana();
-                  message.nbt.setInteger("mana", mp);
-                  NetworkLoader.instance.sendTo(message, (EntityPlayerMP) playerIn);
-                  
-                  for(int i = 0; i < 4; i++)
-                  {
-                  Random rand = new Random();
-                  double d0 = (double)((float)playerIn.getPosition().getX() + rand.nextFloat());
-                  double d1 = (double)((float)playerIn.getPosition().getY() + 0.8F);
-                  double d2 = (double)((float)playerIn.getPosition().getZ() + rand.nextFloat());
-                  double d3 = 0.0D;
-                  double d4 = 0.0D;
-                  double d5 = 0.0D;
-                  worldIn.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
-                  }
-                  
-//                  onSpellMagicFinish(magic, stack, worldIn, playerIn);
+	                mp = mp - 4;
+	                playerIn.heal(12.0F);
+	                manaCap.setMana(mp);
+	                
+	                MessageMana message = new MessageMana();
+	                message.nbt.setInteger("mana", mp);
+	                NetworkLoader.instance.sendTo(message, (EntityPlayerMP) playerIn);
+	                
+	                for(int i = 0; i < 4; i++)
+	                {
+	                	Random rand = new Random();
+	                	double d0 = (double)((float)playerIn.getPosition().getX() + rand.nextFloat());
+	                	double d1 = (double)((float)playerIn.getPosition().getY() + 0.8F);
+	                	double d2 = (double)((float)playerIn.getPosition().getZ() + rand.nextFloat());
+	                	double d3 = 0.0D;
+	                	double d4 = 0.0D;
+	                	double d5 = 0.0D;
+	                	worldIn.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
+	                }
+	                  
+	                onSpellMagicFinish(itemStackIn, worldIn, playerIn);
+	                return true;
               }
         }
+		return false;
     }
     
-    public void onSpellMagicFinish(MagicSkill magic, ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+    public void onSpellMagicFinish(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
 
     }

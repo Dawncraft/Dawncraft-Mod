@@ -17,6 +17,7 @@ public class NetworkLoader
     public NetworkLoader(FMLInitializationEvent event)
     {
         registerMessage(MessageMana.Handler.class, MessageMana.class, Side.CLIENT);
+        registerMessage(MessageSkill.Handler.class, MessageSkill.class, Side.SERVER);
     }
     
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(

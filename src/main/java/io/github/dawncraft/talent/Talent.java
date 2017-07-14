@@ -4,7 +4,7 @@ package io.github.dawncraft.talent;
  * @author QingChenW
  *
  */
-public class MagicTalent
+public class Talent
 {
     
 }

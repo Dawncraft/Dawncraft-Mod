@@ -45,11 +45,11 @@ public class ItemLoader
     
     public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11);
     public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", dawncraft.MODID + ":" + "magnet", 17, new int[]{ 1, 5, 4, 2}, 11);
-    public static Item magnetSword = new ItemSword(MAGNET_TOOL);
-    public static Item magnetAxe = (new ItemTool()).new ItemAxe(MAGNET_TOOL);
-    public static Item magnetPickaxe = (new ItemTool()).new ItemPickaxe(MAGNET_TOOL);
-    public static Item magnetSpade = (new ItemTool()).new ItemSpade(MAGNET_TOOL);
-    public static Item magnetHoe = (new ItemTool()).new ItemHoe(MAGNET_TOOL);
+    public static Item magnetSword = new ItemSword(MAGNET_TOOL).setUnlocalizedName("magnetSword").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Item magnetAxe = (new ItemTool()).new ItemAxe(MAGNET_TOOL).setUnlocalizedName("magnetAxe").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Item magnetPickaxe = (new ItemTool()).new ItemPickaxe(MAGNET_TOOL).setUnlocalizedName("magnetPickaxe").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Item magnetSpade = (new ItemTool()).new ItemSpade(MAGNET_TOOL).setUnlocalizedName("magnetSpade").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Item magnetHoe = (new ItemTool()).new ItemHoe(MAGNET_TOOL).setUnlocalizedName("magnetHoe").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetHelmet = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 0).setUnlocalizedName("magnetHelmet").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetChestplate = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 1).setUnlocalizedName("magnetChestplate").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Item magnetLeggings = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 2).setUnlocalizedName("magnetLeggings").setCreativeTab(CreativeTabsLoader.tabMagnetic);

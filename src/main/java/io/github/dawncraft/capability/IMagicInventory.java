@@ -1,7 +1,7 @@
 package io.github.dawncraft.capability;
 
-import io.github.dawncraft.magic.MagicSkill;
-import io.github.dawncraft.talent.MagicTalent;
+import io.github.dawncraft.magic.Skill;
+import io.github.dawncraft.talent.Talent;
 
 /**
  * @author QingChenW
@@ -9,11 +9,11 @@ import io.github.dawncraft.talent.MagicTalent;
  */
 public interface IMagicInventory
 {
-    public void setInventory(int slot, MagicSkill skill);
+    public void setInventory(int slot, Skill skill);
     
-    public MagicSkill getInventory(int slot);
+    public Skill getInventory(int slot);
     
-    public void setTalent(MagicTalent talent, int level);
+    public void setTalent(Talent talent, int level);
     
-    public int getTalentLevel(MagicTalent talent);
+    public int getTalentLevel(Talent talent);
 }

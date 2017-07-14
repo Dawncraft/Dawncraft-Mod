@@ -20,11 +20,11 @@ public class CreativeTabsLoader
     public static CreativeTabs tabMagnetic;
     public static CreativeTabs tabMachine;
     public static CreativeTabs tabComputer;
-    public static CreativeTabs tabMaterials;
+    public static CreativeTabs tabScience;
     public static CreativeTabs tabFurniture;
     public static CreativeTabs tabFood;
-    public static CreativeTabs tabMagic;
     public static CreativeTabs tabFlans;
+    public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
 
     public CreativeTabsLoader(FMLPreInitializationEvent event)
@@ -61,7 +61,7 @@ public class CreativeTabsLoader
                 return Item.getItemFromBlock(BlockLoader.simpleComputer);
             }
         };
-        tabMaterials = new CreativeTabs("TeMaterials")
+        tabScience = new CreativeTabs("Science")
         {
             @Override
             public Item getTabIconItem()
@@ -85,20 +85,20 @@ public class CreativeTabsLoader
                 return ItemLoader.cakeEgg;
             }
         };
-        tabMagic = new CreativeTabs("Magic")
-        {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.magicBook;
-            }
-        };
         tabFlans = new CreativeTabs("Flans")
         {
             @Override
             public Item getTabIconItem()
             {
                 return ItemLoader.flanRPG;
+            }
+        };
+        tabMagic = new CreativeTabs("Magic")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return ItemLoader.magicBook;
             }
         };
         tabColourEgg = new CreativeTabs("ColourEgg")

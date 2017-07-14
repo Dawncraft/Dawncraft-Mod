@@ -6,7 +6,13 @@ package io.github.dawncraft.magic;
  */
 public class SkillLoader
 {
-    public static final MagicSkill[] magicTypes = new MagicSkill[64];
-    public static final MagicSkill attack = new MagicSkill(0, 4).setMagicName("magic.attack.name");
-    public static final MagicSkill heal = new MagicSkill(1, 4).setMagicName("magic.heal.name");
+    public static final Skill[] magicTypes = new Skill[64];
+    public static Skill attack;
+    public static Skill heal;
+    
+	public SkillLoader()
+	{
+		attack = new Skill(0, 4).setMagicName("magic.attack.name");
+		heal = new Skill(1, 4).setMagicName("magic.heal.name");
+	}
 }
