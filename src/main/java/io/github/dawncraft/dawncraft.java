@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 public class dawncraft
 {
     public static final String MODID = "dawncraft";
-    public static final String NAME = "Dawn Craft Mod";
+    public static final String NAME = "Dawncraft Mod";
     public static final String VERSION = "@version@";
     public static final String GUI_FACTORY = "io.github.dawncraft.client.gui.GuiFactory";
     

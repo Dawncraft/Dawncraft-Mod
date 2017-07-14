@@ -14,6 +14,7 @@ import io.github.dawncraft.entity.FakePlayerLoader;
 import io.github.dawncraft.event.EventLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.magic.SkillLoader;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.stats.AchievementLoader;
@@ -42,6 +43,7 @@ public class ServerProxy
         new BlockLoader(event);
         new EntityLoader(event);
         new TileEntityLoader(event);
+        new SkillLoader(event);
         new EnchantmentLoader(event);
         new PotionLoader(event);
         new OreDictionaryLoader(event);

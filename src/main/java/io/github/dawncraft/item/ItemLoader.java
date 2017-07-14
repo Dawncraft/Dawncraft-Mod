@@ -149,7 +149,7 @@ public class ItemLoader
         register(magnetSword, "magnet_sword");
         register(magnetAxe, "magnet_axe");
         register(magnetPickaxe, "magnet_pickaxe");
-        register(magnetSpade, "magnet_spade");
+        register(magnetSpade, "magnet_shovel");
         register(magnetHoe, "magnet_hoe");
         register(magnetHelmet, "magnet_helmet");
         register(magnetChestplate, "magnet_chestplate");
