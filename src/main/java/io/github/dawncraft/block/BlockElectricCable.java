@@ -1,5 +1,6 @@
 package io.github.dawncraft.block;
 
+import io.github.dawncraft.block.base.BlockMachineBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -129,7 +130,7 @@ public class BlockElectricCable extends Block
         {
             return 1;
         }
-        else if (state.getBlock() instanceof BlockMachine)
+        else if (state.getBlock() instanceof BlockMachineBase)
         {
             return 2;
         }

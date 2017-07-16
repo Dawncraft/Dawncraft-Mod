@@ -1,12 +1,13 @@
 package io.github.dawncraft.item;
 
+import io.github.dawncraft.item.base.ItemFlanBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemFlanAK47 extends ItemFlan
+public class ItemFlanAK47 extends ItemFlanBase
 {
     public ItemFlanAK47(int maxDamage)
     {

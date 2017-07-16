@@ -19,7 +19,7 @@ public class WorldGeneratorLoader
     {
         new WorldOreGenerator(event);
         
-//        registerWorld(23, WorldProviderDawn.class);
+        registerWorld(23, WorldProviderDawn.class);
     }
     
     /**
@@ -31,6 +31,6 @@ public class WorldGeneratorLoader
     public void registerWorld(int id, Class<? extends WorldProvider> provider)
     {
         DimensionManager.registerProviderType(id, provider, true);
-        DimensionManager.registerDimension(id,id);
+        DimensionManager.registerDimension(id, id);
     }
 }

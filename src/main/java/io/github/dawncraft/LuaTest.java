@@ -4,13 +4,13 @@ import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
 
-import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.config.LogLoader;
 
 public class LuaTest
 {
 	public LuaTest()
 	{
-		ConfigLoader.logger().info("Lua Loader Started.");
+		LogLoader.logger().info("Lua Loader Started.");
 		
 		String script = "assets/dawncraft/lua/hello.lua";
 		
@@ -23,6 +23,6 @@ public class LuaTest
 		// Use any of the "call()" or "invoke()" functions directly on the chunk.
 		chunk.call(LuaValue.valueOf(script));
 		
-		ConfigLoader.logger().info("Lua Loader Stopped.");
+		LogLoader.logger().info("Lua Loader Stopped.");
 	}
 }

@@ -58,7 +58,7 @@ public class BlockDawnPortal extends BlockBreakable
     {
         return 0;
     }
-    /*
+    
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
         if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null)
@@ -91,7 +91,7 @@ public class BlockDawnPortal extends BlockBreakable
                 sendEntityToDimension(entityIn, 23);
             }
         }
-    }*/
+    }
     
     public void sendEntityToDimension(Entity entityIn, int dimensionId)
     {

@@ -1,6 +1,7 @@
 package io.github.dawncraft.event;
 
 import java.util.List;
+import java.util.Random;
 
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.block.BlockLoader;
@@ -11,6 +12,7 @@ import io.github.dawncraft.entity.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.network.MessageMana;
 import io.github.dawncraft.network.NetworkLoader;
+import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.stats.AchievementLoader;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -22,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
@@ -32,6 +35,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
@@ -51,6 +55,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EventLoader
 {
+	private Random rand = new Random();
+	
     public EventLoader(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
@@ -170,6 +176,20 @@ public class EventLoader
                 player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
                 savage.setDead();
             }
+        }
+    }
+    
+    @SubscribeEvent
+    public void onPlayerAttack(AttackEntityEvent event)
+    {
+        EntityPlayer player = event.entityPlayer;
+        if (player.isServerWorld() && player.isPotionActive(PotionLoader.potionParalysis))
+        {
+        	if(rand.nextBoolean())
+        	{
+        		event.setCanceled(true);
+                player.addChatMessage(new ChatComponentTranslation("chat.potion.paralysis"));
+        	}
         }
     }
 }

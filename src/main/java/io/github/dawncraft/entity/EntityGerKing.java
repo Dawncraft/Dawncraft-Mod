@@ -30,7 +30,7 @@ import net.minecraft.world.World;
  * @author QingChenW
  * @author XiaoLang_dada and 4561789
  */
-public class EntityGerKing extends EntityCreature implements IBossDisplayData,IMob
+public class EntityGerKing extends EntityCreature implements IBossDisplayData, IMob
 {
     public EntityGerKing(World worldIn)
     {
@@ -83,13 +83,13 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData,IM
     @Override
     protected Item getDropItem()
     {
-        return null;
+        return ItemLoader.faeces;
     }
     
     @Override
     protected void dropFewItems(boolean arg1, int arg2)
     {
-        this.dropItem(ItemLoader.cakeEgg, 1);
+        this.dropItem(ItemLoader.gerHeart, 1);
         super.dropFewItems(arg1, arg2);
     }
     
@@ -111,7 +111,7 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData,IM
     {
         super.onInitialSpawn(difficulty, livingdata);
         
-//        this.setCurrentItemOrArmor(0, new ItemStack(ItemLoader.mjolnir));
+        this.setCurrentItemOrArmor(0, new ItemStack(ItemLoader.mjolnir));
         
         return livingdata;
     }
@@ -129,7 +129,7 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData,IM
         
         if (!this.worldObj.isRemote)
         {
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, false);
+            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, true);
             
             EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this, 64);
             // Minecraft.getMinecraft().thePlayer

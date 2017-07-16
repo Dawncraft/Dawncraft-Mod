@@ -48,12 +48,15 @@ public class ItemRenderLoader
         registerRender(ItemLoader.magnetIngot);
         registerRender(ItemLoader.magnetStick);
         registerRender(ItemLoader.magnetBall);
+        registerRender(ItemLoader.magnetCard);
         
-        registerRender(ItemLoader.magnetSword);
         registerRender(ItemLoader.magnetAxe);
         registerRender(ItemLoader.magnetPickaxe);
+        registerRender(ItemLoader.magnetHammer);
         registerRender(ItemLoader.magnetSpade);
         registerRender(ItemLoader.magnetHoe);
+        registerRender(ItemLoader.magnetSword);
+        registerRender(ItemLoader.magnetWand);
         registerRender(ItemLoader.magnetHelmet);
         registerRender(ItemLoader.magnetChestplate);
         registerRender(ItemLoader.magnetLeggings);
@@ -84,6 +87,7 @@ public class ItemRenderLoader
         registerRender(ItemLoader.cakeEgg);
         
         // Magic
+        registerRender(ItemLoader.magicDust);
         registerRender(ItemLoader.magicBook);
         registerRender(ItemLoader.metalEssence);
         registerRender(ItemLoader.woodEssence);

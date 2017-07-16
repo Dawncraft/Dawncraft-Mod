@@ -1,5 +1,6 @@
 package io.github.dawncraft.block;
 
+import io.github.dawncraft.block.base.BlockMachineBase;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -19,7 +20,7 @@ import net.minecraftforge.common.util.EnumHelper;
  * @author QingChenW
  *
  */
-public class BlockComputerCase extends BlockMachine
+public class BlockComputerCase extends BlockMachineBase
 {
     public BlockComputerCase.ComputerCaseType type;
     
@@ -29,7 +30,7 @@ public class BlockComputerCase extends BlockMachine
         this.type = caseType;
         this.setHardness(3.0f);
         this.setResistance(5.0f);
-        this.setHarvestLevel("ItemPickaxe", this.type.getTool());
+        this.setHarvestLevel("ItemPickaxeBase", this.type.getTool());
         this.setStepSound(soundTypePiston);
     }
     

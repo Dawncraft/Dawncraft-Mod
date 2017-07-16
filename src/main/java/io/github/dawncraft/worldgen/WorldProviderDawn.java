@@ -33,7 +33,7 @@ public class WorldProviderDawn extends WorldProvider
 	@Override
     public boolean canRespawnHere()
     {
-        return true;
+        return false;
     }
 	
 	@Override

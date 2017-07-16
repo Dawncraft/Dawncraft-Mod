@@ -1,6 +1,7 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.block.base.BlockMachineBase;
 import io.github.dawncraft.tileentity.TileEntityEnergyHeatGen;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockState;
@@ -18,7 +19,7 @@ import net.minecraft.world.World;
  * @author QingChenW
  *
  */
-public class BlockMachineFurnace extends BlockMachine
+public class BlockMachineFurnace extends BlockMachineBase
 {
     public BlockMachineFurnace()
     {

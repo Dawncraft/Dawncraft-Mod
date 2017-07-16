@@ -40,12 +40,13 @@ public class WorldOreGenerator
         }
     };
     
+    private BlockPos pos;
+    
     public WorldOreGenerator(FMLInitializationEvent event)
     {
         MinecraftForge.ORE_GEN_BUS.register(this);
     }
     
-    private BlockPos pos;
     @SubscribeEvent
     public void onOreGenPost(OreGenEvent.Post event)
     {
@@ -56,9 +57,9 @@ public class WorldOreGenerator
         }
     }
     
-    @SubscribeEvent
+/*    @SubscribeEvent
     public void onOreGenGenerateMinable(OreGenEvent.GenerateMinable event)
     {
         
-    }
+    }*/
 }

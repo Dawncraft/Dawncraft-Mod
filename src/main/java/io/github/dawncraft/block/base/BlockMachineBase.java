@@ -1,4 +1,4 @@
-package io.github.dawncraft.block;
+package io.github.dawncraft.block.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -20,17 +20,17 @@ import net.minecraft.world.World;
  * @author QingChenW
  *
  */
-public abstract class BlockMachine extends BlockContainer
+public abstract class BlockMachineBase extends BlockContainer
 {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool WORKING = PropertyBool.create("working");
     
-    protected BlockMachine()
+    protected BlockMachineBase()
     {
         this(Material.iron.getMaterialMapColor());
     }
     
-    protected BlockMachine(MapColor color)
+    protected BlockMachineBase(MapColor color)
     {
         super(Material.iron, color);
         this.setHardness(3.0F);
@@ -106,4 +106,6 @@ public abstract class BlockMachine extends BlockContainer
             worldIn.setTileEntity(pos, tileentity);
         }
     }
+    
+    // TODO 机器基础
 }

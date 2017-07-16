@@ -1,14 +1,14 @@
-package io.github.dawncraft.item;
+package io.github.dawncraft.item.base;
 
 import io.github.dawncraft.dawncraft;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.util.ResourceLocation;
 
-public class ItemRecord extends net.minecraft.item.ItemRecord
+public class ItemRecordBase extends ItemRecord
 {
-    protected ItemRecord(String name)
+    public ItemRecordBase(String name)
     {
 		super(name);
-
     }
 
     public ResourceLocation getRecordResource(String name)

@@ -4,6 +4,7 @@ import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.command.CommandLoader;
 import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.crafting.CraftingLoader;
 import io.github.dawncraft.crafting.OreDictionaryLoader;
@@ -35,6 +36,7 @@ public class ServerProxy
 {
     public void preInit(FMLPreInitializationEvent event)
     {
+    	new LogLoader(event);
         new ConfigLoader(event);
         new CapabilityLoader(event);
         new CreativeTabsLoader(event);

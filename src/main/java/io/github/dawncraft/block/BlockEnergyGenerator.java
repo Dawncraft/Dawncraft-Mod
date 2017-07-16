@@ -1,6 +1,7 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.block.base.BlockMachineBase;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.tileentity.TileEntityEnergyHeatGen;
@@ -27,7 +28,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
  * @author QingChenW
  *
  */
-public class BlockEnergyGenerator extends BlockMachine
+public class BlockEnergyGenerator extends BlockMachineBase
 {
     public BlockEnergyGenerator.EnergyGeneratorType type;
 

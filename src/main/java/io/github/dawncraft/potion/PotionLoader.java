@@ -15,11 +15,13 @@ public class PotionLoader
     public static Potion potionGerPower;
     public static Potion potionBadGer;
     public static Potion potionBrainDead;
+    public static Potion potionParalysis;// 麻痹效果
     
     public PotionLoader(FMLPreInitializationEvent event)
     {
         potionGerPower = new PotionBase(new ResourceLocation(dawncraft.MODID + ":" + "ger_power"), true, 0x7F0000).setPotionName("potion.gerPower");
         potionBadGer = new PotionBase(new ResourceLocation(dawncraft.MODID + ":" + "bad_ger"), true, 0x7F0000).setPotionName("potion.badGer");
         potionBrainDead = new PotionBase(new ResourceLocation(dawncraft.MODID + ":" + "brain_dead"), true, 0x7F0000).setPotionName("potion.brainDead");
+        potionParalysis = new PotionBase(new ResourceLocation(dawncraft.MODID + ":" + "paralysis"), true, 0x7F0000).setPotionName("potion.paralysis");
     }
 }

@@ -1,10 +1,13 @@
 package io.github.dawncraft.block;
 
+import io.github.dawncraft.block.base.BlockOreBase;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
+import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -30,7 +33,7 @@ public class BlockLoader
     public static Block energyGeneratorMagic = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.MAGIC).setUnlocalizedName("magicGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
     
     // Magnet
-    public static Block magnetOre = new BlockOre(MapColor.stoneColor).setUnlocalizedName("magnetOre").setCreativeTab(CreativeTabsLoader.tabMagnetic);
+    public static Block magnetOre = new BlockOreBase().setUnlocalizedName("magnetOre").setCreativeTab(CreativeTabsLoader.tabMagnetic);
     public static Block magnetBlock = new Block(Material.iron).setUnlocalizedName("magnetBlock").setCreativeTab(CreativeTabsLoader.tabMagnetic)
             .setHardness(5.0f).setResistance(10.0f).setStepSound(Block.soundTypePiston);
     // public static Block magnetDoor = new BlockMagnetDoor();
@@ -50,7 +53,7 @@ public class BlockLoader
     // Food
     
     // Magic
-    public static Block magicOre = new BlockOre(MapColor.stoneColor).setUnlocalizedName("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Block magicOre = new BlockOreBase(ItemLoader.magicDust, 1, 2, 1, 5, 7).setUnlocalizedName("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic);
     
     // Flans
     

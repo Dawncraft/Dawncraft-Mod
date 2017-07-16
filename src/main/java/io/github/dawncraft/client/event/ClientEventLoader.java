@@ -2,9 +2,10 @@ package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.client.gui.inventory.GuiMagicBook;
+import io.github.dawncraft.client.gui.magic.GuiMagicBook;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.KeyLoader;
+import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.network.MessageSkill;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.util.WebBrowser;
@@ -82,10 +83,6 @@ public class ClientEventLoader extends Gui
 	        			if(magicIndex != i)
 	        			{
 	        				magicIndex = i;
-	        				if(magicIndex == 0)
-	        				{
-	        					NetworkLoader.instance.sendToServer(new MessageSkill(0));
-	        				}
 	        			}
 	        			else
 	        			{
@@ -250,6 +247,11 @@ public class ClientEventLoader extends Gui
             		String s = I18n.format("magic.prefix.spell", I18n.format("magic.heal.name"));
             	    this.drawCenteredString(mc.fontRendererObj, s, width / 2, height - 54, 16777215);
             	}
+            }
+            
+            if(entityplayer.isUsingItem() && entityplayer.getItemInUse().getItem() == ItemLoader.flanRPG)
+            {
+                this.drawTexturedModalRect(width / 2 - 20, height / 2 - 20, 214, 0, 42, 42);
             }
             
             this.mc.getTextureManager().bindTexture(super.icons);

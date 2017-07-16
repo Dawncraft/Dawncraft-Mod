@@ -1,6 +1,7 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
+import io.github.dawncraft.entity.EntityMagnetBall;
 import net.minecraft.entity.item.EntityEnderEye;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;
@@ -32,9 +33,8 @@ public class ItemMagnetBall extends Item
             
             if(blockPos != null)
             {
-                //EntityMagnetBall entityMagnetBall = new EntityMagnetBall(worldIn, playerIn);// TODO 磁铁球
-                EntityEnderEye entityMagnetBall = new EntityEnderEye(worldIn, playerIn.posX, playerIn.posY, playerIn.posZ);//Test
-                entityMagnetBall.moveTowards(blockPos);
+                EntityMagnetBall entityMagnetBall = new EntityMagnetBall(worldIn, playerIn);
+//                entityMagnetBall.moveTowards(blockPos);
                 worldIn.spawnEntityInWorld(entityMagnetBall);
                 worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
                 if(!playerIn.capabilities.isCreativeMode)

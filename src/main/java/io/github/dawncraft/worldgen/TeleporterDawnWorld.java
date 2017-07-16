@@ -4,11 +4,11 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
-public class WorldTeleporterDawn extends Teleporter
+public class TeleporterDawnWorld extends Teleporter
 {
     private final WorldServer worldServerInstance;
 
-	public WorldTeleporterDawn(WorldServer worldIn)
+	public TeleporterDawnWorld(WorldServer worldIn)
     {
         super(worldIn);
         this.worldServerInstance = worldIn;

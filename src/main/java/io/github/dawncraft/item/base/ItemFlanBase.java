@@ -1,4 +1,4 @@
-package io.github.dawncraft.item;
+package io.github.dawncraft.item.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,9 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemFlan extends Item
+public class ItemFlanBase extends Item
 {
-    public ItemFlan(int maxDamage)
+    public ItemFlanBase(int maxDamage)
     {
         this.setFull3D();
         this.setMaxStackSize(1);

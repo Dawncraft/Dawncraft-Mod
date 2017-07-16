@@ -17,15 +17,18 @@ item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒
 item.magnetBall.name=磁力球
 item.magnetCard.name=磁卡
+
+item.magnetAxe.name=磁铁斧
+item.magnetPickaxe.name=磁铁镐
+item.magnetHammer.name=磁铁锤子
+item.magnetSpade.name=磁铁铲
+item.magnetHoe.name=磁铁锄
 item.magnetSword.name=磁能脉冲剑
-item.magnetAxe.name=磁石斧
-item.magnetPickaxe.name=磁石镐
-item.magnetSpade.name=磁石铲
-item.magnetHoe.name=磁石锄
-item.magnetHelmet.name=磁石头盔
-item.magnetChestplate.name=磁石胸甲
-item.magnetLeggings.name=磁石护腿
-item.magnetBoots.name=磁石靴子
+item.magnetWand.name=磁能法杖
+item.magnetHelmet.name=磁铁头盔
+item.magnetChestplate.name=磁铁胸甲
+item.magnetLeggings.name=磁铁护腿
+item.magnetBoots.name=磁铁靴子
 
 item.simpleCPU.name=普通CPU
 item.highCPU.name=高级CPU
@@ -41,12 +44,13 @@ item.flanAK47.name=AK47
 item.flanRPG.name=火箭筒
 item.flanRPGRocket.name=导弹
 
+item.magicDust.name=魔力粉
+item.magicBook.name=神奇魔法书
 item.metalEssence.name=金之精华
 item.woodEssence.name=草本精华
 item.waterEssence.name=水之精华
 item.fireEssence.name=火焰精华
 item.dirtEssence.name=土之精华
-item.magicBook.name=神奇魔法书
 
 item.faeces.name=§6屎
 item.gerHeart.name=§7巨Ger之心
@@ -86,6 +90,8 @@ tile.superComputer.name=超级电脑
 
 tile.superChest.name=炒鸡工具箱
 
+tile.magicOre.name=魔力矿石
+
 fluid.petroleum=石油
 
 entity.Mouse.name=老鼠
@@ -101,7 +107,7 @@ enchantment.fireBurn=火焰灼烧
 
 potion.gerPower=巨Ger之力
 potion.badGer=Ger化
-potion.=麻痹
+potion.paralysis=麻痹
 potion.=混乱
 potion.brainDead=脑残
 
@@ -125,6 +131,7 @@ chat.dawncraft.zoom=[§6曙光工艺§r] §c警告：§r放大目前为测试功
 chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下吴Ger
 chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的！
+chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!
 
 key.categories.dawncraft=曙光工艺
 key.dawncraft.switch=切换模式(施法/放置)

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class ConfigLoader
 {
-    private static Logger logger;
+
     private static Configuration config;
     
     public static String energy = "energy";
@@ -26,16 +26,14 @@ public class ConfigLoader
 
     public ConfigLoader(FMLPreInitializationEvent event)
     {
-        logger = event.getModLog();
         config = new Configuration(event.getSuggestedConfigurationFile());
-
         config.load();
         this.loadConfig();
     }
 
     public static void loadConfig()
     {
-        logger.info("Started loading config. ");
+    	LogLoader.logger().info("Started loading config.");
         String comment;
 
         comment = "Set type of mana Render.True is 'Terraria' or false is 'Hearthstone'.Idea from 单大帅.Thanks. ";
@@ -50,14 +48,9 @@ public class ConfigLoader
         }
         
         config.save();
-        logger.info("Finished loading config. ");
+        LogLoader.logger().info("Finished loading config.");
     }
 
-    public static Logger logger()
-    {
-        return logger;
-    }
-    
     public static Configuration config()
     {
         return config;

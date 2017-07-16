@@ -98,7 +98,7 @@ public class CreativeTabsLoader
             @Override
             public Item getTabIconItem()
             {
-                return ItemLoader.magicBook;
+                return ItemLoader.magicDust;
             }
         };
         tabColourEgg = new CreativeTabs("ColourEgg")

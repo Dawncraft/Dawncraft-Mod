@@ -1,6 +1,8 @@
 package io.github.dawncraft.enchantment;
 
 import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.config.LogLoader;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,7 +25,7 @@ public class EnchantmentLoader
         }
         catch (Exception e)
         {
-            ConfigLoader.logger().error("Duplicate or illegal enchantment id: {}, the registry of class '{}' will be skipped. ",
+            LogLoader.logger().error("Duplicate or illegal enchantment id: {}, the registry of class '{}' will be skipped. ",
                     ConfigLoader.enchantmentFireBurnId, EnchantmentFireBurn.class.getName());
         }
     }
