@@ -8,24 +8,30 @@ import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.CapabilityMana;
 import io.github.dawncraft.capability.IMana;
+import io.github.dawncraft.enchantment.EnchantmentLoader;
 import io.github.dawncraft.entity.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.network.MessageMana;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.stats.AchievementLoader;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -38,6 +44,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -55,7 +62,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EventLoader
 {
-	private Random rand = new Random();
+    private Random rand = new Random();
 	
     public EventLoader(FMLInitializationEvent event)
     {
@@ -159,6 +166,44 @@ public class EventLoader
             event.world.setBlockToAir(blockpos);
             event.result = FluidContainerRegistry.fillFluidContainer(fluidStack, event.current);
             event.setResult(Result.ALLOW);
+        }
+    }
+    
+    @SubscribeEvent
+    public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)
+    {
+        if (!event.world.isRemote && event.harvester != null)
+        {
+            ItemStack itemStack = event.harvester.getHeldItem();
+            if (EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.fireBurn.effectId, itemStack) > 0
+                    && itemStack.getItem() != Items.shears)
+            {
+                for (int i = 0; i < event.drops.size(); ++i)
+                {
+                    ItemStack stack = event.drops.get(i);
+                    ItemStack newStack = FurnaceRecipes.instance().getSmeltingResult(stack);
+                    if (newStack != null)
+                    {
+                        newStack = newStack.copy();
+                        newStack.stackSize = stack.stackSize;
+                        event.drops.set(i, newStack);
+                    }
+                    else if (stack != null)
+                    {
+                        Block block = Block.getBlockFromItem(stack.getItem());
+                        boolean b = (block == null);
+                        if (!b && (block.isFlammable(event.world, event.pos, EnumFacing.DOWN)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.EAST)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.NORTH)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.SOUTH)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.UP)
+                                || block.isFlammable(event.world, event.pos, EnumFacing.WEST)))
+                        {
+                            event.drops.remove(i);
+                        }
+                    }
+                }
+            }
         }
     }
     

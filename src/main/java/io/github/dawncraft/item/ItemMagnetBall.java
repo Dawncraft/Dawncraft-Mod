@@ -1,7 +1,7 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
-import io.github.dawncraft.entity.EntityMagnetBall;
+import io.github.dawncraft.entity.projectile.EntityMagnetBall;
 import net.minecraft.entity.item.EntityEnderEye;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySnowball;

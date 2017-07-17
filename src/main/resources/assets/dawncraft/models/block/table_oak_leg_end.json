@@ -1,0 +1,7 @@
+{
+    "parent": "dawncraft:block/table_leg_end",
+    "textures": {
+        "surface": "blocks/planks_oak",
+        "stick": "blocks/planks_oak"
+    }
+}

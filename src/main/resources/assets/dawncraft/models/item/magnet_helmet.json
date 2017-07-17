@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/magnetic/magnet_helmet"
+        "layer0": "dawncraft:items/magnetism/magnet_helmet"
     },
     "display": {
         "thirdperson": {

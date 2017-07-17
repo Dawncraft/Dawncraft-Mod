@@ -1,6 +1,8 @@
 package io.github.dawncraft.entity;
 
 import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.entity.projectile.EntityMagnetBall;
+import io.github.dawncraft.entity.projectile.EntityRocket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -22,7 +24,7 @@ public class EntityLoader
         registerEntity(EntitySavage.class, "Savage", 64, 3, true);
         registerEntity(EntityGerKing.class, "GerKing", 64, 3, true);
         registerEntity(EntityMagnetBall.class, "MagnetBall", 64, 10, true);
-        registerEntity(EntityFlanBomb.class, "FlanBomb", 64, 10, true);
+        registerEntity(EntityRocket.class, "SmallRocket", 64, 10, true);
         registerEntityEgg(EntityMouse.class, 0x5b0f00, 0x573131);
         registerEntityEgg(EntitySavage.class, 0x795949, 0x513830);
         registerEntityEgg(EntityGerKing.class, 0x795949, 0x800000);

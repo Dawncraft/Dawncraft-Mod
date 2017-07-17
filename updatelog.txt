@@ -1,6 +1,23 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
-Update to mc 1.8.9.
+0.2.0.0 update log:
+--------------------
+1.Update to mc 1.8.9!!!!!
+2.Refactory Mod.
+3.Add new items and blocks.
+4.Fix all models!
+5.Add spell skill GUI.
+6.Add Rocket GUI and fix its entity.
+7.Add bullet's events.
+8.Add some ore dictionaries.
+9.Add a website viewer,but it can't works well!!!
+10.Fix a bug about ore generator.
+11.Fix some other bugs.
+12.Change projectile entity,but not finish.
+13.Add new achievement.
+14.Add two kinds of table.
+15.Change config.
+16.Add mcstats.
 ===========================================================
 0.1.14.2 update log:
 --------------------

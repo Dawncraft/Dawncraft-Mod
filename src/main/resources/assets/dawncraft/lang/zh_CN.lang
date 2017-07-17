@@ -1,6 +1,8 @@
 ﻿//曙光工艺Mod，中文语言文件，作者Wc
+dawncraft.name=曙光工艺模组
+
 itemGroup.Energy=能源
-itemGroup.Magnetic=磁力
+itemGroup.Magnetism=磁力
 itemGroup.Computer=电脑
 itemGroup.Machine=机械
 itemGroup.Science=科学
@@ -31,8 +33,7 @@ item.magnetLeggings.name=磁铁护腿
 item.magnetBoots.name=磁铁靴子
 
 item.simpleCPU.name=普通CPU
-item.highCPU.name=高级CPU
-item.proCPU.name=专业CPU
+item.advancedCPU.name=高级CPU
 item.superCPU.name=超级CPU
 
 
@@ -41,8 +42,9 @@ item.superCPU.name=超级CPU
 item.cakeEgg.name=荷包蛋
 
 item.flanAK47.name=AK47
+item.flanBullet.name=子弹
 item.flanRPG.name=火箭筒
-item.flanRPGRocket.name=导弹
+item.flanRocket.name=导弹
 
 item.magicDust.name=魔力粉
 item.magicBook.name=神奇魔法书
@@ -84,24 +86,23 @@ tile.magnetDoor.name=磁铁门
 tile.machineEleFurnace.name=电炉
 
 tile.simpleComputer.name=普通电脑
-tile.highComputer.name=高级电脑
-tile.proComputer.name=专业电脑
+tile.advancedComputer.name=高级电脑
 tile.superComputer.name=超级电脑
 
+tile.woodTable.name=木质桌子
+tile.stoneTable.name=石质桌子
 tile.superChest.name=炒鸡工具箱
 
 tile.magicOre.name=魔力矿石
 
 fluid.petroleum=石油
 
-entity.Mouse.name=老鼠
-entity.Savage.name=野蛮人
-entity.GerKing.name=Ger王
+entity.dawncraft.Mouse.name=老鼠
+entity.dawncraft.Savage.name=野蛮人
+entity.dawncraft.GerKing.name=Ger王
 
 container.eleHeatGenerator=热能发电机
 container.MachineEleFurnace=电炉
-
-gui.magic.future=魔法系统尚未开启,敬请期待!
 
 enchantment.fireBurn=火焰灼烧
 
@@ -115,10 +116,14 @@ death.attack.byGer=%s Ger死了
 
 achievement.dawncraft.Ger=你Ger啊
 achievement.dawncraft.Ger.desc=被Ger王Ger死
-achievement.dawncraft.dawnPortal=天空之城
-achievement.dawncraft.dawnPortal.desc=建造一个通往曙光世界的传送门
-achievement.dawncraft.dawnArrival=黎明曙光
-achievement.dawncraft.dawnArrival.desc=进入曙光世界
+achievement.dawncraft.dawnPortal=黎明曙光
+achievement.dawncraft.dawnPortal.desc=建造通往曙光世界的传送门
+achievement.dawncraft.dawnArrival=天空之城
+achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
+achievement.dawncraft.explodeSkeleton=鸟枪换大炮
+achievement.dawncraft.explodeSkeleton.desc=现在可不是狙击手间的对决啦，来试试火箭筒，用火箭筒在50米外干掉一只骷髅
+
+gui.magic.future=魔法系统尚未开启,敬请期待!
 
 commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)
 commands.magic.view=当前玩家魔法值为 %1$s.
@@ -139,10 +144,36 @@ key.dawncraft.magic=打开魔法栏
 key.dawncraft.use=使用方块或物品
 key.dawncraft.wiki=打开百科全书
 
-dawncraft.configgui.category.dawncraft=曙光工艺基础设置
-dawncraft.configgui.manaRenderType=魔法条渲染方式
-dawncraft.configgui.manaRenderType.tooltip=设置魔法条的渲染形式,True为泰拉瑞亚式,False为炉石传说式,感谢@单大帅的创意.
-dawncraft.configgui.enchantmentFireBurnId=火焰灼烧附魔ID
-dawncraft.configgui.potionGerPowerID=巨ger之力效果ID
-dawncraft.configgui.potionBadGerID=ger化效果ID
-dawncraft.configgui.potionBrainDeadID=脑残效果ID
+dawncraft.config.dawncraft=曙光工艺模组设定
+dawncraft.config.dawncraft.tooltip=选择详细类别进入设置
+dawncraft.config.energy=能源
+dawncraft.config.energy.tooltip=管理能源类别的设置
+dawncraft.config.magnetism=磁力
+dawncraft.config.magnetism.tooltip=管理磁力类别的设置
+dawncraft.config.machine=机器
+dawncraft.config.machine.tooltip=管理机器类别的设置
+dawncraft.config.computer=电脑
+dawncraft.config.computer.tooltip=管理电脑类别的设置
+dawncraft.config.science=科学
+dawncraft.config.science.tooltip=管理科学类别的设置
+dawncraft.config.furniture=家具
+dawncraft.config.furniture.tooltip=管理家具类别的设置
+dawncraft.config.food=食物
+dawncraft.config.food.tooltip=管理食物类别的设置
+dawncraft.config.flan=枪械
+dawncraft.config.flan.tooltip=管理枪械类别的设置
+dawncraft.config.magic=魔法
+dawncraft.config.magic.tooltip=管理魔法类别的设置
+dawncraft.config.coloregg=彩蛋
+dawncraft.config.coloregg.tooltip=???
+dawncraft.config.energy.isEnergyEnabled=开启能源条目
+dawncraft.config.energy.isEnergyEnabled.tooltip=是否开启能源条目
+dawncraft.config.magic.manaRenderType=魔法条渲染方式
+dawncraft.config.magic.manaRenderType.tooltip=设置魔法条的渲染形式,True为泰拉瑞亚式,False为炉石传说式,感谢@单大帅的创意.
+dawncraft.config.coloregg.enchantmentFireBurnId=火焰灼烧附魔ID
+dawncraft.config.coloregg.enchantmentFireBurnId.tooltip=设置火焰灼烧附魔的ID
+dawncraft.config.coloregg.potionGerPowerID=巨ger之力效果ID
+dawncraft.config.coloregg.potionBadGerID=ger化效果ID
+dawncraft.config.coloregg.potionBrainDeadID=脑残效果ID
+
+console.coloregg.enable=密码正确，成功开启彩蛋，请重新启动游戏!!!

@@ -1,0 +1,12 @@
+{
+    "parent": "dawncraft:block/computer_case",
+    "textures": {
+        "particle": "dawncraft:blocks/computer/simple_computer_up",
+        "down": "dawncraft:blocks/computer/simple_computer_down",
+        "up": "dawncraft:blocks/computer/simple_computer_up",
+        "north": "dawncraft:blocks/computer/simple_computer_north",
+        "east": "dawncraft:blocks/computer/simple_computer_side",
+        "south": "dawncraft:blocks/computer/simple_computer_south",
+        "west": "dawncraft:blocks/computer/simple_computer_side"
+    }
+}

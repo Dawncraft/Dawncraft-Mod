@@ -49,9 +49,9 @@ public class CraftingLoader
         {
             "###", "# #", "###", '#', Items.iron_ingot
         });
-        GameRegistry.addRecipe(new ItemStack(BlockLoader.proComputer, 2), new Object[]
+        GameRegistry.addRecipe(new ItemStack(BlockLoader.advancedComputer, 2), new Object[]
         {
-                "###", "# #", "###", '#', Items.gold_ingot
+            "###", "# #", "###", '#', Items.gold_ingot
         });
                 GameRegistry.addRecipe(new ItemStack(BlockLoader.superComputer, 2), new Object[]
         {
@@ -62,28 +62,28 @@ public class CraftingLoader
         //Tools
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
         {
-                " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
+            " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
         }));
         GameRegistry.addRecipe(new ItemStack(ItemLoader.goldiamondSword), new Object[]
         {
-                " % ", " & ", " * ", '%', Items.gold_ingot, '&', Items.diamond, '*', Items.stick
+            " % ", " & ", " * ", '%', Items.gold_ingot, '&', Items.diamond, '*', Items.stick
         });
         //
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetHelmet), new Object[]
         {
-                "###", "# #", '#', "ingotMagnet"
+            "###", "# #", '#', "ingotMagnet"
         }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetChestplate), new Object[]
         {
-                "# #", "###", "###", '#', "ingotMagnet"
+            "# #", "###", "###", '#', "ingotMagnet"
         }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetLeggings), new Object[]
         {
-                "###", "# #", "# #", '#', "ingotMagnet"
+            "###", "# #", "# #", '#', "ingotMagnet"
         }));
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetBoots), new Object[]
         {
-                "# #", "# #", '#', "ingotMagnet"
+            "# #", "# #", '#', "ingotMagnet"
         }));
     }
 

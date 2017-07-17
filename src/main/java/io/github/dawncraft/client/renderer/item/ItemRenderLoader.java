@@ -1,8 +1,6 @@
 package io.github.dawncraft.client.renderer.item;
 
-import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -13,15 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Register items' inventory model.(Include ItemBlock)
- * 
+ *
  * @author QingChenW
  */
 public class ItemRenderLoader
@@ -32,15 +27,15 @@ public class ItemRenderLoader
         registerRender(ItemLoader.bucketPetroleum);
         
         registerRender(BlockLoader.fluidPetroleum);
-       
+
         registerRender(BlockLoader.electricCable);
-        
+
         registerRender(BlockLoader.energyGeneratorHeat);
-        registerRender(BlockLoader.energyGeneratorFluid);
-        registerRender(BlockLoader.energyGeneratorSolar);
-        registerRender(BlockLoader.energyGeneratorWind);
-        registerRender(BlockLoader.energyGeneratorNuclear);
-        registerRender(BlockLoader.energyGeneratorMagic);
+        // registerRender(BlockLoader.energyGeneratorFluid);
+        // registerRender(BlockLoader.energyGeneratorSolar);
+        // registerRender(BlockLoader.energyGeneratorWind);
+        // registerRender(BlockLoader.energyGeneratorNuclear);
+        // registerRender(BlockLoader.energyGeneratorMagic);
         
         registerFluidRender((BlockFluidBase) BlockLoader.fluidPetroleum);
         // Magnet
@@ -66,21 +61,23 @@ public class ItemRenderLoader
         registerRender(BlockLoader.magnetBlock);
         
         // Machine
-        registerRender(BlockLoader.machineFurnace);
+        registerRender(BlockLoader.ironFurnace);
         
         // Computer
         registerRender(ItemLoader.simpleCPU);
-        registerRender(ItemLoader.proCPU);
+        registerRender(ItemLoader.advancedCPU);
         registerRender(ItemLoader.superCPU);
         
         registerRender(BlockLoader.simpleComputer);
-        registerRender(BlockLoader.proComputer);
+        registerRender(BlockLoader.advancedComputer);
         registerRender(BlockLoader.superComputer);
         
         // Materials
         
         // Furniture
-        registerRender(BlockLoader.superChest);
+        registerRender(BlockLoader.woodTable);
+        registerRender(BlockLoader.stoneTable);
+        // registerRender(BlockLoader.superChest);
         
         // Food
         registerRender(ItemLoader.faeces);
@@ -99,8 +96,9 @@ public class ItemRenderLoader
         
         // Flans
         registerRender(ItemLoader.flanAK47);
+        registerRender(ItemLoader.flanBullet);
         registerRender(ItemLoader.flanRPG);
-        registerRender(ItemLoader.flanRPGRocket);
+        registerRender(ItemLoader.flanRocket);
         
         // ColourEgg
         registerRender(ItemLoader.gerHeart);
@@ -110,14 +108,15 @@ public class ItemRenderLoader
         registerRender(ItemLoader.chinese);
         registerRender(ItemLoader.dj);
         
-        registerRender(ItemLoader.goldiamondSword); 
+        registerRender(ItemLoader.goldiamondSword);
         registerRender(ItemLoader.mjolnir);
     }
     
     /**
      * Register a item's inventory model.
-     * 
-     * @param item item's name-id
+     *
+     * @param item
+     *            item's name-id
      */
     private static void registerRender(Item item)
     {
@@ -127,8 +126,9 @@ public class ItemRenderLoader
     
     /**
      * Register a block's inventory model.
-     * 
-     * @param block block's name-id
+     *
+     * @param block
+     *            block's name-id
      */
     private static void registerRender(Block block)
     {
@@ -139,9 +139,9 @@ public class ItemRenderLoader
     
     /**
      * Register a fluid's inventory model and it's model.
-     * 
-     * @param blockFluid 
-     * @param blockStateName 
+     *
+     * @param blockFluid
+     * @param blockStateName
      */
     public static void registerFluidRender(BlockFluidBase blockFluid)
     {

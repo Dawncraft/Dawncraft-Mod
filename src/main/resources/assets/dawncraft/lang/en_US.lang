@@ -1,7 +1,7 @@
 ﻿//The english language setting of Wc's seience Mod by Wc.
 
 itemGroup.Furniture=Furniture
-itemGroup.Magnetic=Magnetic
+itemGroup.Magnetism=Magnetism
 itemGroup.Electricity=Electricity
 itemGroup.Computer=Computer
 itemGroup.Machine=Machine
@@ -63,3 +63,6 @@ achievement.science.Ger=You are Ger
 achievement.science.Ger.desc=Died by Ger King
 
 death.attack.Ger=%s Died by Ger
+
+dawncraft.config.manaRenderType.tooltip=Set type of mana Render.True is 'Terraria' or false is 'Hearthstone'.Idea from 单大帅.Thanks. 
+dawncraft.config.enchantmentFireBurnId=Enchantment id. 

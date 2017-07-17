@@ -1,6 +1,6 @@
 package io.github.dawncraft.client.renderer.entity;
 
-import io.github.dawncraft.entity.EntityMagnetBall;
+import io.github.dawncraft.entity.projectile.EntityMagnetBall;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;

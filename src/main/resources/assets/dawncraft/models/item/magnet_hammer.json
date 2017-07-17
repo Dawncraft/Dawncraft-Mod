@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/magnetic/magnet_hammer"
+        "layer0": "dawncraft:items/magnetism/magnet_hammer"
     },
     "display": {
         "thirdperson": {

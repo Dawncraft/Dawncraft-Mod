@@ -1,6 +1,7 @@
 package io.github.dawncraft.client.renderer.entity;
 
 import io.github.dawncraft.entity.*;
+import io.github.dawncraft.entity.projectile.*;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
@@ -21,8 +22,10 @@ public class EntityRenderLoader
         registerEntityRender(EntityMouse.class, RenderMouse.class);
         registerEntityRender(EntitySavage.class, RenderSavage.class);
         registerEntityRender(EntityGerKing.class, RenderGerKing.class);
+        
         registerEntityRender(EntityMagnetBall.class, RenderMagnetBall.class);
-        registerEntityRender(EntityFlanBomb.class, RenderRPGRocket.class);
+        registerEntityRender(EntityBullet.class, RenderBullet.class);
+        registerEntityRender(EntityRocket.class, RenderSmallRocket.class);
     }
     
     private static <T extends Entity> void registerEntityRender(Class<T> entityClass, Class<? extends Render<T>> render)

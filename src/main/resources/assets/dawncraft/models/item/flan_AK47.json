@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/flans/flan_AK47"
+        "layer0": "dawncraft:items/flans/flan_ak47"
     },
     "display": {
         "thirdperson": {

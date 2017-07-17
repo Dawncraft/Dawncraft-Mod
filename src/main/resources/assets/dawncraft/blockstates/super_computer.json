@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "facing=north,working=false": { "model": "dawncraft:super_computer" },
+        "facing=north,working=true": { "model": "dawncraft:super_computer_on" },
+        "facing=east,working=false": { "model": "dawncraft:super_computer", "y": 90 },
+        "facing=east,working=true": { "model": "dawncraft:super_computer_on", "y": 90 },
+        "facing=south,working=false": { "model": "dawncraft:super_computer", "y": 180 },
+        "facing=south,working=true": { "model": "dawncraft:super_computer_on", "y": 180 },
+        "facing=west,working=false": { "model": "dawncraft:super_computer", "y": 270 },
+        "facing=west,working=true": { "model": "dawncraft:super_computer_on", "y": 270 }
+    }
+}

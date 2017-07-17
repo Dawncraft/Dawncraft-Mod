@@ -1,6 +1,6 @@
 package io.github.dawncraft.item;
 
-import io.github.dawncraft.entity.EntityFlanBomb;
+import io.github.dawncraft.entity.projectile.EntityRocket;
 import io.github.dawncraft.event.base.BulletNockEvent;
 import io.github.dawncraft.item.base.ItemFlanBase;
 import net.minecraft.enchantment.Enchantment;
@@ -28,7 +28,7 @@ public class ItemFlanRPG extends ItemFlanBase
         BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
         if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return event.result;
         
-    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRPGRocket))
+    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRocket))
     	{
             playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
     	}
@@ -38,14 +38,14 @@ public class ItemFlanRPG extends ItemFlanBase
     
     public void onPlayerStoppedUsing(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, int timeLeft)
     {
-        if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRPGRocket))
+        if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRocket))
         {
             int i = this.getMaxItemUseDuration(itemStackIn) - timeLeft;
-            EntityFlanBomb entitybomb = new EntityFlanBomb(worldIn, playerIn);
+            EntityRocket entitybomb = new EntityRocket(worldIn, playerIn, 1.5F, 2.0F);
     		if (!playerIn.capabilities.isCreativeMode)
     		{
                 itemStackIn.damageItem(1, playerIn);
-    			playerIn.inventory.consumeInventoryItem(ItemLoader.flanRPGRocket);
+    			playerIn.inventory.consumeInventoryItem(ItemLoader.flanRocket);
 
     		}
     		worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));

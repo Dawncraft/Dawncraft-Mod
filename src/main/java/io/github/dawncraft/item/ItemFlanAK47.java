@@ -1,5 +1,6 @@
 package io.github.dawncraft.item;
 
+import io.github.dawncraft.entity.projectile.EntityBullet;
 import io.github.dawncraft.item.base.ItemFlanBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -17,19 +18,19 @@ public class ItemFlanAK47 extends ItemFlanBase
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     { 
-    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow))
+    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanBullet))
     	{
         if (!playerIn.capabilities.isCreativeMode)
         {
             itemStackIn.damageItem(1, playerIn);
-            playerIn.inventory.consumeInventoryItem(Items.arrow);
+            playerIn.inventory.consumeInventoryItem(ItemLoader.flanBullet);
         }
         
         worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
         
         if (!worldIn.isRemote)
         {
-            worldIn.spawnEntityInWorld(new EntityArrow(worldIn, playerIn, 4.0F));
+            worldIn.spawnEntityInWorld(new EntityBullet(worldIn, playerIn, 3.0F, 1.0F));
         }
     	}
         

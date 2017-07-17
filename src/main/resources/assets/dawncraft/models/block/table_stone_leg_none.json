@@ -1,0 +1,7 @@
+{
+    "parent": "dawncraft:block/table_leg_none",
+    "textures": {
+        "surface": "blocks/stone",
+        "stick": "blocks/stone"
+    }
+}

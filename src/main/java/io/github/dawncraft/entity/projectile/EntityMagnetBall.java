@@ -1,4 +1,4 @@
-package io.github.dawncraft.entity;
+package io.github.dawncraft.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
