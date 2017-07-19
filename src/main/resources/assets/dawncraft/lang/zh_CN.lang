@@ -17,8 +17,10 @@ item.petroleumBucket.name=石油桶
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒
-item.magnetBall.name=磁力球
+item.magnetBall.name=磁珠
 item.magnetCard.name=磁卡
+item.magnetCard.tooltip=持有者: %s
+item.magnetDoor.name=磁铁门
 
 item.magnetAxe.name=磁铁斧
 item.magnetPickaxe.name=磁铁镐
@@ -38,7 +40,7 @@ item.superCPU.name=超级CPU
 
 
 
-
+item.faeces.name=§6屎
 item.cakeEgg.name=荷包蛋
 
 item.flanAK47.name=AK47
@@ -54,12 +56,13 @@ item.waterEssence.name=水之精华
 item.fireEssence.name=火焰精华
 item.dirtEssence.name=土之精华
 
-item.faeces.name=§6屎
+item.skull.savage.name=野蛮人的头
+item.skull.barbarianking.name=野蛮人之王的头
+item.skull.gerking.name=§7ger王的头
 item.gerHeart.name=§7巨Ger之心
 item.brainDead.name=脑残片
 item.record.chinese.desc=聂耳 - 义勇军进行曲
 item.record.dj.desc=Usher - dj got us fallin in love
-item.skull.savage.name=野蛮人的头
 item.funny.name=滑稽
 item.goldiamondSword.name=§e黄金§b钻石§5剑
 item.mjolnir.name=§b雷神之锤
@@ -81,9 +84,9 @@ tile.fluidPetroleum.name=石油
 
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
-tile.magnetDoor.name=磁铁门
+tile.magnetRail.name=磁力铁轨
 
-tile.machineEleFurnace.name=电炉
+tile.machineFurnace.name=电炉
 
 tile.simpleComputer.name=普通电脑
 tile.advancedComputer.name=高级电脑

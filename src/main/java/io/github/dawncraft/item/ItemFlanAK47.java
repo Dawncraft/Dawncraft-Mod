@@ -1,7 +1,7 @@
 package io.github.dawncraft.item;
 
+import io.github.dawncraft.api.item.ItemFlanBase;
 import io.github.dawncraft.entity.projectile.EntityBullet;
-import io.github.dawncraft.item.base.ItemFlanBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;

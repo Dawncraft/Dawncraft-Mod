@@ -31,6 +31,12 @@ public class BlockFurnitureSuperChest extends BlockContainer
     }
     
     @Override
+    public int getRenderType()
+    {
+        return 2;
+    }
+    
+    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
         return new TileEntityChest();

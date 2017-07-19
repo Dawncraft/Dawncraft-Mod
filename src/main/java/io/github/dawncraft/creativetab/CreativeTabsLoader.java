@@ -24,7 +24,7 @@ public class CreativeTabsLoader
     public static CreativeTabs tabFlans;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-    
+
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
         tabEnergy = new CreativeTabs("Energy")
@@ -48,7 +48,7 @@ public class CreativeTabsLoader
             @Override
             public Item getTabIconItem()
             {
-                return Item.getItemFromBlock(BlockLoader.ironFurnace);
+                return Item.getItemFromBlock(BlockLoader.machineFurnace);
             }
         };
         tabComputer = new CreativeTabs("Computer")

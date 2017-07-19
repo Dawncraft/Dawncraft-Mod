@@ -10,6 +10,8 @@
 
 欢迎[加入我们](http://shang.qq.com/wpa/qunwpa?idkey=61928f37c251f45b49f652efc2d90857f24b38b2d5d69859c8d3ae6241479a02) QQ群:**287307326**
 
+2017/7/9注:您可以用auto_build_cmd.bat批处理来快速构建开发环境或Mod
+
 ##目录
 
 [开发Mod](#Mod开发)

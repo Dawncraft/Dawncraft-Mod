@@ -13,6 +13,7 @@
 !gradlew.bat
 !build.gradle
 !gradle.properties
+!auto_build_cmd.bat
 
 # include markdowns
 !LICENSE

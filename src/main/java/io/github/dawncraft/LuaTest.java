@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
+import org.markdown4j.Markdown4jProcessor;
 
 import io.github.dawncraft.config.LogLoader;
 
@@ -26,6 +27,15 @@ public class LuaTest
         chunk.call(LuaValue.valueOf(script));
 
         LogLoader.logger().info("Lua Loader Stopped.");
+        
+        try
+        {
+            String html = new Markdown4jProcessor().process("This is a **bold** text");
+            LogLoader.logger().info(html);
+        } catch (IOException e)
+        {
+            LogLoader.logger().error("Can't load markdown:", e);
+        }
 
         try
         {

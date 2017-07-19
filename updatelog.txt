@@ -1,5 +1,15 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.0.1 update log:
+--------------------
+1.Fix magnet card.
+2.Add magnet door.
+3.Add magnet rail.
+4.Fix bullet's texture.
+5.Add a lot of recipes.
+6.Add ger king's skull!
+7.Add block render.
+===========================================================
 0.2.0.0 update log:
 --------------------
 1.Update to mc 1.8.9!!!!!

@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "shape=north_south":  { "model": "dawncraft:magnet_rail_flat" },
+        "shape=east_west":  { "model": "dawncraft:magnet_rail_flat", "y": 90 },
+        "shape=ascending_north": { "model": "dawncraft:magnet_rail_raised_ne" },
+        "shape=ascending_south": { "model": "dawncraft:magnet_rail_raised_sw" },
+        "shape=ascending_east": { "model": "dawncraft:magnet_rail_raised_ne", "y": 90 },
+        "shape=ascending_west": { "model": "dawncraft:magnet_rail_raised_sw", "y": 90 }
+    }
+}

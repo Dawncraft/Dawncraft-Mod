@@ -1,4 +1,4 @@
-package io.github.dawncraft.item.base;
+package io.github.dawncraft.api.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;

@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_top",
+    "textures": {
+        "bottom": "dawncraft:blocks/magnetism/magnet_door_lower",
+        "top": "dawncraft:blocks/magnetism/magnet_door_upper"
+    }
+}

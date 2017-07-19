@@ -1,4 +1,4 @@
-package io.github.dawncraft.event.base;
+package io.github.dawncraft.api.event;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

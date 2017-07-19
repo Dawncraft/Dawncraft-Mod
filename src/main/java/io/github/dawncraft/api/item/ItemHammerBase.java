@@ -1,4 +1,4 @@
-package io.github.dawncraft.item.base;
+package io.github.dawncraft.api.item;
 
 import java.util.Set;
 

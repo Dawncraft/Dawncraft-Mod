@@ -3,16 +3,10 @@ package io.github.dawncraft.client.renderer.item;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameData;
 
 /**
  * Register items' inventory model.(Include ItemBlock)
@@ -26,25 +20,22 @@ public class ItemRenderLoader
         // Energy
         registerRender(ItemLoader.bucketPetroleum);
         
-        registerRender(BlockLoader.fluidPetroleum);
-
         registerRender(BlockLoader.electricCable);
-
         registerRender(BlockLoader.energyGeneratorHeat);
         // registerRender(BlockLoader.energyGeneratorFluid);
         // registerRender(BlockLoader.energyGeneratorSolar);
         // registerRender(BlockLoader.energyGeneratorWind);
         // registerRender(BlockLoader.energyGeneratorNuclear);
         // registerRender(BlockLoader.energyGeneratorMagic);
-        
-        registerFluidRender((BlockFluidBase) BlockLoader.fluidPetroleum);
+
         // Magnet
         registerRender(ItemLoader.magnet);
         registerRender(ItemLoader.magnetIngot);
         registerRender(ItemLoader.magnetStick);
         registerRender(ItemLoader.magnetBall);
         registerRender(ItemLoader.magnetCard);
-        
+        registerRender(ItemLoader.magnetDoor);
+
         registerRender(ItemLoader.magnetAxe);
         registerRender(ItemLoader.magnetPickaxe);
         registerRender(ItemLoader.magnetHammer);
@@ -56,33 +47,34 @@ public class ItemRenderLoader
         registerRender(ItemLoader.magnetChestplate);
         registerRender(ItemLoader.magnetLeggings);
         registerRender(ItemLoader.magnetBoots);
-        
+
         registerRender(BlockLoader.magnetOre);
         registerRender(BlockLoader.magnetBlock);
-        
+        registerRender(BlockLoader.magnetRail);
+
         // Machine
-        registerRender(BlockLoader.ironFurnace);
-        
+        registerRender(BlockLoader.machineFurnace);
+
         // Computer
         registerRender(ItemLoader.simpleCPU);
         registerRender(ItemLoader.advancedCPU);
         registerRender(ItemLoader.superCPU);
-        
+
         registerRender(BlockLoader.simpleComputer);
         registerRender(BlockLoader.advancedComputer);
         registerRender(BlockLoader.superComputer);
-        
+
         // Materials
-        
+
         // Furniture
         registerRender(BlockLoader.woodTable);
         registerRender(BlockLoader.stoneTable);
-        // registerRender(BlockLoader.superChest);
-        
+        registerRender(BlockLoader.superChest);
+
         // Food
         registerRender(ItemLoader.faeces);
         registerRender(ItemLoader.cakeEgg);
-        
+
         // Magic
         registerRender(ItemLoader.magicDust);
         registerRender(ItemLoader.magicBook);
@@ -91,77 +83,73 @@ public class ItemRenderLoader
         registerRender(ItemLoader.waterEssence);
         registerRender(ItemLoader.fireEssence);
         registerRender(ItemLoader.dirtEssence);
-        
+
         registerRender(BlockLoader.magicOre);
-        
+
         // Flans
         registerRender(ItemLoader.flanAK47);
         registerRender(ItemLoader.flanBullet);
         registerRender(ItemLoader.flanRPG);
         registerRender(ItemLoader.flanRocket);
-        
+
         // ColourEgg
+        registerRender(ItemLoader.skull, 0, ItemLoader.skull.getRegistryName() + "_savage");
+        registerRender(ItemLoader.skull, 1, ItemLoader.skull.getRegistryName() + "_barbarianking");
+        registerRender(ItemLoader.skull, 2, ItemLoader.skull.getRegistryName() + "_gerking");
         registerRender(ItemLoader.gerHeart);
         registerRender(ItemLoader.brainDead);
         registerRender(ItemLoader.funny);
-        
+
         registerRender(ItemLoader.chinese);
         registerRender(ItemLoader.dj);
-        
+
         registerRender(ItemLoader.goldiamondSword);
         registerRender(ItemLoader.mjolnir);
     }
-    
+
     /**
-     * Register a item's inventory model.
+     * Register a item's inventory model and its variants.
      *
-     * @param item
-     *            item's name-id
+     * @param item item's string id
      */
     private static void registerRender(Item item)
     {
-        String name = GameData.getItemRegistry().getNameForObject(item).toString();
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(name, "inventory"));
+        registerRender(item, 0, item.getRegistryName());
     }
-    
+
     /**
-     * Register a block's inventory model.
+     * Register a block's inventory model and its variants.
      *
-     * @param block
-     *            block's name-id
+     * @param block block's string id
      */
     private static void registerRender(Block block)
     {
-        Item item = Item.getItemFromBlock(block);
-        String name = GameData.getBlockRegistry().getNameForObject(block).toString();
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(name, "inventory"));
+        registerRender(block, 0, block.getRegistryName());
     }
     
     /**
-     * Register a fluid's inventory model and it's model.
+     * Register a item's inventory model with meta and name and its variants.
      *
-     * @param blockFluid
-     * @param blockStateName
+     * @param item item to register
+     * @param meta item's meta
+     * @param name item's model suffix
      */
-    public static void registerFluidRender(BlockFluidBase blockFluid)
+    private static void registerRender(Item item, int meta, String name)
     {
-        Item itemFluid = Item.getItemFromBlock(blockFluid);
-        final String name = GameData.getBlockRegistry().getNameForObject(blockFluid).toString();
-        ModelLoader.setCustomMeshDefinition(itemFluid, new ItemMeshDefinition()
-        {
-            @Override
-            public ModelResourceLocation getModelLocation(ItemStack stack)
-            {
-                return new ModelResourceLocation(name, "fluid");
-            }
-        });
-        ModelLoader.setCustomStateMapper(blockFluid, new StateMapperBase()
-        {
-            @Override
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state)
-            {
-                return new ModelResourceLocation(name, "fluid");
-            }
-        });
+        ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
+        ModelLoader.setCustomModelResourceLocation(item, meta, model);
+    }
+
+    /**
+     * Register a block's inventory model with meta and name and its variants.
+     *
+     * @param block block to register
+     * @param meta item's meta
+     * @param name item's model suffix
+     */
+    private static void registerRender(Block block, int meta, String name)
+    {
+        Item item = Item.getItemFromBlock(block);
+        registerRender(item, meta, name);
     }
 }

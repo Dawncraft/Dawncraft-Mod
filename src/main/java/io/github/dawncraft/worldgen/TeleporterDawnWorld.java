@@ -7,26 +7,26 @@ import net.minecraft.world.WorldServer;
 public class TeleporterDawnWorld extends Teleporter
 {
     private final WorldServer worldServerInstance;
-
-	public TeleporterDawnWorld(WorldServer worldIn)
+    
+    public TeleporterDawnWorld(WorldServer worldIn)
     {
         super(worldIn);
         this.worldServerInstance = worldIn;
     }
-    
+
     @Override
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
         return false;
     }
-    
+
     @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
-/*        int x = MathHelper.floor_double(entityIn.posX);
+        /*        int x = MathHelper.floor_double(entityIn.posX);
         int y = MathHelper.floor_double(entityIn.posY) - 1;
         int z = MathHelper.floor_double(entityIn.posZ);
-        
+
         int x1, z1;
         for (int j = -2; j <= 2; ++j)
         {
@@ -41,16 +41,16 @@ public class TeleporterDawnWorld extends Teleporter
             }
         }*/
     }
-    
+
     @Override
     public boolean makePortal(Entity p_85188_1_)
     {
         return false;
     }
-    
+
     @Override
     public void removeStalePortalLocations(long p_85189_1_)
     {
-    	
+
     }
 }

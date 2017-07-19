@@ -6,40 +6,41 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class WorldProviderDawn extends WorldProvider
 {
+    @Override
     public void registerWorldChunkManager()
     {
-       this.worldChunkMgr = new WorldChunkManager(worldObj);
-       this.dimensionId = 23;
+        this.worldChunkMgr = new WorldChunkManager(this.worldObj);
+        this.dimensionId = 23;
+    }
+    
+    @Override
+    public String getDimensionName()
+    {
+        return "Dawnworld";
     }
 
-	@Override
-	public String getDimensionName()
-	{
-        return "Dawnworld";
-	}
-	
-	@Override
-	public String getInternalNameSuffix()
-	{
+    @Override
+    public String getInternalNameSuffix()
+    {
         return "_dawn";
-	}
-	
-	@Override
+    }
+
+    @Override
     public boolean isSurfaceWorld()
     {
         return false;
     }
-	
-	@Override
+
+    @Override
     public boolean canRespawnHere()
     {
         return false;
     }
-	
-	@Override
+
+    @Override
     public IChunkProvider createChunkGenerator()
     {
         return new ChunkProviderDawn(this.worldObj, this.worldObj.getSeed());
     }
-
+    
 }

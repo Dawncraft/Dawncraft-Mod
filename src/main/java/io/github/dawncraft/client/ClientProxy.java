@@ -1,6 +1,7 @@
 package io.github.dawncraft.client;
 
 import io.github.dawncraft.client.event.ClientEventLoader;
+import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
 import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
@@ -12,7 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * The client proxy of Dawncraft Mod.
- * 
+ *
  * @author QingChenW
  */
 public class ClientProxy extends ServerProxy
@@ -22,10 +23,11 @@ public class ClientProxy extends ServerProxy
     {
         super.preInit(event);
         new ItemRenderLoader(event);
+        new BlockRenderLoader(event);
         new EntityRenderLoader(event);
         new TileEntityRenderLoader(event);
     }
-
+    
     @Override
     public void init(FMLInitializationEvent event)
     {
@@ -33,11 +35,11 @@ public class ClientProxy extends ServerProxy
         new KeyLoader(event);
         new ClientEventLoader(event);
     }
-
+    
     @Override
     public void postInit(FMLPostInitializationEvent event)
     {
-        
+
         super.postInit(event);
     }
 }

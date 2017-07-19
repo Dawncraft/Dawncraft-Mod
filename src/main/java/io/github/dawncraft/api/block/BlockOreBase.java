@@ -1,4 +1,4 @@
-package io.github.dawncraft.block.base;
+package io.github.dawncraft.api.block;
 
 import java.util.Random;
 
