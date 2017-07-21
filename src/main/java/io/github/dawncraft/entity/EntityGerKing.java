@@ -20,13 +20,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 /**
  * ger king
- * 
+ *
  * @author QingChenW
  * @author XiaoLang_dada and 4561789
  */
@@ -132,7 +131,6 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, true);
             
             EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this, 64);
-            // Minecraft.getMinecraft().thePlayer
             player.addChatMessage(new ChatComponentTranslation("chat.entity.GerKing.say2"));
         }
     }

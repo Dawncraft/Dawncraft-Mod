@@ -14,8 +14,9 @@ public class TileEntityLoader
         //        registerTileEntity(TileEntityMachineFurnace.class, "MachineFurnace");
         // registerTileEntity(TileEntityWchest.class, "SuperChest");
         this.registerTileEntity(TileEntitySkull.class, "Skull");
+        this.registerTileEntity(TileEntityMagnetDoor.class, "MagnetDoor");
     }
-
+    
     public void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
     {
         GameRegistry.registerTileEntity(tileEntityClass, dawncraft.MODID + ":" + id);

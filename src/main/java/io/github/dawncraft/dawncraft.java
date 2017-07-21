@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 /**
- * Dawncraft Mod For Minecraft with Forge
+ * Dawncraft Mod For Minecraft with Forge Mod Loader.
  *
  * @version mc-1.8.9
  * @author QingChenW
@@ -24,38 +24,39 @@ public class dawncraft
     public static final String NAME = "Dawncraft Mod";
     public static final String VERSION = "@version@";
     public static final String GUI_FACTORY = "io.github.dawncraft.client.gui.GuiFactory";
-
+    
+    /** The instance of Dawncraft Mod. */
     @Instance(dawncraft.MODID)
     public static dawncraft instance;
-
+    
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-
+    
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-
+    
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        new LuaTest();
+        new ScriptTest();
         proxy.postInit(event);
     }
-
+    
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-
+    
     @EventHandler
     public void interModComms(IMCEvent event)
     {

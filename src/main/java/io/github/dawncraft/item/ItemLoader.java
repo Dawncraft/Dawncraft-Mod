@@ -13,7 +13,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBucket;
-import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -36,7 +35,7 @@ public class ItemLoader
             .setUnlocalizedName("petroleumBucket").setCreativeTab(CreativeTabsLoader.tabEnergy)
             .setContainerItem(Items.bucket);
     
-    // Magnet
+    // Magnetism
     public static Item magnet = new Item().setUnlocalizedName("magnet").setCreativeTab(CreativeTabsLoader.tabMagnetism);
     public static Item magnetIngot = new Item().setUnlocalizedName("magnetIngot")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
@@ -46,7 +45,7 @@ public class ItemLoader
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
     public static Item magnetCard = new ItemMagnetCard().setUnlocalizedName("magnetCard")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
-    public static Item magnetDoor = new ItemDoor(BlockLoader.magnetDoor).setUnlocalizedName("magnetDoor")
+    public static Item magnetDoor = new ItemMagnetDoor().setUnlocalizedName("magnetDoor")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
     
     public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11)
@@ -80,7 +79,7 @@ public class ItemLoader
     public static Item superCPU = new Item().setUnlocalizedName("superCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
     
-    // Materials
+    // Science
     
     // Furniture
     
@@ -103,6 +102,16 @@ public class ItemLoader
     public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg")
             .setCreativeTab(CreativeTabsLoader.tabFood);
     
+    // Flans
+    public static Item flanAK47 = new ItemFlanAK47(423).setUnlocalizedName("flanAK47")
+            .setCreativeTab(CreativeTabsLoader.tabFlans);
+    public static Item flanBullet = new Item().setUnlocalizedName("flanBullet")
+            .setCreativeTab(CreativeTabsLoader.tabFlans);
+    public static Item flanRPG = new ItemFlanRPG(28).setUnlocalizedName("flanRPG")
+            .setCreativeTab(CreativeTabsLoader.tabFlans);
+    public static Item flanRocket = new Item().setUnlocalizedName("flanRocket")
+            .setCreativeTab(CreativeTabsLoader.tabFlans).setMaxStackSize(16);
+    
     // Magic
     public static Item magicDust = new Item().setUnlocalizedName("magicDust")
             .setCreativeTab(CreativeTabsLoader.tabMagic);
@@ -118,16 +127,6 @@ public class ItemLoader
             .setCreativeTab(CreativeTabsLoader.tabMagic);
     public static Item dirtEssence = new Item().setUnlocalizedName("dirtEssence")
             .setCreativeTab(CreativeTabsLoader.tabMagic);
-    
-    // Flans
-    public static Item flanAK47 = new ItemFlanAK47(423).setUnlocalizedName("flanAK47")
-            .setCreativeTab(CreativeTabsLoader.tabFlans);
-    public static Item flanBullet = new Item().setUnlocalizedName("flanBullet")
-            .setCreativeTab(CreativeTabsLoader.tabFlans);
-    public static Item flanRPG = new ItemFlanRPG(28).setUnlocalizedName("flanRPG")
-            .setCreativeTab(CreativeTabsLoader.tabFlans);
-    public static Item flanRocket = new Item().setUnlocalizedName("flanRocket")
-            .setCreativeTab(CreativeTabsLoader.tabFlans).setMaxStackSize(16);
     
     // ColourEgg
     public static Item skull = new ItemSkullBase((BlockSkullBase) BlockLoader.skull, new String[] {"savage", "barbarianking", "gerking"})

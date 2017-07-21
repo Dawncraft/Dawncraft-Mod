@@ -57,18 +57,18 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Register some common events.
- * 
+ *
  * @author QingChenW
  */
 public class EventLoader
 {
     private Random rand = new Random();
-	
+
     public EventLoader(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
+
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
@@ -79,7 +79,7 @@ public class EventLoader
             event.addCapability(res, provider);
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
@@ -90,29 +90,29 @@ public class EventLoader
             {
                 IMana mana = player.getCapability(CapabilityLoader.mana, null);
                 IStorage<IMana> storage = CapabilityLoader.mana.getStorage();
-                
+
                 MessageMana message = new MessageMana();
                 message.nbt = (NBTTagCompound) storage.writeNBT(CapabilityLoader.mana, mana, null);
-                
+
                 NetworkLoader.instance.sendTo(message, player);
             }
         }
     }
-    
+
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
         EntityPlayer player = event.player;
         World world = player.worldObj;
-        
-        checkForPortalCreation(player, world, 32.0F);
+
+        this.checkForPortalCreation(player, world, 32.0F);
     }
-    
+
     /**
      * Check for can portal create in world.
      * From Benimatic's twilight forest Mod.Thanks.
      * 感谢暮色森林的传送门检查方法
-     * 
+     *
      * @author Benimatic
      * @param player Check portal around player.
      * @param world Check in the world.
@@ -120,12 +120,11 @@ public class EventLoader
      */
     private void checkForPortalCreation(EntityPlayer player, World world, float rangeToCheck)
     {
-        if(world != null && player != null && world.provider.getDimensionId() == 0) 
+        if(world != null && player != null && world.provider.getDimensionId() == 0)
         {
-            @SuppressWarnings("unchecked")
             List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
-            
-            for(EntityItem entityItem : itemList) 
+
+            for(EntityItem entityItem : itemList)
             {
                 if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
                 {
@@ -140,20 +139,20 @@ public class EventLoader
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event)
     {
         Capability<IMana> capability = CapabilityLoader.mana;
         IStorage<IMana> storage = capability.getStorage();
-
+        
         if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
         {
             NBTBase nbt = storage.writeNBT(capability, event.original.getCapability(capability, null), null);
             storage.readNBT(capability, event.entityPlayer.getCapability(capability, null), null, nbt);
         }
     }
-    
+
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -168,7 +167,7 @@ public class EventLoader
             event.setResult(Result.ALLOW);
         }
     }
-    
+
     @SubscribeEvent
     public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)
     {
@@ -191,7 +190,7 @@ public class EventLoader
                     else if (stack != null)
                     {
                         Block block = Block.getBlockFromItem(stack.getItem());
-                        boolean b = (block == null);
+                        boolean b = block == null;
                         if (!b && (block.isFlammable(event.world, event.pos, EnumFacing.DOWN)
                                 || block.isFlammable(event.world, event.pos, EnumFacing.EAST)
                                 || block.isFlammable(event.world, event.pos, EnumFacing.NORTH)
@@ -206,7 +205,7 @@ public class EventLoader
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {
@@ -215,26 +214,26 @@ public class EventLoader
         {
             EntitySavage savage = (EntitySavage) event.target;
             ItemStack stack = player.getCurrentEquippedItem();
-            if (stack != null && (stack.getItem() == ItemLoader.faeces))
+            if (stack != null && stack.getItem() == ItemLoader.faeces)
             {
-                player.attackEntityFrom((new DamageSource("byGer")).setDifficultyScaled().setExplosion(), 20.0F);
+                player.attackEntityFrom(new DamageSource("byGer").setDifficultyScaled().setExplosion(), 20.0F);
                 player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
                 savage.setDead();
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event)
     {
         EntityPlayer player = event.entityPlayer;
         if (player.isServerWorld() && player.isPotionActive(PotionLoader.potionParalysis))
         {
-        	if(rand.nextBoolean())
-        	{
-        		event.setCanceled(true);
+            if(this.rand.nextBoolean())
+            {
+                event.setCanceled(true);
                 player.addChatMessage(new ChatComponentTranslation("chat.potion.paralysis"));
-        	}
+            }
         }
     }
 }

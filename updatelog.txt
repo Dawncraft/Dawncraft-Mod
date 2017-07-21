@@ -1,5 +1,10 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.0.2 update log:
+--------------------
+1.Remake achievements, it looks so cool now.
+2.Fix magnet door and card, it can work now, but they have a little bug:)
+===========================================================
 0.2.0.1 update log:
 --------------------
 1.Fix magnet card.

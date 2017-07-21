@@ -24,7 +24,7 @@ public class TileEntityEnergyHeatGen extends TileEntity implements ITickable
     protected int currentItemBurnTime = 0;
     protected int electricity = 0;
     protected final int Max_Electricity = 12800;
-    
+
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
@@ -34,19 +34,18 @@ public class TileEntityEnergyHeatGen extends TileEntity implements ITickable
         }
         return super.hasCapability(capability, facing);
     }
-    
+
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing)
     {
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
         {
-            @SuppressWarnings("unchecked")
-            T result = (T) (facing == EnumFacing.DOWN ? fuelItemStack : null);
+            T result = (T) (facing == EnumFacing.DOWN ? this.fuelItemStack : null);
             return result;
         }
         return super.getCapability(capability, facing);
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
@@ -55,7 +54,7 @@ public class TileEntityEnergyHeatGen extends TileEntity implements ITickable
         this.burnTime = compound.getInteger("BurnTime");
         this.electricity = compound.getInteger("Electricity");
     }
-
+    
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
@@ -64,13 +63,13 @@ public class TileEntityEnergyHeatGen extends TileEntity implements ITickable
         compound.setInteger("BurnTime", this.burnTime);
         compound.setInteger("Electricity", this.electricity);
     }
-    
+
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
         return oldState.getBlock() != newState.getBlock();
     }
-    
+
     // TODO: 热能发电机te待重写
     @Override
     public void update()
@@ -79,19 +78,19 @@ public class TileEntityEnergyHeatGen extends TileEntity implements ITickable
         {
             boolean wasBurning = this.isWorking();
             boolean isBurning = false;
-            
+
             if(wasBurning) --this.burnTime;
-            
-                if(!this.isWorking() && this.canWork())
+
+            if(!this.isWorking() && this.canWork())
+            {
+                this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.fuelItemStack.extractItem(0, 1, true));
+
+                if(this.isWorking())
                 {
-                    this.currentItemBurnTime = this.burnTime = getItemBurnTime(this.fuelItemStack.extractItem(0, 1, true));
-                    
-                    if(this.isWorking())
-                    {
-                        isBurning = true;
-                        this.fuelItemStack.extractItem(0, 1, false);
-                    }
-                
+                    isBurning = true;
+                    this.fuelItemStack.extractItem(0, 1, false);
+                }
+
                 if(this.isWorking() && this.canWork())
                 {
                     isBurning = true;
@@ -101,56 +100,56 @@ public class TileEntityEnergyHeatGen extends TileEntity implements ITickable
                     }
                 }
             }
-            
+
             if (wasBurning != this.isWorking())
             {
                 isBurning = true;
                 BlockEnergyGenerator.setBlockState(this.isWorking(), this.worldObj, this.pos);
             }
-            
+
             if (isBurning)
             {
                 this.markDirty();
             }
         }
     }
-    
+
     public boolean isWorking()
     {
         return this.burnTime > 0;
     }
-    
+
     private boolean canWork()
     {
         return this.electricity < this.Max_Electricity;
     }
-    
+
     public static boolean isItemFuel(ItemStack ItemStack)
     {
         return getItemBurnTime(ItemStack) > 0;
     }
-    
+
     public static int getItemBurnTime(ItemStack ItemStack)
     {
         if(ItemStack == null) return 0;
         return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(ItemStack);
     }
-    
-/*        else
+
+    /*        else
         {
             Item item = ItemStack.getItem();
-            
+
             if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
             {
                 Block block = Block.getBlockFromItem(item);
-                
+
                 if (block.getMaterial() == Material.wood) { return 300; }
-                
+
                 if (block == Blocks.coal_block) { return 16000; }
             }
-            
+
             if (item == Items.coal) return 1600;
             if (item == Items.lava_bucket) return 20000;
             if (item == Items.blaze_rod) return 2400;
-            */
+     */
 }
