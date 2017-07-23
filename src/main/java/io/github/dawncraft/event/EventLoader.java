@@ -1,50 +1,26 @@
 package io.github.dawncraft.event;
 
 import java.util.List;
-import java.util.Random;
-
-import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.CapabilityMana;
-import io.github.dawncraft.capability.IMana;
-import io.github.dawncraft.enchantment.EnchantmentLoader;
+import io.github.dawncraft.capability.CapabilityEvent;
+import io.github.dawncraft.enchantment.EnchantmentEvent;
 import io.github.dawncraft.entity.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
-import io.github.dawncraft.network.MessageMana;
-import io.github.dawncraft.network.NetworkLoader;
-import io.github.dawncraft.potion.PotionLoader;
+import io.github.dawncraft.potion.PotionEvent;
 import io.github.dawncraft.stats.AchievementLoader;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.Capability.IStorage;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -62,52 +38,23 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class EventLoader
 {
-    private Random rand = new Random();
-
     public EventLoader(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
+        new CapabilityEvent(event);
+        new EnchantmentEvent(event);
+        new PotionEvent(event);
     }
-
-    @SubscribeEvent
-    public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
-    {
-        if (event.getEntity() instanceof EntityPlayer)
-        {
-            ResourceLocation res = new ResourceLocation(dawncraft.MODID + ":" + "magic");
-            ICapabilitySerializable<NBTTagCompound> provider = new CapabilityMana.Provider();
-            event.addCapability(res, provider);
-        }
-    }
-
-    @SubscribeEvent
-    public void onEntityJoinWorld(EntityJoinWorldEvent event)
-    {
-        if (!event.world.isRemote && event.entity instanceof EntityPlayer)
-        {
-            EntityPlayerMP player = (EntityPlayerMP) event.entity;
-            if (player.hasCapability(CapabilityLoader.mana, null))
-            {
-                IMana mana = player.getCapability(CapabilityLoader.mana, null);
-                IStorage<IMana> storage = CapabilityLoader.mana.getStorage();
-
-                MessageMana message = new MessageMana();
-                message.nbt = (NBTTagCompound) storage.writeNBT(CapabilityLoader.mana, mana, null);
-
-                NetworkLoader.instance.sendTo(message, player);
-            }
-        }
-    }
-
+    
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
         EntityPlayer player = event.player;
         World world = player.worldObj;
-
+        
         this.checkForPortalCreation(player, world, 32.0F);
     }
-
+    
     /**
      * Check for can portal create in world.
      * From Benimatic's twilight forest Mod.Thanks.
@@ -123,7 +70,7 @@ public class EventLoader
         if(world != null && player != null && world.provider.getDimensionId() == 0)
         {
             List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
-
+            
             for(EntityItem entityItem : itemList)
             {
                 if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
@@ -139,20 +86,7 @@ public class EventLoader
             }
         }
     }
-
-    @SubscribeEvent
-    public void onPlayerClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event)
-    {
-        Capability<IMana> capability = CapabilityLoader.mana;
-        IStorage<IMana> storage = capability.getStorage();
-        
-        if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
-        {
-            NBTBase nbt = storage.writeNBT(capability, event.original.getCapability(capability, null), null);
-            storage.readNBT(capability, event.entityPlayer.getCapability(capability, null), null, nbt);
-        }
-    }
-
+    
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -167,45 +101,7 @@ public class EventLoader
             event.setResult(Result.ALLOW);
         }
     }
-
-    @SubscribeEvent
-    public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)
-    {
-        if (!event.world.isRemote && event.harvester != null)
-        {
-            ItemStack itemStack = event.harvester.getHeldItem();
-            if (EnchantmentHelper.getEnchantmentLevel(EnchantmentLoader.fireBurn.effectId, itemStack) > 0
-                    && itemStack.getItem() != Items.shears)
-            {
-                for (int i = 0; i < event.drops.size(); ++i)
-                {
-                    ItemStack stack = event.drops.get(i);
-                    ItemStack newStack = FurnaceRecipes.instance().getSmeltingResult(stack);
-                    if (newStack != null)
-                    {
-                        newStack = newStack.copy();
-                        newStack.stackSize = stack.stackSize;
-                        event.drops.set(i, newStack);
-                    }
-                    else if (stack != null)
-                    {
-                        Block block = Block.getBlockFromItem(stack.getItem());
-                        boolean b = block == null;
-                        if (!b && (block.isFlammable(event.world, event.pos, EnumFacing.DOWN)
-                                || block.isFlammable(event.world, event.pos, EnumFacing.EAST)
-                                || block.isFlammable(event.world, event.pos, EnumFacing.NORTH)
-                                || block.isFlammable(event.world, event.pos, EnumFacing.SOUTH)
-                                || block.isFlammable(event.world, event.pos, EnumFacing.UP)
-                                || block.isFlammable(event.world, event.pos, EnumFacing.WEST)))
-                        {
-                            event.drops.remove(i);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
+    
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {
@@ -219,20 +115,6 @@ public class EventLoader
                 player.attackEntityFrom(new DamageSource("byGer").setDifficultyScaled().setExplosion(), 20.0F);
                 player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
                 savage.setDead();
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onPlayerAttack(AttackEntityEvent event)
-    {
-        EntityPlayer player = event.entityPlayer;
-        if (player.isServerWorld() && player.isPotionActive(PotionLoader.potionParalysis))
-        {
-            if(this.rand.nextBoolean())
-            {
-                event.setCanceled(true);
-                player.addChatMessage(new ChatComponentTranslation("chat.potion.paralysis"));
             }
         }
     }

@@ -20,43 +20,51 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 @Mod(modid = dawncraft.MODID, name = dawncraft.NAME, version = dawncraft.VERSION, guiFactory = dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9")
 public class dawncraft
 {
+    /** The Mod id of Dawncraft Mod. */
     public static final String MODID = "dawncraft";
+    /** The Mod name of Dawncraft Mod. */
     public static final String NAME = "Dawncraft Mod";
+    /** The Mod version of Dawncraft Mod. It will replaced by Gradle.*/
     public static final String VERSION = "@version@";
+    /** The Gui Factory of Dawncraft Mod. */
     public static final String GUI_FACTORY = "io.github.dawncraft.client.gui.GuiFactory";
-    
     /** The instance of Dawncraft Mod. */
     @Instance(dawncraft.MODID)
     public static dawncraft instance;
-    
+    /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-    
+
+    /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-    
+
+    /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-    
+
+    /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         new ScriptTest();
         proxy.postInit(event);
     }
-    
+
+    /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-    
+
+    /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)
     {

@@ -12,43 +12,47 @@ public class ItemWandBase extends Item
 {
     private final Item.ToolMaterial material;
     private float spellSpeed;
-    
-	public ItemWandBase(Item.ToolMaterial material, float spellSpeed)
-	{
+
+    public ItemWandBase(Item.ToolMaterial material, float spellSpeed)
+    {
         this.material = material;
         this.spellSpeed = spellSpeed;
         this.setFull3D();
         this.setMaxStackSize(1);
         this.setMaxDamage(material.getMaxUses());
         this.setCreativeTab(CreativeTabs.tabCombat);
-	}
-	
+    }
+
+    @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
         stack.damageItem(2, attacker);
         return true;
     }
-    
+
+    @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
     {
-        if ((double)blockIn.getBlockHardness(worldIn, pos) != 0.0D)
+        if (blockIn.getBlockHardness(worldIn, pos) != 0.0D)
         {
             stack.damageItem(2, playerIn);
         }
-
+        
         return true;
     }
-    
+
+    @Override
     public int getItemEnchantability()
     {
         return this.material.getEnchantability();
     }
-
+    
     public String getToolMaterialName()
     {
         return this.material.toString();
     }
-
+    
+    @Override
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
         ItemStack mat = this.material.getRepairItemStack();

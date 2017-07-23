@@ -9,12 +9,12 @@ import net.minecraft.util.ResourceLocation;
 public class PotionBase extends Potion
 {
     private static final ResourceLocation res = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/potion.png");
-    
-	public PotionBase(ResourceLocation location, boolean badEffect, int potionColor)
-	{
-		super(location, badEffect, potionColor);
-	}
 
+    public PotionBase(ResourceLocation location, boolean badEffect, int potionColor)
+    {
+        super(location, badEffect, potionColor);
+    }
+    
     @Override
     public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
     {

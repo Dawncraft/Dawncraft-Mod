@@ -1,5 +1,10 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.0.3 update log:
+--------------------
+1.Fix two tileentity and their GUI.
+2.Fix some bug.
+===========================================================
 0.2.0.2 update log:
 --------------------
 1.Remake achievements, it looks so cool now.

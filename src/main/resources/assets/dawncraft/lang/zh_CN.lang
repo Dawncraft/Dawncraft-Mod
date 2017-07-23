@@ -106,8 +106,8 @@ entity.dawncraft.Mouse.name=老鼠
 entity.dawncraft.Savage.name=野蛮人
 entity.dawncraft.GerKing.name=Ger王
 
-container.eleHeatGenerator=热能发电机
-container.MachineEleFurnace=电炉
+container.heatGenerator=热能发电机
+container.machineFurnace=电炉
 
 enchantment.fireBurn=火焰灼烧
 
@@ -116,8 +116,6 @@ potion.badGer=Ger化
 potion.paralysis=麻痹
 potion.=混乱
 potion.brainDead=脑残
-
-death.attack.byGer=%s Ger死了
 
 achievement.dawncraft.basic=曙光工艺已安装
 achievement.dawncraft.basic.desc=感谢您对曙光工艺Mod的支持
@@ -164,6 +162,7 @@ achievement.dawncraft.dawnPortal.desc=用巨Ger之心建造通往曙光世界的
 achievement.dawncraft.dawnArrival=天空之城
 achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
 
+death.attack.byGer=%s Ger死了
 
 gui.magic.future=魔法系统尚未开启,敬请期待!
 
@@ -214,8 +213,26 @@ dawncraft.config.coloregg=彩蛋
 dawncraft.config.coloregg.tooltip=???
 dawncraft.config.energy.isEnergyEnabled=开启能源条目
 dawncraft.config.energy.isEnergyEnabled.tooltip=是否开启能源条目
+dawncraft.config.magnetism.isMagnetismEnabled=开启磁力条目
+dawncraft.config.magnetism.isMagnetismEnabled.tooltip=是否开启磁力条目
+dawncraft.config.machine.isMachineEnabled=开启机器条目
+dawncraft.config.machine.isMachineEnabled.tooltip=是否开启机器条目
+dawncraft.config.computer.isComputerEnabled=开启电脑条目
+dawncraft.config.computer.isComputerEnabled.tooltip=是否开启电脑条目
+dawncraft.config.science.isScienceEnabled=开启科学条目
+dawncraft.config.science.isScienceEnabled.tooltip=是否开启科学条目
+dawncraft.config.furniture.isFurnitureEnabled=开启家具条目
+dawncraft.config.furniture.isFurnitureEnabled.tooltip=是否开启家具条目
+dawncraft.config.food.isFoodEnabled=开启食物条目
+dawncraft.config.food.isFoodEnabled.tooltip=是否开启食物条目
+dawncraft.config.flan.isFlanEnabled=开启枪械条目
+dawncraft.config.flan.isFlanEnabled.tooltip=是否开启枪械条目
+dawncraft.config.magic.isMagicEnabled=开启魔法条目
+dawncraft.config.magic.isMagicEnabled.tooltip=是否开启魔法条目
 dawncraft.config.magic.manaRenderType=魔法条渲染方式
 dawncraft.config.magic.manaRenderType.tooltip=设置魔法条的渲染形式,True为泰拉瑞亚式,False为炉石传说式,感谢@单大帅的创意.
+dawncraft.config.coloregg.gerKingPassword=输入密码
+dawncraft.config.coloregg.gerKingPassword.tooltip=请输入正确的Ger王名字
 dawncraft.config.coloregg.enchantmentFireBurnId=火焰灼烧附魔ID
 dawncraft.config.coloregg.enchantmentFireBurnId.tooltip=设置火焰灼烧附魔的ID
 dawncraft.config.coloregg.potionGerPowerID=巨ger之力效果ID

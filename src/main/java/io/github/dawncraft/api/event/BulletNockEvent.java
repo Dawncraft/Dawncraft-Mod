@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.Event.HasResult;
  * This event is {@link Cancelable}.<br>
  * If this event is canceled, the player does not begin using the flan.<br>
  * <br>
- * This event does not have a result. {@link HasResult}<br>
+ * This event have a result. {@link HasResult}<br>
  * <br>
  * This event is fired on the {@link MinecraftForge#EVENT_BUS}.
  **/
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.eventhandler.Event.HasResult;
 public class BulletNockEvent extends PlayerEvent
 {
     public ItemStack result;
-    
+
     public BulletNockEvent(EntityPlayer player, ItemStack result)
     {
         super(player);

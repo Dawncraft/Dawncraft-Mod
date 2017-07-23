@@ -4,8 +4,8 @@ buildscript {
         jcenter()
         maven {
             name = "forge"
-            //url = "http://files.minecraftforge.net/maven"
-            url = "http://forgemavenmirror.sinaapp.com/maven"
+            url = "http://files.minecraftforge.net/maven"
+            //url = "http://forgemavenmirror.sinaapp.com/maven"
         }
     }
     dependencies {
@@ -37,6 +37,7 @@ minecraft {
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/luaj-jse-3.0.1.jar')
+    compile files('libs/markdown4j-2.2.jar')
 }
 
 processResources {

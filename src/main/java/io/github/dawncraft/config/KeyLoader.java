@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * Register keys.
- * 
+ *
  * @author QingChenW
  */
 public class KeyLoader
@@ -21,9 +21,14 @@ public class KeyLoader
     
     public KeyLoader(FMLInitializationEvent event)
     {
-        ClientRegistry.registerKeyBinding(KeyLoader.change);
-        ClientRegistry.registerKeyBinding(KeyLoader.magic);
-        ClientRegistry.registerKeyBinding(KeyLoader.use);
-        ClientRegistry.registerKeyBinding(KeyLoader.Encyclopedia);
+        this.register(KeyLoader.change);
+        this.register(KeyLoader.magic);
+        this.register(KeyLoader.use);
+        this.register(KeyLoader.Encyclopedia);
+    }
+
+    private void register(KeyBinding keybinding)
+    {
+        ClientRegistry.registerKeyBinding(keybinding);
     }
 }

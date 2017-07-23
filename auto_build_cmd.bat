@@ -1,28 +1,28 @@
 @echo off
-title å¿«é€Ÿé…ç½®Forgeè„šæœ¬WCåˆ¶ä½œ
+title ¿ìËÙÅäÖÃForge½Å±¾WCÖÆ×÷
 
 set INFO=0
-::å¼€å§‹ç”»é¢
+::¿ªÊ¼»­Ãæ
 :start
 echo +=====================+
-echo   å¿«é€Ÿé…ç½®Forgeè„šæœ¬
-echo                WCåˆ¶ä½œ
+echo   ¿ìËÙÅäÖÃForge½Å±¾
+echo                WCÖÆ×÷
 echo +=====================+
-echo 1.é…ç½®JAVAçŽ¯å¢ƒå˜é‡
-echo 2.é…ç½®Forgeå¼€å‘çŽ¯å¢ƒ
-echo 3.é…ç½®Eclipseå·¥ç¨‹æ–‡ä»¶
-echo 4.å¿«é€Ÿæž„å»ºMod
-echo 5.æ‰“å¼€Gradlew GUI
-echo 6.æœªçŸ¥
-if %INFO% EQU 0 echo 7.é…ç½®æ—¶æ˜¾ç¤ºæ›´å¤šä¿¡æ¯(å½“å‰å…³é—­)
-if %INFO% EQU 1 echo 7.é…ç½®æ—¶æ˜¾ç¤ºæ›´å¤šä¿¡æ¯(å½“å‰å¼€å¯)
-echo 8.é€€å‡º
+echo 1.ÅäÖÃJAVA»·¾³±äÁ¿
+echo 2.ÅäÖÃForge¿ª·¢»·¾³
+echo 3.ÅäÖÃEclipse¹¤³ÌÎÄ¼þ
+echo 4.¿ìËÙ¹¹½¨Mod
+echo 5.´ò¿ªGradlew GUI
+echo 6.Î´Öª
+if %INFO% EQU 0 echo 7.ÅäÖÃÊ±ÏÔÊ¾¸ü¶àÐÅÏ¢(µ±Ç°¹Ø±Õ)
+if %INFO% EQU 1 echo 7.ÅäÖÃÊ±ÏÔÊ¾¸ü¶àÐÅÏ¢(µ±Ç°¿ªÆô)
+echo 8.ÍË³ö
 echo +=====================+
 
-::é€‰æ‹©é€‰é¡¹
+::Ñ¡ÔñÑ¡Ïî
 :select
 set select=
-set /p select=è¯·é€‰æ‹©: 
+set /p select=ÇëÑ¡Ôñ: 
 if "%select%"=="1" goto java
 if "%select%"=="2" goto forge
 if "%select%"=="3" goto eclipse
@@ -33,26 +33,26 @@ if "%select%"=="7" goto switch
 if "%select%"=="8" goto end
 goto select
 
-::è‡ªåŠ¨é…ç½®JAVAçŽ¯å¢ƒå˜é‡
+::×Ô¶¯ÅäÖÃJAVA»·¾³±äÁ¿
 :java
-:: åœ¨C:\Program Files\Javaä¸­æœç´¢Jdk
+:: ÔÚC:\Program Files\JavaÖÐËÑË÷Jdk
 set JDK=C:\Program Files\Java\
 echo +=====================+
-echo æ‰§è¡Œ 1.é…ç½®JAVAçŽ¯å¢ƒå˜é‡
+echo Ö´ÐÐ 1.ÅäÖÃJAVA»·¾³±äÁ¿
 echo +=====================+
-echo æ­£åœ¨æ£€æŸ¥æ˜¯å¦å­˜åœ¨å˜é‡
+echo ÕýÔÚ¼ì²éÊÇ·ñ´æÔÚ±äÁ¿
 echo +=====================+
-::æ£€æŸ¥æ˜¯å¦å­˜åœ¨JAVAçŽ¯å¢ƒå˜é‡
+::¼ì²éÊÇ·ñ´æÔÚJAVA»·¾³±äÁ¿
 if defined JAVA_HOME (
-  echo æ£€æŸ¥åˆ°JAVAçŽ¯å¢ƒå˜é‡
-  echo é…ç½®å·²å–æ¶ˆ
+  echo ¼ì²éµ½JAVA»·¾³±äÁ¿
+  echo ÅäÖÃÒÑÈ¡Ïû
   echo +=====================+
   pause
   goto start
 )
-:: å¦‚æžœå­˜åœ¨JDKç›®å½•åˆ™æœç´¢javac.exe
+:: Èç¹û´æÔÚJDKÄ¿Â¼ÔòËÑË÷javac.exe
 if exist %JDK% (
-  echo å·²æ‰¾åˆ°JDKç›®å½•...
+  echo ÒÑÕÒµ½JDKÄ¿Â¼...
   echo +=====================+
   pushd %JDK%
   for /r %%i in (*.exe) do (
@@ -63,25 +63,25 @@ if exist %JDK% (
   )
   popd
 )
-:: å¦‚æžœæ²¡æ‰¾åˆ°JDKç›®å½•
+:: Èç¹ûÃ»ÕÒµ½JDKÄ¿Â¼
 if %HASJDK% NEQ 1 (
-  echo æœªæ‰¾åˆ°Jdkç›®å½•,å¯èƒ½æ˜¯æœªå®‰è£…æˆ–æ²¡æœ‰å®‰è£…åˆ°é»˜è®¤ç›®å½•
-  echo æ‰‹åŠ¨é…ç½®å§QAQ
+  echo Î´ÕÒµ½JdkÄ¿Â¼,¿ÉÄÜÊÇÎ´°²×°»òÃ»ÓÐ°²×°µ½Ä¬ÈÏÄ¿Â¼
+  echo ÊÖ¶¯ÅäÖÃ°ÉQAQ
   echo +=====================+
   pause
   goto start
 )
-::é…ç½®çŽ¯å¢ƒå˜é‡
+::ÅäÖÃ»·¾³±äÁ¿
 set JDKPATH=%JAVACPATH:~0,-14%
-echo JDKç›®å½•:%JDKPATH%
+echo JDKÄ¿Â¼:%JDKPATH%
 echo +=====================+
 setx JAVA_HOME "%JDKPATH%" /M
 setx CLASSPATH ".;%%Java_Home%%\lib\tools.jar;%%Java_Home%%\lib\dt.jar;%%Java_Home%%\jre\lib\rt.jar" /M
 set VARPATH=%Path%;%%Java_Home%%\bin;%%Java_Home%%\jre\bin
 setx Path "%VARPATH%" /M
-::é…ç½®å®Œæˆ,æµ‹è¯•
+::ÅäÖÃÍê³É,²âÊÔ
 echo +=====================+
-echo JDKçŽ¯å¢ƒå˜é‡è®¾ç½®æˆåŠŸ,æµ‹è¯•ä¸€ä¸‹å§~
+echo JDK»·¾³±äÁ¿ÉèÖÃ³É¹¦,²âÊÔÒ»ÏÂ°É~
 echo +=====================+
 call java -version
 echo +=====================+
@@ -90,58 +90,58 @@ goto start
 
 :forge
 echo +=====================+
-echo æ‰§è¡Œ 2.é…ç½®Forgeå¼€å‘çŽ¯å¢ƒ
+echo Ö´ÐÐ 2.ÅäÖÃForge¿ª·¢»·¾³
 echo +=====================+
 if %INFO% EQU 0 call gradlew.bat setupDecompWorkspace
 if %INFO% EQU 1 call gradlew.bat setupDecompWorkspace --info
 echo +=====================+
-echo é…ç½®Forgeå¼€å‘çŽ¯å¢ƒå®Œæ¯•
+echo ÅäÖÃForge¿ª·¢»·¾³Íê±Ï
 echo +=====================+
 pause
 goto start
 
 :eclipse
 echo +=====================+
-echo æ‰§è¡Œ 3.é…ç½®Eclipseå·¥ç¨‹æ–‡ä»¶
+echo Ö´ÐÐ 3.ÅäÖÃEclipse¹¤³ÌÎÄ¼þ
 echo +=====================+
 if %INFO% EQU 0 call gradlew.bat eclipse
 if %INFO% EQU 1 call gradlew.bat eclipse --info
 echo +=====================+
-echo é…ç½®Eclipseå·¥ç¨‹æ–‡ä»¶å®Œæ¯•
+echo ÅäÖÃEclipse¹¤³ÌÎÄ¼þÍê±Ï
 echo +=====================+
 pause
 goto start
 
 :build
 echo +=====================+
-echo.æ‰§è¡Œ 4.å¿«é€Ÿæž„å»ºMod
+echo.Ö´ÐÐ 4.¿ìËÙ¹¹½¨Mod
 echo +=====================+
 if %INFO% EQU 0 call gradlew.bat build
 if %INFO% EQU 1 call gradlew.bat build --info
 echo +=====================+
-echo æž„å»ºModå®Œæ¯•
+echo ¹¹½¨ModÍê±Ï
 echo +=====================+
 pause
 goto start
 
 :gui
 echo +=====================+
-echo.æ‰§è¡Œ 5.æ‰“å¼€Gradlew GUI
+echo.Ö´ÐÐ 5.´ò¿ªGradlew GUI
 echo +=====================+
 call gradlew --gui
 echo +=====================+
-echo Gradlew GUIç»“æŸ
+echo Gradlew GUI½áÊø
 echo +=====================+
 pause
 goto start
 
 :git
 echo +=====================+
-echo.æ‰§è¡Œ 6.æœªçŸ¥
+echo.Ö´ÐÐ 6.Î´Öª
 echo +=====================+
-echo å°šæœªå®Œæˆ,æ•¬è¯·æœŸå¾…
+echo ÉÐÎ´Íê³É,¾´ÇëÆÚ´ý
 echo +=====================+
-echo æœªçŸ¥ç»“æŸ
+echo Î´Öª½áÊø
 echo +=====================+
 pause
 goto start
@@ -150,9 +150,9 @@ goto start
 if %INFO% EQU 0 (
   set INFO=1
   echo +=====================+
-  echo æ‰§è¡Œ 7.åˆ‡æ¢ä¿¡æ¯æ˜¾ç¤º
+  echo Ö´ÐÐ 7.ÇÐ»»ÐÅÏ¢ÏÔÊ¾
   echo +=====================+
-  echo å·²åˆ‡æ¢ä¸ºå¼€å¯æ›´å¤šä¿¡æ¯
+  echo ÒÑÇÐ»»Îª¿ªÆô¸ü¶àÐÅÏ¢
   echo +=====================+
   pause
   goto start
@@ -160,9 +160,9 @@ if %INFO% EQU 0 (
 if %INFO% EQU 1 (
   set INFO=0
   echo +=====================+
-  echo æ‰§è¡Œ 7.åˆ‡æ¢ä¿¡æ¯æ˜¾ç¤º
+  echo Ö´ÐÐ 7.ÇÐ»»ÐÅÏ¢ÏÔÊ¾
   echo +=====================+
-  echo å·²åˆ‡æ¢ä¸ºå…³é—­æ›´å¤šä¿¡æ¯
+  echo ÒÑÇÐ»»Îª¹Ø±Õ¸ü¶àÐÅÏ¢
   echo +=====================+
   pause
   goto start

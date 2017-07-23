@@ -3,7 +3,7 @@ package io.github.dawncraft.block;
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.api.block.BlockMachineBase;
 import io.github.dawncraft.container.GuiLoader;
-import io.github.dawncraft.tileentity.TileEntityEnergyHeatGen;
+import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,25 +21,22 @@ import net.minecraftforge.items.IItemHandlerModifiable;
  */
 public class BlockEnergyGenerator extends BlockMachineBase
 {
-    public BlockEnergyGenerator.EnergyGeneratorType type;
+    public BlockEnergyGenerator.EnergyGeneratorType generatorType;
     
-    public BlockEnergyGenerator(EnergyGeneratorType generatorType)
+    public BlockEnergyGenerator(EnergyGeneratorType type)
     {
         super();
-        this.type = generatorType;
+        this.generatorType = type;
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING,
                 Boolean.FALSE));
     }
 
     @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
-        switch (this.type)
-        {
-            default:
-            case HEAT:
-                return new TileEntityEnergyHeatGen();
-        }
+        TileEntity te = new TileEntityEnergyGenerator(this.generatorType);
+        te.setWorldObj(world);
+        return te;
     }
 
     @Override
@@ -49,7 +46,7 @@ public class BlockEnergyGenerator extends BlockMachineBase
         if (!worldIn.isRemote)
         {
             int id;
-            switch (this.type)
+            switch (this.generatorType)
             {
                 default:
                 case HEAT:
@@ -66,17 +63,18 @@ public class BlockEnergyGenerator extends BlockMachineBase
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (this.type == EnergyGeneratorType.HEAT)
+        if (this.generatorType == EnergyGeneratorType.HEAT)
         {
-            IItemHandler slots = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY,
-                    EnumFacing.DOWN);
+            IItemHandler slots = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
             
             for (int i = slots.getSlots() - 1; i >= 0; --i)
+            {
                 if (slots.getStackInSlot(i) != null)
                 {
                     Block.spawnAsEntity(worldIn, pos, slots.getStackInSlot(i));
                     ((IItemHandlerModifiable) slots).setStackInSlot(i, null);
                 }
+            }
         }
 
         super.breakBlock(worldIn, pos, state);

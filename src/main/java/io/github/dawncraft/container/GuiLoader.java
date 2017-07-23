@@ -1,12 +1,12 @@
 package io.github.dawncraft.container;
 
 import io.github.dawncraft.dawncraft;
-import io.github.dawncraft.client.gui.inventory.GuiEnergyHeatGen;
+import io.github.dawncraft.client.gui.inventory.GuiEnergyGenerator;
+import io.github.dawncraft.client.gui.inventory.GuiMachineFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,9 +17,9 @@ public class GuiLoader implements IGuiHandler
     // Energy
     public static final int GUI_HEAT_GENERATOR = 1;
     // Machine
-    public static final int GUI_ELECTRICITY_FURNACE = 33;
+    public static final int GUI_MACHINE_FURNACE = 2;
     // Computer
-    
+    public static final int GUI_COMPUTER_CASE = 3;
     // Furniture
     
     // Food
@@ -39,8 +39,10 @@ public class GuiLoader implements IGuiHandler
     {
         switch (ID)
         {
-        case GUI_HEAT_GENERATOR:
-            return new ContainerEnergyHeatGen(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
+            case GUI_HEAT_GENERATOR:
+                return new ContainerEnergyGenerator(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
+            case GUI_MACHINE_FURNACE:
+                return new ContainerMachineFurnace(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
         }
         return null;
     }
@@ -51,8 +53,10 @@ public class GuiLoader implements IGuiHandler
     {
         switch (ID)
         {
-        case GUI_HEAT_GENERATOR:
-            return new GuiEnergyHeatGen(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
+            case GUI_HEAT_GENERATOR:
+                return new GuiEnergyGenerator(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
+            case GUI_MACHINE_FURNACE:
+                return new GuiMachineFurnace(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
         }
         return null;
     }
