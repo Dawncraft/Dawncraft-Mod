@@ -30,8 +30,8 @@
         "category": "record", 
         "sounds": [ 
 			{
-            "name": "dawncraft:records/dj",
-            "stream": true
+                "name": "dawncraft:records/dj",
+                "stream": true
 			}
         ] 
     }

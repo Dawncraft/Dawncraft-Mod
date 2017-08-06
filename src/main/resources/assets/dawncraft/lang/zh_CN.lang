@@ -19,10 +19,10 @@ item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒
 item.magnetBall.name=磁珠
 item.magnetCard.name=磁卡
-item.magnetCard.tooltip=持有者: %s
-item.magnetCard.tooltip.null=空白的磁卡
+item.magnetCard.desc=持有者: %s
+item.magnetCard.null=空白的磁卡
 item.magnetDoor.name=磁铁门
-item.magnetDoor.tooltip=所有者: %s
+item.magnetDoor.desc=所有者: %s
 
 item.magnetAxe.name=磁铁斧
 item.magnetPickaxe.name=磁铁镐
@@ -37,10 +37,11 @@ item.magnetLeggings.name=磁铁护腿
 item.magnetBoots.name=磁铁靴子
 
 item.simpleCPU.name=普通CPU
+item.simpleCPU.desc=曙光一代CPU,慢的要死
 item.advancedCPU.name=高级CPU
+item.advancedCPU.desc=曙光二代CPU,速度还算可以
 item.superCPU.name=超级CPU
-
-
+item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
 item.faeces.name=§6屎
 item.cakeEgg.name=荷包蛋
@@ -164,6 +165,7 @@ achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
 
 death.attack.byGer=%s Ger死了
 
+gui.moreinfo=按 %s 显示详细信息
 gui.magic.future=魔法系统尚未开启,敬请期待!
 
 commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)

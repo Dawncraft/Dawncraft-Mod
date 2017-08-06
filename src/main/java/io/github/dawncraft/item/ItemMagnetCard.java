@@ -88,10 +88,12 @@ public class ItemMagnetCard extends Item
             String name = nbt.getString("Owner");
             if(!StringUtils.isNullOrEmpty(name))
             {
-                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetCard.tooltip", name));
-                return;
+                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetCard.desc", name));
             }
         }
-        tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetCard.tooltip.null"));
+        else
+        {
+            tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetCard.null"));
+        }
     }
 }

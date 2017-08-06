@@ -26,7 +26,7 @@ public class ItemMagnetDoor extends ItemDoor
     {
         super(BlockLoader.magnetDoor);
     }
-
+    
     @Override
     public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
@@ -49,7 +49,7 @@ public class ItemMagnetDoor extends ItemDoor
                             {
                                 tileentitydoor.setName(nbt.getString("Owner"));
                             }
-
+                            
                             tileentitydoor.setUUID(nbt.getString("UUID"));
                         }
                         else if (nbt.hasKey("Owner", 8))
@@ -70,7 +70,7 @@ public class ItemMagnetDoor extends ItemDoor
         }
         return false;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
@@ -81,7 +81,7 @@ public class ItemMagnetDoor extends ItemDoor
             String name = nbt.getString("Owner");
             if(!StringUtils.isNullOrEmpty(name))
             {
-                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetDoor.tooltip", name));
+                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetDoor.desc", name));
             }
         }
     }

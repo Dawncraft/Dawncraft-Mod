@@ -1,5 +1,10 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.0.4 update log:
+--------------------
+1.Fix config.
+2.Add item infomation.
+===========================================================
 0.2.0.3 update log:
 --------------------
 1.Fix two tileentity and their GUI.

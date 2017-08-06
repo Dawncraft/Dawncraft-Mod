@@ -2,9 +2,9 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.magic.SkillLoader;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -52,11 +52,11 @@ public class MessageSkill implements IMessage
                         boolean result = SkillLoader.heal.spellMagic(serverPlayer.getHeldItem(), serverPlayer.getEntityWorld(), serverPlayer);
                         if(result)
                         {
-                            serverPlayer.addChatMessage(new ChatComponentTranslation("magic.yes", I18n.format("magic.heal.name")));
+                            serverPlayer.addChatMessage(new ChatComponentTranslation("magic.yes", StatCollector.translateToLocal("magic.heal.name")));
                         }
-                        else// TODO I18n是only client的
+                        else
                         {
-                            serverPlayer.addChatMessage(new ChatComponentTranslation("magic.no", I18n.format("magic.heal.name")));
+                            serverPlayer.addChatMessage(new ChatComponentTranslation("magic.no", StatCollector.translateToLocal("magic.heal.name")));
                         }
                     }
                 });

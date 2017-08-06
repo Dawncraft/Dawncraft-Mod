@@ -72,11 +72,11 @@ public class ItemLoader
     // Machine
     
     // Computer
-    public static Item simpleCPU = new Item().setUnlocalizedName("simpleCPU")
+    public static Item simpleCPU = new ItemWithInfo(false).setUnlocalizedName("simpleCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
-    public static Item advancedCPU = new Item().setUnlocalizedName("advancedCPU")
+    public static Item advancedCPU = new ItemWithInfo(false).setUnlocalizedName("advancedCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
-    public static Item superCPU = new Item().setUnlocalizedName("superCPU")
+    public static Item superCPU = new ItemWithInfo(false).setUnlocalizedName("superCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
     
     // Science

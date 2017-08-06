@@ -24,32 +24,30 @@ import javax.swing.event.HyperlinkListener;
 /**
  * 网页浏览器主程序
  * <br>请勿使用此类，这只是个纪念品</br>
+ * 如何使用：WebBrowserV1 webBrowser = new WebBrowserV1("我的世界中文维基百科", "http://minecraft-zh.gamepedia.com/Minecraft_Wiki");
  *
  * @version v1.0
  * @author QingChenW
- *
- *         如何使用：WebBrowserV1 webBrowser = new WebBrowserV1("我的世界中文维基百科",
- *         "http://minecraft-zh.gamepedia.com/Minecraft_Wiki");
  */
 public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionListener
 {
     String htmlSource;
     private ArrayList history = new ArrayList();
     private int historyIndex;
-
+    
     JWindow window = new JWindow(this);
     JToolBar jBar = new JToolBar();
     JTextField jurl = new JTextField(50);
     JEditorPane jEditorPane = new JEditorPane();
     JScrollPane jScrollPane = new JScrollPane(this.jEditorPane);
-
+    
     Toolkit toolkit = Toolkit.getDefaultToolkit();
     JButton picBack = new JButton("后退");
     JButton picRefresh = new JButton("刷新");
     JLabel label = new JLabel("地址");
     JButton picGo = new JButton("转向");
     Box adress = Box.createHorizontalBox();
-
+    
     public WebBrowserV1(String title, String url)
     {
         this.setTitle(title + "   浏览器作者:wc");
@@ -61,12 +59,12 @@ public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionLis
         } catch (Exception e)
         {
         }
-
+        
         Container contentPane = this.getContentPane();
         this.jScrollPane.setPreferredSize(new Dimension(100, 500));
         contentPane.add(this.jScrollPane, BorderLayout.SOUTH);
         this.jEditorPane.addHyperlinkListener(this);
-
+        
         this.jBar.add(this.picBack);
         this.jBar.add(this.picRefresh);
         this.jBar.addSeparator();
@@ -75,18 +73,18 @@ public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionLis
         this.adress.add(this.picGo);
         this.jBar.add(this.adress);
         contentPane.add(this.jBar, BorderLayout.NORTH);
-
+        
         this.picBack.addActionListener(this);
         this.picRefresh.addActionListener(this);
         this.jurl.addActionListener(this);
         this.picGo.addActionListener(this);
-
+        
         this.pack();
         this.setVisible(true);
-
+        
         this.loadWebPage(url);
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -103,7 +101,7 @@ public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionLis
             this.loadWebPage(url);
         }
     }
-
+    
     @Override
     public void hyperlinkUpdate(HyperlinkEvent e)
     {
@@ -116,7 +114,7 @@ public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionLis
             ex.printStackTrace(System.err);
         }
     }
-
+    
     public void loadWebPage(String url)
     {
         if (url.length() > 0)
