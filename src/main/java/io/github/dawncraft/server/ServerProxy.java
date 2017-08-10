@@ -15,7 +15,7 @@ import io.github.dawncraft.entity.FakePlayerLoader;
 import io.github.dawncraft.event.EventLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;
-import io.github.dawncraft.magic.SkillLoader;
+import io.github.dawncraft.skill.SkillLoader;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.stats.AchievementLoader;
@@ -29,14 +29,14 @@ import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 
 /**
  * The common proxy of Dawncraft Mod.
- * 
+ *
  * @author QingChenW
  */
 public class ServerProxy
 {
     public void preInit(FMLPreInitializationEvent event)
     {
-    	new LogLoader(event);
+        new LogLoader(event);
         new ConfigLoader(event);
         new CapabilityLoader(event);
         new CreativeTabsLoader(event);
@@ -61,19 +61,19 @@ public class ServerProxy
         new FakePlayerLoader(event);
         new GuiLoader(event);
     }
-    
+
     public void postInit(FMLPostInitializationEvent event)
     {
-        
+
     }
-    
+
     public void serverStarting(FMLServerStartingEvent event)
     {
         new CommandLoader(event);
     }
-    
+
     public void interModComms(IMCEvent event)
     {
-        
+
     }
 }

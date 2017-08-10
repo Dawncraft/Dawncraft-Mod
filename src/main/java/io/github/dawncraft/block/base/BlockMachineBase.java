@@ -1,4 +1,4 @@
-package io.github.dawncraft.api.block;
+package io.github.dawncraft.block.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

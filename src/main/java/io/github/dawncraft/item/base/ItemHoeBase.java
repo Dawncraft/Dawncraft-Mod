@@ -1,4 +1,4 @@
-package io.github.dawncraft.api.item;
+package io.github.dawncraft.item.base;
 
 import net.minecraft.item.ItemHoe;
 

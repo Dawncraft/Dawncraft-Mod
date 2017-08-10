@@ -2,6 +2,8 @@ package io.github.dawncraft.creativetab;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.skill.Skill;
+import io.github.dawncraft.skill.SkillLoader;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -24,6 +26,9 @@ public class CreativeTabsLoader
     public static CreativeTabs tabFlans;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
+    
+    public static CreativeSkillTabs tabSearch;
+    public static CreativeSkillTabs tabSkills;
 
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
@@ -105,6 +110,24 @@ public class CreativeTabsLoader
             public Item getTabIconItem()
             {
                 return ItemLoader.goldiamondSword;
+            }
+        };
+
+        tabSearch = new CreativeSkillTabs("Search")
+        {
+            @Override
+            public Skill getTabIconSkill()
+            {
+                return SkillLoader.attack;
+            }
+        };
+        
+        tabSkills = new CreativeSkillTabs("Skills")
+        {
+            @Override
+            public Skill getTabIconSkill()
+            {
+                return SkillLoader.heal;
             }
         };
     }

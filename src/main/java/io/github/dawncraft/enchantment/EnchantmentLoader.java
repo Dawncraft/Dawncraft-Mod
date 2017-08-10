@@ -1,32 +1,34 @@
 package io.github.dawncraft.enchantment;
 
-import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.LogLoader;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register enchantments.
- * 
+ *
  * @author QingChenW
  */
 public class EnchantmentLoader
 {
-    public static Enchantment fireBurn;
-    
+    public static Enchantment fireBurn = new EnchantmentFireBurn().setName("fireBurn");
+
     public EnchantmentLoader(FMLPreInitializationEvent event)
+    {
+        register(fireBurn);
+    }
+    
+    private static void register(Enchantment enchantment)
     {
         try
         {
-            fireBurn = new EnchantmentFireBurn();
-            Enchantment.addToBookList(fireBurn);
+            Enchantment.addToBookList(enchantment);
         }
         catch (Exception e)
         {
             LogLoader.logger().error("Duplicate or illegal enchantment id: {}, the registry of class '{}' will be skipped. ",
-                    ConfigLoader.enchantmentFireBurnId, EnchantmentFireBurn.class.getName());
+                    enchantment.effectId, enchantment.getName());
         }
     }
 }

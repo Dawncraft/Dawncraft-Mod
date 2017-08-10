@@ -1,11 +1,11 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.dawncraft;
-import io.github.dawncraft.api.block.BlockSkullBase;
-import io.github.dawncraft.api.item.*;
 import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.block.base.BlockSkullBase;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
+import io.github.dawncraft.item.base.*;
 import io.github.dawncraft.potion.PotionLoader;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +15,6 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
@@ -51,14 +50,13 @@ public class ItemLoader
     public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11)
             .setRepairItem(new ItemStack(magnetIngot));
     public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET",
-            dawncraft.MODID + ":" + "magnet", 17, new int[]
-                    { 1, 5, 4, 2 }, 11);
+            dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11);
     public static Item magnetAxe = new ItemAxeBase(MAGNET_TOOL).setUnlocalizedName("magnetAxe");
     public static Item magnetPickaxe = new ItemPickaxeBase(MAGNET_TOOL).setUnlocalizedName("magnetPickaxe");
     public static Item magnetHammer = new ItemHammerBase(MAGNET_TOOL).setUnlocalizedName("magnetHammer");
     public static Item magnetSpade = new ItemSpadeBase(MAGNET_TOOL).setUnlocalizedName("magnetSpade");
     public static Item magnetHoe = new ItemHoeBase(MAGNET_TOOL).setUnlocalizedName("magnetHoe");
-    public static Item magnetSword = new ItemSword(MAGNET_TOOL).setUnlocalizedName("magnetSword");
+    public static Item magnetSword = new ItemSwordBase(MAGNET_TOOL).setUnlocalizedName("magnetSword");
     public static Item magnetWand = new ItemWandBase(MAGNET_TOOL, 0.8F).setUnlocalizedName("magnetWand");
     public static Item magnetHelmet = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 0)
             .setUnlocalizedName("magnetHelmet");
@@ -167,7 +165,7 @@ public class ItemLoader
     public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F,
             16);
     public static final Item.ToolMaterial MJOLNIR = EnumHelper.addToolMaterial("MJOLNIR", 4, 2586, 10.0F, 2.0F, 24);
-    public static Item goldiamondSword = new ItemSword(ItemLoader.GOLDIAMOND).setUnlocalizedName("goldiamondSword")
+    public static Item goldiamondSword = new ItemSwordBase(ItemLoader.GOLDIAMOND).setUnlocalizedName("goldiamondSword")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
     public static Item mjolnir = new ItemHammerBase(MJOLNIR)
     {

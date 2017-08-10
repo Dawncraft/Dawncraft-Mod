@@ -1,6 +1,6 @@
 package io.github.dawncraft.capability;
 
-import io.github.dawncraft.magic.Skill;
+import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.talent.Talent;
 
 /**

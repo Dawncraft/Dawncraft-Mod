@@ -1,7 +1,7 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.dawncraft;
-import io.github.dawncraft.api.block.BlockMachineBase;
+import io.github.dawncraft.block.base.BlockMachineBase;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 import net.minecraft.block.Block;

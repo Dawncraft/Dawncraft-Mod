@@ -1,6 +1,6 @@
 package io.github.dawncraft.block;
 
-import io.github.dawncraft.api.block.BlockMachineBase;
+import io.github.dawncraft.block.base.BlockMachineBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;

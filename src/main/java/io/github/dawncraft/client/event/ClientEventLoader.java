@@ -2,7 +2,7 @@ package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.client.gui.magic.GuiMagicBook;
+import io.github.dawncraft.client.gui.magic.GuiMagic;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.item.ItemLoader;
@@ -31,16 +31,16 @@ public class ClientEventLoader extends Gui
 {
     public static final ResourceLocation DCTEXTURES = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/widgets.png");
     public Minecraft mc = Minecraft.getMinecraft();
-
+    
     public boolean magicMode = false;
     public boolean isSpelling = false;
     public int magicIndex;
-
+    
     public ClientEventLoader(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(this);
     }
-
+    
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -87,7 +87,7 @@ public class ClientEventLoader extends Gui
         // Magic key was pressed
         if (KeyLoader.magic.isPressed())
         {
-            Minecraft.getMinecraft().displayGuiScreen(new GuiMagicBook());
+            mc.displayGuiScreen(new GuiMagic(mc.thePlayer));
         }
         // Use key was pressed
         if (KeyLoader.use.isPressed())
@@ -116,21 +116,24 @@ public class ClientEventLoader extends Gui
             WebBrowserV1 webBrowser = new WebBrowserV1("我的世界中文维基百科", "http://minecraft-zh.gamepedia.com/Minecraft_Wiki");
         }
     }
-
+    
     @SubscribeEvent
     public void PreGUIRender(RenderGameOverlayEvent.Pre event)
     {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
         {
-            this.mc.getTextureManager().bindTexture(DCTEXTURES);
             int air,mana,a,b;
             EntityPlayer entityplayer = (EntityPlayer)this.mc.getRenderViewEntity();
             int width = event.resolution.getScaledWidth();
             int height = event.resolution.getScaledHeight();
             int w1,h1;
-
+            
             if(this.mc.playerController.gameIsSurvivalOrAdventure())
             {
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                this.mc.getTextureManager().bindTexture(DCTEXTURES);
+                GlStateManager.enableAlpha();
+                
                 if(entityplayer.hasCapability(CapabilityLoader.mana, null))
                 {
                     mana = entityplayer.getCapability(CapabilityLoader.mana, null).getMana();
@@ -143,45 +146,45 @@ public class ClientEventLoader extends Gui
                 h1 = height - 39 - 9 - 1;
                 int ii,x,y;
                 int u = 22;
-
+                
                 if(ConfigLoader.manaRenderType)
                 {
                     u = u + 9;
                 }
-                
+
                 for (ii = 0; ii < 10; ++ii)
                 {
                     x = w1 - ii * 8 - 9;
                     y = h1;
-                    
+
                     this.drawTexturedModalRect(x, y, 0, u, 9, 9);
-                    
+
                     if (ii * 2 + 1 < mana)
                     {
                         this.drawTexturedModalRect(x, y, 9, u, 9, 9);
                     }
-                    
+
                     if (ii * 2 + 1 == mana)
                     {
                         this.drawTexturedModalRect(x, y, 17, u, 9, 9);
                     }
                 }
             }
-
+            
             if(event.type == ElementType.AIR)
             {
                 event.setCanceled(true);
                 w1 = width / 2 + 91;
                 h1 = height - 39 - 9 - 1 - 9 - 1;
-
+                
                 this.mc.mcProfiler.startSection("air");
                 if (entityplayer.isInsideOfMaterial(Material.water))
                 {
                     air = this.mc.thePlayer.getAir();
-
+                    
                     a = MathHelper.ceiling_double_int((air - 2) * 10.0D / 300.0D);
                     b = MathHelper.ceiling_double_int(air * 10.0D / 300.0D) - a;
-                    
+
                     for (int i = 0; i < a + b; ++i)
                     {
                         if (i < a)
@@ -196,22 +199,25 @@ public class ClientEventLoader extends Gui
                     this.mc.mcProfiler.endSection();
                 }
             }
-
+            
             if(event.type == ElementType.HOTBAR)
             {
                 if(this.magicMode)
                 {
                     event.setCanceled(true);
                     GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                    this.mc.getTextureManager().bindTexture(DCTEXTURES);
+                    GlStateManager.enableAlpha();
+
                     w1 = width / 2 - 91;
                     h1 = height - 22;
-
+                    
                     this.drawTexturedModalRect(w1, h1, 0, 0, 182, 22);
                     if(this.isSpelling)
                     {
                         this.drawTexturedModalRect(w1 - 1 + this.magicIndex * 20, h1 - 1, 182, 0, 24, 22);
                     }
-
+                    
                     //GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                     for (int i = 0; i < 9; ++i)
                     {
@@ -226,25 +232,28 @@ public class ClientEventLoader extends Gui
                     }
                 }
             }
-
+            
             if(this.magicMode && this.isSpelling)
             {
                 if(this.magicIndex == 0)
                 {
-                    String s = I18n.format("magic.prefix.spell", I18n.format("magic.heal.name"));
+                    String s = I18n.format("magic.prefix.spell", I18n.format("skill.heal.name"));
                     this.drawCenteredString(this.mc.fontRendererObj, s, width / 2, height - 54, 16777215);
                 }
             }
-
+            
             if(entityplayer.isUsingItem() && entityplayer.getItemInUse().getItem() == ItemLoader.flanRPG)
             {
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                this.mc.getTextureManager().bindTexture(DCTEXTURES);
+                GlStateManager.enableAlpha();
                 this.drawTexturedModalRect(width / 2 - 20, height / 2 - 20, 214, 0, 42, 42);
             }
-
+            
             this.mc.getTextureManager().bindTexture(super.icons);
         }
     }
-
+    
     @SubscribeEvent
     public void TextRender(RenderGameOverlayEvent.Text event)
     {

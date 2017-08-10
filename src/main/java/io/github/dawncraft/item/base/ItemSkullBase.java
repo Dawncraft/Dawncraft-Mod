@@ -1,8 +1,8 @@
-package io.github.dawncraft.api.item;
+package io.github.dawncraft.item.base;
 
 import java.util.List;
 
-import io.github.dawncraft.api.block.BlockSkullBase;
+import io.github.dawncraft.block.base.BlockSkullBase;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;

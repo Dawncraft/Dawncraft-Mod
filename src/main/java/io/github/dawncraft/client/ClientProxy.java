@@ -4,6 +4,7 @@ import io.github.dawncraft.client.event.ClientEventLoader;
 import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
 import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
+import io.github.dawncraft.client.renderer.skill.MagicRenderLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.server.ServerProxy;
@@ -26,8 +27,9 @@ public class ClientProxy extends ServerProxy
         new BlockRenderLoader(event);
         new EntityRenderLoader(event);
         new TileEntityRenderLoader(event);
+        new MagicRenderLoader(event);
     }
-    
+
     @Override
     public void init(FMLInitializationEvent event)
     {
@@ -35,11 +37,11 @@ public class ClientProxy extends ServerProxy
         new KeyLoader(event);
         new ClientEventLoader(event);
     }
-    
+
     @Override
     public void postInit(FMLPostInitializationEvent event)
     {
-
+        
         super.postInit(event);
     }
 }

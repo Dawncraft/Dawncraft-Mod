@@ -70,11 +70,14 @@ item.funny.name=滑稽
 item.goldiamondSword.name=§e黄金§b钻石§5剑
 item.mjolnir.name=§b雷神之锤
 
+skillGroup.Skills=基础法术
+skillGroup.Search=搜索
+
+skill.attack.name=攻击法术
+skill.heal.name=治疗术
 magic.prefix.spell=施放 %1$s
 magic.yes=施放 %1$s 成功
 magic.no=施放 %1$s 失败
-magic.attack.name=攻击法术
-magic.heal.name=治疗术
 
 tile.electricityCable.name=电缆
 tile.heatGenerator.name=热能发电机
@@ -110,13 +113,22 @@ entity.dawncraft.GerKing.name=Ger王
 container.heatGenerator=热能发电机
 container.machineFurnace=电炉
 
+container.magic=魔法栏
+container.talent=天赋
+container.talent.desc=剩余天赋点: %s
+container.magic.name=%s
+container.magic.exp=等级: %s
+container.magic.health=血量: %1$s/%2$s
+container.magic.mana=魔法: %1$s/%2$s
+container.magic.more=更多信息...
+
 enchantment.fireBurn=火焰灼烧
 
+potion.paralysis=麻痹
+potion.confusion=混乱
+potion.brainDead=脑残
 potion.gerPower=巨Ger之力
 potion.badGer=Ger化
-potion.paralysis=麻痹
-potion.=混乱
-potion.brainDead=脑残
 
 achievement.dawncraft.basic=曙光工艺已安装
 achievement.dawncraft.basic.desc=感谢您对曙光工艺Mod的支持

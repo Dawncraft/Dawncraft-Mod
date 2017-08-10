@@ -1,10 +1,10 @@
 package io.github.dawncraft.block;
 
-import io.github.dawncraft.api.block.*;
-import io.github.dawncraft.api.item.ItemSkullBase;
+import io.github.dawncraft.block.base.*;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.base.ItemSkullBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemBlock;

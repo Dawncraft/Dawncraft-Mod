@@ -41,6 +41,7 @@ public class ConfigLoader
 
     public ConfigLoader(FMLPreInitializationEvent event)
     {
+        // TODO 好吧我又想重写配置了
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
         this.loadConfig();
@@ -132,6 +133,8 @@ public class ConfigLoader
             config.setCategoryComment(category2, StatCollector.translateToLocal(dawncraft.MODID + ".config." + category2 + ".tooltip"));
         }
 
+        config.save();
+        
         LogLoader.logger().info("Finished loading config.");
     }
 

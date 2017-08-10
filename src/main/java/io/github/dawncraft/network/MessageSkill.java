@@ -1,6 +1,7 @@
 package io.github.dawncraft.network;
 
-import io.github.dawncraft.magic.SkillLoader;
+import io.github.dawncraft.skill.Skill;
+import io.github.dawncraft.skill.SkillLoader;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentTranslation;
@@ -18,24 +19,24 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageSkill implements IMessage
 {
     public int skillId;
-
+    
     public MessageSkill(int id)
     {
         this.skillId = id;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.skillId = ByteBufUtils.readVarShort(buf);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
         ByteBufUtils.writeVarShort(buf, this.skillId);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageSkill, IMessage>
     {
         @Override
@@ -49,7 +50,7 @@ public class MessageSkill implements IMessage
                     @Override
                     public void run()
                     {
-                        boolean result = SkillLoader.heal.spellMagic(serverPlayer.getHeldItem(), serverPlayer.getEntityWorld(), serverPlayer);
+                        boolean result = SkillLoader.heal.onSkillSpell((Skill)null, serverPlayer, serverPlayer.getEntityWorld());
                         if(result)
                         {
                             serverPlayer.addChatMessage(new ChatComponentTranslation("magic.yes", StatCollector.translateToLocal("magic.heal.name")));
