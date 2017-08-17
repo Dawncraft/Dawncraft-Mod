@@ -8,6 +8,7 @@ import io.github.dawncraft.entity.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.potion.PotionEvent;
 import io.github.dawncraft.stats.AchievementLoader;
+import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -15,7 +16,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -112,7 +112,7 @@ public class EventLoader
             ItemStack stack = player.getCurrentEquippedItem();
             if (stack != null && stack.getItem() == ItemLoader.faeces)
             {
-                player.attackEntityFrom(new DamageSource("byGer").setDifficultyScaled().setExplosion(), 20.0F);
+                player.attackEntityFrom(DamageSourceLoader.ger, 20.0F);
                 player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
                 savage.setDead();
             }

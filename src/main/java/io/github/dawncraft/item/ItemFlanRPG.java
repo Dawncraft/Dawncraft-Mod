@@ -2,20 +2,13 @@ package io.github.dawncraft.item;
 
 import io.github.dawncraft.entity.projectile.EntityRocket;
 import io.github.dawncraft.event.api.BulletNockEvent;
-import io.github.dawncraft.item.base.ItemFlanBase;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.item.EntityTNTPrimed;
+import io.github.dawncraft.item.base.ItemGun;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
-public class ItemFlanRPG extends ItemFlanBase
+public class ItemFlanRPG extends ItemGun
 {
     public ItemFlanRPG(int maxDamage)
     {
@@ -24,43 +17,46 @@ public class ItemFlanRPG extends ItemFlanBase
     
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
-    { 
+    {
         BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
         if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event)) return event.result;
         
-    	if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRocket))
-    	{
+        if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.gunRocket))
+        {
             playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-    	}
+        }
         
         return itemStackIn;
     }
     
+    @Override
     public void onPlayerStoppedUsing(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, int timeLeft)
     {
-        if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.flanRocket))
+        if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(ItemLoader.gunRocket))
         {
             int i = this.getMaxItemUseDuration(itemStackIn) - timeLeft;
-            EntityRocket entitybomb = new EntityRocket(worldIn, playerIn, 1.5F, 2.0F);
-    		if (!playerIn.capabilities.isCreativeMode)
-    		{
+            if (!playerIn.capabilities.isCreativeMode)
+            {
                 itemStackIn.damageItem(1, playerIn);
-    			playerIn.inventory.consumeInventoryItem(ItemLoader.flanRocket);
+                playerIn.inventory.consumeInventoryItem(ItemLoader.gunRocket);
 
-    		}
-    		worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            }
+            worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
             if (!worldIn.isRemote)
             {
+                EntityRocket entitybomb = new EntityRocket(worldIn, playerIn, 1.5F, 2.0F);
                 worldIn.spawnEntityInWorld(entitybomb);
             }
         }
     }
     
+    @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return 36000;
     }
 
+    @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return EnumAction.BOW;

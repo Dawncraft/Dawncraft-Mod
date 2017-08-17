@@ -1,5 +1,11 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.2.0 update log:
+--------------------
+1.Rename Flan to Gun.(In fact this is a coloregg)
+2.Add real bullet, it works, but it has some bugs.
+3.Add Damage Source Loader.
+===========================================================
 0.2.1.0 update log:
 --------------------
 1.Rename some package name.

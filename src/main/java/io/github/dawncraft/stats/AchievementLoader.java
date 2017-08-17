@@ -40,9 +40,9 @@ public class AchievementLoader
     public static Achievement food = new Achievement("achievement.dawncraft.food", "dawncraft.food", 0, 7, ItemLoader.cakeEgg, basic);
     public static Achievement foodFaeces = new Achievement("achievement.dawncraft.foodFaeces", "dawncraft.foodFaeces", 2, 7, ItemLoader.faeces, food);
     // Flans
-    public static Achievement flans = new Achievement("achievement.dawncraft.flans", "dawncraft.flans", 0, 9, ItemLoader.flanAK47, basic);
-    public static Achievement flansRPG = new Achievement("achievement.dawncraft.flansRpg", "dawncraft.flansRpg", 2, 9, ItemLoader.flanRPG, flans);
-    public static Achievement explodeSkeleton = new Achievement("achievement.dawncraft.explodeSkeleton", "dawncraft.explodeSkeleton", 2, 10, ItemLoader.flanRPG, flansRPG).setSpecial();
+    public static Achievement flans = new Achievement("achievement.dawncraft.flans", "dawncraft.flans", 0, 9, ItemLoader.gunAK47, basic);
+    public static Achievement flansRPG = new Achievement("achievement.dawncraft.flansRpg", "dawncraft.flansRpg", 2, 9, ItemLoader.gunRPG, flans);
+    public static Achievement explodeSkeleton = new Achievement("achievement.dawncraft.explodeSkeleton", "dawncraft.explodeSkeleton", 2, 10, ItemLoader.gunRPG, flansRPG).setSpecial();
     // Magic
     public static Achievement magic = new Achievement("achievement.dawncraft.magic", "dawncraft.magic", -3, 1, ItemLoader.magicBook, basic);
     // ColourEgg

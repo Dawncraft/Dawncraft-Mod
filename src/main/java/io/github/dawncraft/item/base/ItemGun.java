@@ -7,21 +7,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemFlanBase extends Item
+public class ItemGun extends Item
 {
-    public ItemFlanBase(int maxDamage)
+    public ItemGun(int maxDamage)
     {
         this.setFull3D();
         this.setMaxStackSize(1);
         this.setMaxDamage(maxDamage);
     }
-	
+
+    @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
         stack.damageItem(1, attacker);
         return true;
     }
     
+    @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
     {
         if ((double)blockIn.getBlockHardness(worldIn, pos) != 0.0D)

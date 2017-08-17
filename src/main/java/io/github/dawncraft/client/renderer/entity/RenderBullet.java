@@ -2,6 +2,7 @@ package io.github.dawncraft.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
+import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.entity.projectile.EntityBullet;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,20 +10,18 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderBullet extends Render<EntityBullet>
 {
-    private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
+    private static final ResourceLocation bulletTextures = new ResourceLocation(dawncraft.MODID + ":" + "textures/entity/bullet.png");
 
     public RenderBullet(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
     }
 
-	@Override
+    @Override
     public void doRender(EntityBullet entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         this.bindEntityTexture(entity);
@@ -80,9 +79,9 @@ public class RenderBullet extends Render<EntityBullet>
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-	@Override
-	protected ResourceLocation getEntityTexture(EntityBullet entity)
-	{
-		return null;
-	}
+    @Override
+    protected ResourceLocation getEntityTexture(EntityBullet entity)
+    {
+        return RenderBullet.bulletTextures;
+    }
 }

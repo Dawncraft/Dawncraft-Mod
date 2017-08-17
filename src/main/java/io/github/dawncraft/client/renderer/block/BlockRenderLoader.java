@@ -18,9 +18,9 @@ import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
-
 /**
  * Register custom blocks' model.(Include FieldBlock)
+ * <br>这是啥Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register()</br>
  *
  * @author QingChenW
  */
@@ -30,13 +30,12 @@ public class BlockRenderLoader
     {
         registerRender((BlockFluidBase) BlockLoader.fluidPetroleum);
 
-        registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
-        
         registerRender((BlockContainer) BlockLoader.superChest);
-        
         registerRender((BlockContainer) BlockLoader.skull);
+        
+        registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
     }
-    
+
     /**
      * Register a container's model.
      * <br>I don't know how to let forge stop loading models, so I use this.</br>
@@ -54,12 +53,11 @@ public class BlockRenderLoader
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState state)
             {
-                // return new ModelResourceLocation(res.getResourceDomain() + ":" + "builtin/" + res.getResourcePath());
-                return new ModelResourceLocation("builtin/missing", "missing");
+                return new ModelResourceLocation("builtin/entity");
             }
         });
     }
-
+    
     /**
      * Register a fluid's inventory model and it's model.
      *
@@ -86,7 +84,7 @@ public class BlockRenderLoader
             }
         });
     }
-    
+
     /**
      * Register a BlockStateMapper.
      *

@@ -1,5 +1,6 @@
 package io.github.dawncraft.block;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -18,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -143,9 +145,15 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     }
     
     @Override
+    public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player)
+    {
+        return null;
+    }
+    
+    @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
-        List<ItemStack> ret = new java.util.ArrayList<ItemStack>();
+        List<ItemStack> ret = new ArrayList<ItemStack>();
         Random rand = world instanceof World ? ((World)world).rand : RANDOM;
         Item item = this.getItemDropped(state, rand, fortune);
         if(item != null)

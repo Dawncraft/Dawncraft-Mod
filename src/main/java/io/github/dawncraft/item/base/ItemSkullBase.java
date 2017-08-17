@@ -23,11 +23,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author QingChenW
  */
-public class ItemSkullBase extends Item// FIX
+public class ItemSkullBase extends Item
 {
     private BlockSkullBase blockSkull;
     private String[] skullTypes;
-
+    
     public ItemSkullBase(BlockSkullBase skull, String[] types)
     {
         super();
@@ -36,12 +36,12 @@ public class ItemSkullBase extends Item// FIX
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
-    
+
     public String[] getSkullTypes()
     {
         return this.skullTypes;
     }
-    
+
     public int getSkullTypeId(String type)
     {
         for(int i = 0; i < this.skullTypes.length; i++)
@@ -53,18 +53,18 @@ public class ItemSkullBase extends Item// FIX
         }
         return 0;
     }
-
+    
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         Block block = worldIn.getBlockState(pos).getBlock();
-
+        
         if (block.isReplaceable(worldIn, pos) && side != EnumFacing.DOWN)
         {
             side = EnumFacing.UP;
             pos = pos.down();
         }
-        
+
         if (side == EnumFacing.DOWN)
         {
             return false;
@@ -76,7 +76,7 @@ public class ItemSkullBase extends Item// FIX
                 if (!block.getMaterial().isSolid() && !worldIn.isSideSolid(pos, side, true)) return false;
                 pos = pos.offset(side);
             }
-
+            
             if (!playerIn.canPlayerEdit(pos, side, stack))
             {
                 return false;
@@ -91,7 +91,7 @@ public class ItemSkullBase extends Item// FIX
                 {
                     if (!this.blockSkull.canPlaceBlockOnSide(worldIn, pos, side)) return false;
                     worldIn.setBlockState(pos, this.blockSkull.getDefaultState().withProperty(this.blockSkull.FACING, side), 3);
-
+                    
                     TileEntity tileentity = worldIn.getTileEntity(pos);
                     if (tileentity instanceof TileEntitySkull)
                     {
@@ -101,14 +101,14 @@ public class ItemSkullBase extends Item// FIX
                         tileentityskull.setSkullRotation(rotation);
                         this.blockSkull.checkBossSpawn(worldIn, pos, tileentityskull);
                     }
-
+                    
                     --stack.stackSize;
                 }
                 return true;
             }
         }
     }
-    
+
     @Override
     public String getUnlocalizedName(ItemStack stack)
     {
@@ -116,13 +116,13 @@ public class ItemSkullBase extends Item// FIX
         if (i < 0 || i >= this.skullTypes.length) i = 0;
         return super.getUnlocalizedName() + "." + this.skullTypes[i];
     }
-
+    
     @Override
     public int getMetadata(int damage)
     {
         return damage;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems)

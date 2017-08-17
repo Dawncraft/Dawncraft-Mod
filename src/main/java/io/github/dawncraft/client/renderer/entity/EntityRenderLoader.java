@@ -25,7 +25,7 @@ public class EntityRenderLoader
         
         registerEntityRender(EntityMagnetBall.class, RenderMagnetBall.class);
         registerEntityRender(EntityBullet.class, RenderBullet.class);
-        registerEntityRender(EntityRocket.class, RenderSmallRocket.class);
+        registerEntityRender(EntityRocket.class, RenderRocket.class);
     }
     
     private static <T extends Entity> void registerEntityRender(Class<T> entityClass, Class<? extends Render<T>> render)

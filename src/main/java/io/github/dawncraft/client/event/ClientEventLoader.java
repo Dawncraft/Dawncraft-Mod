@@ -242,7 +242,7 @@ public class ClientEventLoader extends Gui
                 }
             }
             
-            if(entityplayer.isUsingItem() && entityplayer.getItemInUse().getItem() == ItemLoader.flanRPG)
+            if(entityplayer.isUsingItem() && entityplayer.getItemInUse().getItem() == ItemLoader.gunRPG)
             {
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                 this.mc.getTextureManager().bindTexture(DCTEXTURES);

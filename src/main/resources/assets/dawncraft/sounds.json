@@ -17,7 +17,13 @@
             "mob/gerking/say"
         ]
     },
-	"dawncraft.records.chinese": {
+    "random.gun": {
+        "category": "neutral",
+        "sounds": [
+            "random/gun"
+        ]
+    },
+	"records.chinese": {
         "category": "record", 
         "sounds": [ 
 		    {
@@ -26,7 +32,7 @@
 			}
         ] 
     },
-	"dawncraft.records.dj": {
+	"records.dj": {
         "category": "record", 
         "sounds": [ 
 			{

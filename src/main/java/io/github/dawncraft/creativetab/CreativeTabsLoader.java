@@ -23,13 +23,13 @@ public class CreativeTabsLoader
     public static CreativeTabs tabScience;
     public static CreativeTabs tabFurniture;
     public static CreativeTabs tabFood;
-    public static CreativeTabs tabFlans;
+    public static CreativeTabs tabGuns;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-    
+
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabSkills;
-
+    
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
         tabEnergy = new CreativeTabs("Energy")
@@ -88,12 +88,12 @@ public class CreativeTabsLoader
                 return ItemLoader.faeces;
             }
         };
-        tabFlans = new CreativeTabs("Flans")
+        tabGuns = new CreativeTabs("Guns")
         {
             @Override
             public Item getTabIconItem()
             {
-                return ItemLoader.flanRPG;
+                return ItemLoader.gunRPG;
             }
         };
         tabMagic = new CreativeTabs("Magic")
@@ -112,7 +112,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-
+        
         tabSearch = new CreativeSkillTabs("Search")
         {
             @Override
@@ -121,7 +121,7 @@ public class CreativeTabsLoader
                 return SkillLoader.attack;
             }
         };
-        
+
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override

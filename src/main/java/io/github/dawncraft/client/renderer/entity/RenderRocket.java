@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.item.Item;
 
-public class RenderSmallRocket extends RenderSnowball<EntityRocket>
+public class RenderRocket extends RenderSnowball<EntityRocket>
 {
-	public RenderSmallRocket(RenderManager renderManagerIn)
+	public RenderRocket(RenderManager renderManagerIn)
 	{
-		super(renderManagerIn, ItemLoader.flanRocket, Minecraft.getMinecraft().getRenderItem());
+		super(renderManagerIn, ItemLoader.gunRocket, Minecraft.getMinecraft().getRenderItem());
 	}
 
 }
