@@ -2,20 +2,22 @@ package io.github.dawncraft.item.base;
 
 import net.minecraft.item.ItemRecord;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 
 public class ItemRecordBase extends ItemRecord
 {
-    private final String modId;
-
-    public ItemRecordBase(String modid, String name)
+    public ItemRecordBase(String name)
     {
         super(name);
-        this.modId = modid;
     }
-
+    
     @Override
     public ResourceLocation getRecordResource(String name)
     {
-        return new ResourceLocation(this.modId + ":" + name);
+        String prefix;
+        ModContainer mcmod = Loader.instance().activeModContainer();
+        prefix = mcmod != null ? mcmod.getModId().toLowerCase() : "minecraft";
+        return new ResourceLocation(prefix + ":" + name);
     }
 }

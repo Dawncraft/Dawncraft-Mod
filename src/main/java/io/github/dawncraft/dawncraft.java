@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
  * @version mc-1.8.9
  * @author QingChenW
  **/
+// TODO 天域
 @Mod(modid = dawncraft.MODID, name = dawncraft.NAME, version = dawncraft.VERSION, guiFactory = dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9")
 public class dawncraft
 {
@@ -34,21 +35,21 @@ public class dawncraft
     /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-
+    
     /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-
+    
     /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-
+    
     /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
@@ -56,14 +57,14 @@ public class dawncraft
         new ScriptTest();
         proxy.postInit(event);
     }
-
+    
     /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-
+    
     /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)

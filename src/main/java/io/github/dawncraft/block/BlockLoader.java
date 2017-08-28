@@ -53,6 +53,8 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
     
     // Machine
+    public static Block copperOre = new BlockOreBase().setUnlocalizedName("copperOre")
+            .setCreativeTab(CreativeTabsLoader.tabMachine);
     public static Block machineFurnace = new BlockMachineFurnace().setUnlocalizedName("machineFurnace")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
     
@@ -80,7 +82,7 @@ public class BlockLoader
     public static Block magicOre = new BlockOreBase().setUnlocalizedName("magicOre")
             .setCreativeTab(CreativeTabsLoader.tabMagic);
     
-    // Flans
+    // Guns
     
     // ColourEgg
     public static Block dawnPortal = new BlockDawnPortal().setUnlocalizedName("dawnPortal");
@@ -108,6 +110,8 @@ public class BlockLoader
         register(magnetRail, "magnet_rail");
         
         // Machine
+        register(copperOre, "copper_ore");
+        ((BlockOreBase) copperOre).setItemDropped(copperOre);
         register(machineFurnace, "iron_furnace");
         
         // Computer

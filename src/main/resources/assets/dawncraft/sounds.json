@@ -40,5 +40,23 @@
                 "stream": true
 			}
         ] 
+    },
+    "records.wz1": {
+        "category": "record", 
+        "sounds": [ 
+			{
+                "name": "dawncraft:records/wz-1haikuotiankong",
+                "stream": true
+			}
+        ] 
+    },
+    "records.wz2": {
+        "category": "record", 
+        "sounds": [ 
+			{
+                "name": "dawncraft:records/wz-2gulou",
+                "stream": true
+			}
+        ] 
     }
 }

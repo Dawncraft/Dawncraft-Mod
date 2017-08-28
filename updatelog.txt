@@ -1,5 +1,10 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.2.1 update log:
+--------------------
+1.Add copper ore and ingot.
+2.Add two records, they are Wazo's.
+===========================================================
 0.2.2.0 update log:
 --------------------
 1.Rename Flan to Gun.(In fact this is a coloregg)
