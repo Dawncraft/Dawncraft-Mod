@@ -25,6 +25,7 @@ import net.minecraft.world.World;
 
 /** EntityBullet 子弹实体类
  * <br>部分参考了Lambda Innovation Team的LIUtils,感谢!</br>
+ *
  * @author QingChenW
  */
 public class EntityBullet extends Entity implements IProjectile
@@ -42,14 +43,14 @@ public class EntityBullet extends Entity implements IProjectile
     private int ticksInAir;
     private double damage = 1.0D;
     private int knockbackStrength = 1;
-    
+
     public EntityBullet(World worldIn)
     {
         super(worldIn);
         this.renderDistanceWeight = 10.0D;
         this.setSize(0.2F, 0.2F);
     }
-    
+
     public EntityBullet(World worldIn, double x, double y, double z)
     {
         super(worldIn);
@@ -57,7 +58,7 @@ public class EntityBullet extends Entity implements IProjectile
         this.setSize(0.2F, 0.2F);
         this.setPosition(x, y, z);
     }
-    
+
     public EntityBullet(World worldIn, EntityLivingBase shooterIn, float velocity)
     {
         super(worldIn);
@@ -74,20 +75,20 @@ public class EntityBullet extends Entity implements IProjectile
         this.motionZ = MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * MathHelper.cos(this.rotationPitch / 180.0F * (float)Math.PI);
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, velocity * 2.0F, 1.0F);
     }
-    
+
     public EntityBullet(World worldIn, EntityLivingBase shooterIn, EntityLivingBase targetIn, float velocity, float inaccuracy)
     {
         super(worldIn);
         this.renderDistanceWeight = 10.0D;
         this.shootingEntity = shooterIn;
         this.setSize(0.2F, 0.2F);
-
+        
         this.posY = shooterIn.posY + (double)shooterIn.getEyeHeight() - 0.10D;
         double d0 = targetIn.posX - shooterIn.posX;
         double d1 = targetIn.getEntityBoundingBox().minY + (double)(targetIn.height / 3.0F) - this.posY;
         double d2 = targetIn.posZ - shooterIn.posZ;
         double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
-
+        
         if (d3 >= 1.0E-7D)
         {
             float f = (float)(MathHelper.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
@@ -99,7 +100,7 @@ public class EntityBullet extends Entity implements IProjectile
             this.setThrowableHeading(d0, d1 + (double)f2, d2, velocity, inaccuracy);
         }
     }
-    
+
     @Override
     public void setThrowableHeading(double x, double y, double z, float velocity, float inaccuracy)
     {
@@ -121,10 +122,10 @@ public class EntityBullet extends Entity implements IProjectile
         this.prevRotationPitch = this.rotationPitch = (float)(MathHelper.atan2(y, (double)f1) * 180.0D / Math.PI);
         this.ticksInGround = 0;
     }
-    
+
     @Override
     protected void entityInit() {}
-    
+
     @Override
     public void onUpdate()
     {
@@ -142,7 +143,7 @@ public class EntityBullet extends Entity implements IProjectile
         {
             block.setBlockBoundsBasedOnState(this.worldObj, blockpos);
             AxisAlignedBB axisalignedbb = block.getCollisionBoundingBox(this.worldObj, blockpos, iblockstate);
-
+            
             if (axisalignedbb != null && axisalignedbb.isVecInside(new Vec3(this.posX, this.posY, this.posZ)))
             {
                 this.inGround = true;
@@ -161,7 +162,7 @@ public class EntityBullet extends Entity implements IProjectile
             {
                 // 那就卡着呗,到点就没了
                 ++this.ticksInGround;
-                
+
                 if (this.ticksInGround >= 200)
                 {
                     this.setDead();
@@ -187,15 +188,15 @@ public class EntityBullet extends Entity implements IProjectile
             MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(oldvec3, newvec3, false, true, false);
             oldvec3 = new Vec3(this.posX, this.posY, this.posZ);
             newvec3 = new Vec3(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-            
+
             if (movingobjectposition != null)
             {
                 newvec3 = new Vec3(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
             }
-
+            
             Entity entity = null;
             double distance = 0.0D;
-            
+
             for (Entity e : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ).expand(0.5D, 0.5D, 0.5D)))
             {
                 if (e.canBeCollidedWith() && (e != this.shootingEntity || this.ticksInAir >= 2))
@@ -203,11 +204,11 @@ public class EntityBullet extends Entity implements IProjectile
                     float f1 = 0.3F;
                     AxisAlignedBB axisalignedbb1 = e.getEntityBoundingBox().expand((double)f1, (double)f1, (double)f1);
                     MovingObjectPosition movingobjectposition1 = axisalignedbb1.calculateIntercept(oldvec3, newvec3);
-                    
+
                     if (movingobjectposition1 != null)
                     {
                         double d1 = oldvec3.squareDistanceTo(movingobjectposition1.hitVec);
-                        
+
                         if (d1 < distance || distance == 0.0D)
                         {
                             entity = e;
@@ -216,65 +217,65 @@ public class EntityBullet extends Entity implements IProjectile
                     }
                 }
             }
-            
+
             if (entity != null)
             {
                 movingobjectposition = new MovingObjectPosition(entity);
             }
-            
+
             if (movingobjectposition != null && movingobjectposition.entityHit != null && movingobjectposition.entityHit instanceof EntityPlayer)
             {
                 EntityPlayer entityplayer = (EntityPlayer)movingobjectposition.entityHit;
-
+                
                 if (entityplayer.capabilities.disableDamage || this.shootingEntity instanceof EntityPlayer && !((EntityPlayer)this.shootingEntity).canAttackPlayer(entityplayer))
                 {
                     movingobjectposition = null;
                 }
             }
-
+            
             if (movingobjectposition != null)
             {
                 if (movingobjectposition.entityHit != null)
                 {
                     int damage = (int) this.damage;
-                    
+
                     if (this.getIsCritical())
                     {
                         damage += 1;
                     }
-                    
+
                     DamageSource damagesource = DamageSourceLoader.causeBulletDamage(this, this.shootingEntity == null ? this : this.shootingEntity);
-                    
+
                     if (movingobjectposition.entityHit.attackEntityFrom(damagesource, (float)damage))
                     {
                         if (movingobjectposition.entityHit instanceof EntityLivingBase)
                         {
                             EntityLivingBase entitylivingbase = (EntityLivingBase)movingobjectposition.entityHit;
-                            
+
                             if (this.knockbackStrength > 0)
                             {
                                 float f7 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-                                
+
                                 if (f7 > 0.0F)
                                 {
                                     movingobjectposition.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.02D / (double)f7, 0.01D, this.motionZ * (double)this.knockbackStrength * 0.02D / (double)f7);
                                 }
                             }
-                            
+
                             if (this.shootingEntity instanceof EntityLivingBase)
                             {
                                 EnchantmentHelper.applyThornEnchantments(entitylivingbase, this.shootingEntity);
                                 EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase)this.shootingEntity, entitylivingbase);
                             }
-                            
+
                             if (this.shootingEntity != null && movingobjectposition.entityHit != this.shootingEntity && movingobjectposition.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP)
                             {
                                 ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(6, 0.0F));
                             }
                         }
-                        
+
                         //this.playSound(dawncraft.MODID + ":" + "random.gunhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));// 子弹击中声音
-                        
+
                         if (!(movingobjectposition.entityHit instanceof EntityEnderman))
                         {
                             this.setDead();
@@ -310,11 +311,11 @@ public class EntityBullet extends Entity implements IProjectile
                     this.inGround = true;
                     this.bulletShake = 2;
                     this.setIsCritical(false);
-                    
+
                     if (this.inTile.getMaterial() != Material.air)
                     {
                         this.inTile.onEntityCollidedWithBlock(this.worldObj, blockpos1, iblockstate1, this);
-                        
+
                         // wc新加,子弹打到玻璃上
                         if(!this.worldObj.isRemote && (this.inTile == Blocks.glass || this.inTile == Blocks.glass_pane))
                         {
@@ -322,7 +323,7 @@ public class EntityBullet extends Entity implements IProjectile
                             this.setDead();
                         }
                     }
-
+                    
                     if (this.ticksInAir > 600)
                     {
                         this.setDead();
@@ -331,55 +332,55 @@ public class EntityBullet extends Entity implements IProjectile
             }
         }
     }
-
+    
     @Override
     protected boolean canTriggerWalking()
     {
         return false;
     }
-    
+
     @Override
     public boolean canAttackWithItem()
     {
         return false;
     }
-
+    
     @Override
     public float getEyeHeight()
     {
         return 0.0F;
     }
-    
+
     public void setDamage(double damageIn)
     {
         this.damage = damageIn;
     }
-    
+
     public double getDamage()
     {
         return this.damage;
     }
-    
+
     public void setKnockbackStrength(int knockbackStrengthIn)
     {
         this.knockbackStrength = knockbackStrengthIn;
     }
-
+    
     public int getKnockbackStrength()
     {
         return this.knockbackStrength;
     }
-    
+
     public void setIsCritical(boolean critical)
     {
-
+        
     }
-
+    
     public boolean getIsCritical()
     {
         return false;
     }
-
+    
     @Override
     protected void readEntityFromNBT(NBTTagCompound tagCompund)
     {
@@ -387,7 +388,7 @@ public class EntityBullet extends Entity implements IProjectile
         this.yTile = tagCompund.getShort("yTile");
         this.zTile = tagCompund.getShort("zTile");
         this.ticksInGround = tagCompund.getShort("life");
-        
+
         if (tagCompund.hasKey("inTile", 8))
         {
             this.inTile = Block.getBlockFromName(tagCompund.getString("inTile"));
@@ -396,17 +397,17 @@ public class EntityBullet extends Entity implements IProjectile
         {
             this.inTile = Block.getBlockById(tagCompund.getByte("inTile") & 255);
         }
-        
+
         this.inData = tagCompund.getByte("inData") & 255;
         this.bulletShake = tagCompund.getByte("shake") & 255;
         this.inGround = tagCompund.getByte("inGround") == 1;
-        
+
         if (tagCompund.hasKey("damage", 99))
         {
             this.damage = tagCompund.getDouble("damage");
         }
     }
-
+    
     @Override
     protected void writeEntityToNBT(NBTTagCompound tagCompound)
     {

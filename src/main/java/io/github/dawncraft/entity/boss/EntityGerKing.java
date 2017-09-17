@@ -1,4 +1,4 @@
-package io.github.dawncraft.entity;
+package io.github.dawncraft.entity.boss;
 
 import io.github.dawncraft.dawncraft;
 import io.github.dawncraft.item.ItemLoader;

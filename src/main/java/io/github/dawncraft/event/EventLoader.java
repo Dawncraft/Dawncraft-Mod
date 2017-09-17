@@ -36,6 +36,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  *
  * @author QingChenW
  */
+// TODO 把event改成Loader专门注册事件,Handler负责处理事件
 public class EventLoader
 {
     public EventLoader(FMLInitializationEvent event)
@@ -45,16 +46,16 @@ public class EventLoader
         new EnchantmentEvent(event);
         new PotionEvent(event);
     }
-    
+
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
         EntityPlayer player = event.player;
         World world = player.worldObj;
-        
+
         this.checkForPortalCreation(player, world, 32.0F);
     }
-    
+
     /**
      * Check for can portal create in world.
      * From Benimatic's twilight forest Mod.Thanks.
@@ -70,7 +71,7 @@ public class EventLoader
         if(world != null && player != null && world.provider.getDimensionId() == 0)
         {
             List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
-            
+
             for(EntityItem entityItem : itemList)
             {
                 if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
@@ -86,7 +87,7 @@ public class EventLoader
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -101,7 +102,7 @@ public class EventLoader
             event.setResult(Result.ALLOW);
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {

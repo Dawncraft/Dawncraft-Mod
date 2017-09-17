@@ -1,5 +1,9 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.2.2 update log:
+--------------------
+1.Add render of Ger King's health bar.
+===========================================================
 0.2.2.1 update log:
 --------------------
 1.Add copper ore and ingot.

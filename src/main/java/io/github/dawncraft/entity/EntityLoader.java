@@ -1,6 +1,7 @@
 package io.github.dawncraft.entity;
 
 import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.entity.projectile.EntityMagnetBall;
 import io.github.dawncraft.entity.projectile.EntityRocket;
 import net.minecraft.entity.Entity;
