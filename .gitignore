@@ -4,8 +4,8 @@
 # include sourcecode
 !src/
 !libs/
-!doc/
-!license/
+!docs/
+!licenses/
 
 # need gradle 
 !gradle/
@@ -17,9 +17,7 @@
 
 # include markdowns
 !LICENSE
-!README.txt
 !README.md
-!version.json
 !updatelog.txt
 
 # include git important files
