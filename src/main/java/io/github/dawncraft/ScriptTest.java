@@ -34,7 +34,7 @@ public class ScriptTest
             Globals globals = JsePlatform.standardGlobals();
 
             // Use the convenience function on Globals to load a chunk.
-            globals.loadfile("/assets/dawncraft/lua/hello.lua").call();
+            globals.loadfile("/assets/Dawncraft/lua/hello.lua").call();
 
             // Use any of the "call()" or "invoke()" functions directly on the chunk.
             LuaValue chunk = globals.get(LuaValue.valueOf("print_introduction"));
@@ -45,7 +45,7 @@ public class ScriptTest
             {
                 try
                 {
-                    InputStreamReader reader = new InputStreamReader(this.getClass().getResourceAsStream("/assets/dawncraft/lua/hello.js"));
+                    InputStreamReader reader = new InputStreamReader(this.getClass().getResourceAsStream("/assets/Dawncraft/lua/hello.js"));
                     engine.eval(reader);
                     reader.close();
                 } catch (IOException e)
@@ -69,7 +69,7 @@ public class ScriptTest
 
             try
             {
-                Metrics metrics = new Metrics(dawncraft.NAME, dawncraft.VERSION);
+                Metrics metrics = new Metrics(Dawncraft.NAME, Dawncraft.VERSION);
                 metrics.start();
             } catch (IOException e)
             {

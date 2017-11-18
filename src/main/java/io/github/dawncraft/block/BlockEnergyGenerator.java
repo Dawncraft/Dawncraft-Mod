@@ -1,6 +1,6 @@
 package io.github.dawncraft.block;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.base.BlockMachineBase;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
@@ -53,7 +53,7 @@ public class BlockEnergyGenerator extends BlockMachineBase
                     id = GuiLoader.GUI_HEAT_GENERATOR;
                     break;
             }
-            playerIn.openGui(dawncraft.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            playerIn.openGui(Dawncraft.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }

@@ -1,6 +1,6 @@
 package io.github.dawncraft.client.gui.magic;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiMagic extends GuiContainer
 {
-    private static final ResourceLocation creativeSkillTab = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/magic/tab_skill.png");
+    private static final ResourceLocation creativeSkillTab = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/magic/tab_skill.png");
     private static int tabPage = 0;
     private float oldMouseX;
     private float oldMouseY;

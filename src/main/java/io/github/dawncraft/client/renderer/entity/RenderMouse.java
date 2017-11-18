@@ -1,6 +1,6 @@
 package io.github.dawncraft.client.renderer.entity;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.renderer.model.ModelMouse;
 import io.github.dawncraft.entity.EntityMouse;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMouse extends RenderLiving<EntityMouse>
 {
-	private static final ResourceLocation MOUSE_TEXTURE = new ResourceLocation(dawncraft.MODID + ":" + "textures/entity/mouse.png");
+	private static final ResourceLocation MOUSE_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/entity/mouse.png");
 
 	public RenderMouse(RenderManager renderManager)
 	{

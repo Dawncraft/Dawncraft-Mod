@@ -1,6 +1,6 @@
 package io.github.dawncraft.network;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -11,7 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class NetworkLoader
 {
-    public static SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(dawncraft.MODID);
+    public static SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(Dawncraft.MODID);
     private static int nextID = 0;
     
     public NetworkLoader(FMLInitializationEvent event)

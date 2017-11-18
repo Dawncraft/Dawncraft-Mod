@@ -3,7 +3,7 @@ package io.github.dawncraft.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.config.ConfigLoader;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -24,7 +24,7 @@ public class GuiScreenConfig extends GuiConfig
 
     public GuiScreenConfig(GuiScreen parent)
     {
-        super(parent, elements, dawncraft.MODID, true, false, dawncraft.NAME);
+        super(parent, elements, Dawncraft.MODID, true, false, Dawncraft.NAME);
     }
 
     @Override

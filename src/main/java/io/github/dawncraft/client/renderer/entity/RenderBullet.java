@@ -2,7 +2,7 @@ package io.github.dawncraft.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.projectile.EntityBullet;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderBullet extends Render<EntityBullet>
 {
-    private static final ResourceLocation bulletTextures = new ResourceLocation(dawncraft.MODID + ":" + "textures/entity/bullet.png");
+    private static final ResourceLocation bulletTextures = new ResourceLocation(Dawncraft.MODID + ":" + "textures/entity/bullet.png");
 
     public RenderBullet(RenderManager renderManagerIn)
     {

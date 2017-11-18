@@ -13,10 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentEvent
 {
-    public EnchantmentEvent(FMLInitializationEvent event)
-    {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+    public EnchantmentEvent(FMLInitializationEvent event) {}
 
     @SubscribeEvent
     public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)

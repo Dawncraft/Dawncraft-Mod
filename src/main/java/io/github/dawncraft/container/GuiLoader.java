@@ -1,6 +1,6 @@
 package io.github.dawncraft.container;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.gui.inventory.GuiEnergyGenerator;
 import io.github.dawncraft.client.gui.inventory.GuiMachineFurnace;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ public class GuiLoader implements IGuiHandler
     
     public GuiLoader(FMLInitializationEvent event)
     {
-        NetworkRegistry.INSTANCE.registerGuiHandler(dawncraft.instance, this);
+        NetworkRegistry.INSTANCE.registerGuiHandler(Dawncraft.instance, this);
     }
     
     @Override

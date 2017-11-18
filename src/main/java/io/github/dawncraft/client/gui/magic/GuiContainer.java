@@ -2,7 +2,7 @@ package io.github.dawncraft.client.gui.magic;
 
 import java.io.IOException;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.config.KeyLoader;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiContainer extends GuiScreen
 {
-    protected static final ResourceLocation magicBackground = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/magic/magic.png");
+    protected static final ResourceLocation magicBackground = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/magic/magic.png");
     protected int xSize = 176;
     protected int ySize = 166;
     protected int guiLeft;

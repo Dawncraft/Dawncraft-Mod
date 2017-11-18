@@ -1,6 +1,6 @@
 package io.github.dawncraft.client.renderer.entity;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
  */
 public class RenderGerKing extends RenderLiving<EntityGerKing>
 {
-    private static final ResourceLocation GERKING_TEXTURE = new ResourceLocation(dawncraft.MODID + ":" + "textures/entity/ger_king.png");
+    private static final ResourceLocation GERKING_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/entity/ger_king.png");
     
     public RenderGerKing(RenderManager renderManager)
     {

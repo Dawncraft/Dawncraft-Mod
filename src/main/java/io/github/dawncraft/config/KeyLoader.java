@@ -2,7 +2,7 @@ package io.github.dawncraft.config;
 
 import org.lwjgl.input.Keyboard;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -14,10 +14,10 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  */
 public class KeyLoader
 {
-    public static KeyBinding change = new KeyBinding("key." + dawncraft.MODID + ".switch", Keyboard.KEY_GRAVE, "key.categories." + dawncraft.MODID);
-    public static KeyBinding magic = new KeyBinding("key." + dawncraft.MODID + ".magic", Keyboard.KEY_R, "key.categories." + dawncraft.MODID);
-    public static KeyBinding use = new KeyBinding("key." + dawncraft.MODID + ".use", Keyboard.KEY_LMENU, "key.categories." + dawncraft.MODID);
-    public static KeyBinding Encyclopedia =  new KeyBinding("key." + dawncraft.MODID + ".wiki", Keyboard.KEY_H, "key.categories." + dawncraft.MODID);
+    public static KeyBinding change = new KeyBinding("key." + Dawncraft.MODID + ".switch", Keyboard.KEY_GRAVE, "key.categories." + Dawncraft.MODID);
+    public static KeyBinding magic = new KeyBinding("key." + Dawncraft.MODID + ".magic", Keyboard.KEY_R, "key.categories." + Dawncraft.MODID);
+    public static KeyBinding use = new KeyBinding("key." + Dawncraft.MODID + ".use", Keyboard.KEY_LMENU, "key.categories." + Dawncraft.MODID);
+    public static KeyBinding Encyclopedia =  new KeyBinding("key." + Dawncraft.MODID + ".wiki", Keyboard.KEY_H, "key.categories." + Dawncraft.MODID);
     
     public KeyLoader(FMLInitializationEvent event)
     {

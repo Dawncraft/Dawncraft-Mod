@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/coloregg/record_dj"
+        "layer0": "dawncraft:items/coloregg/record_wz"
     },
     "display": {
         "thirdperson": {

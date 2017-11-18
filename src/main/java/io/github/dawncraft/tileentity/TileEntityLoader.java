@@ -1,6 +1,6 @@
 package io.github.dawncraft.tileentity;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -18,6 +18,6 @@ public class TileEntityLoader
     
     private static void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
     {
-        GameRegistry.registerTileEntity(tileEntityClass, dawncraft.MODID + ":" + id);
+        GameRegistry.registerTileEntity(tileEntityClass, Dawncraft.MODID + ":" + id);
     }
 }

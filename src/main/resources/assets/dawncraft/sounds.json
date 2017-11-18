@@ -41,20 +41,15 @@
 			}
         ] 
     },
-    "records.wz1": {
+    "records.wzsongs": {
         "category": "record", 
         "sounds": [ 
 			{
-                "name": "dawncraft:records/wz-1haikuotiankong",
+                "name": "dawncraft:records/wzsongs/haikuotiankong",
                 "stream": true
-			}
-        ] 
-    },
-    "records.wz2": {
-        "category": "record", 
-        "sounds": [ 
+			},
 			{
-                "name": "dawncraft:records/wz-2gulou",
+                "name": "dawncraft:records/wzsongs/gulou",
                 "stream": true
 			}
         ] 

@@ -1,6 +1,6 @@
 package io.github.dawncraft.client.renderer.entity;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.EntitySavage;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderSavage extends RenderBiped<EntitySavage>
 {
-    private static final ResourceLocation SAVAGE_TEXTURE = new ResourceLocation(dawncraft.MODID + ":" + "textures/entity/savage.png");
+    private static final ResourceLocation SAVAGE_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/entity/savage.png");
 
     public RenderSavage(RenderManager renderManager)
     {

@@ -1,6 +1,6 @@
 package io.github.dawncraft.config;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -57,66 +57,66 @@ public class ConfigLoader
         category = "energy";
         isEnergyEnabled = config
                 .get(category, "isEnergyEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isEnergyEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isEnergyEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isEnergyEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isEnergyEnabled").getBoolean();
 
         category = "magnetism";
         isMagnetismEnabled = config
                 .get(category, "isMagnetismEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isMagnetismEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isMagnetismEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isMagnetismEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isMagnetismEnabled").getBoolean();
 
         category = "machine";
         isMachineEnabled = config
                 .get(category, "isMachineEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isMachineEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isMachineEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isMachineEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isMachineEnabled").getBoolean();
 
         category = "computer";
         isComputerEnabled = config
                 .get(category, "isComputerEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isComputerEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isComputerEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isComputerEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isComputerEnabled").getBoolean();
 
         category = "science";
         isScienceEnabled = config
                 .get(category, "isScienceEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isScienceEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isScienceEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isScienceEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isScienceEnabled").getBoolean();
 
         category = "furniture";
         isFurnitureEnabled = config
                 .get(category, "isFurnitureEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isFurnitureEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isFurnitureEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isFurnitureEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isFurnitureEnabled").getBoolean();
 
         category = "food";
         isFoodEnabled = config
                 .get(category, "isFoodEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isFoodEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isFoodEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isFoodEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isFoodEnabled").getBoolean();
 
         category = "gun";
         isGunEnabled = config
                 .get(category, "isGunEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isGunEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isGunEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isGunEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isGunEnabled").getBoolean();
 
         category = "magic";
         isMagicEnabled = config
                 .get(category, "isMagicEnabled", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".isMagicEnabled.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".isMagicEnabled").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isMagicEnabled.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isMagicEnabled").getBoolean();
         manaRenderType = config
                 .get(category, "manaRenderType", true,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".manaRenderType.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".manaRenderType").getBoolean();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".manaRenderType.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".manaRenderType").getBoolean();
 
         category = "coloregg";
         String pw = config
                 .get(category, "gerKingPassword", "guess password!",
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".gerKingPassword.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".gerKingPassword").getString();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".gerKingPassword.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".gerKingPassword").getString();
         if (pw.equals(PASSWORD))
         {
             isColoreggEnabled = true;
@@ -124,13 +124,13 @@ public class ConfigLoader
         }
         enchantmentFireBurnId = config
                 .get(category, "enchantmentFireBurnId", 36,
-                        StatCollector.translateToLocal(dawncraft.MODID + ".config." + category + ".enchantmentFireBurnId.tooltip"))
-                .setLanguageKey(dawncraft.MODID + ".config." + category + ".enchantmentFireBurnId").getInt();
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".enchantmentFireBurnId.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".enchantmentFireBurnId").getInt();
 
         for (String category2 : config.getCategoryNames())
         {
-            config.setCategoryLanguageKey(category2, dawncraft.MODID + ".config." + category2);
-            config.setCategoryComment(category2, StatCollector.translateToLocal(dawncraft.MODID + ".config." + category2 + ".tooltip"));
+            config.setCategoryLanguageKey(category2, Dawncraft.MODID + ".config." + category2);
+            config.setCategoryComment(category2, StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category2 + ".tooltip"));
         }
         
         config.save();

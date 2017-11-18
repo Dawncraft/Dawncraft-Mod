@@ -1,6 +1,6 @@
 package io.github.dawncraft.enchantment;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.config.ConfigLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
@@ -12,7 +12,7 @@ public class EnchantmentFireBurn extends Enchantment
 {
     public EnchantmentFireBurn()
     {
-        super(ConfigLoader.enchantmentFireBurnId, new ResourceLocation(dawncraft.MODID + ":" + "fire_burn"), 1, EnumEnchantmentType.DIGGER);
+        super(ConfigLoader.enchantmentFireBurnId, new ResourceLocation(Dawncraft.MODID + ":" + "fire_burn"), 1, EnumEnchantmentType.DIGGER);
     }
     
     @Override

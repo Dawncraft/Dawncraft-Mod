@@ -8,11 +8,11 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 
 public class GuiMagicBook extends GuiScreen
 {
-    private static final ResourceLocation bookGuiTextures = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/magic/magic_book.png");
+    private static final ResourceLocation bookGuiTextures = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/magic/magic_book.png");
     private int updateCount;
     private int bookImageWidth = 192;
     private int bookImageHeight = 192;

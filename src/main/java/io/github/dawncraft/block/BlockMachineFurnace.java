@@ -1,6 +1,6 @@
 package io.github.dawncraft.block;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.base.BlockMachineBase;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.tileentity.TileEntityMachineFurnace;
@@ -40,7 +40,7 @@ public class BlockMachineFurnace extends BlockMachineBase
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
             if (tileentity instanceof TileEntityMachineFurnace)
-                playerIn.openGui(dawncraft.instance, GuiLoader.GUI_MACHINE_FURNACE, worldIn, pos.getX(), pos.getY(), pos.getZ());
+                playerIn.openGui(Dawncraft.instance, GuiLoader.GUI_MACHINE_FURNACE, worldIn, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }

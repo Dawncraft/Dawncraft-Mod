@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.container.ContainerEnergyGenerator;
 import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 
@@ -20,7 +20,7 @@ import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 @SideOnly(Side.CLIENT)
 public class GuiEnergyGenerator extends GuiContainer
 {
-    private static final ResourceLocation heatGeneratorGuiTextures = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/container/heat_generator.png");
+    private static final ResourceLocation heatGeneratorGuiTextures = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/heat_generator.png");
 
     private final EntityPlayer entityPlayer;
     public final TileEntityEnergyGenerator tileGenerator;

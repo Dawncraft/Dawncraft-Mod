@@ -1,6 +1,6 @@
 package io.github.dawncraft.capability;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.network.MessageMana;
 import io.github.dawncraft.network.NetworkLoader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,17 +19,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CapabilityEvent
 {
-    public CapabilityEvent(FMLInitializationEvent event)
-    {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+    public CapabilityEvent(FMLInitializationEvent event) {}
 
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
         if (event.getEntity() instanceof EntityPlayer)
         {
-            ResourceLocation res = new ResourceLocation(dawncraft.MODID + ":" + "magic");
+            ResourceLocation res = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
             ICapabilitySerializable<NBTTagCompound> provider = new CapabilityMana.Provider();
             event.addCapability(res, provider);
         }

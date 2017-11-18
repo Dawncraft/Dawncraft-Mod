@@ -1,6 +1,6 @@
 package io.github.dawncraft.fluid;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class FluidLoader
 {
-    public static final ResourceLocation PETROLEUM_STILL = new ResourceLocation(dawncraft.MODID + ":" + "fluid/petroleum_still");
-    public static final ResourceLocation PETROLEUM_FLOWING = new ResourceLocation(dawncraft.MODID + ":" + "fluid/petroleum_flow");
+    public static final ResourceLocation PETROLEUM_STILL = new ResourceLocation(Dawncraft.MODID + ":" + "fluid/petroleum_still");
+    public static final ResourceLocation PETROLEUM_FLOWING = new ResourceLocation(Dawncraft.MODID + ":" + "fluid/petroleum_flow");
     
     public static Fluid fluidPetroleum = new Fluid("petroleum", PETROLEUM_STILL, PETROLEUM_FLOWING).setUnlocalizedName("fluidPetroleum").setDensity(8000).setViscosity(850);
     

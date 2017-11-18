@@ -1,6 +1,6 @@
 package io.github.dawncraft.item.base;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.projectile.EntityBullet;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,6 +55,6 @@ public class ItemGunBase extends ItemGun
     // 这肯定得改啊
     private String getModid()
     {
-        return dawncraft.MODID;
+        return Dawncraft.MODID;
     }
 }

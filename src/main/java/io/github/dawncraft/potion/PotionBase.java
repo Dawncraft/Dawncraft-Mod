@@ -1,6 +1,6 @@
 package io.github.dawncraft.potion;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class PotionBase extends Potion
 {
-    private static final ResourceLocation res = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/potion.png");
+    private static final ResourceLocation res = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/potion.png");
 
     public PotionBase(ResourceLocation location, boolean badEffect, int potionColor)
     {

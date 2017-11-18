@@ -5,14 +5,14 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.container.ContainerMachineFurnace;
 import io.github.dawncraft.tileentity.TileEntityMachineFurnace;
 
 
 public class GuiMachineFurnace extends GuiContainer
 {
-    private static final ResourceLocation machineFurnaceGuiTextures = new ResourceLocation(dawncraft.MODID + ":" + "textures/gui/container/iron_furnace.png");
+    private static final ResourceLocation machineFurnaceGuiTextures = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/iron_furnace.png");
     
     private final EntityPlayer entityPlayer;
     public final TileEntityMachineFurnace tileFurnace;

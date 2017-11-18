@@ -2,13 +2,17 @@ package io.github.dawncraft.crafting;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 /**
  * Register recipes, smelting and fuels.
@@ -19,104 +23,144 @@ public class CraftingLoader
 {
     public CraftingLoader(FMLInitializationEvent event)
     {
-        registerRecipe();
-        registerSmelting();
-        registerFuel();
-    }
-
-    private static void registerRecipe()
-    {
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnet), new Object[]
+        // recipes
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnet), new Object[]
                 {
                         "B R", "A A", "AAA", 'A', "ingotMagnet", 'B', new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()), 'R', Items.redstone
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.magnetBlock), new Object[]
+                });
+        registerShapedOreRecipe(new ItemStack(BlockLoader.magnetBlock), new Object[]
                 {
                         "###", "###", "###", '#', "ingotMagnet"
-                }));
-        GameRegistry.addShapelessRecipe(new ItemStack(ItemLoader.magnetIngot, 9), BlockLoader.magnetBlock);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetStick, 4), new Object[]
+                });
+        registerShapelessRecipe(new ItemStack(ItemLoader.magnetIngot, 9), new Object[]
+                {
+                        BlockLoader.magnetBlock
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetStick, 4), new Object[]
                 {
                         "#", "#", '#', "ingotMagnet"
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetBall, 4), new Object[]
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetBall, 4), new Object[]
                 {
                         "#", '#', "ingotMagnet"
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetCard, 1), new Object[]
+                });
+        registerShapelessOreRecipe(new ItemStack(ItemLoader.magnetCard, 1), new Object[]
                 {
-                        "#*", "**", '#', "ingotMagnet", '*', Items.paper
-                }));// TODO 改成和书一样的无序合成
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetDoor, 3), new Object[]
+                        Items.paper, Items.paper, Items.paper, "ingotMagnet"
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetDoor, 3), new Object[]
                 {
                         "## ", "## ", "## ", '#', "ingotMagnet"
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(BlockLoader.magnetRail, 8), new Object[]
+                });
+        registerShapedRecipe(new ItemStack(BlockLoader.magnetRail, 8), new Object[]
                 {
                         "# #", "#*#", "#M#", '#', Items.iron_ingot , '*', Items.stick, 'M', ItemLoader.magnet
-                }));
+                });
         
-        GameRegistry.addRecipe(new ItemStack(BlockLoader.simpleComputer, 2), new Object[]
+        registerShapedRecipe(new ItemStack(BlockLoader.simpleComputer, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.iron_ingot
                 });
-        GameRegistry.addRecipe(new ItemStack(BlockLoader.advancedComputer, 2), new Object[]
+        registerShapedRecipe(new ItemStack(BlockLoader.advancedComputer, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.gold_ingot
                 });
-        GameRegistry.addRecipe(new ItemStack(BlockLoader.superComputer, 2), new Object[]
+        registerShapedRecipe(new ItemStack(BlockLoader.superComputer, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.diamond
                 });
         //Food
         
         //Tools
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
                 {
                         " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetWand), new Object[]
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetWand), new Object[]
                 {
                         "#*#", " * ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
-                }));
-        GameRegistry.addRecipe(new ItemStack(ItemLoader.goldiamondSword), new Object[]
+                });
+        registerShapedRecipe(new ItemStack(ItemLoader.goldiamondSword), new Object[]
                 {
                         " % ", " & ", " * ", '%', Items.gold_ingot, '&', Items.diamond, '*', Items.stick
                 });
         // Armors
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetHelmet), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetHelmet), new Object[]
                 {
                         "###", "# #", '#', "ingotMagnet"
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetChestplate), new Object[]
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetChestplate), new Object[]
                 {
                         "# #", "###", "###", '#', "ingotMagnet"
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetLeggings), new Object[]
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetLeggings), new Object[]
                 {
                         "###", "# #", "# #", '#', "ingotMagnet"
-                }));
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ItemLoader.magnetBoots), new Object[]
+                });
+        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetBoots), new Object[]
                 {
                         "# #", "# #", '#', "ingotMagnet"
-                }));
+                });
+        
+        registerSmelting(BlockLoader.magnetOre, new ItemStack(ItemLoader.magnetIngot), 0.7F);
+        registerSmelting(Items.egg, new ItemStack(ItemLoader.cakeEgg), 0.3F);
+        registerFuel(ItemLoader.bucketPetroleum, 25600);
     }
 
-    private static void registerSmelting()
+    private static void registerShapedRecipe(ItemStack output, Object... params)
     {
-        GameRegistry.addSmelting(BlockLoader.magnetOre, new ItemStack(ItemLoader.magnetIngot), 0.7F);
-        GameRegistry.addSmelting(Items.egg, new ItemStack(ItemLoader.cakeEgg), 0.3F);
+        GameRegistry.addShapedRecipe(output, params);
+    }
+    
+    private static void registerShapelessRecipe(ItemStack output, Object... params)
+    {
+        GameRegistry.addShapelessRecipe(output, params);
+    }
+    
+    private static void registerShapedOreRecipe(ItemStack output, Object... params)
+    {
+        registerRecipe(new ShapedOreRecipe(output, params));
+    }
+    
+    private static void registerShapelessOreRecipe(ItemStack output, Object... params)
+    {
+        registerRecipe(new ShapelessOreRecipe(output, params));
+    }
+    
+    private static void registerRecipe(IRecipe recipe)
+    {
+        GameRegistry.addRecipe(recipe);
     }
 
-    private static void registerFuel()
+    private static void registerSmelting(Item input, ItemStack output, float xp)
     {
-        GameRegistry.registerFuelHandler(new IFuelHandler()
+        GameRegistry.addSmelting(input, output, xp);
+    }
+    
+    private static void registerSmelting(Block input, ItemStack output, float xp)
+    {
+        GameRegistry.addSmelting(input, output, xp);
+    }
+
+    private static void registerFuel(final Item input, final int burnTime)
+    {
+        registerFuel(new IFuelHandler()
         {
             @Override
             public int getBurnTime(ItemStack fuel)
             {
-                return ItemLoader.bucketPetroleum != fuel.getItem() ? 0 : 25600;
+                return fuel.getItem() != input ? 0 : burnTime;
             }
         });
+    }
+    
+    private static void registerFuel(final Block input, final int burnTime)
+    {
+        registerFuel(Item.getItemFromBlock(input), burnTime);
+    }
+    
+    private static void registerFuel(IFuelHandler handler)
+    {
+        GameRegistry.registerFuelHandler(handler);
     }
 }

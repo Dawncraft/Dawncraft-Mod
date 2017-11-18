@@ -274,7 +274,7 @@ public class EntityBullet extends Entity implements IProjectile
                             }
                         }
 
-                        //this.playSound(dawncraft.MODID + ":" + "random.gunhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));// 子弹击中声音
+                        //this.playSound(Dawncraft.MODID + ":" + "random.gunhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));// 子弹击中声音
 
                         if (!(movingobjectposition.entityHit instanceof EntityEnderman))
                         {

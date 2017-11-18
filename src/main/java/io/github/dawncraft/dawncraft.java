@@ -17,21 +17,20 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
  * @version mc-1.8.9
  * @author QingChenW
  **/
-// TODO 天域
-@Mod(modid = dawncraft.MODID, name = dawncraft.NAME, version = dawncraft.VERSION, guiFactory = dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9")
-public class dawncraft
+@Mod(modid = Dawncraft.MODID, name = Dawncraft.NAME, version = Dawncraft.VERSION, guiFactory = Dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9")
+public class Dawncraft
 {
-    /** The Mod id of Dawncraft Mod. */
-    public static final String MODID = "dawncraft";
-    /** The Mod name of Dawncraft Mod. */
+    /** The id of Dawncraft Mod. */
+    public static final String MODID = "Dawncraft";
+    /** The name of Dawncraft Mod. */
     public static final String NAME = "Dawncraft Mod";
-    /** The Mod version of Dawncraft Mod. It will replaced by Gradle.*/
+    /** The version of Dawncraft Mod. It will replaced by Gradle.*/
     public static final String VERSION = "@version@";
-    /** The Gui Factory of Dawncraft Mod. */
+    /** The gui factory of Dawncraft Mod. */
     public static final String GUI_FACTORY = "io.github.dawncraft.client.gui.GuiFactory";
     /** The instance of Dawncraft Mod. */
-    @Instance(dawncraft.MODID)
-    public static dawncraft instance;
+    @Instance(Dawncraft.MODID)
+    public static Dawncraft instance;
     /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;

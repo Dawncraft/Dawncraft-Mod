@@ -1,6 +1,6 @@
 package io.github.dawncraft.entity.boss;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityLivingData;
@@ -64,19 +64,19 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
     @Override
     protected String getLivingSound()
     {
-        return dawncraft.MODID + ":" + "mob.gerking.say";
+        return Dawncraft.MODID + ":" + "mob.gerking.say";
     }
     
     @Override
     protected String getHurtSound()
     {
-        return dawncraft.MODID + ":" + "mob.gerking.hurt";
+        return Dawncraft.MODID + ":" + "mob.gerking.hurt";
     }
     
     @Override
     protected String getDeathSound()
     {
-        return dawncraft.MODID + ":" + "mob.gerking.death";
+        return Dawncraft.MODID + ":" + "mob.gerking.death";
     }
     
     @Override

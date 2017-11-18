@@ -1,5 +1,12 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.2.3 update log:
+--------------------
+1.Change wz's songs record.
+2.Refactory craft recipes.
+3.Make few chair and monitor.
+4.Add Event Handler.
+===========================================================
 0.2.2.2 update log:
 --------------------
 1.Add render of Ger King's health bar.

@@ -13,10 +13,7 @@ public class PotionEvent
 {
     private Random rand = new Random();
 
-    public PotionEvent(FMLInitializationEvent event)
-    {
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+    public PotionEvent(FMLInitializationEvent event) {}
 
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event)

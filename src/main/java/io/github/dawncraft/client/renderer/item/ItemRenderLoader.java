@@ -105,8 +105,7 @@ public class ItemRenderLoader
 
         registerRender(ItemLoader.chinese);
         registerRender(ItemLoader.dj);
-        registerRender(ItemLoader.wz1);
-        registerRender(ItemLoader.wz2);
+        registerRender(ItemLoader.wz);
 
         registerRender(ItemLoader.goldiamondSword);
         registerRender(ItemLoader.mjolnir);

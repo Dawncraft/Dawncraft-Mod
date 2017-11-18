@@ -1,6 +1,6 @@
 package io.github.dawncraft.entity;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.entity.projectile.EntityMagnetBall;
 import io.github.dawncraft.entity.projectile.EntityRocket;
@@ -35,7 +35,7 @@ public class EntityLoader
     private static void registerEntity(Class<? extends Entity> entityClass, String name, int trackingRange,
             int updateFrequency, boolean sendsVelocityUpdates)
     {
-        EntityRegistry.registerModEntity(entityClass, name, nextID++, dawncraft.instance, trackingRange, updateFrequency,
+        EntityRegistry.registerModEntity(entityClass, name, nextID++, Dawncraft.instance, trackingRange, updateFrequency,
                 sendsVelocityUpdates);
     }
     

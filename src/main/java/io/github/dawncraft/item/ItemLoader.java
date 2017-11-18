@@ -1,6 +1,6 @@
 package io.github.dawncraft.item;
 
-import io.github.dawncraft.dawncraft;
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.base.BlockSkullBase;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
@@ -50,7 +50,7 @@ public class ItemLoader
     public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11)
             .setRepairItem(new ItemStack(magnetIngot));
     public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET",
-            dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11);
+            Dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11);
     public static Item magnetAxe = new ItemAxeBase(MAGNET_TOOL).setUnlocalizedName("magnetAxe");
     public static Item magnetPickaxe = new ItemPickaxeBase(MAGNET_TOOL).setUnlocalizedName("magnetPickaxe");
     public static Item magnetHammer = new ItemHammerBase(MAGNET_TOOL).setUnlocalizedName("magnetHammer");
@@ -163,9 +163,7 @@ public class ItemLoader
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
     public static Item dj = new ItemRecordBase("dj").setUnlocalizedName("record")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
-    public static Item wz1 = new ItemRecordBase("wz1").setUnlocalizedName("record")
-            .setCreativeTab(CreativeTabsLoader.tabColourEgg);
-    public static Item wz2 = new ItemRecordBase("wz2").setUnlocalizedName("record")
+    public static Item wz = new ItemRecordBase("wzsongs").setUnlocalizedName("record")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
     
     public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F,
@@ -251,8 +249,7 @@ public class ItemLoader
         
         register(chinese, "record_chinese");
         register(dj, "record_dj");
-        register(wz1, "record_wz1");
-        register(wz2, "record_wz2");
+        register(wz, "record_wzsongs");
         
         register(goldiamondSword, "goldiamond_sword");
         register(mjolnir, "mjolnir");
