@@ -12,6 +12,8 @@
 
 2017/7/9注:您可以用auto_build_cmd.bat批处理来快速构建开发环境或Mod
 
+2017/12/31注:到[这里](http://www.eclipse.org/babel/downloads.php)查看Eclipse的多语言支持
+
 ##目录
 
 [开发Mod](#Mod开发)
@@ -145,4 +147,4 @@ Mojang为我们带来的Minecraft，MCP和Forge团队的Forge/FML.
 
 NeoTech的管道模型文件。
 
-#### &copy; 2016 Wdawning Studio ####
+#### &copy; 2016 Dawncraft Studio ####

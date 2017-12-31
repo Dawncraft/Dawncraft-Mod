@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 public class Dawncraft
 {
     /** The id of Dawncraft Mod. */
-    public static final String MODID = "Dawncraft";
+    public static final String MODID = "dawncraft";
     /** The name of Dawncraft Mod. */
     public static final String NAME = "Dawncraft Mod";
     /** The version of Dawncraft Mod. It will replaced by Gradle.*/
@@ -34,21 +34,21 @@ public class Dawncraft
     /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-    
+
     /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-    
+
     /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-    
+
     /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
@@ -56,14 +56,14 @@ public class Dawncraft
         new ScriptTest();
         proxy.postInit(event);
     }
-    
+
     /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-    
+
     /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)

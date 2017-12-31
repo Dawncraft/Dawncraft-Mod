@@ -7,12 +7,11 @@ import net.minecraftforge.fml.common.ModContainer;
 
 public class ItemRecordBase extends ItemRecord
 {
-    //TODO 唱片增强
     public ItemRecordBase(String name)
     {
         super(name);
     }
-    
+
     @Override
     public ResourceLocation getRecordResource(String name)
     {

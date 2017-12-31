@@ -1,5 +1,12 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.2.4 update log:
+--------------------
+1.Fix wz's songs record.
+2.Add skin for Ger King, skin from wangxinyu, thanks.
+3.Fix a null point problem for input event handler.
+4.Fix build script.
+===========================================================
 0.2.2.3 update log:
 --------------------
 1.Change wz's songs record.
@@ -163,5 +170,5 @@ Bugs:
 ===========================================================
 B0.7 and older version was lost~QAQ
 ------------------------------------
-更早版本的就没了哦~QAQ
+鏇存棭鐗堟湰鐨勫氨娌′簡鍝QAQ
 ===========================================================

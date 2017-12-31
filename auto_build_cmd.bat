@@ -92,8 +92,8 @@ goto start
 echo +=====================+
 echo 执行 2.配置Forge开发环境
 echo +=====================+
-if %INFO% EQU 0 call gradlew.bat setupDecompWorkspace
-if %INFO% EQU 1 call gradlew.bat setupDecompWorkspace --info
+if %INFO% EQU 0 call ./gradlew.bat setupDecompWorkspace
+if %INFO% EQU 1 call ./gradlew.bat setupDecompWorkspace --info
 echo +=====================+
 echo 配置Forge开发环境完毕
 echo +=====================+
@@ -104,8 +104,8 @@ goto start
 echo +=====================+
 echo 执行 3.配置Eclipse工程文件
 echo +=====================+
-if %INFO% EQU 0 call gradlew.bat eclipse
-if %INFO% EQU 1 call gradlew.bat eclipse --info
+if %INFO% EQU 0 call ./gradlew.bat eclipse
+if %INFO% EQU 1 call ./gradlew.bat eclipse --info
 echo +=====================+
 echo 配置Eclipse工程文件完毕
 echo +=====================+
@@ -116,8 +116,8 @@ goto start
 echo +=====================+
 echo.执行 4.快速构建Mod
 echo +=====================+
-if %INFO% EQU 0 call gradlew.bat build
-if %INFO% EQU 1 call gradlew.bat build --info
+if %INFO% EQU 0 call ./gradlew.bat build
+if %INFO% EQU 1 call ./gradlew.bat build --info
 echo +=====================+
 echo 构建Mod完毕
 echo +=====================+

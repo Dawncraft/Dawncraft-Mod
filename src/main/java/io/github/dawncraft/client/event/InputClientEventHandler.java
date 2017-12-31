@@ -15,8 +15,8 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputClientEventHandler
 {
     GuiInGameClientEventHandler magicGui;
-    public InputClientEventHandler(FMLInitializationEvent event) {this.magicGui = GuiInGameClientEventHandler.instance;}
-    
+    public InputClientEventHandler(FMLInitializationEvent event) {this.magicGui = new GuiInGameClientEventHandler(event);}
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -24,38 +24,38 @@ public class InputClientEventHandler
         // Switch key was pressed
         if (KeyLoader.change.isPressed())
         {
-            if(magicGui.magicMode)
+            if(this.magicGui.magicMode)
             {
-                magicGui.magicMode = false;
-                magicGui.isSpelling = false;
+                this.magicGui.magicMode = false;
+                this.magicGui.isSpelling = false;
             }
             else
             {
-                magicGui.magicMode = true;
+                this.magicGui.magicMode = true;
             }
         }
         // Spell key was pressed
-        if (magicGui.magicMode)
+        if (this.magicGui.magicMode)
         {
             for(int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++)
             {
                 if(mc.gameSettings.keyBindsHotbar[i].isPressed())
                 {
-                    if(magicGui.isSpelling == true)
+                    if(this.magicGui.isSpelling == true)
                     {
-                        if(magicGui.magicIndex != i)
+                        if(this.magicGui.magicIndex != i)
                         {
-                            magicGui.magicIndex = i;
+                            this.magicGui.magicIndex = i;
                         }
                         else
                         {
-                            magicGui.isSpelling = false;
+                            this.magicGui.isSpelling = false;
                         }
                     }
                     else
                     {
-                        magicGui.magicIndex = i;
-                        magicGui.isSpelling = true;
+                        this.magicGui.magicIndex = i;
+                        this.magicGui.isSpelling = true;
                     }
                 }
             }
