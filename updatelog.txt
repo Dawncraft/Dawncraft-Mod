@@ -1,5 +1,10 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.3.0 update log:
+--------------------
+1.Fix skulls, but it still have some bugs.
+2.Add Ger King's pattern.
+===========================================================
 0.2.2.4 update log:
 --------------------
 1.Fix wz's songs record.

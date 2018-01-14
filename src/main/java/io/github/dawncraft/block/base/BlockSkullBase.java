@@ -4,6 +4,7 @@ import java.util.Random;
 
 import io.github.dawncraft.item.base.ItemSkullBase;
 import io.github.dawncraft.tileentity.TileEntitySkull;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -27,7 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * BlockSkullBase 方块头颅基类
- * <br>如果有需要请自行实现checkBossSpawn方法</br>
+ * <br>如果有需要请自行实现checkSpecialSpawn方法</br>
  *
  * @author QingChenW
  */
@@ -37,22 +38,27 @@ public class BlockSkullBase extends BlockContainer
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
     public static final PropertyBool NODROP = PropertyBool.create("nodrop");
     
-    public BlockSkullBase(ItemSkullBase skull)
+    public BlockSkullBase()
     {
         super(Material.circuits);
-        this.itemSkull = skull;
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(NODROP, Boolean.valueOf(false)));
         this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
     }
+
+    public Block setSkullItem(ItemSkullBase skull)
+    {
+        this.itemSkull = skull;
+        return this;
+    }
     
     /**
-     * checkBossSpawn 用于检测boss的生成，像凋零一样，如果你需要就像矿石一样请重写这个方法
+     * checkSpecialSpawn 用于检测boss的生成，像凋零一样，如果你需要就像矿石一样请重写这个方法
      *
      * @param world
      * @param pos
      * @param tileentityskull
      */
-    public void checkBossSpawn(World world, BlockPos pos, TileEntitySkull tileentityskull) {}
+    public void checkSpecialSpawn(World world, BlockPos pos, TileEntitySkull tileentityskull) {}
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
@@ -97,7 +103,7 @@ public class BlockSkullBase extends BlockContainer
             if (tileentity instanceof TileEntitySkull)
             {
                 TileEntitySkull tileentityskull = (TileEntitySkull)tileentity;
-                ret.add(new ItemStack(this.itemSkull, 1, this.itemSkull.getSkullTypeId(tileentityskull.getSkullType())));
+                ret.add(new ItemStack(this.itemSkull, 1, tileentityskull.getSkullType()));
             }
         }
 
@@ -114,7 +120,7 @@ public class BlockSkullBase extends BlockContainer
     public int getDamageValue(World worldIn, BlockPos pos)
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
-        return tileentity instanceof TileEntitySkull ? this.itemSkull.getSkullTypeId(((TileEntitySkull) tileentity).getSkullType()) : super.getDamageValue(worldIn, pos);
+        return tileentity instanceof TileEntitySkull ? ((TileEntitySkull) tileentity).getSkullType() : super.getDamageValue(worldIn, pos);
     }
     
     @Override

@@ -2,7 +2,6 @@ package io.github.dawncraft.tileentity;
 
 import io.github.dawncraft.block.BlockEnergyGenerator;
 import io.github.dawncraft.block.BlockEnergyGenerator.EnergyGeneratorType;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -33,11 +32,6 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
     public TileEntityEnergyGenerator()
     {
         super();
-        Block block = this.getWorld().getBlockState(this.getPos()).getBlock();
-        if(block instanceof BlockEnergyGenerator)
-        {
-            this.generatorType = ((BlockEnergyGenerator) block).generatorType;
-        }
     }
 
     public TileEntityEnergyGenerator(EnergyGeneratorType type)
@@ -96,6 +90,17 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
         compound.setShort("BurnTime", (short) this.generatorBurnTime);
         compound.setShort("Electricity", (short) this.electricity);
     }
+    
+    // 需替代方案
+    /*    @Override
+    public void onLoad()
+    {
+        Block block = this.getWorld().getBlockState(this.getPos()).getBlock();
+        if(block instanceof BlockEnergyGenerator)
+        {
+            this.generatorType = ((BlockEnergyGenerator) block).generatorType;
+        }
+    }*/
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)

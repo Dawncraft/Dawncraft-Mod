@@ -28,30 +28,23 @@ public class ItemSkullBase extends Item
     private BlockSkullBase blockSkull;
     private String[] skullTypes;
     
-    public ItemSkullBase(BlockSkullBase skull, String[] types)
+    public ItemSkullBase(String[] types)
     {
         super();
-        this.blockSkull = skull;
         this.skullTypes = types;
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
 
+    public Item setSkullBlock(BlockSkullBase skull)
+    {
+        this.blockSkull = skull;
+        return this;
+    }
+
     public String[] getSkullTypes()
     {
         return this.skullTypes;
-    }
-
-    public int getSkullTypeId(String type)
-    {
-        for(int i = 0; i < this.skullTypes.length; i++)
-        {
-            if(this.skullTypes[i].equalsIgnoreCase(type))
-            {
-                return i;
-            }
-        }
-        return 0;
     }
     
     @Override
@@ -71,9 +64,14 @@ public class ItemSkullBase extends Item
         }
         else
         {
+            block = worldIn.getBlockState(pos).getBlock();
+            
             if (!block.isReplaceable(worldIn, pos))
             {
-                if (!block.getMaterial().isSolid() && !worldIn.isSideSolid(pos, side, true)) return false;
+                if (!block.getMaterial().isSolid() && !worldIn.isSideSolid(pos, side, true))
+                {
+                    return false;
+                }
                 pos = pos.offset(side);
             }
             
@@ -95,11 +93,11 @@ public class ItemSkullBase extends Item
                     TileEntity tileentity = worldIn.getTileEntity(pos);
                     if (tileentity instanceof TileEntitySkull)
                     {
-                        TileEntitySkull tileentityskull = (TileEntitySkull)tileentity;
-                        tileentityskull.setSkullType(this.skullTypes[stack.getMetadata()]);
+                        TileEntitySkull tileentityskull = (TileEntitySkull) tileentity;
+                        tileentityskull.setSkullType(stack.getMetadata());
                         int rotation = side == EnumFacing.UP ? MathHelper.floor_double(playerIn.rotationYaw * 16.0F / 360.0F + 0.5D) & 15 : 0;
                         tileentityskull.setSkullRotation(rotation);
-                        this.blockSkull.checkBossSpawn(worldIn, pos, tileentityskull);
+                        this.blockSkull.checkSpecialSpawn(worldIn, pos, tileentityskull);
                     }
                     
                     --stack.stackSize;
