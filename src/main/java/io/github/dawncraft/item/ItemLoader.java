@@ -1,8 +1,13 @@
 package io.github.dawncraft.item;
 
+import java.util.List;
+
+import org.lwjgl.input.Keyboard;
+
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.base.BlockSkullBase;
+import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.base.*;
@@ -14,14 +19,19 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemSoup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * @author QingChenW
@@ -84,7 +94,7 @@ public class ItemLoader
     // Furniture
 
     // Food
-    public static ItemFood faeces = (ItemFood) new ItemFood(1, 0.0F, true)
+    public static Item faeces = (ItemFood) new ItemFood(1, 0.0F, true)
     {
         @Override
         public void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player)
@@ -99,8 +109,21 @@ public class ItemLoader
             super.onFoodEaten(stack, worldIn, player);
         }
     }.setAlwaysEdible().setUnlocalizedName("faeces").setCreativeTab(CreativeTabsLoader.tabFood);
-    public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg")
-            .setCreativeTab(CreativeTabsLoader.tabFood);
+    public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabFood);
+    public static Item frogStew = new ItemSoup(4)
+    {
+	    public String getUnlocalizedDesc()
+	    {
+	        return this.getUnlocalizedName() + ".desc";
+	    }
+
+	    @Override
+	    @SideOnly(Side.CLIENT)
+	    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+	    {
+	        tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(this.getUnlocalizedDesc()));
+	    }
+    }.setUnlocalizedName("frogStew").setCreativeTab(CreativeTabsLoader.tabFood);
 
     // Guns
     public static Item gunAK47 = new ItemGunBase(423, 6.0F).setUnlocalizedName("gunAK47")
@@ -225,6 +248,7 @@ public class ItemLoader
         // Food
         register(faeces, "faeces");
         register(cakeEgg, "cake_egg");
+        register(frogStew, "frog_stew");
 
         // Magic
         register(magicDust, "magic_dust");

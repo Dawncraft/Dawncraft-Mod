@@ -47,6 +47,8 @@ item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
 item.faeces.name=§6屎
 item.cakeEgg.name=荷包蛋
+item.frogStew.name=青蛙汤
+item.frogStew.desc=青蛙汤到真理-温水不能煮死青蛙
 
 item.gunAK47.name=AK47
 item.gunBullet.name=子弹

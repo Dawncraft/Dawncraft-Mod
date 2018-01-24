@@ -77,6 +77,7 @@ public class ItemRenderLoader
         // Food
         registerRender(ItemLoader.faeces);
         registerRender(ItemLoader.cakeEgg);
+        registerRender(ItemLoader.frogStew);
 
         // Magic
         registerRender(ItemLoader.magicDust);

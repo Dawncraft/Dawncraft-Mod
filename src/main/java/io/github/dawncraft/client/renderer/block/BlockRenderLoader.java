@@ -30,8 +30,8 @@ public class BlockRenderLoader
     {
         registerRender((BlockFluidBase) BlockLoader.fluidPetroleum);
 
-        registerRender((BlockContainer) BlockLoader.superChest);
-        registerRender((BlockContainer) BlockLoader.skull);
+        //registerRender((BlockContainer) BlockLoader.superChest);
+        //registerRender((BlockContainer) BlockLoader.skull);
         
         registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
     }
