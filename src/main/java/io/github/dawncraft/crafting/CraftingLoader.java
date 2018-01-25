@@ -8,6 +8,9 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.WeightedRandomFishable;
+import net.minecraftforge.common.FishingHooks;
+import net.minecraftforge.common.FishingHooks.FishableCategory;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -105,6 +108,8 @@ public class CraftingLoader
         registerSmelting(BlockLoader.magnetOre, new ItemStack(ItemLoader.magnetIngot), 0.7F);
         registerSmelting(Items.egg, new ItemStack(ItemLoader.cakeEgg), 0.3F);
         registerFuel(ItemLoader.bucketPetroleum, 25600);
+
+        registerFish(FishableCategory.FISH, ItemLoader.frog, 10);
     }
 
     private static void registerShapedRecipe(ItemStack output, Object... params)
@@ -162,5 +167,27 @@ public class CraftingLoader
     private static void registerFuel(IFuelHandler handler)
     {
         GameRegistry.registerFuelHandler(handler);
+    }
+    
+    private static void registerFish(FishableCategory category, Item item, int weight)
+    {
+        registerFish(category, new ItemStack(item), weight, 0.0F, false);
+    }
+    
+    private static void registerFish(FishableCategory category, Block block, int weight)
+    {
+        registerFish(category, new ItemStack(block), weight, 0.0F, false);
+    }
+    
+    private static void registerFish(FishableCategory category, ItemStack itemstack, int weight, float maxDamagePercent, boolean enchantable)
+    {
+        WeightedRandomFishable item = new WeightedRandomFishable(itemstack, weight).setMaxDamagePercent(maxDamagePercent);
+        if(enchantable) item.setEnchantable();
+        switch(category)
+        {
+            case JUNK: FishingHooks.addJunk(item); break;
+            case FISH: FishingHooks.addFish(item); break;
+            case TREASURE: FishingHooks.addTreasure(item); break;
+        }
     }
 }

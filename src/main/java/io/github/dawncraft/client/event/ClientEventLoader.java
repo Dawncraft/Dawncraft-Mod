@@ -1,26 +1,17 @@
 package io.github.dawncraft.client.event;
 
-import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.client.gui.magic.GuiMagic;
-import io.github.dawncraft.config.ConfigLoader;
-import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.item.ItemLoader;
-import io.github.dawncraft.util.WebBrowserV1;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.dawncraft.block.BlockLoader;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.BlockModelShapes;
+import net.minecraftforge.client.event.ModelBakeEvent;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register some client events.
@@ -31,12 +22,67 @@ public class ClientEventLoader
 {
     public ClientEventLoader(FMLInitializationEvent event)
     {
-        registerEvent(new InputClientEventHandler(event));
         registerEvent(new GuiInGameClientEventHandler(event));
+        registerEvent(new InputClientEventHandler(event));
     }
-
+    
     private static void registerEvent(Object target)
     {
         MinecraftForge.EVENT_BUS.register(target);
+    }
+    
+    // TODO 取消buildin方块的模型加载
+    @Deprecated
+    public static class BakeEventHandler
+    {
+        private static List<Block> BuiltInBlocks = new ArrayList<Block>();
+        static
+        {
+            addBuiltInBlock(BlockLoader.superChest);
+            addBuiltInBlock(BlockLoader.skull);
+        }
+        
+        public BakeEventHandler(FMLPreInitializationEvent event)
+        {
+            registerEvent(this);
+        }
+
+        /**
+         * Use this event handler to get ModelLoader.
+         *
+         * @param event
+         */
+        public void onModelBake(ModelBakeEvent event)
+        {
+            BlockModelShapes blockModelShapes = null;
+            Class modelloader = ModelLoader.class;
+            for(Field field : modelloader.getDeclaredFields())
+            {
+                if(field.getType() == BlockModelShapes.class)
+                {
+                    try
+                    {
+                        field.setAccessible(true);
+                        blockModelShapes = (BlockModelShapes) field.get(event.modelLoader);
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            if(blockModelShapes != null)
+                blockModelShapes.getBlockStateMapper().registerBuiltInBlocks(BuiltInBlocks.toArray(new Block[0]));
+        }
+
+        /**
+         * Register BuiltIn block.
+         *
+         * @param block
+         */
+        public static void addBuiltInBlock(Block block)
+        {
+            BuiltInBlocks.add(block);
+        }
     }
 }

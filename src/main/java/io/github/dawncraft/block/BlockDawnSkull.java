@@ -4,6 +4,8 @@ import com.google.common.base.Predicate;
 
 import io.github.dawncraft.block.base.BlockSkullBase;
 import io.github.dawncraft.entity.boss.EntityGerKing;
+import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.base.ItemSkullBase;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -28,6 +30,12 @@ public class BlockDawnSkull extends BlockSkullBase
     };
     private BlockPattern gerBasePattern;
     private BlockPattern gerPattern;
+    
+    @Override
+    public ItemSkullBase getSkullItem()
+    {
+        return (ItemSkullBase) ItemLoader.skull;
+    }
     
     @Override
     public void checkSpecialSpawn(World worldIn, BlockPos pos, TileEntitySkull tileentity)

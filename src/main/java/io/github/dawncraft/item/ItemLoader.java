@@ -2,12 +2,9 @@ package io.github.dawncraft.item;
 
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.base.BlockSkullBase;
-import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.base.*;
@@ -112,18 +109,19 @@ public class ItemLoader
     public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabFood);
     public static Item frogStew = new ItemSoup(4)
     {
-	    public String getUnlocalizedDesc()
-	    {
-	        return this.getUnlocalizedName() + ".desc";
-	    }
-
-	    @Override
-	    @SideOnly(Side.CLIENT)
-	    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
-	    {
-	        tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(this.getUnlocalizedDesc()));
-	    }
+        public String getUnlocalizedDesc()
+        {
+            return this.getUnlocalizedName() + ".desc";
+        }
+        
+        @Override
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+        {
+            tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(this.getUnlocalizedDesc()));
+        }
     }.setUnlocalizedName("frogStew").setCreativeTab(CreativeTabsLoader.tabFood);
+    public static Item frog = new Item().setUnlocalizedName("frog").setCreativeTab(CreativeTabsLoader.tabFood);
 
     // Guns
     public static Item gunAK47 = new ItemGunBase(423, 6.0F).setUnlocalizedName("gunAK47")
@@ -153,7 +151,13 @@ public class ItemLoader
 
     // ColourEgg
     public static Item skull = new ItemSkullBase(new String[] {"savage", "barbarianking", "gerking"})
-            .setUnlocalizedName("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg);
+    {
+        @Override
+        public BlockSkullBase getSkullBlock()
+        {
+            return (BlockSkullBase) BlockLoader.skull;
+        }
+    }.setUnlocalizedName("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg);
     public static Item gerHeart = new ItemFood(2, 1.0F, false)
     {
         @Override
@@ -189,12 +193,11 @@ public class ItemLoader
     public static Item wz = new ItemRecordBase("wzsongs").setUnlocalizedName("record")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
 
-    public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F,
-            16);
+    public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F, 16);
     public static final Item.ToolMaterial MJOLNIR = EnumHelper.addToolMaterial("MJOLNIR", 4, 2586, 10.0F, 2.0F, 24);
     public static Item goldiamondSword = new ItemSwordBase(ItemLoader.GOLDIAMOND).setUnlocalizedName("goldiamondSword")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
-    public static Item mjolnir = new ItemHammerBase(MJOLNIR)
+    public static Item mjolnir = new ItemHammerBase(ItemLoader.MJOLNIR)
     {
         @Override
         public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
@@ -249,6 +252,7 @@ public class ItemLoader
         register(faeces, "faeces");
         register(cakeEgg, "cake_egg");
         register(frogStew, "frog_stew");
+        register(frog, "frog");
 
         // Magic
         register(magicDust, "magic_dust");
@@ -267,7 +271,6 @@ public class ItemLoader
 
         // ColourEgg
         register(skull, "skull");
-        ((ItemSkullBase) skull).setSkullBlock((BlockSkullBase) BlockLoader.skull);
         register(gerHeart, "ger_heart");
         register(brainDead, "brain_dead");
         register(funny, "funny");

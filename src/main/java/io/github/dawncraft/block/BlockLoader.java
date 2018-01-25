@@ -1,12 +1,14 @@
 package io.github.dawncraft.block;
 
+import java.util.Random;
+
 import io.github.dawncraft.block.base.*;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;
-import io.github.dawncraft.item.base.ItemSkullBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,10 +25,10 @@ public class BlockLoader
     // Energy
     public static Block fluidPetroleum = new BlockFluidClassic(FluidLoader.fluidPetroleum, Material.water)
             .setUnlocalizedName("fluidPetroleum");
-
+    
     public static Block electricCable = new BlockElectricCable().setUnlocalizedName("electricityCable")
             .setCreativeTab(CreativeTabsLoader.tabEnergy);
-
+    
     public static Block energyGeneratorHeat = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.HEAT)
             .setUnlocalizedName("heatGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
     public static Block energyGeneratorFluid = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.FLUID)
@@ -40,7 +42,7 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabEnergy);
     public static Block energyGeneratorMagic = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.MAGIC)
             .setUnlocalizedName("magicGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
-
+    
     // Magnet
     public static Block magnetOre = new BlockOreBase().setUnlocalizedName("magnetOre")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
@@ -51,13 +53,13 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
     public static Block magnetRail = new BlockMagnetRail().setUnlocalizedName("magnetRail")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
-
+    
     // Machine
     public static Block copperOre = new BlockOreBase().setUnlocalizedName("copperOre")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
     public static Block machineFurnace = new BlockMachineFurnace().setUnlocalizedName("machineFurnace")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
-
+    
     // Computer
     public static Block simpleComputer = new BlockComputerCase(BlockComputerCase.ComputerCaseType.SIMPLE)
             .setUnlocalizedName("simpleComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
@@ -65,9 +67,9 @@ public class BlockLoader
             .setUnlocalizedName("advancedComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
     public static Block superComputer = new BlockComputerCase(BlockComputerCase.ComputerCaseType.SUPER)
             .setUnlocalizedName("superComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
-
+    
     // Materials
-
+    
     // Furniture
     public static Block woodTable = new BlockFurnitureTable(Material.wood, Block.soundTypeWood)
             .setUnlocalizedName("woodTable").setCreativeTab(CreativeTabsLoader.tabFurniture);
@@ -75,26 +77,40 @@ public class BlockLoader
             .setUnlocalizedName("stoneTable").setCreativeTab(CreativeTabsLoader.tabFurniture);
     public static Block superChest = new BlockFurnitureSuperChest().setUnlocalizedName("superChest")
             .setCreativeTab(CreativeTabsLoader.tabFurniture);
-    
+
     // Food
-
+    
     // Magic
-    public static Block magicOre = new BlockOreBase().setUnlocalizedName("magicOre")
-            .setCreativeTab(CreativeTabsLoader.tabMagic);
+    public static Block magicOre = new BlockOreBase(1, 2, 5, 7)
+    {
+        @Override
+        public Item getMineral()
+        {
+            return ItemLoader.magicDust;
+        }
 
+        @Override
+        public int quantityDroppedWithBonus(int fortune, Random random)
+        {
+            int count = random.nextInt(fortune + 1);
+            if (count < 0) count = 0;
+            return this.quantityDropped(random) + count;
+        }
+    }.setUnlocalizedName("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic);
+    
     // Guns
-
+    
     // ColourEgg
     public static Block dawnPortal = new BlockDawnPortal().setUnlocalizedName("dawnPortal");
-    public static Block skull = new BlockSkullBase().setUnlocalizedName("skull");
-    
+    public static Block skull = new BlockDawnSkull().setUnlocalizedName("skull");
+
     public BlockLoader(FMLPreInitializationEvent event)
     {
         // Energy
         register(fluidPetroleum, "fluid_petroleum");
-        
+
         register(electricCable, "electric_cable");
-        
+
         register(energyGeneratorHeat, "heat_generator");
         // register(energyGeneratorFluid, "fluid_generator");
         // register(energyGeneratorSolar, "solar_generator");
@@ -103,43 +119,39 @@ public class BlockLoader
         // register(energyGeneratorMagic, "magic_generator");
         // Magnet
         register(magnetOre, "magnet_ore");
-        ((BlockOreBase) magnetOre).setItemDropped(magnetOre);
         magnetBlock.setHarvestLevel("ItemPickaxe", 1);
         register(magnetBlock, "magnet_block");
         registerWithItem(magnetDoor, null, "magnet_door");
         register(magnetRail, "magnet_rail");
-
+        
         // Machine
         register(copperOre, "copper_ore");
-        ((BlockOreBase) copperOre).setItemDropped(copperOre);
         register(machineFurnace, "iron_furnace");
-
+        
         // Computer
         register(simpleComputer, "simple_computer");
         register(advancedComputer, "advanced_computer");
         register(superComputer, "super_computer");
-        
-        // Materials
 
+        // Materials
+        
         // Furniture
         register(woodTable, "wood_table");
         register(stoneTable, "stone_table");
         register(superChest, "super_chest");
-
+        
         // Food
-
+        
         // Magic
         register(magicOre, "magic_ore");
-        ((BlockOreBase) magicOre).setItemDropped(ItemLoader.magicDust, 1, 2, 1).setExpDropped(5, 7);
-
+        
         // Guns
-
+        
         // ColourEgg
         registerWithItem(dawnPortal, null, "dawn_portal");
         registerWithItem(skull, null, "skull");
-        ((BlockSkullBase) skull).setSkullItem((ItemSkullBase) ItemLoader.skull);
     }
-    
+
     /**
      * Register a block with a string id and a default item-block.
      *
@@ -152,7 +164,7 @@ public class BlockLoader
     {
         GameRegistry.registerBlock(block, name);
     }
-    
+
     /**
      * Register a block with a string id and a item-block.
      *
@@ -167,7 +179,7 @@ public class BlockLoader
     {
         GameRegistry.registerBlock(block, itemclass, name);
     }
-    
+
     /**
      * Register a block with a string id and a item-block.
      *
@@ -184,7 +196,7 @@ public class BlockLoader
     {
         GameRegistry.registerBlock(block, itemclass, name, args);
     }
-    
+
     /**
      * Register a block with a string id and a item-block.
      * <br><b>Not recommended, use {@link #registerWithItem(Block, Class, String, Object...)} instead of.</b><br/>

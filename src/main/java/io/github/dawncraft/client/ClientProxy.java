@@ -23,6 +23,7 @@ public class ClientProxy extends ServerProxy
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+        new ClientEventLoader.BakeEventHandler(event);
         new ItemRenderLoader(event);
         new BlockRenderLoader(event);
         new EntityRenderLoader(event);

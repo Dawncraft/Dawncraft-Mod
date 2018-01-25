@@ -3,7 +3,6 @@ package io.github.dawncraft.client.renderer.block;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.BlockMagnetDoor;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
@@ -12,7 +11,6 @@ import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -34,28 +32,6 @@ public class BlockRenderLoader
         //registerRender((BlockContainer) BlockLoader.skull);
         
         registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
-    }
-
-    /**
-     * Register a container's model.
-     * <br>I don't know how to let forge stop loading models, so I use this.</br>
-     * It will be removed if ustc-zzzz write tutor.
-     *
-     * @param block Container block to register
-     */
-    @Deprecated
-    public static void registerRender(BlockContainer block)
-    {
-        String name = block.getRegistryName();
-        final ResourceLocation res = new ResourceLocation(name);
-        registerStateMapper(block, new StateMapperBase()
-        {
-            @Override
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state)
-            {
-                return new ModelResourceLocation("builtin/entity");
-            }
-        });
     }
     
     /**
@@ -95,4 +71,10 @@ public class BlockRenderLoader
     {
         ModelLoader.setCustomStateMapper(block, mapper);
     }
+    
+    /**
+     * Register BuiltIn blocks.
+     * Remove to {@link ClientEventLoader.BakeEventHandler.onModelBake()}
+     */
+    //private static void registerBuiltIn(Block... blocks){}
 }

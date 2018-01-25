@@ -23,9 +23,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author QingChenW
  */
-public class ItemSkullBase extends Item
+public abstract class ItemSkullBase extends Item
 {
-    private BlockSkullBase blockSkull;
     private String[] skullTypes;
     
     public ItemSkullBase(String[] types)
@@ -35,12 +34,13 @@ public class ItemSkullBase extends Item
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
-
-    public Item setSkullBlock(BlockSkullBase skull)
-    {
-        this.blockSkull = skull;
-        return this;
-    }
+    
+    /**
+     * getSkullBlock 返回头颅方块
+     *
+     * @return BlockSkullBase
+     */
+    public abstract BlockSkullBase getSkullBlock();
 
     public String[] getSkullTypes()
     {
@@ -79,7 +79,7 @@ public class ItemSkullBase extends Item
             {
                 return false;
             }
-            else if (!this.blockSkull.canPlaceBlockAt(worldIn, pos))
+            else if (!this.getSkullBlock().canPlaceBlockAt(worldIn, pos))
             {
                 return false;
             }
@@ -87,8 +87,8 @@ public class ItemSkullBase extends Item
             {
                 if (!worldIn.isRemote)
                 {
-                    if (!this.blockSkull.canPlaceBlockOnSide(worldIn, pos, side)) return false;
-                    worldIn.setBlockState(pos, this.blockSkull.getDefaultState().withProperty(this.blockSkull.FACING, side), 3);
+                    if (!this.getSkullBlock().canPlaceBlockOnSide(worldIn, pos, side)) return false;
+                    worldIn.setBlockState(pos, this.getSkullBlock().getDefaultState().withProperty(this.getSkullBlock().FACING, side), 3);
                     
                     TileEntity tileentity = worldIn.getTileEntity(pos);
                     if (tileentity instanceof TileEntitySkull)
@@ -97,7 +97,7 @@ public class ItemSkullBase extends Item
                         tileentityskull.setSkullType(stack.getMetadata());
                         int rotation = side == EnumFacing.UP ? MathHelper.floor_double(playerIn.rotationYaw * 16.0F / 360.0F + 0.5D) & 15 : 0;
                         tileentityskull.setSkullRotation(rotation);
-                        this.blockSkull.checkSpecialSpawn(worldIn, pos, tileentityskull);
+                        this.getSkullBlock().checkSpecialSpawn(worldIn, pos, tileentityskull);
                     }
                     
                     --stack.stackSize;

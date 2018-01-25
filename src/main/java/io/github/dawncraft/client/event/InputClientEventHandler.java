@@ -15,8 +15,8 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputClientEventHandler
 {
     GuiInGameClientEventHandler magicGui;
-    public InputClientEventHandler(FMLInitializationEvent event) {this.magicGui = new GuiInGameClientEventHandler(event);}
-
+    public InputClientEventHandler(FMLInitializationEvent event) {this.magicGui = GuiInGameClientEventHandler.instance;}
+    
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {

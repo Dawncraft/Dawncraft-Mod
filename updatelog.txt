@@ -1,5 +1,15 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.3.1 update log:
+--------------------
+1.Fix Ger King's pattern.
+2.Change ore and skull.
+3.Add harvest for computer case.
+4.Add BakeEvent, try to fix builtin block render, failed.
+5.Fix Skill bar.
+6.Add frog and frog stew.
+7.Add random fishing.
+===========================================================
 0.2.3.0 update log:
 --------------------
 1.Fix skulls, but it still have some bugs.

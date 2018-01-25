@@ -15,15 +15,18 @@ import net.minecraft.world.World;
 /**
  * Ore block.
  * <br>Magnet Ore and others.</br>
- * <br>由于创建实例时方块还未初始化，掉落物和方块物品无法使用，请先注册后再调用setItemDropped和setExpDropped设置掉落物（支持链式调用）</br>
+ * <br>
+ * harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
+ * dropBlockAsItem(World worldIn, BlockPos pos, IBlockState state, int forture)
+ * dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float 1.0F, int fortune)
+ * getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
+ *</br>
  * @author QingChenW
  */
 public class BlockOreBase extends Block
 {
-    private Item droppedItem;
     private int droppedCount;
     private int droppedRange;
-    private int droppedBonus;
     private int droppedExpMin;
     private int droppedExpMax;
 
@@ -34,46 +37,65 @@ public class BlockOreBase extends Block
     
     public BlockOreBase(MapColor color)
     {
+        this(color, 1, 0, 0, 0);
+    }
+    
+    public BlockOreBase(int count, int range, int expMin, int expMax)
+    {
+        this(Material.rock.getMaterialMapColor(), count, range, expMin, expMax);
+    }
+    
+    public BlockOreBase(MapColor color, int count, int range, int expMin, int expMax)
+    {
         super(Material.rock, color);
-        this.droppedCount = 1;
-        this.droppedRange = 0;
-        this.droppedBonus = 0;
-        this.droppedExpMin = 0;
-        this.droppedExpMax = 0;
+        this.droppedCount = count;
+        this.droppedRange = range;
+        this.droppedExpMin = expMin;
+        this.droppedExpMax = expMax;
         this.setHardness(3.0f);
         this.setResistance(5.0f);
     }
 
-    public BlockOreBase setItemDropped(Block block)
+    public Item getMineral()
     {
-        return this.setItemDropped(Item.getItemFromBlock(block), 1, 0, 0);
+        return Item.getItemFromBlock(this);
     }
-
-    public BlockOreBase setItemDropped(Item item, int count, int range, int bonus)
-    {
-        this.droppedItem = item;
-        this.droppedCount = count;
-        this.droppedRange = range;
-        this.droppedBonus = bonus;
-        return this;
-    }
-
-    public Block setExpDropped(int expMin, int expMax)
-    {
-        this.droppedExpMin = expMin;
-        this.droppedExpMax = expMax;
-        return this;
-    }
-
+    
     public boolean isDroppedItself()
     {
-        return this.droppedItem == Item.getItemFromBlock(this);
+        return this.getMineral() == Item.getItemFromBlock(this);
+    }
+    
+    public boolean isDroppedItself(IBlockState state, Random rand, int fortune)
+    {
+        return this.isDroppedItself();
     }
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return this.isDroppedItself() ? Item.getItemFromBlock(this) : this.droppedItem;
+        return this.isDroppedItself(state, rand, fortune) ? Item.getItemFromBlock(this) : this.getMineral();
+    }
+
+    @Override
+    public int quantityDropped(IBlockState state, int fortune, Random rand)
+    {
+        if (!this.isDroppedItself(state, rand, fortune) && fortune > 0)
+        {
+            return this.quantityDroppedWithBonus(fortune, rand);
+        }
+        else
+        {
+            return this.quantityDropped(rand);
+        }
+    }
+
+    /** 需要的话请用匿名内部类重写此方法
+     */
+    @Override
+    public int quantityDroppedWithBonus(int fortune, Random random)
+    {
+        return fortune;
     }
     
     @Override
@@ -82,36 +104,18 @@ public class BlockOreBase extends Block
         return this.isDroppedItself() ? this.droppedCount : this.droppedCount + random.nextInt(this.droppedRange);
     }
 
-    /** 这是比较简单的，不过我实在是不知道该怎么实现，如果你需要的话就用匿名内部类重写此方法
-     */
     @Override
-    public int quantityDroppedWithBonus(int fortune, Random random)
+    public int damageDropped(IBlockState state)
     {
-        if (!this.isDroppedItself() && fortune > 0)
-        {
-            int count = random.nextInt(fortune + this.droppedBonus);
-            if (count < 0) count = 0;
-            return this.quantityDropped(random) + count;
-        }
-        else
-        {
-            return this.quantityDropped(random);
-        }
+        return 0;
     }
-    
+
     @Override
     public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune)
     {
         IBlockState state = world.getBlockState(pos);
         Random rand = world instanceof World ? ((World)world).rand : new Random();
-        if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this))
-            return MathHelper.getRandomIntegerInRange(rand, this.droppedExpMin, this.droppedExpMax);
-        return 0;
-    }
-
-    @Override
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune)
-    {
-        super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
+        if (this.isDroppedItself(state, rand, fortune)) return 0;
+        return MathHelper.getRandomIntegerInRange(rand, this.droppedExpMin, this.droppedExpMax);
     }
 }
