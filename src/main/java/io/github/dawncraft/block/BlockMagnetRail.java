@@ -80,15 +80,13 @@ public class BlockMagnetRail extends BlockRailBase
     {
         if (cart.riddenByEntity != null)
         {
-            cart.motionX *= 0.800000011920929D;
-            cart.motionY *= 0.0D;
-            cart.motionZ *= 0.800000011920929D;
+            cart.motionX *= 1.66D;
+            cart.motionZ *= 1.66D;
         }
         else
         {
-            cart.motionX *= 0.7599999785423279D;
-            cart.motionY *= 0.0D;
-            cart.motionZ *= 0.7599999785423279D;
+            cart.motionX *= 1.25D;
+            cart.motionZ *= 1.25D;
         }
     }
 }

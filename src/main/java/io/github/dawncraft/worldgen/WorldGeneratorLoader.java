@@ -17,14 +17,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Register ore generators and worlds.
- * 
+ *
  * @author QingChenW
  */
 //TODO 天域
 public class WorldGeneratorLoader
 {
     private BlockPos lastOrePos;
-    
+
     public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockLoader.magnetOre.getDefaultState(), 6)
     {
         @Override
@@ -44,14 +44,15 @@ public class WorldGeneratorLoader
             return false;
         }
     };
-    
+
     public WorldGeneratorLoader(FMLInitializationEvent event)
     {
+        MinecraftForge.TERRAIN_GEN_BUS.register(this);
         MinecraftForge.ORE_GEN_BUS.register(this);
-        
-        registerWorld(23, WorldProviderDawn.class);
+
+        this.registerWorld(23, WorldProviderDawn.class);
     }
-    
+
     @SubscribeEvent
     public void onOreGenPost(OreGenEvent.Post event)
     {
@@ -61,16 +62,16 @@ public class WorldGeneratorLoader
             magnetOreGenerator.generate(event.world, event.rand, event.pos);
         }
     }
-    
+
     @SubscribeEvent
     public void onOreGenGenerateMinable(OreGenEvent.GenerateMinable event)
     {
-        
+
     }
-    
+
     /**
      * Register a world.
-     * 
+     *
      * @param id The world's id
      * @param provider The world's provider
      */

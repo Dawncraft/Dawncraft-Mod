@@ -7,7 +7,7 @@ itemGroup.Machine=机械
 itemGroup.Computer=电脑
 itemGroup.Science=科学
 itemGroup.Furniture=家具
-itemGroup.Food=食物
+itemGroup.Food=烹饪
 itemGroup.Guns=枪械
 itemGroup.Magic=魔法
 itemGroup.ColourEgg=彩蛋
@@ -47,6 +47,7 @@ item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
 item.faeces.name=§6屎
 item.cakeEgg.name=荷包蛋
+item.frog.name=青蛙
 item.frogStew.name=青蛙汤
 item.frogStew.desc=青蛙汤到真理-温水不能煮死青蛙
 
