@@ -1,7 +1,7 @@
 package io.github.dawncraft.client.renderer.entity;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.entity.EntitySavage;
+import io.github.dawncraft.entity.passive.EntitySavage;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;

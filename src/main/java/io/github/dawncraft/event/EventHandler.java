@@ -3,8 +3,12 @@ package io.github.dawncraft.event;
 import java.util.List;
 
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.entity.EntitySavage;
+import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.network.MessageUpdateMana;
+import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.block.material.Material;
@@ -12,6 +16,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
@@ -26,25 +31,48 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * @author QingChenW
+ * EventHandler
  *
+ * @author QingChenW
  */
 public class EventHandler
 {
     public EventHandler(FMLInitializationEvent event) {}
-    
+
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
-        EntityPlayer player = event.player;
-        World world = player.worldObj;
+        if(event.side == Side.SERVER && event.phase == Phase.START)
+        {
+            EntityPlayer player = event.player;
+            World world = player.worldObj;
 
-        this.checkForPortalCreation(player, world, 32.0F);
+            if(player.hasCapability(CapabilityLoader.magic, null))
+            {
+                IMagic magic = player.getCapability(CapabilityLoader.magic, null);
+                
+                // 更新魔法值
+                if (world.getGameRules().getBoolean("naturalRegeneration") && player.getFoodStats().getFoodLevel() >= 16)
+                {
+                    if (magic.getMana() < magic.getMaxMana() && player.ticksExisted % 40 == 0)
+                    {
+                        magic.recover(1.0F);
+                        NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), (EntityPlayerMP) player);
+                    }
+                }
+
+                // 更新技能施放
+            }
+
+            this.checkForPortalCreation(player, world, 32.0F);
+        }
     }
-
+    
     /**
      * Check for can portal create in world.
      * From Benimatic's twilight forest Mod.Thanks.
@@ -60,7 +88,7 @@ public class EventHandler
         if(world != null && player != null && world.provider.getDimensionId() == 0)
         {
             List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
-
+            
             for(EntityItem entityItem : itemList)
             {
                 if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
@@ -76,7 +104,7 @@ public class EventHandler
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -91,7 +119,7 @@ public class EventHandler
             event.setResult(Result.ALLOW);
         }
     }
-
+    
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {

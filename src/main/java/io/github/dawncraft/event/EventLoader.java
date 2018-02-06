@@ -3,6 +3,7 @@ package io.github.dawncraft.event;
 import io.github.dawncraft.capability.CapabilityEvent;
 import io.github.dawncraft.enchantment.EnchantmentEvent;
 import io.github.dawncraft.potion.PotionEvent;
+import io.github.dawncraft.world.GameRuleEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
@@ -11,18 +12,18 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  *
  * @author QingChenW
  */
-// TODO 把event改成Loader专门注册事件,Handler负责处理事件
 public class EventLoader
 {
     public EventLoader(FMLInitializationEvent event)
     {
-        registerEvent(new EventHandler(event));
-        registerEvent(new CapabilityEvent(event));
-        registerEvent(new EnchantmentEvent(event));
-        registerEvent(new PotionEvent(event));
+        register(new EventHandler(event));
+        register(new EnchantmentEvent(event));
+        register(new PotionEvent(event));
+        register(new CapabilityEvent(event));
+        register(new GameRuleEvent(event));
     }
-    
-    private static void registerEvent(Object target)
+
+    private static void register(Object target)
     {
         MinecraftForge.EVENT_BUS.register(target);
     }

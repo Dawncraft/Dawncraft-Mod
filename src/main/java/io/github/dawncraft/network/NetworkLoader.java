@@ -2,7 +2,6 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.Dawncraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -16,8 +15,10 @@ public class NetworkLoader
     
     public NetworkLoader(FMLInitializationEvent event)
     {
-        registerMessage(MessageMana.Handler.class, MessageMana.class, Side.CLIENT);
-        registerMessage(MessageSkill.Handler.class, MessageSkill.class, Side.SERVER);
+        registerMessage(MessageUpdateMana.Handler.class, MessageUpdateMana.class, Side.CLIENT);
+        registerMessage(MessagePlayerSkills.Handler.class, MessagePlayerSkills.class, Side.CLIENT);
+        registerMessage(MessageSpellSkillChange.Handler.class, MessageSpellSkillChange.class, Side.CLIENT);
+        registerMessage(MessageSpellSkillChange.Handler.class, MessageSpellSkillChange.class, Side.SERVER);
     }
     
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(

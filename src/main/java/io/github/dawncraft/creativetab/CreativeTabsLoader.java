@@ -1,5 +1,6 @@
 package io.github.dawncraft.creativetab;
 
+import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.skill.Skill;
@@ -27,8 +28,9 @@ public class CreativeTabsLoader
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
 
-    public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabSkills;
+    public static CreativeSkillTabs tabSearch;
+    public static CreativeSkillTabs tabInventory;
     
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
@@ -113,15 +115,6 @@ public class CreativeTabsLoader
             }
         };
         
-        tabSearch = new CreativeSkillTabs("Search")
-        {
-            @Override
-            public Skill getTabIconSkill()
-            {
-                return SkillLoader.attack;
-            }
-        };
-
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
@@ -130,5 +123,21 @@ public class CreativeTabsLoader
                 return SkillLoader.heal;
             }
         };
+        tabSearch = new CreativeSkillTabs("Search")
+        {
+            @Override
+            public Skill getTabIconSkill()
+            {
+                return SkillLoader.attack;
+            }
+        };
+        tabInventory = new CreativeSkillTabs("inventory")
+        {
+            @Override
+            public Skill getTabIconSkill()
+            {
+                return null;
+            }
+        }.setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
     }
 }

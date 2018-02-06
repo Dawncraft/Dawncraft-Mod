@@ -24,17 +24,17 @@ public class PotionLoader
     public static Potion potionBrainDead = new PotionBase(new ResourceLocation(Dawncraft.MODID + ":" + "brain_dead"), true, 0x7F0000).setPotionName("potion.brainDead");
     public static Potion potionGerPower = new PotionBase(new ResourceLocation(Dawncraft.MODID + ":" + "ger_power"), true, 0x7F0000).setPotionName("potion.gerPower");
     public static Potion potionBadGer = new PotionBase(new ResourceLocation(Dawncraft.MODID + ":" + "bad_ger"), true, 0x7F0000).setPotionName("potion.badGer");
-    
+
     public PotionLoader(FMLPreInitializationEvent event)
     {
         register(potionGerPower, "", "");
     }
-    
+
     private static void register(Potion potion, String recipe, String amplifier)
     {
         reflectPotionHelper(potion, amplifier, amplifier);
     }
-
+    
     /**
      * 公共API,注册你的药水物品吧
      * <br>Mojang写的都是啥啊,自己看吧 {@link net.minecraft.potion.PotionHelper}</br>

@@ -12,10 +12,14 @@ public class ItemMagicBook extends Item
         super();
         this.setMaxStackSize(16);
     }
-
+    
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
+        if (!worldIn.isRemote)
+        {
+
+        }
         return itemStackIn;
     }
 }

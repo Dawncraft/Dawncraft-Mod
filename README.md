@@ -14,6 +14,8 @@
 
 2017/12/31注:到[这里](http://www.eclipse.org/babel/downloads.php)查看Eclipse的多语言支持
 
+2018/2/8注:Windows下Git错误open /dev/null or dup failed: No such file or directory的解决方案:[这里](http://servicedefaults.com/10/null/)
+
 ##目录
 
 [开发Mod](#Mod开发)

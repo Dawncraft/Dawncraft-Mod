@@ -10,6 +10,7 @@ import io.github.dawncraft.crafting.CraftingLoader;
 import io.github.dawncraft.crafting.OreDictionaryLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.enchantment.EnchantmentLoader;
+import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.EntityLoader;
 import io.github.dawncraft.entity.FakePlayerLoader;
 import io.github.dawncraft.event.EventLoader;
@@ -20,8 +21,9 @@ import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.skill.SkillLoader;
 import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
+import io.github.dawncraft.stats.StatLoader;
 import io.github.dawncraft.tileentity.TileEntityLoader;
-import io.github.dawncraft.worldgen.WorldGeneratorLoader;
+import io.github.dawncraft.world.gen.WorldGeneratorLoader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -44,6 +46,7 @@ public class ServerProxy
         new FluidLoader(event);
         new ItemLoader(event);
         new BlockLoader(event);
+        new AttributesLoader(event);
         new EntityLoader(event);
         new TileEntityLoader(event);
         new SkillLoader(event);
@@ -55,6 +58,7 @@ public class ServerProxy
     public void init(FMLInitializationEvent event)
     {
         new CraftingLoader(event);
+        new StatLoader(event);
         new AchievementLoader(event);
         new DamageSourceLoader(event);
         new WorldGeneratorLoader(event);

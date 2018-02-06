@@ -79,8 +79,11 @@ item.mjolnir.name=§b雷神之锤
 skillGroup.Skills=基础法术
 skillGroup.Search=搜索
 
-skill.attack.name=攻击法术
+skill.attack.name=死亡缠绕
 skill.heal.name=治疗术
+skill.level=等级: 
+skill.consume=消耗: 
+skill.damage=伤害: 
 magic.prefix.spell=施放 %1$s
 magic.yes=施放 %1$s 成功
 magic.no=施放 %1$s 失败
@@ -120,9 +123,9 @@ entity.dawncraft.GerKing.name=Ger王
 container.heatGenerator=热能发电机
 container.machineFurnace=电炉
 
-container.magic=魔法栏
-container.talent=天赋
-container.talent.desc=剩余天赋点: %s
+container.skills=魔法栏
+container.talents=天赋栏
+container.talents.desc=剩余天赋点: %s
 container.magic.name=%s
 container.magic.exp=等级: %s
 container.magic.health=血量: %1$s/%2$s
@@ -182,15 +185,25 @@ achievement.dawncraft.dawnPortal.desc=用巨Ger之心建造通往曙光世界的
 achievement.dawncraft.dawnArrival=天空之城
 achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
 
+death.attack.skill=%1$s 被 %2$s 用技能杀死了
+death.attack.skill.skill=%1$s 被 %2$s 用技能: %3$s 杀死了
+death.attack.bullet=%1$s 被 %2$s 残酷地射死了
 death.attack.byGer=%s Ger死了
 
 gui.moreinfo=按 %s 显示详细信息
 gui.magic.future=魔法系统尚未开启,敬请期待!
 
-commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)
+commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法或给予或清空技能(测试用)
 commands.magic.view=当前玩家魔法值为 %1$s.
 commands.magic.set=已成功设置玩家魔法值，魔法值为 %1$s.
 commands.magic.reset=已成功重置玩家魔法值为 20.
+commands.learn.usage=/give <玩家> <技能> [等级] [标签]
+commands.learn.skill.notFound=没有名为 %d 的技能
+commands.learn.success=将技能 %s (等级 %d) 给予玩家 %s
+commands.learn.full=%s 的魔法栏已满
+commands.forget.usage=/forget [玩家] [技能] [等级] [标签]
+commands.forget.success=已清空 %s 的魔法栏, 移除了 %d 个技能
+commands.forget.failure=不能清除 %s 的魔法栏, 没有需要移除的技能
 
 chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
 chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
@@ -252,6 +265,10 @@ dawncraft.config.magic.isMagicEnabled=开启魔法条目
 dawncraft.config.magic.isMagicEnabled.tooltip=是否开启魔法条目
 dawncraft.config.magic.manaRenderType=魔法条渲染方式
 dawncraft.config.magic.manaRenderType.tooltip=设置魔法条的渲染形式,True为泰拉瑞亚式,False为炉石传说式,感谢@单大帅的创意.
+dawncraft.config.magic.publicPrepareTicks=公共施法准备时间
+dawncraft.config.magic.publicPrepareTicks.tooltip=所有技能释放前的准备时间(单位为刻)
+dawncraft.config.magic.publicCooldownTicks=公共技能冷却时间
+dawncraft.config.magic.publicCooldownTicks.tooltip=技能释放后所有技能的冷却时间(单位为刻)
 dawncraft.config.coloregg.gerKingPassword=输入密码
 dawncraft.config.coloregg.gerKingPassword.tooltip=请输入正确的Ger王名字
 dawncraft.config.coloregg.enchantmentFireBurnId=火焰灼烧附魔ID

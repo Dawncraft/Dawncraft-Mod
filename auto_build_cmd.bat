@@ -14,24 +14,26 @@ echo 3.配置Eclipse工程文件
 echo 4.快速构建Mod
 echo 5.打开Gradlew GUI
 echo 6.未知
-if %INFO% EQU 0 echo 7.配置时显示更多信息(当前关闭)
-if %INFO% EQU 1 echo 7.配置时显示更多信息(当前开启)
-echo 8.退出
+echo 7.更改全局gradle缓存位置
+if %INFO% EQU 0 echo 8.配置时显示更多信息(当前关闭)
+if %INFO% EQU 1 echo 8.配置时显示更多信息(当前开启)
+echo 0.退出
 echo +=====================+
 
 ::选择选项
 :select
-set select=
-set /p select=请选择: 
-if "%select%"=="1" goto java
-if "%select%"=="2" goto forge
-if "%select%"=="3" goto eclipse
-if "%select%"=="4" goto build
-if "%select%"=="5" goto gui
-if "%select%"=="6" goto git
-if "%select%"=="7" goto switch
-if "%select%"=="8" goto end
-goto select
+set SELECT=
+set /p SELECT=请选择: 
+if "%SELECT%"=="1" goto java
+if "%SELECT%"=="2" goto forge
+if "%SELECT%"=="3" goto eclipse
+if "%SELECT%"=="4" goto build
+if "%SELECT%"=="5" goto gui
+if "%SELECT%"=="6" goto git
+if "%SELECT%"=="7" goto cache
+if "%SELECT%"=="8" goto switch
+if "%SELECT%"=="0" goto end
+goto SELECT
 
 ::自动配置JAVA环境变量
 :java
@@ -77,7 +79,7 @@ echo JDK目录:%JDKPATH%
 echo +=====================+
 setx JAVA_HOME "%JDKPATH%" /M
 setx CLASSPATH ".;%%Java_Home%%\lib\tools.jar;%%Java_Home%%\lib\dt.jar;%%Java_Home%%\jre\lib\rt.jar" /M
-set VARPATH=%Path%;%%Java_Home%%\bin;%%Java_Home%%\jre\bin
+set VARPATH=%%Java_Home%%\bin;%%Java_Home%%\jre\bin;%Path%
 setx Path "%VARPATH%" /M
 ::配置完成,测试
 echo +=====================+
@@ -146,26 +148,32 @@ echo +=====================+
 pause
 goto start
 
+:cache
+echo +=====================+
+echo.执行 7.更改全局gradle缓存位置
+echo +=====================+
+set CACHEPATH=
+set /p CACHEPATH=请输入路径: 
+setx GRADLE_USER_HOME "%CACHEPATH%" /M
+echo +=====================+
+echo 更改全局gradle缓存位置成功
+echo +=====================+
+pause
+goto start
+
 :switch
+echo +=====================+
+echo 执行 8.切换信息显示
+echo +=====================+
 if %INFO% EQU 0 (
   set INFO=1
-  echo +=====================+
-  echo 执行 7.切换信息显示
-  echo +=====================+
   echo 已切换为开启更多信息
-  echo +=====================+
-  pause
-  goto start
-)
-if %INFO% EQU 1 (
+) else (
   set INFO=0
-  echo +=====================+
-  echo 执行 7.切换信息显示
-  echo +=====================+
   echo 已切换为关闭更多信息
-  echo +=====================+
-  pause
-  goto start
 )
+echo +=====================+
+pause
+goto start
 
 :end

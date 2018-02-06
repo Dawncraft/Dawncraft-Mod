@@ -1,8 +1,8 @@
 package io.github.dawncraft.item;
 
+import io.github.dawncraft.api.event.entity.BulletNockEvent;
+import io.github.dawncraft.api.item.ItemGun;
 import io.github.dawncraft.entity.projectile.EntityRocket;
-import io.github.dawncraft.event.api.BulletNockEvent;
-import io.github.dawncraft.item.base.ItemGun;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;

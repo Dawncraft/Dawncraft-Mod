@@ -2,7 +2,7 @@ package io.github.dawncraft.client.renderer.entity;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.renderer.model.ModelMouse;
-import io.github.dawncraft.entity.EntityMouse;
+import io.github.dawncraft.entity.passive.EntityMouse;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;

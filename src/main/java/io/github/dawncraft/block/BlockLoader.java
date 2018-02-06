@@ -2,7 +2,7 @@ package io.github.dawncraft.block;
 
 import java.util.Random;
 
-import io.github.dawncraft.block.base.*;
+import io.github.dawncraft.api.block.*;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;

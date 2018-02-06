@@ -22,11 +22,11 @@ public class ClientEventLoader
 {
     public ClientEventLoader(FMLInitializationEvent event)
     {
-        registerEvent(new GuiInGameClientEventHandler(event));
-        registerEvent(new InputClientEventHandler(event));
+        register(new GuiIngameDawn(event));
+        register(new InputHandler(event));
     }
     
-    private static void registerEvent(Object target)
+    private static void register(Object target)
     {
         MinecraftForge.EVENT_BUS.register(target);
     }
@@ -44,7 +44,7 @@ public class ClientEventLoader
         
         public BakeEventHandler(FMLPreInitializationEvent event)
         {
-            registerEvent(this);
+            register(this);
         }
 
         /**

@@ -2,6 +2,8 @@ package io.github.dawncraft.entity;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.boss.EntityGerKing;
+import io.github.dawncraft.entity.passive.EntityMouse;
+import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.entity.projectile.EntityMagnetBall;
 import io.github.dawncraft.entity.projectile.EntityRocket;
 import net.minecraft.entity.Entity;

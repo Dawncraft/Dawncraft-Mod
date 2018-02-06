@@ -1,8 +1,8 @@
 package io.github.dawncraft.container;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.client.gui.inventory.GuiEnergyGenerator;
-import io.github.dawncraft.client.gui.inventory.GuiMachineFurnace;
+import io.github.dawncraft.client.gui.container.GuiEnergyGenerator;
+import io.github.dawncraft.client.gui.container.GuiMachineFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -28,10 +28,10 @@ public class GuiLoader implements IGuiHandler
     
     // Flan
     
-    
+
     public GuiLoader(FMLInitializationEvent event)
     {
-        NetworkRegistry.INSTANCE.registerGuiHandler(Dawncraft.instance, this);
+        register(this);
     }
     
     @Override
@@ -59,5 +59,10 @@ public class GuiLoader implements IGuiHandler
                 return new GuiMachineFurnace(player, player.worldObj.getTileEntity(new BlockPos(x, y, z)));
         }
         return null;
+    }
+    
+    public static void register(IGuiHandler handler)
+    {
+        NetworkRegistry.INSTANCE.registerGuiHandler(Dawncraft.instance, handler);
     }
 }

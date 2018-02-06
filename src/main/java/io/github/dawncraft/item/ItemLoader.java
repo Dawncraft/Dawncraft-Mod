@@ -3,11 +3,11 @@ package io.github.dawncraft.item;
 import java.util.List;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.api.block.BlockSkullBase;
+import io.github.dawncraft.api.item.*;
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.block.base.BlockSkullBase;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
-import io.github.dawncraft.item.base.*;
 import io.github.dawncraft.potion.PotionLoader;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

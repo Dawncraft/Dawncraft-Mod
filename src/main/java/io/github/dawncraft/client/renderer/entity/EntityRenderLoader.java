@@ -2,6 +2,8 @@ package io.github.dawncraft.client.renderer.entity;
 
 import io.github.dawncraft.entity.*;
 import io.github.dawncraft.entity.boss.EntityGerKing;
+import io.github.dawncraft.entity.passive.EntityMouse;
+import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.entity.projectile.*;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.client.Minecraft;

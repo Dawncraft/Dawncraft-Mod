@@ -1,6 +1,7 @@
 package io.github.dawncraft.stats;
 
 import io.github.dawncraft.entity.projectile.EntityBullet;
+import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -14,9 +15,19 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 public class DamageSourceLoader
 {
     public static DamageSource ger = new DamageSource("byGer").setDifficultyScaled().setExplosion();
-    
+
     public DamageSourceLoader(FMLInitializationEvent event) {}
-    
+
+    /**
+     * returns EntityDamageSourceIndirect of a Magic Skill
+     *
+     * @param indirectEntityIn The entity that shoot the bullet
+     */
+    public static DamageSource causeSkillDamage(SkillStack skillStack, Entity indirectEntityIn)
+    {
+        return new SkillDamageSource(skillStack, indirectEntityIn);
+    }
+
     /**
      * returns EntityDamageSourceIndirect of a bullet
      *
@@ -26,4 +37,6 @@ public class DamageSourceLoader
     {
         return new EntityDamageSourceIndirect("bullet", bullet, indirectEntityIn).setProjectile();
     }
+
+    
 }

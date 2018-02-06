@@ -34,6 +34,8 @@ public class ConfigLoader
 
     public static boolean isMagicEnabled;
     public static boolean manaRenderType;
+    public static int publicPrepare;
+    public static int publicCooldown;
 
     /* 就是不让你改 */
     private static boolean isColoreggEnabled;
@@ -111,6 +113,14 @@ public class ConfigLoader
                 .get(category, "manaRenderType", true,
                         StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".manaRenderType.tooltip"))
                 .setLanguageKey(Dawncraft.MODID + ".config." + category + ".manaRenderType").getBoolean();
+        publicPrepare = config
+                .get(category, "publicPrepareTicks", 20,
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".publicPrepareTicks.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".publicPrepareTicks").getInt();
+        publicCooldown = config
+                .get(category, "publicCooldownTicks", 20,
+                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".publicCooldownTicks.tooltip"))
+                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".publicCooldownTicks").getInt();
 
         category = "coloregg";
         String pw = config

@@ -1,5 +1,26 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.3.2 update log:
+--------------------
+1.Update build script.
+2.Update build cmd.
+3.Add Dawncraft api!
+4.Merge capability into one.
+5.Refactory network messages.
+6.Add magic commands.
+7.Add some event api.
+8.Add gamerule event listener.
+9.Add stat loader, failed.
+10.Add attributes loader.
+11.Add immortal entity.
+12.Add attack skill.
+13.Fix skills.
+14.Add skill stack.
+15.Add simple skill render.
+16.Try to add spell logic, failed.
+17.Add skill inventory.
+18.Fix language.
+===========================================================
 0.2.3.1 update log:
 --------------------
 1.Fix Ger King's pattern.
