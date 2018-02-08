@@ -27,19 +27,19 @@ public class CommandLearn extends CommandBase
     {
         return "learn";
     }
-    
+
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-
+    
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.learn.usage";
     }
-
+    
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -47,11 +47,12 @@ public class CommandLearn extends CommandBase
         {
             EntityPlayerMP entityPlayerMP = getPlayer(sender, args[0]);
             Skill skill = getSkillByText(sender, args[1]);
-            
+
             if(skill != null)
             {
                 int level = args.length >= 3 ? parseInt(args[2], 0, skill.getMaxLevel()) : 0;
-                SkillStack skillstack = new SkillStack(skill, level);
+                int cooldown = args.length >= 4 ? parseInt(args[3], 0, skill.getTotalCooldown(level)) : 0;
+                SkillStack skillstack = new SkillStack(skill, level, cooldown);
                 if(entityPlayerMP.hasCapability(CapabilityLoader.magic, null))
                 {
                     IMagic magic = entityPlayerMP.getCapability(CapabilityLoader.magic, null);
@@ -70,22 +71,22 @@ public class CommandLearn extends CommandBase
         }
         else throw new WrongUsageException("commands.learn.usage", new Object[0]);
     }
-
+    
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Skill.skillRegistry.getKeys()) : null;
     }
-
+    
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();
     }
-    
+
     public static Skill getSkillByText(ICommandSender sender, String id) throws NumberInvalidException
     {
         Skill skill = Skill.getByNameOrId(id);
-
+        
         if (skill == null)
         {
             throw new NumberInvalidException("commands.learn.skill.notFound", new Object[] {new ResourceLocation(id)});

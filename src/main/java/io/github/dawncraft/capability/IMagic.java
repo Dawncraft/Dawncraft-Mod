@@ -2,9 +2,9 @@ package io.github.dawncraft.capability;
 
 import java.util.Set;
 
-import io.github.dawncraft.client.event.EnumTooltipType;
 import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.entity.magicile.EnumSpellAction;
+import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
 
@@ -26,7 +26,7 @@ public interface IMagic
     
     void setSpellAction(EnumSpellAction action);
 
-    void cancelSpelling(EnumTooltipType reason);
+    void cancelSpelling(EnumSpellResult reason);
     
     boolean isSpellCanceled();
 

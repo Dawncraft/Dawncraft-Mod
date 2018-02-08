@@ -44,7 +44,9 @@ public class SkillRenderer extends Gui
             TextureAtlasSprite sprite = TextureLoader.getTextureMapSkills().getAtlasSprite(res.toString());
             this.drawTexturedModalRect(xPos, yPos, sprite, 16, 16);
 
-            int height = skillstack.getCooldown() * 16 / skillstack.getTotalCooldown();
+            int height = 0;
+            if(skillstack.getTotalCooldown() > 0)
+                height = skillstack.getCooldown() * 16 / skillstack.getTotalCooldown();
             this.drawRect(xPos, yPos, 16, height, 0x80B4B4B4);// TODO 换成1.11末影珍珠的冷却背景
             GlStateManager.popMatrix();
         }

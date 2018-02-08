@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.dawncraft.client.event.EnumTooltipType;
 import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.container.SkillInventoryPlayer;
 import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.magicile.EnumSpellAction;
+import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
 import net.minecraft.entity.player.EntityPlayer;
@@ -116,7 +116,7 @@ public class CapabilityMagic
         }
 
         @Override
-        public void cancelSpelling(EnumTooltipType reason)
+        public void cancelSpelling(EnumSpellResult reason)
         {
             this.isSpellCanceled = true;
         }

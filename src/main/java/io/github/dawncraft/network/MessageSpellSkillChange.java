@@ -2,10 +2,10 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
-import io.github.dawncraft.client.event.EnumTooltipType;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.container.SkillInventoryPlayer;
 import io.github.dawncraft.entity.magicile.EnumSpellAction;
+import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -19,26 +19,26 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageSpellSkillChange implements IMessage
 {
     public int slot;
-
-    public MessageSpellSkillChange() {}
     
+    public MessageSpellSkillChange() {}
+
     public MessageSpellSkillChange(int slot)
     {
         this.slot = slot;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.slot = buf.readByte();
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeByte(this.slot);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSpellSkillChange, IMessage>
     {
         @Override
@@ -71,7 +71,7 @@ public class MessageSpellSkillChange implements IMessage
                                 }
                                 magic.clearSkillInSpell();
                                 MessagePlayerSpelling message = new MessagePlayerSpelling(magic.getSpellAction(),
-                                        magic.getSkillInSpellCount(), magic.getPublicCooldownCount(), EnumTooltipType.CANCELED);
+                                        magic.getSkillInSpellCount(), magic.getPublicCooldownCount(), EnumSpellResult.CANCEL);
                                 NetworkLoader.instance.sendTo(message, serverPlayer);
                             }
                             else

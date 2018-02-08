@@ -2,9 +2,9 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
-import io.github.dawncraft.client.event.EnumTooltipType;
 import io.github.dawncraft.client.event.GuiIngameDawn;
 import io.github.dawncraft.entity.magicile.EnumSpellAction;
+import io.github.dawncraft.skill.EnumSpellResult;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,11 +18,11 @@ public class MessagePlayerSpelling implements IMessage
     private EnumSpellAction spellAction;
     private int spellCount;
     private int cooldownCount;
-    private EnumTooltipType tooltipType;
+    private EnumSpellResult tooltipType;
     
     public MessagePlayerSpelling() {}
 
-    public MessagePlayerSpelling(EnumSpellAction action, int count, int cooldown, EnumTooltipType type)
+    public MessagePlayerSpelling(EnumSpellAction action, int count, int cooldown, EnumSpellResult type)
     {
         this.spellAction = action;
         this.spellCount = count;
@@ -36,7 +36,7 @@ public class MessagePlayerSpelling implements IMessage
         this.spellAction = EnumSpellAction.values()[buf.readShort()];
         this.spellCount = buf.readInt();
         this.cooldownCount = buf.readInt();
-        this.tooltipType = EnumTooltipType.values()[buf.readShort()];
+        this.tooltipType = EnumSpellResult.values()[buf.readShort()];
     }
     
     @Override
@@ -67,7 +67,7 @@ public class MessagePlayerSpelling implements IMessage
                             magic.setSpellAction(message.spellAction);
                             magic.setSkillInSpellCount(message.spellCount);
                             magic.setPublicCooldownCount(message.cooldownCount);
-                            GuiIngameDawn.getIngameDawnGUI().renderType = message.tooltipType;
+                            GuiIngameDawn.getIngameDawnGUI().spellType = message.tooltipType;
                         }
                     }
                 });

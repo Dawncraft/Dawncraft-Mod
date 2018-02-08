@@ -21,13 +21,13 @@ public class CommandMagic extends CommandBase
     {
         return "magic";
     }
-
+    
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.magic.usage";
     }
-
+    
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -74,13 +74,13 @@ public class CommandMagic extends CommandBase
         }
         else throw new WrongUsageException("commands.magic.usage", new Object[0]);
     }
-    
+
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if(args.length == 1)
         {
-            return getListOfStringsMatchingLastWord(args, new String[] {"view", "set", "reset", "give", "clean"});
+            return getListOfStringsMatchingLastWord(args, new String[] {"view", "set", "reset"});
         }
         return null;
     }

@@ -75,6 +75,10 @@ public class BlockLoader
             .setUnlocalizedName("woodTable").setCreativeTab(CreativeTabsLoader.tabFurniture);
     public static Block stoneTable = new BlockFurnitureTable(Material.rock, Block.soundTypeStone)
             .setUnlocalizedName("stoneTable").setCreativeTab(CreativeTabsLoader.tabFurniture);
+    public static Block woodChair = new BlockFurnitureChair(Material.wood, Block.soundTypeWood)
+            .setUnlocalizedName("woodChair").setCreativeTab(CreativeTabsLoader.tabFurniture);
+    public static Block stoneChair = new BlockFurnitureChair(Material.rock, Block.soundTypeStone)
+            .setUnlocalizedName("stoneChair").setCreativeTab(CreativeTabsLoader.tabFurniture);
     public static Block superChest = new BlockFurnitureSuperChest().setUnlocalizedName("superChest")
             .setCreativeTab(CreativeTabsLoader.tabFurniture);
 
@@ -138,6 +142,8 @@ public class BlockLoader
         // Furniture
         register(woodTable, "wood_table");
         register(stoneTable, "stone_table");
+        register(woodChair, "wood_chair");
+        register(stoneChair, "stone_chair");
         register(superChest, "super_chest");
         
         // Food
