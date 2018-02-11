@@ -110,6 +110,8 @@ tile.superComputer.name=超级电脑
 
 tile.woodTable.name=木质桌子
 tile.stoneTable.name=石质桌子
+tile.woodChair.name=木质椅子
+tile.stoneChair.name=石质椅子
 tile.superChest.name=炒鸡工具箱
 
 tile.magicOre.name=魔力矿石
