@@ -1,4 +1,4 @@
-package io.github.dawncraft;
+package io.github.dawncraft.util;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,8 +12,6 @@ import javax.script.ScriptException;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.jse.JsePlatform;
-import org.markdown4j.Markdown4jProcessor;
-
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.LogLoader;
 
@@ -22,9 +20,9 @@ import io.github.dawncraft.config.LogLoader;
  *
  * @author QingChenW
  */
-public class ScriptTest
+public class ScriptHelper
 {
-    public ScriptTest()
+    public ScriptHelper()
     {
         if(ConfigLoader.isColoreggEnabled())
         {
@@ -57,25 +55,8 @@ public class ScriptTest
                 }
             }
             LogLoader.logger().info("Script Loader Stopped.");
-
-            try
-            {
-                String html = new Markdown4jProcessor().process("This is a **bold** text");
-                LogLoader.logger().info(html);
-            } catch (IOException e)
-            {
-                LogLoader.logger().error("Can't load markdown:", e);
-            }
-
-            try
-            {
-                Metrics metrics = new Metrics(Dawncraft.NAME, Dawncraft.VERSION);
-                metrics.start();
-            } catch (IOException e)
-            {
-                LogLoader.logger().error("Can't load metrics:", e);
-            }
         }
+        showEngineList();
     }
 
     private static void showEngineList()

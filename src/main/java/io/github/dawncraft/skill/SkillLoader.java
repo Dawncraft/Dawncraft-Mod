@@ -2,6 +2,7 @@ package io.github.dawncraft.skill;
 
 import java.util.Random;
 
+import io.github.dawncraft.api.skill.SkillRegistry;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;

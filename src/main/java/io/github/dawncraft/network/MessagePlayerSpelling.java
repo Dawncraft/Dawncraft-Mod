@@ -13,15 +13,20 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
+/**
+ * 这东西...
+ *
+ * @author QingChenW
+ */
 public class MessagePlayerSpelling implements IMessage
 {
     private EnumSpellAction spellAction;
     private int spellCount;
     private int cooldownCount;
     private EnumSpellResult tooltipType;
-    
-    public MessagePlayerSpelling() {}
 
+    public MessagePlayerSpelling() {}
+    
     public MessagePlayerSpelling(EnumSpellAction action, int count, int cooldown, EnumSpellResult type)
     {
         this.spellAction = action;
@@ -29,7 +34,7 @@ public class MessagePlayerSpelling implements IMessage
         this.cooldownCount = cooldown;
         this.tooltipType = type;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -38,7 +43,7 @@ public class MessagePlayerSpelling implements IMessage
         this.cooldownCount = buf.readInt();
         this.tooltipType = EnumSpellResult.values()[buf.readShort()];
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -47,7 +52,7 @@ public class MessagePlayerSpelling implements IMessage
         buf.writeInt(this.cooldownCount);
         buf.writeShort(this.tooltipType.ordinal());
     }
-
+    
     public static class Handler implements IMessageHandler<MessagePlayerSpelling, IMessage>
     {
         @Override

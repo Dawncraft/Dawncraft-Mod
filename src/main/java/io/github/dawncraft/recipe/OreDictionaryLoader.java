@@ -1,4 +1,4 @@
-package io.github.dawncraft.crafting;
+package io.github.dawncraft.recipe;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;

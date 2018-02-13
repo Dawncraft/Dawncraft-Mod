@@ -11,8 +11,9 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * @author QingChenW
+ * 用于更新玩家魔法值
  *
+ * @author QingChenW
  */
 public class MessageUpdateMana implements IMessage
 {
@@ -23,7 +24,6 @@ public class MessageUpdateMana implements IMessage
     
     public MessageUpdateMana(float amount)
     {
-        super();
         this.mana = amount;
     }
 
@@ -54,8 +54,8 @@ public class MessageUpdateMana implements IMessage
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
                         if(player.hasCapability(CapabilityLoader.magic, null))
                         {
-                            IMagic mana = player.getCapability(CapabilityLoader.magic, null);
-                            mana.setMana(message.mana);
+                            IMagic magic = player.getCapability(CapabilityLoader.magic, null);
+                            magic.setMana(message.mana);
                         }
                     }
                 });

@@ -34,36 +34,35 @@ public class Dawncraft
     /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-    
+
     /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-    
+
     /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-    
+
     /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        new ScriptTest();
         proxy.postInit(event);
     }
-    
+
     /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-    
+
     /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)

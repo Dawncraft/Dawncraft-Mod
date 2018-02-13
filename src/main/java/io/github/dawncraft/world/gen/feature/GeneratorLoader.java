@@ -1,14 +1,12 @@
-package io.github.dawncraft.world.gen;
+package io.github.dawncraft.world.gen.feature;
 
 import java.util.Random;
 
 import io.github.dawncraft.block.BlockLoader;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
@@ -20,8 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  *
  * @author QingChenW
  */
-//TODO 天域
-public class WorldGeneratorLoader
+public class GeneratorLoader
 {
     private BlockPos lastOrePos;
 
@@ -45,12 +42,10 @@ public class WorldGeneratorLoader
         }
     };
 
-    public WorldGeneratorLoader(FMLInitializationEvent event)
+    public GeneratorLoader(FMLInitializationEvent event)
     {
         MinecraftForge.TERRAIN_GEN_BUS.register(this);
         MinecraftForge.ORE_GEN_BUS.register(this);
-
-        this.registerWorld(23, WorldProviderDawn.class);
     }
 
     @SubscribeEvent
@@ -67,17 +62,5 @@ public class WorldGeneratorLoader
     public void onOreGenGenerateMinable(OreGenEvent.GenerateMinable event)
     {
 
-    }
-
-    /**
-     * Register a world.
-     *
-     * @param id The world's id
-     * @param provider The world's provider
-     */
-    public void registerWorld(int id, Class<? extends WorldProvider> provider)
-    {
-        DimensionManager.registerProviderType(id, provider, true);
-        DimensionManager.registerDimension(id, id);
     }
 }

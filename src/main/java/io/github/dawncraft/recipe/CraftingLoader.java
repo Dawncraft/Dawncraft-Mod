@@ -1,8 +1,9 @@
-package io.github.dawncraft.crafting;
+package io.github.dawncraft.recipe;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -109,7 +110,7 @@ public class CraftingLoader
         registerSmelting(Items.egg, new ItemStack(ItemLoader.cakeEgg), 0.3F);
         registerFuel(ItemLoader.bucketPetroleum, 25600);
 
-        registerFish(FishableCategory.FISH, ItemLoader.frog, 10);
+        registerFish(FishableCategory.FISH, new ItemStack(ItemLoader.frog), 10);
     }
 
     private static void registerShapedRecipe(ItemStack output, Object... params)
@@ -169,20 +170,13 @@ public class CraftingLoader
         GameRegistry.registerFuelHandler(handler);
     }
     
-    private static void registerFish(FishableCategory category, Item item, int weight)
+    private static void registerFish(FishableCategory category, ItemStack itemstack, int weight)
     {
-        registerFish(category, new ItemStack(item), weight, 0.0F, false);
+        registerFish(category, new WeightedRandomFishable(itemstack, weight));
     }
     
-    private static void registerFish(FishableCategory category, Block block, int weight)
+    private static void registerFish(FishableCategory category, WeightedRandomFishable item)
     {
-        registerFish(category, new ItemStack(block), weight, 0.0F, false);
-    }
-    
-    private static void registerFish(FishableCategory category, ItemStack itemstack, int weight, float maxDamagePercent, boolean enchantable)
-    {
-        WeightedRandomFishable item = new WeightedRandomFishable(itemstack, weight).setMaxDamagePercent(maxDamagePercent);
-        if(enchantable) item.setEnchantable();
         switch(category)
         {
             case JUNK: FishingHooks.addJunk(item); break;

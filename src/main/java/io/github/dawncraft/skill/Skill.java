@@ -3,6 +3,7 @@ package io.github.dawncraft.skill;
 import java.util.List;
 
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
+import io.github.dawncraft.api.skill.SkillRegistry;
 import io.github.dawncraft.config.ConfigLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

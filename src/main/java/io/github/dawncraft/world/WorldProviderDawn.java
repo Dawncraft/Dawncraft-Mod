@@ -1,5 +1,6 @@
-package io.github.dawncraft.world.gen;
+package io.github.dawncraft.world;
 
+import io.github.dawncraft.world.gen.ChunkProviderDawn;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.chunk.IChunkProvider;

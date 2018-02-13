@@ -1,6 +1,7 @@
 package io.github.dawncraft.fluid;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.config.LogLoader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -8,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register fluid in the class.
- * 
+ *
  * @author QingChenW
  */
 public class FluidLoader
@@ -20,14 +21,21 @@ public class FluidLoader
     
     public FluidLoader(FMLPreInitializationEvent event)
     {
+        fluidPetroleum = register(fluidPetroleum);
+    }
+    
+    public static Fluid register(Fluid fluid)
+    {
         if (FluidRegistry.isFluidRegistered(fluidPetroleum))
         {
-            event.getModLog().info("Found fluid {}, the registration is canceled. ", fluidPetroleum.getName());
-            fluidPetroleum = FluidRegistry.getFluid(fluidPetroleum.getName());
+            String name = fluidPetroleum.getName();
+            LogLoader.logger().info("Found fluid {}, the registration is canceled. ", name);
+            fluid = FluidRegistry.getFluid(name);
         }
         else
         {
             FluidRegistry.registerFluid(fluidPetroleum);
         }
+        return fluid;
     }
 }

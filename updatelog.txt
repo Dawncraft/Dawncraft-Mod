@@ -1,5 +1,14 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.3.3 update log:
+--------------------
+1.Tidy up world loader.
+2.Remove script test, but move it to utils.
+3.Refactory messages.
+4.Rename crafting to recipe.
+5.Find wiki's api, plan to use it in GuiEncyclopedia.
+6.Remove Ger King's password.
+===========================================================
 0.2.3.2 update log:
 --------------------
 1.Update build script.

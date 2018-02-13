@@ -1,25 +1,22 @@
-package io.github.dawncraft.world.gen;
+package io.github.dawncraft.world;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
-public class TeleporterDawnWorld extends Teleporter
+public class TeleporterDawn extends Teleporter
 {
-    private final WorldServer worldServerInstance;
-    
-    public TeleporterDawnWorld(WorldServer worldIn)
+    public TeleporterDawn(WorldServer worldIn)
     {
         super(worldIn);
-        this.worldServerInstance = worldIn;
     }
-
+    
     @Override
     public boolean placeInExistingPortal(Entity entityIn, float rotationYaw)
     {
         return false;
     }
-
+    
     @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
@@ -41,16 +38,16 @@ public class TeleporterDawnWorld extends Teleporter
             }
         }*/
     }
-
+    
     @Override
     public boolean makePortal(Entity p_85188_1_)
     {
         return false;
     }
-
+    
     @Override
     public void removeStalePortalLocations(long p_85189_1_)
     {
-
+        
     }
 }

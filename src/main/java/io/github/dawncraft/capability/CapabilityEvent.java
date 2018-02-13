@@ -1,10 +1,16 @@
 package io.github.dawncraft.capability;
 
-import io.github.dawncraft.network.MessagePlayerSkills;
+import io.github.dawncraft.network.MessageWindowSkills;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.EnumSpellResult;
+import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,7 +25,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CapabilityEvent
 {
     public CapabilityEvent(FMLInitializationEvent event) {}
-
+    
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
@@ -29,7 +35,7 @@ public class CapabilityEvent
             event.addCapability(CapabilityLoader.res_magic, new CapabilityMagic.Provider(player));
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
@@ -40,26 +46,29 @@ public class CapabilityEvent
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
-                
-                MessagePlayerSkills message = new MessagePlayerSkills();
-                message.nbt = (NBTTagCompound) storage.writeNBT(CapabilityLoader.magic, magic, null);
-                NetworkLoader.instance.sendTo(message, player);
 
+                ISkillInventory inventory = magic.getInventory();
+                List<SkillStack> list = new ArrayList<SkillStack>();
+                for(int i = 0; i < inventory.getSizeInventory(); i++)
+                    list.add(inventory.getStackInSlot(i));
+                MessageWindowSkills message = new MessageWindowSkills(0, list);
+                NetworkLoader.instance.sendTo(message, player);
+                
                 MessageUpdateMana message2 = new MessageUpdateMana(magic.getMana());
                 NetworkLoader.instance.sendTo(message2, player);
-
+                
                 MessagePlayerSpelling message3 = new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount(), EnumSpellResult.NONE);
                 NetworkLoader.instance.sendTo(message3, player);
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
         Capability<IMagic> capability = CapabilityLoader.magic;
         IStorage<IMagic> storage = capability.getStorage();
-
+        
         if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
         {
             IMagic magic = event.original.getCapability(capability, null);

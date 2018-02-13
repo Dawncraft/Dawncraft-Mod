@@ -16,6 +16,11 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
+/**
+ * 用于玩家释放魔法
+ *
+ * @author QingChenW
+ */
 public class MessageSpellSkillChange implements IMessage
 {
     public int slot;
@@ -54,6 +59,7 @@ public class MessageSpellSkillChange implements IMessage
                     {
                         if (serverPlayer.hasCapability(CapabilityLoader.magic, null))
                         {
+                            // TODO 在这里处理技能施放
                             IMagic magic = serverPlayer.getCapability(CapabilityLoader.magic, null);
                             if (message.slot < SkillInventoryPlayer.getHotbarSize())
                             {
