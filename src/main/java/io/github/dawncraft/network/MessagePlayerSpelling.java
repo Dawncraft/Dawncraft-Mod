@@ -2,8 +2,6 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
-import io.github.dawncraft.client.event.GuiIngameDawn;
-import io.github.dawncraft.entity.magicile.EnumSpellAction;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -14,34 +12,31 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * 这东西...
+ * 处理玩家施法动作
  *
  * @author QingChenW
  */
 public class MessagePlayerSpelling implements IMessage
 {
-    private EnumSpellAction spellAction;
+    private EnumSpellResult spellAction;
     private int spellCount;
     private int cooldownCount;
-    private EnumSpellResult tooltipType;
-
+    
     public MessagePlayerSpelling() {}
     
-    public MessagePlayerSpelling(EnumSpellAction action, int count, int cooldown, EnumSpellResult type)
+    public MessagePlayerSpelling(EnumSpellResult type, int count, int cooldown)
     {
-        this.spellAction = action;
+        this.spellAction = type;
         this.spellCount = count;
         this.cooldownCount = cooldown;
-        this.tooltipType = type;
     }
     
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.spellAction = EnumSpellAction.values()[buf.readShort()];
+        this.spellAction = EnumSpellResult.values()[buf.readShort()];
         this.spellCount = buf.readInt();
         this.cooldownCount = buf.readInt();
-        this.tooltipType = EnumSpellResult.values()[buf.readShort()];
     }
 
     @Override
@@ -50,7 +45,6 @@ public class MessagePlayerSpelling implements IMessage
         buf.writeShort(this.spellAction.ordinal());
         buf.writeInt(this.spellCount);
         buf.writeInt(this.cooldownCount);
-        buf.writeShort(this.tooltipType.ordinal());
     }
     
     public static class Handler implements IMessageHandler<MessagePlayerSpelling, IMessage>
@@ -72,7 +66,6 @@ public class MessagePlayerSpelling implements IMessage
                             magic.setSpellAction(message.spellAction);
                             magic.setSkillInSpellCount(message.spellCount);
                             magic.setPublicCooldownCount(message.cooldownCount);
-                            GuiIngameDawn.getIngameDawnGUI().spellType = message.tooltipType;
                         }
                     }
                 });

@@ -2,12 +2,12 @@ package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.client.gui.GuiEncyclopedia;
 import io.github.dawncraft.client.gui.magic.GuiMagic;
 import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.entity.magicile.EnumSpellAction;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
-import io.github.dawncraft.util.WebBrowserV1;
+import io.github.dawncraft.skill.EnumSpellResult;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -15,8 +15,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 /**
- * @author QingChenW
+ * 处理外设输入事件
  *
+ * @author QingChenW
  */
 public class InputHandler
 {
@@ -45,10 +46,15 @@ public class InputHandler
                         {
                             IMagic magic = player.getCapability(CapabilityLoader.magic, null);
 
-                            if(magic.getSpellAction() == EnumSpellAction.NONE || i != magic.getSpellIndex())
+                            if(magic.getSpellAction() == EnumSpellResult.NONE || i != magic.getSpellIndex())
                             {
-                                GuiIngameDawn.getIngameDawnGUI().setSpellingSkill(i);
-                                NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
+                                if(magic.getInventory().getStackInSlot(i) != null)
+                                {
+                                    magic.setSpellAction(EnumSpellResult.SELECT);
+                                    magic.setSpellIndex(i);
+                                    NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
+                                }
+                                
                             }
                         }
                     }
@@ -84,7 +90,7 @@ public class InputHandler
         // Wiki key was pressed
         if (KeyLoader.Encyclopedia.isPressed())
         {
-            WebBrowserV1 webBrowser = new WebBrowserV1("我的世界中文维基百科", "http://minecraft-zh.gamepedia.com/Minecraft_Wiki");
+            mc.displayGuiScreen(new GuiEncyclopedia());
         }
     }
 }

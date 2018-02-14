@@ -102,6 +102,7 @@ tile.magnetBlock.name=磁石块
 tile.magnetRail.name=磁力铁轨
 
 tile.copperOre.name=铜矿
+tile.copperBlock.name=铜块
 tile.machineFurnace.name=电炉
 
 tile.simpleComputer.name=普通电脑
@@ -136,6 +137,7 @@ container.magic.more=更多信息...
 
 enchantment.fireBurn=火焰灼烧
 
+potion.silent=沉默
 potion.paralysis=麻痹
 potion.confusion=混乱
 potion.brainDead=脑残
@@ -216,7 +218,7 @@ chat.tile.magnetDoor.close=[§6曙光工艺§r] 门已关闭
 chat.tile.magnetDoor.fail=[§6曙光工艺§r] 滴,傻X卡,没有权限
 chat.tile.magnetDoor.null=[§6曙光工艺§r] 请刷卡开门
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下吴Ger
-chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的！
+chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
 chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!
 
 key.categories.dawncraft=曙光工艺

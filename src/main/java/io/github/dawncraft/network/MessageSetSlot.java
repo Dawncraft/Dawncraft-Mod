@@ -71,6 +71,11 @@ public class MessageSetSlot implements IMessage
                             }
                             else
                             {
+                                if(message.windowId == 0)
+                                {
+                                    magic.getInventory().setInventorySlotContents(message.slot, message.skillStack);
+                                }
+                                // TODO SkillSlot和Container写完后重写这个
                                 /*                                boolean flag = false;
 
                                 if (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative)

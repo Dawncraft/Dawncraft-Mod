@@ -10,13 +10,13 @@ import net.minecraft.world.World;
 public class ItemGunBase extends ItemGun
 {
     private float damage;
-
+    
     public ItemGunBase(int maxDamage, float damage)
     {
         super(maxDamage);
         this.setDamage(damage);
     }
-
+    
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
@@ -27,9 +27,9 @@ public class ItemGunBase extends ItemGun
                 itemStackIn.damageItem(1, playerIn);
                 playerIn.inventory.consumeInventoryItem(ItemLoader.gunBullet);
             }
-
-            worldIn.playSoundAtEntity(playerIn, this.getModid() + ":" + "random.gun", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
+            
+            worldIn.playSoundAtEntity(playerIn, this.getShootSound(), 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            
             if (!worldIn.isRemote)
             {
                 EntityBullet entity = new EntityBullet(worldIn, playerIn, 3.0F);
@@ -37,24 +37,23 @@ public class ItemGunBase extends ItemGun
                 worldIn.spawnEntityInWorld(entity);
             }
         }
-
+        
         return itemStackIn;
     }
-
+    
     public float getDamage()
     {
         return this.damage;
     }
-    
+
     public ItemGunBase setDamage(float damage)
     {
         this.damage = damage;
         return this;
     }
-    
-    // 这肯定得改啊
-    private String getModid()
+
+    private String getShootSound()
     {
-        return Dawncraft.MODID;
+        return Dawncraft.MODID + ":" + "random.gun";
     }
 }

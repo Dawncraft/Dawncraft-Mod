@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.container.ISkillInventory;
+import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
-import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,6 +33,8 @@ public class CapabilityEvent
         {
             EntityPlayer player = (EntityPlayer) event.getEntity();
             event.addCapability(CapabilityLoader.res_magic, new CapabilityMagic.Provider(player));
+
+            player.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
         }
     }
 
@@ -51,14 +53,9 @@ public class CapabilityEvent
                 List<SkillStack> list = new ArrayList<SkillStack>();
                 for(int i = 0; i < inventory.getSizeInventory(); i++)
                     list.add(inventory.getStackInSlot(i));
-                MessageWindowSkills message = new MessageWindowSkills(0, list);
-                NetworkLoader.instance.sendTo(message, player);
-                
-                MessageUpdateMana message2 = new MessageUpdateMana(magic.getMana());
-                NetworkLoader.instance.sendTo(message2, player);
-                
-                MessagePlayerSpelling message3 = new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount(), EnumSpellResult.NONE);
-                NetworkLoader.instance.sendTo(message3, player);
+                NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), player);
+                NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), player);
+                NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), player);
             }
         }
     }

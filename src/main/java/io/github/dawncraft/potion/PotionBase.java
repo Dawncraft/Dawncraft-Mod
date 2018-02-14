@@ -8,17 +8,30 @@ import net.minecraft.util.ResourceLocation;
 
 public class PotionBase extends Potion
 {
-    private static final ResourceLocation res = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/potion.png");
+    private int index;
 
-    public PotionBase(ResourceLocation location, boolean badEffect, int potionColor)
+    public PotionBase(String id, boolean badEffect, int potionColor)
+    {
+        this(new ResourceLocation(Dawncraft.MODID + ":" + id), badEffect, potionColor, PotionLoader.nextIndex++);
+    }
+    
+    public PotionBase(ResourceLocation location, boolean badEffect, int potionColor, int iconIndex)
     {
         super(location, badEffect, potionColor);
+        this.index = iconIndex;
     }
     
     @Override
     public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
     {
-        mc.getTextureManager().bindTexture(res);
-        mc.currentScreen.drawTexturedModalRect(x + 6, y + 7, 0, 0, 18, 18);
+        mc.getTextureManager().bindTexture(this.getPotionTexture(effect));
+        int u = this.index % 16;
+        int v = Math.floorDiv(this.index, 16);
+        mc.currentScreen.drawTexturedModalRect(x + 6, y + 7, u, v, 16, 16);
+    }
+    
+    public ResourceLocation getPotionTexture(PotionEffect effect)
+    {
+        return PotionLoader.POTION_TEXTURE;
     }
 }

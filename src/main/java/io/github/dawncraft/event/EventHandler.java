@@ -5,10 +5,16 @@ import java.util.List;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.network.MessagePlayerSpelling;
+import io.github.dawncraft.network.MessageSetSlot;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
+import io.github.dawncraft.potion.PotionLoader;
+import io.github.dawncraft.skill.EnumSpellResult;
+import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.block.material.Material;
@@ -44,32 +50,138 @@ public class EventHandler
 {
     public EventHandler(FMLInitializationEvent event) {}
 
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
-        if(event.side == Side.SERVER && event.phase == Phase.START)
+        if(event.phase == Phase.END)
         {
             EntityPlayer player = event.player;
             World world = player.worldObj;
 
+            // 处理魔法
             if(player.hasCapability(CapabilityLoader.magic, null))
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
+                ISkillInventory inventory = magic.getInventory();
                 
-                // 更新魔法值
-                if (world.getGameRules().getBoolean("naturalRegeneration") && player.getFoodStats().getFoodLevel() >= 16)
+                if(event.side == Side.SERVER)
                 {
-                    if (magic.getMana() < magic.getMaxMana() && player.ticksExisted % 40 == 0)
+                    EntityPlayerMP serverPlayer = (EntityPlayerMP) player;
+                    
+                    // 更新魔法值
+                    if (world.getGameRules().getBoolean("naturalRegeneration") && player.getFoodStats().getFoodLevel() >= 16)
                     {
-                        magic.recover(1.0F);
-                        NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), (EntityPlayerMP) player);
+                        if (magic.getMana() < magic.getMaxMana() && player.ticksExisted % 40 == 0)
+                        {
+                            magic.recover(1.0F);
+                            NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
+                        }
+                    }
+
+                    // 更新技能施放
+                    if(magic.getSpellAction() == EnumSpellResult.SELECT)// 选中技能,检测是否符合施放条件
+                    {
+                        boolean flag = true;
+                        
+                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && (magic.getPublicCooldownCount() > 0 || magic.getSkillInSpell().getCooldown() > 0))
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.COOLING, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && magic.getMana() < magic.getSkillInSpell().getSkillConsume())
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.NOMANA, 0, 0), serverPlayer);
+                        }
+                        if(flag && false) // 无目标
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.NOTARGET, 0, 0), serverPlayer);
+                        }
+
+                        if(flag)
+                        {
+                            magic.setSpellAction(EnumSpellResult.PREPARING);
+                            magic.setSkillInSpellCount(Skill.getPublicPrepare() + magic.getSkillInSpell().getTotalPrepare());
+                            magic.setPublicCooldownCount(Skill.getPublicCooldown());
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        else
+                        {
+                            magic.clearSkillInSpell();
+                        }
+                    }
+                    else if(magic.getSpellAction() == EnumSpellResult.PREPARING)
+                    {
+                        boolean flag = true;
+                        
+                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && magic.getMana() < magic.getSkillInSpell().getSkillConsume())
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.NOMANA, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && false) // 目标丢失
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.MISSED, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+
+                        if(flag)
+                        {
+                            if(magic.getSkillInSpellCount() <= 0)
+                            {
+                                magic.setSpellAction(EnumSpellResult.SPELLING);
+                                magic.getSkillInSpell().cooldown = magic.getSkillInSpell().getTotalCooldown();
+                                magic.reduce(magic.getSkillInSpell().getSkillConsume());
+                                if(magic.getSkillInSpell().getMaxDuration() <= 0)
+                                {
+                                    magic.getSkillInSpell().onSkillSpell(player, world);
+                                    magic.clearSkillInSpell();
+                                }
+                                else
+                                {
+                                    magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());
+                                }
+                                NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
+                                NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
+                                NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
+                            }
+                        }
+                        else
+                        {
+                            magic.clearSkillInSpell();
+                        }
+                    }
+                    else if(magic.getSpellAction() == EnumSpellResult.SPELLING)
+                    {
+                        // TODO 从这接着写，我要睡觉啦，都几点了
+                        EnumSpellResult result = magic.getSkillInSpell().onSkillSpelling(world, player);
+                    }
+                    else if(magic.getSpellAction() != EnumSpellResult.NONE)
+                    {
+                        magic.clearSkillInSpell();
                     }
                 }
-
-                // 更新技能施放
+                // 更新技能相关字段
+                magic.update();
             }
 
-            this.checkForPortalCreation(player, world, 32.0F);
+            if(event.side == Side.SERVER)
+            {
+                // 处理曙光世界传送门
+                this.checkForPortalCreation(player, world, 32.0F);
+            }
         }
     }
     

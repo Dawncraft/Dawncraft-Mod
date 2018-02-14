@@ -8,6 +8,8 @@ This is Dawn Craft Mod's update log.
 4.Rename crafting to recipe.
 5.Find wiki's api, plan to use it in GuiEncyclopedia.
 6.Remove Ger King's password.
+--------------------
+Additional: And add sittable entity, but it can't work well.
 ===========================================================
 0.2.3.2 update log:
 --------------------

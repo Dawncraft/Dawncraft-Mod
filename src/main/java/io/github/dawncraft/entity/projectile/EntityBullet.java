@@ -319,7 +319,7 @@ public class EntityBullet extends Entity implements IProjectile
                         // wc新加,子弹打到玻璃上
                         if(!this.worldObj.isRemote && (this.inTile == Blocks.glass || this.inTile == Blocks.glass_pane))
                         {
-                            this.worldObj.sendBlockBreakProgress(this.getEntityId(), blockpos1, 4);
+                            this.worldObj.sendBlockBreakProgress(this.getEntityId(), blockpos1, 4);// 强度随伤害改变
                             this.setDead();
                         }
                     }

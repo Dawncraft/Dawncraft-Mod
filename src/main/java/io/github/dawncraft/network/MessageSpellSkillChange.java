@@ -4,7 +4,6 @@ import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.container.SkillInventoryPlayer;
-import io.github.dawncraft.entity.magicile.EnumSpellAction;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
@@ -59,7 +58,6 @@ public class MessageSpellSkillChange implements IMessage
                     {
                         if (serverPlayer.hasCapability(CapabilityLoader.magic, null))
                         {
-                            // TODO 在这里处理技能施放
                             IMagic magic = serverPlayer.getCapability(CapabilityLoader.magic, null);
                             if (message.slot < SkillInventoryPlayer.getHotbarSize())
                             {
@@ -68,17 +66,20 @@ public class MessageSpellSkillChange implements IMessage
                                     SkillStack skillStack = magic.getInventory().getStackInSlot(message.slot);
                                     if(skillStack != null)
                                     {
-                                        magic.setSpellAction(EnumSpellAction.PREPARE);
+                                        magic.setSpellAction(EnumSpellResult.SELECT);
                                         magic.setSpellIndex(message.slot);
                                         magic.setSkillInSpell(skillStack);
                                         serverPlayer.markPlayerActive();
                                         return;
                                     }
                                 }
-                                magic.clearSkillInSpell();
-                                MessagePlayerSpelling message = new MessagePlayerSpelling(magic.getSpellAction(),
-                                        magic.getSkillInSpellCount(), magic.getPublicCooldownCount(), EnumSpellResult.CANCEL);
-                                NetworkLoader.instance.sendTo(message, serverPlayer);
+                                // 玩家选中了小于0的格子???或选中的格子内没有技能
+                                // 但我在客户端做了判断,理论上不会出现这种情况
+                                if(magic.getSpellAction() == EnumSpellResult.SELECT || magic.getSpellAction().isSpelling())
+                                {
+                                    magic.clearSkillInSpell();
+                                    NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.CANCEL, 0, 0), serverPlayer);
+                                }
                             }
                             else
                             {

@@ -18,14 +18,14 @@ public class SkillRenderer extends Gui
     private final TextureManager textureManager;
     private final RenderManager renderManager;
     protected float zLevel;
-    
+
     public SkillRenderer(Minecraft mcIn)
     {
         this.mc = mcIn;
         this.textureManager = mcIn.getTextureManager();
         this.renderManager = mcIn.getRenderManager();
     }
-
+    
     public void renderSkillIntoGUI(SkillStack skillstack, int xPos, int yPos)
     {
         GlStateManager.pushMatrix();
@@ -43,11 +43,11 @@ public class SkillRenderer extends Gui
             ResourceLocation res = TextureLoader.getActualLocation(new ResourceLocation(skillstack.getSkill().getRegistryName()));
             TextureAtlasSprite sprite = TextureLoader.getTextureMapSkills().getAtlasSprite(res.toString());
             this.drawTexturedModalRect(xPos, yPos, sprite, 16, 16);
-
+            
             int height = 0;
             if(skillstack.getTotalCooldown() > 0)
                 height = skillstack.getCooldown() * 16 / skillstack.getTotalCooldown();
-            this.drawRect(xPos, yPos, 16, height, 0x80B4B4B4);// TODO 换成1.11末影珍珠的冷却背景
+            this.drawRect(xPos, yPos, 16, height, 0x7fffffff);
             GlStateManager.popMatrix();
         }
         GlStateManager.disableAlpha();

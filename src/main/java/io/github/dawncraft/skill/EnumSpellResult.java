@@ -4,15 +4,21 @@ public enum EnumSpellResult
 {
     NONE,
     SELECT,
-
     PREPARING,
     SPELLING,
-
+    
     COOLING,
     SILENT,
     NOMANA,
     NOTARGET,
-    CANCEL,
+
     MISSED,
-    BROKEN
+    BROKEN,
+    
+    CANCEL;
+    
+    public boolean isSpelling()
+    {
+        return this == PREPARING || this == SPELLING;
+    }
 }

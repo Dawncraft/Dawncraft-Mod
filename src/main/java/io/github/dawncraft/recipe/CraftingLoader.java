@@ -3,7 +3,6 @@ package io.github.dawncraft.recipe;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -12,6 +11,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.WeightedRandomFishable;
 import net.minecraftforge.common.FishingHooks;
 import net.minecraftforge.common.FishingHooks.FishableCategory;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.common.brewing.IBrewingRecipe;
 import net.minecraftforge.fml.common.IFuelHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -168,6 +169,21 @@ public class CraftingLoader
     private static void registerFuel(IFuelHandler handler)
     {
         GameRegistry.registerFuelHandler(handler);
+    }
+    
+    private static void registerPotion(ItemStack input, ItemStack ingredient, ItemStack output)
+    {
+        BrewingRecipeRegistry.addRecipe(input, ingredient, output);
+    }
+
+    private static void registerOrePotion(ItemStack input, String ingredient, ItemStack output)
+    {
+        BrewingRecipeRegistry.addRecipe(input, ingredient, output);
+    }
+
+    private static void registerPotion(IBrewingRecipe recipe)
+    {
+        BrewingRecipeRegistry.addRecipe(recipe);
     }
     
     private static void registerFish(FishableCategory category, ItemStack itemstack, int weight)

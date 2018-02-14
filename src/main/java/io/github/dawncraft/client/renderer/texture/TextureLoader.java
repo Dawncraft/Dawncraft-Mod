@@ -1,5 +1,6 @@
 package io.github.dawncraft.client.renderer.texture;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -9,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class TextureLoader
 {
-    public static final ResourceLocation skillsTexture = new ResourceLocation("textures/atlas/skills.png");
+    public static final ResourceLocation skillsTexture = new ResourceLocation(Dawncraft.MODID, "textures/atlas/skills.png");
     private static TextureMap textureMapSkills;
 
     public TextureLoader(FMLPreInitializationEvent event)

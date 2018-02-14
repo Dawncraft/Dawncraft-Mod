@@ -3,7 +3,6 @@ package io.github.dawncraft.capability;
 import java.util.Set;
 
 import io.github.dawncraft.container.ISkillInventory;
-import io.github.dawncraft.entity.magicile.EnumSpellAction;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
@@ -22,13 +21,9 @@ public interface IMagic
     
     public void replenish();
     
-    public EnumSpellAction getSpellAction();
+    public EnumSpellResult getSpellAction();
     
-    void setSpellAction(EnumSpellAction action);
-
-    void cancelSpelling(EnumSpellResult reason);
-    
-    boolean isSpellCanceled();
+    void setSpellAction(EnumSpellResult action);
 
     public int getSpellIndex();
     
@@ -64,4 +59,6 @@ public interface IMagic
      */
     @Deprecated
     public Set<Talent> getTalents();
+
+    public void update();
 }

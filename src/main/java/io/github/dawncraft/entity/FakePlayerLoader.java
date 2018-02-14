@@ -10,20 +10,20 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * Register fake player in the class.
- * 
+ *
  * @author QingChenW
  */
 public class FakePlayerLoader
 {
     private static GameProfile gameProfile;
     private static WeakReference<EntityPlayerMP> fakePlayer;
-
+    
     public FakePlayerLoader(FMLInitializationEvent event)
     {
         gameProfile = new GameProfile(UUID.randomUUID(), "[Dawncraft]");
         fakePlayer = new WeakReference<EntityPlayerMP>(null);
     }
-
+    
     public static WeakReference<EntityPlayerMP> getFakePlayer(WorldServer server)
     {
         if (fakePlayer.get() == null)
