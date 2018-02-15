@@ -38,7 +38,7 @@ public class CapabilityMagic
         private int publicCooldownCount;
         private ISkillInventory inventory;
         private Map<Talent, Integer> talents;
-        
+
         public Implementation(EntityPlayer player)
         {
             this.player = player;
@@ -47,19 +47,19 @@ public class CapabilityMagic
             this.inventory = new SkillInventoryPlayer(player);
             this.talents = new HashMap<Talent, Integer>();
         }
-        
+
         @Override
         public float getMana()
         {
             return this.mana;
         }
-        
+
         @Override
         public float getMaxMana()
         {
             return (float) this.player.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue();
         }
-
+        
         @Override
         public void setMana(float amount)
         {
@@ -67,7 +67,7 @@ public class CapabilityMagic
             if(amount > this.getMaxMana()) amount = this.getMaxMana();
             this.mana = amount;
         }
-        
+
         @Override
         public void recover(float recoverAmount)
         {
@@ -78,7 +78,7 @@ public class CapabilityMagic
             if (mana > this.getMaxMana()) mana = this.getMaxMana();
             this.setMana(mana);
         }
-
+        
         @Override
         public void reduce(float reduceAmount)
         {
@@ -89,49 +89,49 @@ public class CapabilityMagic
             if (mana < 0.0F) mana = 0.0F;
             this.setMana(mana);
         }
-
+        
         @Override
         public void replenish()
         {
             this.mana = this.getMaxMana();
         }
-
+        
         @Override
         public EnumSpellResult getSpellAction()
         {
             return this.spellAction;
         }
-
+        
         @Override
         public void setSpellAction(EnumSpellResult action)
         {
             this.spellAction = action;
         }
-        
+
         @Override
         public int getSpellIndex()
         {
             return this.currentSkill;
         }
-        
+
         @Override
         public void setSpellIndex(int index)
         {
             this.currentSkill = index;
         }
-
+        
         @Override
         public SkillStack getSkillInSpell()
         {
             return this.skillInSpell;
         }
-
+        
         @Override
         public void setSkillInSpell(SkillStack stack)
         {
             this.skillInSpell = stack;
         }
-
+        
         @Override
         public void clearSkillInSpell()
         {
@@ -140,13 +140,13 @@ public class CapabilityMagic
             this.skillInSpell = null;
             this.skillInSpellCount = 0;
         }
-
+        
         @Override
         public int getSkillInSpellCount()
         {
             return this.skillInSpellCount;
         }
-
+        
         @Override
         public int getSkillInSpellDuration()
         {
@@ -160,75 +160,72 @@ public class CapabilityMagic
             }
             return 0;
         }
-
+        
         @Override
         public void setSkillInSpellCount(int count)
         {
             this.skillInSpellCount = count;
         }
-
+        
         @Override
         public int getPublicCooldownCount()
         {
             return this.publicCooldownCount;
         }
-
+        
         @Override
         public void setPublicCooldownCount(int count)
         {
             this.publicCooldownCount = count;
         }
-        
+
         @Override
         public void setInventory(ISkillInventory inventory)
         {
             this.inventory = inventory;
         }
-        
+
         @Override
         public ISkillInventory getInventory()
         {
             return this.inventory;
         }
-
+        
         @Override
         public void setTalent(Talent talent, int level)
         {
             this.talents.put(talent, level);
         }
-
+        
         @Override
         public int getTalentLevel(Talent talent)
         {
             return this.talents.get(talent);
         }
-        
+
         @Deprecated
         @Override
         public Set<Talent> getTalents()
         {
             return this.talents.keySet();
         }
-        
+
+        // TODO 看看MC的更新是怎么做的
         @Override
         public void update()
         {
             if(this.publicCooldownCount > 0) this.publicCooldownCount--;
             if(this.skillInSpellCount > 0) this.skillInSpellCount--;
-            
+
             for(int i = 0; i < this.inventory.getSizeInventory(); i++)
             {
-                SkillStack skillStack = this.inventory.getStackInSlot(i);
-                if(skillStack != null)
-                {
-                    if(skillStack.getCooldown() > 0) skillStack.cooldown--;
-                }
-                // 应用
-                // this.inventory.getStackInSlot(i).updateAnimation(worldIn, entityIn, skillSlot);
+                SkillStack skillstack = this.inventory.getStackInSlot(i);
+                if(skillstack != null)
+                    skillstack.updateAnimation(this.player.worldObj, this.player, i);
             }
         }
     }
-    
+
     public static class Storage implements Capability.IStorage<IMagic>
     {
         @Override
@@ -238,14 +235,14 @@ public class CapabilityMagic
             float mana = instance.getMana();
             compound.setFloat("ManaF", mana);
             compound.setShort("Mana", (short) Math.ceil(mana));
-            
+
             int cooldown = instance.getPublicCooldownCount();
             compound.setInteger("Cooldown", cooldown);
-
+            
             NBTTagList skills = new NBTTagList();
             ((SkillInventoryPlayer) instance.getInventory()).writeToNBT(skills);
             compound.setTag("SkillInventory", skills);
-            
+
             NBTTagList talents = new NBTTagList();
             for (Talent talent : instance.getTalents())
             {
@@ -254,15 +251,15 @@ public class CapabilityMagic
                 talents.appendTag(nbt);
             }
             compound.setTag("Talents", talents);
-            
+
             return compound;
         }
-
+        
         @Override
         public void readNBT(Capability<IMagic> capability, IMagic instance, EnumFacing side, NBTBase nbt)
         {
             NBTTagCompound compound = (NBTTagCompound) nbt;
-            
+
             if (compound.hasKey("ManaF", 99))
             {
                 instance.setMana(compound.getFloat("ManaF"));
@@ -270,7 +267,7 @@ public class CapabilityMagic
             else
             {
                 NBTBase nbtbase = compound.getTag("Mana");
-                
+
                 if (nbtbase == null)
                 {
                     instance.setMana(instance.getMaxMana());
@@ -284,12 +281,12 @@ public class CapabilityMagic
                     instance.setMana((float)((NBTTagShort)nbtbase).getShort());
                 }
             }
-            
+
             instance.setPublicCooldownCount(compound.getInteger("Cooldown"));
-            
+
             NBTTagList skills = compound.getTagList("SkillInventory", 10);
             ((SkillInventoryPlayer) instance.getInventory()).readFromNBT(skills);
-
+            
             NBTTagList talents = compound.getTagList("Talents", 10);
             for (int i = 0; i < talents.tagCount(); ++i)
             {
@@ -298,24 +295,24 @@ public class CapabilityMagic
             }
         }
     }
-    
+
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
         private IMagic magic;
         private IStorage<IMagic> storage;
-
+        
         public Provider(EntityPlayer player)
         {
             this.magic = new Implementation(player);
             this.storage = CapabilityLoader.magic.getStorage();
         }
-
+        
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
             return CapabilityLoader.magic.equals(capability);
         }
-
+        
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
@@ -326,13 +323,13 @@ public class CapabilityMagic
             }
             return null;
         }
-
+        
         @Override
         public NBTTagCompound serializeNBT()
         {
             return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.magic, this.magic, null);
         }
-
+        
         @Override
         public void deserializeNBT(NBTTagCompound compound)
         {

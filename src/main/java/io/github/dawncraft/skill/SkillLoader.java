@@ -30,6 +30,12 @@ public class SkillLoader
         }
         
         @Override
+        public int getTotalCooldown(int level)
+        {
+            return 60 + 20 * level;
+        }
+        
+        @Override
         public boolean onSkillSpell(SkillStack skillstack, EntityPlayer player, World world)
         {
             if(!world.isRemote && player.hasCapability(CapabilityLoader.magic, null))
@@ -68,6 +74,12 @@ public class SkillLoader
         public float getConsume(int level)
         {
             return 4 + 2 * level;
+        }
+
+        @Override
+        public int getTotalCooldown(int level)
+        {
+            return 40 + 20 * level;
         }
 
         @Override

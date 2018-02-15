@@ -25,19 +25,18 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CapabilityEvent
 {
     public CapabilityEvent(FMLInitializationEvent event) {}
-    
+
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
         if (event.getEntity() instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.getEntity();
-            event.addCapability(CapabilityLoader.res_magic, new CapabilityMagic.Provider(player));
-
             player.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
+            event.addCapability(CapabilityLoader.res_magic, new CapabilityMagic.Provider(player));
         }
     }
-
+    
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
@@ -48,7 +47,7 @@ public class CapabilityEvent
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
-
+                
                 ISkillInventory inventory = magic.getInventory();
                 List<SkillStack> list = new ArrayList<SkillStack>();
                 for(int i = 0; i < inventory.getSizeInventory(); i++)
@@ -59,13 +58,13 @@ public class CapabilityEvent
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
         Capability<IMagic> capability = CapabilityLoader.magic;
         IStorage<IMagic> storage = capability.getStorage();
-        
+
         if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
         {
             IMagic magic = event.original.getCapability(capability, null);
