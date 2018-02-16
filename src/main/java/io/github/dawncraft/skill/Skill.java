@@ -20,6 +20,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author QingChenW
  *
  */
+/**
+ * @author Administrator
+ *
+ */
+/**
+ * @author Administrator
+ *
+ */
+/**
+ * @author Administrator
+ *
+ */
 public class Skill
 {
     private int maxLevel = 0;
@@ -47,7 +59,7 @@ public class Skill
         return 0.0F;
     }
     
-    public int getTotalPrepare(SkillStack skillstack)
+    public int getPrepare(SkillStack skillstack)
     {
         return this.getTotalPrepare(skillstack.getSkillLevel());
     }
@@ -92,12 +104,12 @@ public class Skill
     /* 后摇?不存在的,为了简化机制,所以没有后摇啊哈哈哈 */
     // TODO 为技能添加后摇
     
-    public int getCooldown(SkillStack skillstack)
+    public int getCurrentCooldown(SkillStack skillstack)
     {
         return skillstack.cooldown;
     }
 
-    public int getTotalCooldown(SkillStack skillstack)
+    public int getCooldown(SkillStack skillstack)
     {
         return this.getTotalCooldown(skillstack.getSkillLevel());
     }
@@ -189,37 +201,86 @@ public class Skill
     /**
      * 和地图的类似,但这个主要用来更新冷却
      *
-     * @param stack
-     * @param worldIn
-     * @param entityIn
-     * @param skillSlot
+     * @param stack 技能
+     * @param worldIn 携带者所在世界
+     * @param entityIn 技能携带者
+     * @param skillSlot 技能槽位
      */
     public void onUpdate(SkillStack stack, World worldIn, Entity entityIn, int skillSlot)
     {
         if(stack != null)
         {
-            if(stack.getCooldown() > 0) stack.cooldown--;
+            if(stack.getCurrentCooldown() > 0) stack.cooldown--;
         }
     }
+    
+	/**
+	 * 技能准备阶段每刻调用一次
+	 * 
+	 * @param skillStack 正在准备的技能
+	 * @param worldIn 施放者所在世界
+	 * @param playerIn 施放玩家
+	 * @param duration 已经准备了多少刻
+	 * @return 准备施法的结果(如果返回值是COOLING以及下面的将会以该种原因取消技能准备)
+	 */
+	public EnumSpellResult onSkillPreparing(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
+	{
+		return EnumSpellResult.NONE;
+	}
 
-    public boolean onSkillSpell(SkillStack skillstack, EntityPlayer player, World world)
+    /**
+     * 技能被施放时,所有技能都会在准备阶段结束后调用此方法
+     * 
+     * @param skillstack 正在施放的技能
+     * @param worldIn 施放者所在世界
+     * @param playerIn 施放玩家
+     * @return 是否施放成功(暂时无实际意义)
+     */
+    public boolean onSkillSpell(SkillStack skillstack, World worldIn, EntityPlayer playerIn)
     {
         return false;
     }
 
-    public EnumSpellResult onSkillSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn)
+    /**
+     * 如果Skill.getMaxDuration(int level) > 0,则认为该技能可持续施法,可持续施法的技能会在施法阶段每刻调用一次该方法
+     * 
+     * @param skillStack 正在施放的技能
+     * @param worldIn 施放者所在世界
+     * @param playerIn 施放玩家
+     * @param duration 已经施放了多少刻
+     * @return 施放魔法的结果(如果返回值是COOLING以及下面的将会以该种原因取消技能施放)
+     */
+    public EnumSpellResult onSkillSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
     {
         return EnumSpellResult.NONE;
     }
 
-    public SkillStack onSkillSpellFinish(SkillStack skillstack, World world, EntityPlayer player)
+    /**
+     * 当可持续施法的技能被主动取消或由于外界不可抗拒(大雾)的因素而被强制性打断时调用此方法
+     * <br>如果释放过程中未被打断且施放完成会调用{@link #onSkillSpellFinish(SkillStack skillStack, World world, EntityPlayer player)}</br>
+     * 
+     * @param skillStack  正在施放的技能
+     * @param worldIn 施放者所在世界
+     * @param playerIn 施放玩家
+     * @param duration 已经施放了多少刻
+     */
+    public void onPlayerStoppedSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
     {
-        return skillstack;
+
     }
-
-    public void onPlayerStoppedSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int timeLeft)
+    
+    /**
+     * 当可持续施法的技能自然地完成施法(施法时间达到最大周期)时调用此方法
+     * <br>如果释放过程未完成且被打断会调用{@link #onPlayerStoppedSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)}</br>
+     * 
+     * @param skillStack
+     * @param world
+     * @param player
+     * @return
+     */
+    public SkillStack onSkillSpellFinish(SkillStack skillStack, World world, EntityPlayer player)
     {
-
+        return skillStack;
     }
     
     /* ======================================== REGISTER START =====================================*/

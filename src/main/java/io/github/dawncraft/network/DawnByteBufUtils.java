@@ -34,7 +34,7 @@ public class DawnByteBufUtils
         {
             pb.writeShort(Skill.getIdFromSkill(stack.getSkill()));
             pb.writeInt(stack.getSkillLevel());
-            pb.writeInt(stack.getCooldown());
+            pb.writeInt(stack.getCurrentCooldown());
         }
     }
 

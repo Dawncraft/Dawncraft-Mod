@@ -21,13 +21,13 @@ public class KeyLoader
     
     public KeyLoader(FMLInitializationEvent event)
     {
-        this.register(KeyLoader.change);
-        this.register(KeyLoader.magic);
-        this.register(KeyLoader.use);
-        this.register(KeyLoader.Encyclopedia);
+        register(KeyLoader.change);
+        register(KeyLoader.magic);
+        register(KeyLoader.use);
+        register(KeyLoader.Encyclopedia);
     }
 
-    private void register(KeyBinding keybinding)
+    private static void register(KeyBinding keybinding)
     {
         ClientRegistry.registerKeyBinding(keybinding);
     }

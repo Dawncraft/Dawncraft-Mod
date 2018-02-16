@@ -22,11 +22,11 @@ public class ItemRenderLoader
 
         registerRender(BlockLoader.electricCable);
         registerRender(BlockLoader.energyGeneratorHeat);
-        registerRender(BlockLoader.energyGeneratorFluid);
-        registerRender(BlockLoader.energyGeneratorSolar);
-        registerRender(BlockLoader.energyGeneratorWind);
-        registerRender(BlockLoader.energyGeneratorNuclear);
-        registerRender(BlockLoader.energyGeneratorMagic);
+//        registerRender(BlockLoader.energyGeneratorFluid);
+//        registerRender(BlockLoader.energyGeneratorSolar);
+//        registerRender(BlockLoader.energyGeneratorWind);
+//        registerRender(BlockLoader.energyGeneratorNuclear);
+//        registerRender(BlockLoader.energyGeneratorMagic);
         
         // Magnet
         registerRender(ItemLoader.magnet);

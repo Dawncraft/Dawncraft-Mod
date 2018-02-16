@@ -24,6 +24,12 @@ public interface IMagic
     public EnumSpellResult getSpellAction();
     
     void setSpellAction(EnumSpellResult action);
+    
+    boolean isCanceled();
+    
+    void cancelSpelling();
+    
+    void setCanceled(boolean isCanceled);
 
     public int getSpellIndex();
     

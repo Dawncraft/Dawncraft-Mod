@@ -1,13 +1,23 @@
 package io.github.dawncraft.client.renderer.block;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import com.google.common.collect.Lists;
+
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.BlockMagnetDoor;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,21 +27,23 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
 /**
- * Register custom blocks' model.(Include FieldBlock)
+ * Register custom blocks' model.
  * <br>这是啥Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register()</br>
  *
  * @author QingChenW
  */
 public class BlockRenderLoader
 {
+	public static Set<Block> BuiltInBlocks = new HashSet<Block>();
+	
     public BlockRenderLoader(FMLPreInitializationEvent event)
     {
         registerRender((BlockFluidBase) BlockLoader.fluidPetroleum);
-
-        //registerRender((BlockContainer) BlockLoader.superChest);
-        //registerRender((BlockContainer) BlockLoader.skull);
         
         registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
+        
+        registerBuiltIn(BlockLoader.superChest);
+        registerBuiltIn(BlockLoader.skull);
     }
     
     /**
@@ -73,8 +85,12 @@ public class BlockRenderLoader
     }
     
     /**
-     * Register BuiltIn blocks.
-     * Remove to {@link ClientEventLoader.BakeEventHandler.onModelBake()}
+     * Register a builtin block.
+     * 
+     * @param blocks builtin block(s) to register
      */
-    //private static void registerBuiltIn(Block... blocks){}
+    private static void registerBuiltIn(Block... blocks)
+    {
+    	BuiltInBlocks.addAll(Lists.newArrayList(blocks));
+    }
 }

@@ -10,6 +10,7 @@ import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.server.ServerProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -26,7 +27,6 @@ public class ClientProxy extends ServerProxy
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
-        new ClientEventLoader.BakeEventHandler(event);
         new TextureLoader(event);
         new ItemRenderLoader(event);
         new BlockRenderLoader(event);
@@ -39,7 +39,9 @@ public class ClientProxy extends ServerProxy
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        SkillRenderer.skillRender = new SkillRenderer(Minecraft.getMinecraft());
+        Minecraft mc = Minecraft.getMinecraft();
+        mc.getBlockRendererDispatcher().getBlockModelShapes().registerBuiltInBlocks(BlockRenderLoader.BuiltInBlocks.toArray(new Block[0]));
+        SkillRenderer.skillRender = new SkillRenderer(mc);
         TextureLoader.loadTextureMap();
         new KeyLoader(event);
         new ClientEventLoader(event);
@@ -48,7 +50,6 @@ public class ClientProxy extends ServerProxy
     @Override
     public void postInit(FMLPostInitializationEvent event)
     {
-        
         super.postInit(event);
     }
 }

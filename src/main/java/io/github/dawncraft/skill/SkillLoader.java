@@ -3,14 +3,9 @@ package io.github.dawncraft.skill;
 import java.util.Random;
 
 import io.github.dawncraft.api.skill.SkillRegistry;
-import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
-import io.github.dawncraft.network.MessageUpdateMana;
-import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -28,42 +23,33 @@ public class SkillLoader
         {
             return 2 + 1 * level;
         }
-        
+
         @Override
         public int getTotalCooldown(int level)
         {
             return 60 + 20 * level;
         }
-        
+
         @Override
-        public boolean onSkillSpell(SkillStack skillstack, EntityPlayer player, World world)
+        public boolean onSkillSpell(SkillStack skillstack, World world, EntityPlayer player)
         {
-            if(!world.isRemote && player.hasCapability(CapabilityLoader.magic, null))
+            if(!world.isRemote)
             {
-                IMagic manaCap = player.getCapability(CapabilityLoader.magic, null);
-                float mp = manaCap.getMana();
-                if(mp >= skillstack.getSkillConsume())
+                player.attackEntityFrom(DamageSourceLoader.causeSkillDamage(skillstack, player), 2.0F + 1.0F * this.getLevel(skillstack));
+
+                for(int i = 0; i < 4; i++)
                 {
-                    mp = mp - skillstack.getSkillConsume();
-                    player.attackEntityFrom(DamageSourceLoader.causeSkillDamage(skillstack, player), 2.0F + 1.0F * this.getLevel(skillstack));
-                    manaCap.setMana(mp);
-                    
-                    NetworkLoader.instance.sendTo(new MessageUpdateMana(mp), (EntityPlayerMP) player);
-                    
-                    for(int i = 0; i < 4; i++)
-                    {
-                        Random rand = new Random();
-                        double d0 = player.getPosition().getX() + rand.nextFloat();
-                        double d1 = player.getPosition().getY() + 0.8F;
-                        double d2 = player.getPosition().getZ() + rand.nextFloat();
-                        double d3 = 0.0D;
-                        double d4 = 0.0D;
-                        double d5 = 0.0D;
-                        world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
-                    }
-                    
-                    return true;
+                    Random rand = new Random();
+                    double d0 = player.getPosition().getX() + rand.nextFloat();
+                    double d1 = player.getPosition().getY() + 0.8F;
+                    double d2 = player.getPosition().getZ() + rand.nextFloat();
+                    double d3 = 0.0D;
+                    double d4 = 0.0D;
+                    double d5 = 0.0D;
+                    world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
                 }
+
+                return true;
             }
             return false;
         }
@@ -83,34 +69,25 @@ public class SkillLoader
         }
 
         @Override
-        public boolean onSkillSpell(SkillStack skillstack, EntityPlayer player, World world)
+        public boolean onSkillSpell(SkillStack skillstack, World world, EntityPlayer player)
         {
-            if(!world.isRemote && player.hasCapability(CapabilityLoader.magic, null))
+            if(!world.isRemote)
             {
-                IMagic manaCap = player.getCapability(CapabilityLoader.magic, null);
-                float mp = manaCap.getMana();
-                if(mp >= skillstack.getSkillConsume())
+                player.heal(4.0F + 2.0F * this.getLevel(skillstack));
+
+                for(int i = 0; i < 4; i++)
                 {
-                    mp = mp - skillstack.getSkillConsume();
-                    player.heal(4.0F + 2.0F * this.getLevel(skillstack));
-                    manaCap.setMana(mp);
-                    
-                    NetworkLoader.instance.sendTo(new MessageUpdateMana(mp), (EntityPlayerMP) player);
-                    
-                    for(int i = 0; i < 4; i++)
-                    {
-                        Random rand = new Random();
-                        double d0 = player.getPosition().getX() + rand.nextFloat();
-                        double d1 = player.getPosition().getY() + 0.8F;
-                        double d2 = player.getPosition().getZ() + rand.nextFloat();
-                        double d3 = 0.0D;
-                        double d4 = 0.0D;
-                        double d5 = 0.0D;
-                        world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
-                    }
-                    
-                    return true;
+                    Random rand = new Random();
+                    double d0 = player.getPosition().getX() + rand.nextFloat();
+                    double d1 = player.getPosition().getY() + 0.8F;
+                    double d2 = player.getPosition().getZ() + rand.nextFloat();
+                    double d3 = 0.0D;
+                    double d4 = 0.0D;
+                    double d5 = 0.0D;
+                    world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
                 }
+
+                return true;
             }
             return false;
         }

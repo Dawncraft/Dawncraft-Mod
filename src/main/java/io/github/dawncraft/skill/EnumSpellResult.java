@@ -1,5 +1,7 @@
 package io.github.dawncraft.skill;
 
+import java.util.Locale;
+
 public enum EnumSpellResult
 {
     NONE,
@@ -20,5 +22,15 @@ public enum EnumSpellResult
     public boolean isSpelling()
     {
         return this == PREPARING || this == SPELLING;
+    }
+    
+    public boolean isSpellFailed()
+    {
+    	return this.ordinal() > SPELLING.ordinal();
+    }
+    
+    public String getUnlocalizedName()
+    {
+        return "gui.skill." + this.name().toLowerCase(Locale.ENGLISH);
     }
 }

@@ -1,6 +1,7 @@
 package io.github.dawncraft.client.gui.magic;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.capability.CapabilityLoader;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -87,17 +88,17 @@ public class GuiMagic extends GuiContainer
         // 绘制玩家
         GuiInventory.drawEntityOnScreen(x + offset + 23, y + 76, 20, x + offset + 23 - this.oldMouseX, y + 76 - 30 - this.oldMouseY, this.mc.thePlayer);
         // 绘制说明
-        this.fontRendererObj.drawString(I18n.format("container.magic"), x + offset + 6, y + 5, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.skill"), x + offset + 6, y + 5, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.talent"), x + offset + 50, y + 5, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.talent.desc", "0"), x + offset + 90, y + 5, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.talent.desc", 0), x + offset + 90, y + 5, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.magic.name", this.mc.thePlayer.getName()), x + offset + 6, y + 17, 4210752);
         this.fontRendererObj.drawString(I18n.format("container.magic.exp", this.mc.thePlayer.experienceLevel), x + offset + 6, y + 26, 4210752);
         // 绘制按钮
-        //        this.buttonList.add(new GuiButton(0, 7, 81, 21, 10, I18n.format("container.magic.more")));
+        // this.buttonList.add(new GuiButton(0, 7, 81, 21, 10, I18n.format("container.magic.more")));
         // 绘制天赋栏
-        //
+
         // 绘制信息栏
-        //        this.fontRendererObj.drawString(I18n.format("container.magic.health", (int)this.mc.thePlayer.getHealth(), (int)this.mc.thePlayer.getMaxHealth()), i + 6, j + 78, 4210752);
-        //        this.fontRendererObj.drawString(I18n.format("container.magic.mana", this.mc.thePlayer.getCapability(CapabilityLoader.mana, null).getMana(), "20"), i + 6, j + 86, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.magic.health", (int)this.mc.thePlayer.getHealth(), (int)this.mc.thePlayer.getMaxHealth()), x + offset + 6, y + 35, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.magic.mana", this.mc.thePlayer.getCapability(CapabilityLoader.magic, null).getMana(), "20"), x + offset + 6, y + 44, 4210752);
     }
 }

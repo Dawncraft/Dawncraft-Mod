@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east": {"model": "dawncraft:chair_stone"},
+        "facing=south": {"model": "dawncraft:chair_stone", "y": 90, "uvlock": true},
+        "facing=west": {"model": "dawncraft:chair_stone", "y": 180, "uvlock": true},
+        "facing=north": {"model": "dawncraft:chair_stone", "y": 270, "uvlock": true}
+    }
+}

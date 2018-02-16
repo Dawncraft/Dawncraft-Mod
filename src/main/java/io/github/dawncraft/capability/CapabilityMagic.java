@@ -32,6 +32,7 @@ public class CapabilityMagic
         private EntityPlayer player;
         private float mana;
         private EnumSpellResult spellAction;
+        private boolean canceled;
         private int currentSkill;
         private SkillStack skillInSpell;
         private int skillInSpellCount;
@@ -44,6 +45,7 @@ public class CapabilityMagic
             this.player = player;
             this.mana = this.getMaxMana();
             this.spellAction = EnumSpellResult.NONE;
+            this.canceled = false;
             this.inventory = new SkillInventoryPlayer(player);
             this.talents = new HashMap<Talent, Integer>();
         }
@@ -59,7 +61,7 @@ public class CapabilityMagic
         {
             return (float) this.player.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue();
         }
-        
+
         @Override
         public void setMana(float amount)
         {
@@ -78,7 +80,7 @@ public class CapabilityMagic
             if (mana > this.getMaxMana()) mana = this.getMaxMana();
             this.setMana(mana);
         }
-        
+
         @Override
         public void reduce(float reduceAmount)
         {
@@ -89,23 +91,41 @@ public class CapabilityMagic
             if (mana < 0.0F) mana = 0.0F;
             this.setMana(mana);
         }
-        
+
         @Override
         public void replenish()
         {
             this.mana = this.getMaxMana();
         }
-        
+
         @Override
         public EnumSpellResult getSpellAction()
         {
             return this.spellAction;
         }
-        
+
         @Override
         public void setSpellAction(EnumSpellResult action)
         {
             this.spellAction = action;
+        }
+
+        @Override
+        public boolean isCanceled()
+        {
+            return this.canceled;
+        }
+
+        @Override
+        public void cancelSpelling()
+        {
+            this.canceled = true;
+        }
+
+        @Override
+        public void setCanceled(boolean isCanceled)
+        {
+            this.canceled = isCanceled;
         }
 
         @Override
@@ -119,19 +139,19 @@ public class CapabilityMagic
         {
             this.currentSkill = index;
         }
-        
+
         @Override
         public SkillStack getSkillInSpell()
         {
             return this.skillInSpell;
         }
-        
+
         @Override
         public void setSkillInSpell(SkillStack stack)
         {
             this.skillInSpell = stack;
         }
-        
+
         @Override
         public void clearSkillInSpell()
         {
@@ -140,13 +160,13 @@ public class CapabilityMagic
             this.skillInSpell = null;
             this.skillInSpellCount = 0;
         }
-        
+
         @Override
         public int getSkillInSpellCount()
         {
             return this.skillInSpellCount;
         }
-        
+
         @Override
         public int getSkillInSpellDuration()
         {
@@ -160,19 +180,19 @@ public class CapabilityMagic
             }
             return 0;
         }
-        
+
         @Override
         public void setSkillInSpellCount(int count)
         {
             this.skillInSpellCount = count;
         }
-        
+
         @Override
         public int getPublicCooldownCount()
         {
             return this.publicCooldownCount;
         }
-        
+
         @Override
         public void setPublicCooldownCount(int count)
         {
@@ -190,13 +210,13 @@ public class CapabilityMagic
         {
             return this.inventory;
         }
-        
+
         @Override
         public void setTalent(Talent talent, int level)
         {
             this.talents.put(talent, level);
         }
-        
+
         @Override
         public int getTalentLevel(Talent talent)
         {
@@ -238,7 +258,7 @@ public class CapabilityMagic
 
             int cooldown = instance.getPublicCooldownCount();
             compound.setInteger("Cooldown", cooldown);
-            
+
             NBTTagList skills = new NBTTagList();
             ((SkillInventoryPlayer) instance.getInventory()).writeToNBT(skills);
             compound.setTag("SkillInventory", skills);
@@ -254,7 +274,7 @@ public class CapabilityMagic
 
             return compound;
         }
-        
+
         @Override
         public void readNBT(Capability<IMagic> capability, IMagic instance, EnumFacing side, NBTBase nbt)
         {
@@ -278,7 +298,7 @@ public class CapabilityMagic
                 }
                 else if (nbtbase.getId() == 2)
                 {
-                    instance.setMana((float)((NBTTagShort)nbtbase).getShort());
+                    instance.setMana(((NBTTagShort)nbtbase).getShort());
                 }
             }
 
@@ -286,7 +306,7 @@ public class CapabilityMagic
 
             NBTTagList skills = compound.getTagList("SkillInventory", 10);
             ((SkillInventoryPlayer) instance.getInventory()).readFromNBT(skills);
-            
+
             NBTTagList talents = compound.getTagList("Talents", 10);
             for (int i = 0; i < talents.tagCount(); ++i)
             {
@@ -300,19 +320,19 @@ public class CapabilityMagic
     {
         private IMagic magic;
         private IStorage<IMagic> storage;
-        
+
         public Provider(EntityPlayer player)
         {
             this.magic = new Implementation(player);
             this.storage = CapabilityLoader.magic.getStorage();
         }
-        
+
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
             return CapabilityLoader.magic.equals(capability);
         }
-        
+
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
@@ -323,13 +343,13 @@ public class CapabilityMagic
             }
             return null;
         }
-        
+
         @Override
         public NBTTagCompound serializeNBT()
         {
             return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.magic, this.magic, null);
         }
-        
+
         @Override
         public void deserializeNBT(NBTTagCompound compound)
         {

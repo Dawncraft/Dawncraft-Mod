@@ -34,7 +34,7 @@ public class TileEntityRenderLoader
 
     /**
      * 这回吐槽Forge的设计，在1.9将会被移除，别忘了改
-     * <br>知道为啥了，这个不能渲染带特殊值的te，例如头颅，需替代方案</br>
+     * <br>知道为啥了，这个不能渲染带特殊值的te，例如头颅，需替代方案...目前没有</br>
      * @param metadata
      * @deprecated
      */

@@ -8,6 +8,7 @@ import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.EnumSpellResult;
+import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -15,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 /**
- * 处理外设输入事件
+ * Handle some input events.
  *
  * @author QingChenW
  */
@@ -48,10 +49,12 @@ public class InputHandler
 
                             if(magic.getSpellAction() == EnumSpellResult.NONE || i != magic.getSpellIndex())
                             {
-                                if(magic.getInventory().getStackInSlot(i) != null)
+                                SkillStack stack = magic.getInventory().getStackInSlot(i);
+                                if(stack != null)
                                 {
                                     magic.setSpellAction(EnumSpellResult.SELECT);
                                     magic.setSpellIndex(i);
+                                    magic.setSkillInSpell(stack);
                                     NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                                 }
                                 

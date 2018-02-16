@@ -72,7 +72,7 @@ public class SkillStack
 
     public int getTotalPrepare()
     {
-        return this.getSkill().getTotalPrepare(this);
+        return this.getSkill().getPrepare(this) + Skill.getPublicPrepare();
     }
 
     public int getMaxDuration()
@@ -80,14 +80,14 @@ public class SkillStack
         return this.getSkill().getMaxDuration(this);
     }
     
-    public int getCooldown()
+    public int getCurrentCooldown()
     {
-        return this.getSkill().getCooldown(this);
+        return this.getSkill().getCurrentCooldown(this);
     }
 
     public int getTotalCooldown()
     {
-        return this.getSkill().getTotalCooldown(this);
+        return this.getSkill().getCooldown(this);
     }
     
     public int getSkillLevel()
@@ -178,10 +178,15 @@ public class SkillStack
         this.skill.onUpdate(this, worldIn, entityIn, skillSlot);
     }
     
-    public boolean onSkillSpell(EntityPlayer playerIn, World worldIn)
+    public EnumSpellResult onSkillPreparing(World worldIn, EntityPlayer playerIn, int duration)
+    {
+		return this.getSkill().onSkillPreparing(this, worldIn, playerIn, duration);
+    }
+    
+    public boolean onSkillSpell(World worldIn, EntityPlayer playerIn)
     {
         //if (!worldIn.isRemote) return DawnEventFactory.onSpellSkillIntoWorld(this, playerIn, worldIn);
-        boolean flag = this.getSkill().onSkillSpell(this, playerIn, worldIn);
+        boolean flag = this.getSkill().onSkillSpell(this, worldIn, playerIn);
 
         if (flag)
         {
@@ -191,9 +196,14 @@ public class SkillStack
         return flag;
     }
     
-    public EnumSpellResult onSkillSpelling(World worldIn, EntityPlayer playerIn)
+    public EnumSpellResult onSkillSpelling(World worldIn, EntityPlayer playerIn, int duration)
     {
-        return this.getSkill().onSkillSpelling(this, worldIn, playerIn);
+    	return this.getSkill().onSkillSpelling(this, worldIn, playerIn, duration);
+    }
+    
+    public void onPlayerStoppedSpelling(World worldIn, EntityPlayer playerIn, int duration)
+    {
+        this.getSkill().onPlayerStoppedSpelling(this, worldIn, playerIn, duration);
     }
 
     public SkillStack onSkillSpellFinish(World worldIn, EntityPlayer playerIn)
@@ -201,14 +211,9 @@ public class SkillStack
         return this.getSkill().onSkillSpellFinish(this, worldIn, playerIn);
     }
     
-    public void onPlayerStoppedSpelling(World worldIn, EntityPlayer playerIn, int timeLeft)
-    {
-        this.getSkill().onPlayerStoppedSpelling(this, worldIn, playerIn, timeLeft);
-    }
-    
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
-        ResourceLocation resourcelocation = (ResourceLocation) Skill.skillRegistry.getNameForObject(this.skill);
+        ResourceLocation resourcelocation = Skill.skillRegistry.getNameForObject(this.skill);
         nbt.setString("id", resourcelocation == null ? "minecraft:null" : resourcelocation.toString());
         nbt.setShort("Level", (short) this.skillLevel);
         return nbt;

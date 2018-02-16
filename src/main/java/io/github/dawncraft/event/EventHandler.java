@@ -35,14 +35,14 @@ import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * EventHandler
+ * Handle some events that related to game logics.
  *
  * @author QingChenW
  */
@@ -64,11 +64,11 @@ public class EventHandler
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 ISkillInventory inventory = magic.getInventory();
-                
+
                 if(event.side == Side.SERVER)
                 {
                     EntityPlayerMP serverPlayer = (EntityPlayerMP) player;
-                    
+
                     // 更新魔法值
                     if (world.getGameRules().getBoolean("naturalRegeneration") && player.getFoodStats().getFoodLevel() >= 16)
                     {
@@ -83,16 +83,16 @@ public class EventHandler
                     if(magic.getSpellAction() == EnumSpellResult.SELECT)// 选中技能,检测是否符合施放条件
                     {
                         boolean flag = true;
-                        
-                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && (magic.getPublicCooldownCount() > 0 || magic.getSkillInSpell().getCooldown() > 0))
+
+                        if(flag && (magic.getPublicCooldownCount() > 0 || magic.getSkillInSpell().getCurrentCooldown() > 0))
                         {
                             flag = false;
                             NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.COOLING, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, 0), serverPlayer);
                         }
                         if(flag && magic.getMana() < magic.getSkillInSpell().getSkillConsume())
                         {
@@ -108,7 +108,7 @@ public class EventHandler
                         if(flag)
                         {
                             magic.setSpellAction(EnumSpellResult.PREPARING);
-                            magic.setSkillInSpellCount(Skill.getPublicPrepare() + magic.getSkillInSpell().getTotalPrepare());
+                            magic.setSkillInSpellCount(magic.getSkillInSpell().getTotalPrepare());
                             magic.setPublicCooldownCount(Skill.getPublicCooldown());
                             NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
                         }
@@ -120,7 +120,12 @@ public class EventHandler
                     else if(magic.getSpellAction() == EnumSpellResult.PREPARING)
                     {
                         boolean flag = true;
-                        
+
+                        if(flag && magic.isCanceled())
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.CANCEL, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
                         if(flag && player.isPotionActive(PotionLoader.potionSilent))
                         {
                             flag = false;
@@ -136,6 +141,12 @@ public class EventHandler
                             flag = false;
                             NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.MISSED, 0, magic.getPublicCooldownCount()), serverPlayer);
                         }
+                        EnumSpellResult result = magic.getSkillInSpell().onSkillPreparing(world, player, magic.getSkillInSpellDuration());
+                        if(flag && result.isSpellFailed())
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
 
                         if(flag)
                         {
@@ -144,18 +155,12 @@ public class EventHandler
                                 magic.setSpellAction(EnumSpellResult.SPELLING);
                                 magic.getSkillInSpell().cooldown = magic.getSkillInSpell().getTotalCooldown();
                                 magic.reduce(magic.getSkillInSpell().getSkillConsume());
-                                if(magic.getSkillInSpell().getMaxDuration() <= 0)
-                                {
-                                    magic.getSkillInSpell().onSkillSpell(player, world);
-                                    magic.clearSkillInSpell();
-                                }
-                                else
-                                {
-                                    magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());
-                                }
+                                magic.getSkillInSpell().onSkillSpell(world, player);
+                                NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
+                                if(magic.getSkillInSpell().getMaxDuration() <= 0) magic.clearSkillInSpell();
+                                else magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());
                                 NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
                                 NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
-                                NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
                             }
                         }
                         else
@@ -165,8 +170,45 @@ public class EventHandler
                     }
                     else if(magic.getSpellAction() == EnumSpellResult.SPELLING)
                     {
-                        // TODO 从这接着写，我要睡觉啦，都几点了
-                        EnumSpellResult result = magic.getSkillInSpell().onSkillSpelling(world, player);
+                        boolean flag = true;
+
+                        if(flag && magic.isCanceled())
+                        {
+                            flag = false;
+                            magic.getSkillInSpell().onPlayerStoppedSpelling(world, player, magic.getSkillInSpellDuration());
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.CANCEL, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        if(flag && false) // 目标丢失
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.MISSED, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+                        EnumSpellResult result = magic.getSkillInSpell().onSkillSpelling(world, player, magic.getSkillInSpellDuration());
+                        if(flag && result.isSpellFailed())
+                        {
+                            flag = false;
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
+                        }
+
+                        if(flag)
+                        {
+                            if(magic.getSkillInSpellCount() <= 0)
+                            {
+                                inventory.setInventorySlotContents(magic.getSpellIndex(), magic.getSkillInSpell().onSkillSpellFinish(world, player));
+                                NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
+                                magic.clearSkillInSpell();
+                                NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
+                            }
+                        }
+                        else
+                        {
+                            magic.clearSkillInSpell();
+                        }
                     }
                     else if(magic.getSpellAction() != EnumSpellResult.NONE)
                     {
@@ -184,7 +226,7 @@ public class EventHandler
             }
         }
     }
-    
+
     /**
      * Check for can portal create in world.
      * From Benimatic's twilight forest Mod.Thanks.
@@ -200,7 +242,7 @@ public class EventHandler
         if(world != null && player != null && world.provider.getDimensionId() == 0)
         {
             List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
-            
+
             for(EntityItem entityItem : itemList)
             {
                 if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
@@ -216,7 +258,7 @@ public class EventHandler
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -231,7 +273,7 @@ public class EventHandler
             event.setResult(Result.ALLOW);
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {

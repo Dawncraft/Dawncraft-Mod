@@ -119,11 +119,11 @@ public class BlockLoader
         register(electricCable, "electric_cable");
         
         register(energyGeneratorHeat, "heat_generator");
-        register(energyGeneratorFluid, "fluid_generator");
-        register(energyGeneratorSolar, "solar_generator");
-        register(energyGeneratorWind, "wind_generator");
-        register(energyGeneratorNuclear, "nuclear_generator");
-        register(energyGeneratorMagic, "magic_generator");
+//        register(energyGeneratorFluid, "fluid_generator");
+//        register(energyGeneratorSolar, "solar_generator");
+//        register(energyGeneratorWind, "wind_generator");
+//        register(energyGeneratorNuclear, "nuclear_generator");
+//        register(energyGeneratorMagic, "magic_generator");
         // Magnet
         register(magnetOre, "magnet_ore");
         magnetBlock.setHarvestLevel("ItemPickaxe", 1);

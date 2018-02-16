@@ -70,7 +70,7 @@ public class SkillRenderer
                 GlStateManager.disableDepth();
                 GlStateManager.disableBlend();
                 String s = text == null ? String.valueOf(skillstack.getSkillLevel()) : text;
-                fr.drawStringWithShadow(s, (float)(xPos + 19 - 2 - fr.getStringWidth(s)), (float)(yPos + 6 + 3), 16777215);
+                fr.drawStringWithShadow(s, xPos + 19 - 2 - fr.getStringWidth(s), yPos + 6 + 3, 16777215);
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
                 // Fixes opaque cooldown overlay a bit lower
@@ -80,7 +80,7 @@ public class SkillRenderer
 
             //EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
             //float cooldown = entityplayersp == null ? 0.0F : entityplayersp.getCooldownTracker().getCooldown(skillstack.getItem(), Minecraft.getMinecraft().getRenderPartialTicks());
-            float cooldown = skillstack.getCooldown() / skillstack.getTotalCooldown();
+            float cooldown = skillstack.getCurrentCooldown() / skillstack.getTotalCooldown();
             
             if (cooldown > 0.0F)
             {
@@ -105,10 +105,10 @@ public class SkillRenderer
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos((double)(xCoord + 0), (double)(yCoord + heightIn), (double)this.zLevel).tex((double)textureSprite.getMinU(), (double)textureSprite.getMaxV()).endVertex();
-        worldrenderer.pos((double)(xCoord + widthIn), (double)(yCoord + heightIn), (double)this.zLevel).tex((double)textureSprite.getMaxU(), (double)textureSprite.getMaxV()).endVertex();
-        worldrenderer.pos((double)(xCoord + widthIn), (double)(yCoord + 0), (double)this.zLevel).tex((double)textureSprite.getMaxU(), (double)textureSprite.getMinV()).endVertex();
-        worldrenderer.pos((double)(xCoord + 0), (double)(yCoord + 0), (double)this.zLevel).tex((double)textureSprite.getMinU(), (double)textureSprite.getMinV()).endVertex();
+        worldrenderer.pos(xCoord + 0, yCoord + heightIn, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMaxV()).endVertex();
+        worldrenderer.pos(xCoord + widthIn, yCoord + heightIn, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMaxV()).endVertex();
+        worldrenderer.pos(xCoord + widthIn, yCoord + 0, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMinV()).endVertex();
+        worldrenderer.pos(xCoord + 0, yCoord + 0, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMinV()).endVertex();
         tessellator.draw();
     }
 
@@ -128,10 +128,10 @@ public class SkillRenderer
     private void draw(WorldRenderer renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
     {
         renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        renderer.pos((double)(x + 0), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos((double)(x + 0), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos((double)(x + width), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos((double)(x + width), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x + 0, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x + 0, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x + width, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        renderer.pos(x + width, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();
         Tessellator.getInstance().draw();
     }
 }

@@ -29,11 +29,14 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
+ * The ingame gui patch of Dawncraft Mod.
+ * <br>In fact, it is a render event, not a gui.</br>
  *
  * @author QingChenW
  */
 public class GuiIngameDawn extends Gui
 {
+    protected static final int BLACK = 0x000000;
     protected static final int WHITE = 0xFFFFFF;
     protected static final ResourceLocation widgets = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/widgets.png");
 
@@ -49,7 +52,7 @@ public class GuiIngameDawn extends Gui
     // 是否处于施法模式
     public boolean spellMode = false;
     // 当前状态
-    public EnumSpellResult spellType = EnumSpellResult.NONE;
+    public EnumSpellResult spellAction = EnumSpellResult.NONE;
     // 当前选中的技能索引
     public int skillIndex;
     // 当前选中的技能
@@ -139,49 +142,46 @@ public class GuiIngameDawn extends Gui
         {
             magic = player.getCapability(CapabilityLoader.magic, null);
         }
-        SkillInventoryPlayer inventory = (SkillInventoryPlayer) magic.getInventory();
-        SkillStack skillstack = inventory != null ? inventory.getStackInSlot(this.skillIndex) : null;
-
-        this.skillIndex = magic.getSpellIndex();
-        this.highlightSkillStack = skillstack;
-        this.spellingTicks = magic.getSkillInSpellDuration();
-        this.cooldownTicks = magic.getPublicCooldownCount();
         
-        if(this.spellType == EnumSpellResult.SELECT || this.spellType == EnumSpellResult.PREPARING || this.spellType == EnumSpellResult.SPELLING)
+        EnumSpellResult action = magic.getSpellAction();
+        
+        if(this.spellAction != action)
         {
+            this.spellAction = magic.getSpellAction();
             this.remainingTicks = 40;
+        }
+        
+        if(this.spellAction == EnumSpellResult.SELECT || this.spellAction.isSpelling())
+        {
+            this.skillIndex = magic.getSpellIndex();
+            this.highlightSkillStack = magic.getSkillInSpell();
+            this.spellingTicks = magic.getSkillInSpellDuration();
         }
         else
         {
-            if (this.remainingTicks > 0)
+            if(this.remainingTicks > 0)
             {
                 --this.remainingTicks;
+                if(this.remainingTicks <= 0)
+                {
+                    magic.setSpellAction(EnumSpellResult.NONE);
+                    this.spellAction = magic.getSpellAction();
+                }
             }
         }
+        
+        this.cooldownTicks = magic.getPublicCooldownCount();
     }
 
     protected void changeMode()
     {
         this.spellMode = !this.spellMode;
     }
-
-    protected void setSpellingSkill(int i)
-    {
-        if(i < SkillInventoryPlayer.getHotbarSize())
-        {
-            if(i >= 0)
-            {
-                this.spellType = EnumSpellResult.SELECT;
-                this.skillIndex = i;
-                this.remainingTicks = 40;
-            }
-        }
-    }
     
     protected void renderMana(int width, int height)
     {
         this.mc.mcProfiler.startSection("mana");
-        GlStateManager.color(0.6F, 0.6F, 0.6F, 1.0F);// TODO 是材质颜色错了
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.enableBlend();
         
         int left = width / 2 + 91;
@@ -230,7 +230,7 @@ public class GuiIngameDawn extends Gui
         
         this.drawTexturedModalRect(left, top, 0, 0, 182, 22);
 
-        if(this.spellType != EnumSpellResult.NONE && this.skillIndex >= 0)
+        if(this.spellAction != EnumSpellResult.NONE && this.skillIndex >= 0 && this.skillIndex < SkillInventoryPlayer.getHotbarSize())
         {
             this.drawTexturedModalRect(left - 1 + this.skillIndex * 20, top - 1, 182, 0, 24, 22);
         }
@@ -239,13 +239,8 @@ public class GuiIngameDawn extends Gui
         GlStateManager.enableBlend();
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderHelper.enableGUIStandardItemLighting();
-
-        float cooldown = 0;
-        if(entityplayer.hasCapability(CapabilityLoader.magic, null))
-        {
-            IMagic magic = entityplayer.getCapability(CapabilityLoader.magic, null);
-            cooldown = magic.getPublicCooldownCount() / Skill.getPublicCooldown();
-        }
+        
+        float cooldown = this.cooldownTicks / Skill.getPublicCooldown();
 
         for (int i = 0; i < 9; ++i)
         {
@@ -273,7 +268,6 @@ public class GuiIngameDawn extends Gui
             IMagic inventoryCap = player.getCapability(CapabilityLoader.magic, null);
             inventory = (SkillInventoryPlayer) inventoryCap.getInventory();
         }
-
         SkillStack skillstack = inventory != null ? inventory.getStackInSlot(index) : null;
         
         if (skillstack != null)
@@ -284,9 +278,9 @@ public class GuiIngameDawn extends Gui
             {
                 GlStateManager.pushMatrix();
                 float f1 = 1.0F + f / 5.0F;
-                GlStateManager.translate((float)(xPos + 8), (float)(yPos + 12), 0.0F);
+                GlStateManager.translate(xPos + 8, yPos + 12, 0.0F);
                 GlStateManager.scale(1.0F / f1, (f1 + 1.0F) / 2.0F, 1.0F);
-                GlStateManager.translate((float)-(xPos + 8), (float)-(yPos + 12), 0.0F);
+                GlStateManager.translate(-(xPos + 8), -(yPos + 12), 0.0F);
             }
             
             SkillRenderer.skillRender.renderSkillIntoGUI(skillstack, xPos, yPos);
@@ -306,36 +300,41 @@ public class GuiIngameDawn extends Gui
         {
             this.mc.mcProfiler.startSection("skillHighlight");
 
-            if (this.remainingTicks > 0 && this.highlightSkillStack != null)
+            if (this.spellAction != EnumSpellResult.NONE && this.remainingTicks > 0 && this.highlightSkillStack != null)
             {
-                EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-                SkillInventoryPlayer inventory = null;
-                if(player.hasCapability(CapabilityLoader.magic, null))
+                String text = I18n.format(this.spellAction.getUnlocalizedName(), this.highlightSkillStack.getDisplayName());
+                float progress = 1.0F;
+                int color = 0x77FF0000; // Red
+                if(this.spellAction == EnumSpellResult.PREPARING)
                 {
-                    IMagic inventoryCap = player.getCapability(CapabilityLoader.magic, null);
-                    inventory = (SkillInventoryPlayer) inventoryCap.getInventory();
+                    progress = (this.highlightSkillStack.getTotalPrepare() - this.spellingTicks) / this.highlightSkillStack.getTotalPrepare();
+                    color = 0x7700FF00; // Green
                 }
-
-                String name = inventory != null ? inventory.getStackInSlot(this.skillIndex).getDisplayName() : null;
-                
-                if(name != null)
+                else if(this.spellAction == EnumSpellResult.SPELLING)
                 {
-                    int opacity = (int)((float)this.remainingTicks * 256.0F / 10.0F);
-                    if (opacity > 255) opacity = 255;
+                    progress = (this.highlightSkillStack.getMaxDuration() - this.spellingTicks) / this.highlightSkillStack.getMaxDuration();
+                    if(progress <= 0.0F) progress = 1.0F;
+                    color = 0x7700FF00; // Green
+                }
+                else if(!this.spellAction.isSpellFailed()) return;
 
-                    if (opacity > 0)
-                    {
-                        int x = width / 2;
-                        int y = height - 59;
-                        if (!this.mc.playerController.shouldDrawHUD()) y += 14;
+                int opacity = (int)(this.remainingTicks * 256.0F / 10.0F);
+                if (opacity > 255) opacity = 255;
 
-                        GlStateManager.pushMatrix();
-                        GlStateManager.enableBlend();
-                        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-                        this.drawCenteredString(this.mc.fontRendererObj, I18n.format("magic.prefix.spell", name), x, y, WHITE | opacity << 24);
-                        GlStateManager.disableBlend();
-                        GlStateManager.popMatrix();
-                    }
+                if (opacity > 0)
+                {
+                    int x = width / 2;
+                    int y = height - 59;
+                    if (!this.mc.playerController.shouldDrawHUD()) y += 14;
+
+                    GlStateManager.pushMatrix();
+                    GlStateManager.enableBlend();
+                    GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+                    this.drawRect(x - 102, y, x + 102, y - 12, BLACK);
+                    this.drawRect(x - 100, y - 2, (int) (x - 100 + 200 * progress), y - 10, BLACK);
+                    this.drawCenteredString(this.mc.fontRendererObj, text, x, y, WHITE | opacity << 24);
+                    GlStateManager.disableBlend();
+                    GlStateManager.popMatrix();
                 }
             }
 
