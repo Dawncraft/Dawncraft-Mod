@@ -81,9 +81,14 @@ skillGroup.Search=搜索
 
 skill.attack.name=死亡缠绕
 skill.heal.name=治疗术
-skill.level=等级: 
-skill.consume=消耗: 
-skill.damage=伤害: 
+skill.heal.desc=消耗 %1$f 点魔法为自己恢复 %2$f 点生命值，冷却时间 %3$f 秒
+skill.heal.desc2=十分传统的治疗手段，通过简单的包扎为自身回复血量
+
+skill.level=等级：%1$d/%2$d
+skill.maxLevel=已达到最大等级
+skill.moreInfo=按 %s 显示下一级信息
+skill.nextLevel=下一等级：
+skill.nbtTags=NBT： %s 个标签
 
 tile.electricityCable.name=电缆
 tile.heatGenerator.name=热能发电机
@@ -194,6 +199,7 @@ death.attack.byGer=%s Ger死了
 gui.moreinfo=按 %s 显示详细信息
 gui.skill.preparing=准备施放 %1$s
 gui.skill.spelling=正在施放 %1$s
+gui.skill.global_cooling=您的脸滚得太快了:)
 gui.skill.cooling=%1$s 冷却中
 gui.skill.silent=您已被沉默
 gui.skill.nomana=您的魔法值不足
@@ -218,10 +224,6 @@ chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
 chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
 chat.dawncraft.zoom=[§6曙光工艺§r] §c警告：§r放大目前为测试功能，可能存在Bug，并且请在退出存档前关闭放大模式。
 chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
-chat.tile.magnetDoor.open=[§6曙光工艺§r] 滴,老司机卡,成功开门
-chat.tile.magnetDoor.close=[§6曙光工艺§r] 门已关闭
-chat.tile.magnetDoor.fail=[§6曙光工艺§r] 滴,傻X卡,没有权限
-chat.tile.magnetDoor.null=[§6曙光工艺§r] 请刷卡开门
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下吴Ger
 chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
 chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!

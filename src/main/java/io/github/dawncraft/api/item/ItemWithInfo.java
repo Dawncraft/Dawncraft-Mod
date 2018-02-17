@@ -17,17 +17,17 @@ public class ItemWithInfo extends Item
 {
     /** 直接显示还是需要按键才能显示 */
     private boolean show;
-
+    
     public ItemWithInfo(boolean show)
     {
         this.show = show;
     }
-    
+
     public String getUnlocalizedDesc()
     {
         return this.getUnlocalizedName() + ".desc";
     }
-
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
@@ -41,6 +41,5 @@ public class ItemWithInfo extends Item
         {
             tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("gui.moreinfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
         }
-        
     }
 }

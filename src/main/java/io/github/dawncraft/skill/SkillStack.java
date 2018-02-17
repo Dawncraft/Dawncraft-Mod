@@ -2,9 +2,15 @@ package io.github.dawncraft.skill;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.input.Keyboard;
+
 import com.google.common.collect.Lists;
 
-import io.github.dawncraft.api.event.DawnEventFactory;
+import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.config.KeyLoader;
+import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.stats.StatLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -26,17 +32,17 @@ public class SkillStack
     public int cooldown;
     public int skillLevel;
     public int animationsToGo;
-    
+
     public SkillStack(Skill skill)
     {
         this(skill, 0);
     }
-    
+
     public SkillStack(Skill skill, int level)
     {
         this(skill, level, 0);
     }
-    
+
     public SkillStack(Skill skill, int level, int cd)
     {
         this.skill = skill;
@@ -45,172 +51,230 @@ public class SkillStack
         if (this.skillLevel < 0) this.skillLevel = 0;
         if (this.skillLevel > skill.getMaxLevel()) this.skillLevel = skill.getMaxLevel();
     }
-    
-    private SkillStack() {}
 
+    private SkillStack() {}
+    
     public static SkillStack loadSkillStackFromNBT(NBTTagCompound nbt)
     {
         SkillStack skillstack = new SkillStack();
         skillstack.readFromNBT(nbt);
         return skillstack.getSkill() != null ? skillstack : null;
     }
-
+    
     public void setSkill(Skill newSkill)
     {
         this.skill = newSkill;
     }
-    
+
     public Skill getSkill()
     {
         return this.skill;
     }
-    
+
     public float getSkillConsume()
     {
         return this.getSkill().getConsume(this);
     }
-
+    
     public int getTotalPrepare()
     {
         return this.getSkill().getPrepare(this) + Skill.getPublicPrepare();
     }
-
+    
     public int getMaxDuration()
     {
         return this.getSkill().getMaxDuration(this);
     }
-    
+
     public int getCurrentCooldown()
     {
         return this.getSkill().getCurrentCooldown(this);
     }
-
+    
     public int getTotalCooldown()
     {
         return this.getSkill().getCooldown(this);
     }
-    
+
     public int getSkillLevel()
     {
         return this.getSkill().getLevel(this);
     }
-    
+
     public void setSkillLevel(int level)
     {
         this.getSkill().setLevel(this, level);
     }
-
+    
     public int getMaxLevel()
     {
         return this.getSkill().getMaxLevel();
     }
-
+    
     public String getUnlocalizedName()
     {
-        return this.skill.getUnlocalizedName(this);
+        return this.getSkill().getUnlocalizedName(this);
     }
-
+    
     public String getDisplayName()
     {
         return this.getSkill().getSkillStackDisplayName(this);
     }
 
+    public String getDisplayDesc()
+    {
+        return this.getSkill().getSkillStackDisplayDesc(this);
+    }
+    
+    // 这什么玩意,其实我也不打算实现技能的自定义NBT啦
+    // 不过考虑到可能需要,例如击杀1个实体某个数值加一,到100技能升级或者变化之类的是需要NBT的
+    // 所以 TODO 技能自定义NBT
+    public boolean hasTagCompound()
+    {
+        return true;
+    }
+    
+    // 只会在发送聊天信息时发送一次,所以按键显示额外信息毫无卵用
     public IChatComponent getChatComponent()
     {
         ChatComponentText chatcomponenttext = new ChatComponentText(this.getDisplayName());
         IChatComponent ichatcomponent = new ChatComponentText("[").appendSibling(chatcomponenttext).appendText("]");
-
-        if (this.skill != null)
+        
+        if (this.getSkill() != null)
         {
-            String information = "";
-
-            for(String s : this.getTooltip(null, Minecraft.getMinecraft().gameSettings.advancedItemTooltips))
-                information = information + s + "\n";
-
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            this.writeToNBT(nbttagcompound);
-            information += nbttagcompound.toString();
-
+            List<String> list = this.getTooltip(null, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+            String information = StringUtils.join(list.iterator(), "\n");
             ichatcomponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(information)));
             ichatcomponent.getChatStyle().setColor(EnumChatFormatting.AQUA);
         }
-
+        
         return ichatcomponent;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public List<String> getTooltip(EntityPlayer playerIn, boolean advanced)
     {
         List<String> list = Lists.<String>newArrayList();
-        
-        String s = this.getDisplayName();
+
+        String name = this.getDisplayName();
+        String suffix = "";
         if (advanced)
         {
-            String s1 = "";
-
-            if (s.length() > 0)
+            suffix = String.format("#%04d", Skill.getIdFromSkill(this.skill));
+            if (name.length() > 0)
             {
-                s = s + " (";
-                s1 = ")";
+                suffix = " (" + suffix + ")";
             }
-
-            int id = Skill.getIdFromSkill(this.skill);
-            s = s + String.format("#%04d", Integer.valueOf(id)) + s1;
         }
-        list.add(s);
-
+        list.add(name + suffix);
+        
+        list.add(StatCollector.translateToLocalFormatted("skill.level", this.getSkillLevel(), this.getMaxLevel()));
+        list.add(this.getDisplayDesc());
         this.skill.addInformation(this, playerIn, list, advanced);
-
-        list.add(StatCollector.translateToLocal("skill.level") + this.getSkillLevel());
-        list.add(StatCollector.translateToLocal("skill.consume") + this.getSkillConsume());
-
-        DawnEventFactory.onItemTooltip(this, playerIn, list, advanced);
+        
+        if(this.getSkillLevel() < this.getMaxLevel())
+        {
+            if (Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
+            {
+                list.add(StatCollector.translateToLocal("skill.nextLevel"));
+                SkillStack skillStack = this.copy();
+                skillStack.skillLevel++;
+                list.add(skillStack.getDisplayDesc());
+            }
+            else
+            {
+                list.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("skill.moreInfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+            }
+        }
+        else
+        {
+            list.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("skill.maxLevel", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+        }
+        
+        if (advanced)
+        {
+            list.add(EnumChatFormatting.DARK_GRAY + ((ResourceLocation)Skill.skillRegistry.getNameForObject(this.getSkill())).toString());
+            if(this.hasTagCompound()) list.add(EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocalFormatted("skill.nbtTags", 0));
+        }
+        
         return list;
     }
-    
+
     public void updateAnimation(World worldIn, Entity entityIn, int skillSlot)
     {
         if (this.animationsToGo > 0)
         {
             --this.animationsToGo;
         }
-        
+
         this.skill.onUpdate(this, worldIn, entityIn, skillSlot);
     }
-    
+
     public EnumSpellResult onSkillPreparing(World worldIn, EntityPlayer playerIn, int duration)
     {
-		return this.getSkill().onSkillPreparing(this, worldIn, playerIn, duration);
+        IMagic magic = playerIn.getCapability(CapabilityLoader.magic, null);
+        if(duration < 0 && magic.getPublicCooldownCount() > 0)
+        {
+            return EnumSpellResult.GLOBAL_COOLING;
+        }
+        if(duration >= 0 && magic.isCanceled())
+        {
+            return EnumSpellResult.CANCEL;
+        }
+        if(this.getCurrentCooldown() > 0)
+        {
+            return EnumSpellResult.COOLING;
+        }
+        if(playerIn.isPotionActive(PotionLoader.potionSilent))
+        {
+            return EnumSpellResult.SILENT;
+        }
+        if(magic.getMana() < this.getSkillConsume())
+        {
+            return EnumSpellResult.NOMANA;
+        }
+        return this.getSkill().onSkillPreparing(this, worldIn, playerIn, duration);
     }
-    
+
     public boolean onSkillSpell(World worldIn, EntityPlayer playerIn)
     {
         //if (!worldIn.isRemote) return DawnEventFactory.onSpellSkillIntoWorld(this, playerIn, worldIn);
         boolean flag = this.getSkill().onSkillSpell(this, worldIn, playerIn);
-
+        
         if (flag)
         {
             playerIn.triggerAchievement(StatLoader.objectSpellStats[Skill.getIdFromSkill(this.skill)]);
         }
-
+        
         return flag;
     }
-    
+
     public EnumSpellResult onSkillSpelling(World worldIn, EntityPlayer playerIn, int duration)
     {
-    	return this.getSkill().onSkillSpelling(this, worldIn, playerIn, duration);
+        IMagic magic = playerIn.getCapability(CapabilityLoader.magic, null);
+        if(magic.isCanceled())
+        {
+            this.onPlayerStoppedSpelling(worldIn, playerIn, duration);
+            return EnumSpellResult.CANCEL;
+        }
+        if(playerIn.isPotionActive(PotionLoader.potionSilent))
+        {
+            return EnumSpellResult.SILENT;
+        }
+        return this.getSkill().onSkillSpelling(this, worldIn, playerIn, duration);
     }
-    
+
     public void onPlayerStoppedSpelling(World worldIn, EntityPlayer playerIn, int duration)
     {
         this.getSkill().onPlayerStoppedSpelling(this, worldIn, playerIn, duration);
     }
-
+    
+    // 突然发现用这个能做个变身之类的能开关的技能啊666666
     public SkillStack onSkillSpellFinish(World worldIn, EntityPlayer playerIn)
     {
         return this.getSkill().onSkillSpellFinish(this, worldIn, playerIn);
     }
-    
+
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
         ResourceLocation resourcelocation = Skill.skillRegistry.getNameForObject(this.skill);
@@ -218,7 +282,7 @@ public class SkillStack
         nbt.setShort("Level", (short) this.skillLevel);
         return nbt;
     }
-
+    
     public void readFromNBT(NBTTagCompound nbt)
     {
         if (nbt.hasKey("id", 8))
@@ -233,41 +297,41 @@ public class SkillStack
         if (this.skillLevel < 0) this.skillLevel = 0;
         if (this.skillLevel > this.skill.getMaxLevel()) this.skillLevel = this.skill.getMaxLevel();
     }
-    
+
     public static SkillStack copySkillStack(SkillStack stack)
     {
         return stack == null ? null : stack.copy();
     }
-    
+
     public SkillStack copy()
     {
         SkillStack skillstack = new SkillStack(this.skill, this.skillLevel);
         return skillstack;
     }
     
+    private boolean isSkillStackEqual(SkillStack other)
+    {
+        return this.skill == other.skill ? this.skillLevel == other.skillLevel ? true : false : false;
+    }
+
     public static boolean areSkillStacksEqual(SkillStack stackA, SkillStack stackB)
     {
         return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.isSkillStackEqual(stackB) : false;
     }
-
-    private boolean isSkillStackEqual(SkillStack other)
+    
+    public boolean isSkillEqual(SkillStack other)
     {
-        return this.skill == other.skill ? this.skillLevel == other.skillLevel ? true : false : false;
+        return other != null && this.skill == other.skill;
     }
 
     public static boolean areSkillsEqual(SkillStack stackA, SkillStack stackB)
     {
         return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.isSkillEqual(stackB) : false;
     }
-
-    public boolean isSkillEqual(SkillStack other)
-    {
-        return other != null && this.skill == other.skill;
-    }
-
+    
     @Override
     public String toString()
     {
-        return this.getUnlocalizedName() + "@" + this.skillLevel;
+        return this.getUnlocalizedName() + "X" + this.skillLevel + "@" + this.cooldown;
     }
 }

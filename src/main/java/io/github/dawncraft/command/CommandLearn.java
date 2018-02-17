@@ -51,7 +51,7 @@ public class CommandLearn extends CommandBase
             if(skill != null)
             {
                 int level = args.length >= 3 ? parseInt(args[2], 0, skill.getMaxLevel()) : 0;
-                int cooldown = args.length >= 4 ? parseInt(args[3], 0, skill.getTotalCooldown(level)) : 0;
+                int cooldown = args.length >= 4 ? parseInt(args[3], 0, skill.getCooldown(level)) : 0;
                 SkillStack skillstack = new SkillStack(skill, level, cooldown);
                 if(entityPlayerMP.hasCapability(CapabilityLoader.magic, null))
                 {

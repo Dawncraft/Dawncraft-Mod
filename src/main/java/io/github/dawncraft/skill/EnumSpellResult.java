@@ -8,7 +8,8 @@ public enum EnumSpellResult
     SELECT,
     PREPARING,
     SPELLING,
-    
+
+    GLOBAL_COOLING,
     COOLING,
     SILENT,
     NOMANA,
@@ -16,19 +17,19 @@ public enum EnumSpellResult
 
     MISSED,
     BROKEN,
-    
+
     CANCEL;
-    
+
     public boolean isSpelling()
     {
         return this == PREPARING || this == SPELLING;
     }
-    
+
     public boolean isSpellFailed()
     {
-    	return this.ordinal() > SPELLING.ordinal();
+        return this.ordinal() > SPELLING.ordinal();
     }
-    
+
     public String getUnlocalizedName()
     {
         return "gui.skill." + this.name().toLowerCase(Locale.ENGLISH);

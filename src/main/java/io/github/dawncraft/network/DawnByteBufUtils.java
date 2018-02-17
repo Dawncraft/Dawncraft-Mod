@@ -25,7 +25,7 @@ public class DawnByteBufUtils
     public static void writeSkillStack(ByteBuf to, SkillStack stack)
     {
         PacketBuffer pb = new PacketBuffer(to);
-        
+
         if (stack == null)
         {
             pb.writeShort(-1);
@@ -37,7 +37,7 @@ public class DawnByteBufUtils
             pb.writeInt(stack.getCurrentCooldown());
         }
     }
-
+    
     /**
      * Read an {@link SkillStack} from the byte buffer provided. It uses the dawncraft encoding.
      *
@@ -51,7 +51,7 @@ public class DawnByteBufUtils
         try
         {
             int id = pb.readShort();
-
+            
             if (id >= 0)
             {
                 int level = pb.readInt();

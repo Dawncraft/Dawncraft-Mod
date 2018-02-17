@@ -1,5 +1,6 @@
 package io.github.dawncraft.skill;
 
+import java.util.List;
 import java.util.Random;
 
 import io.github.dawncraft.api.skill.SkillRegistry;
@@ -7,6 +8,7 @@ import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -23,20 +25,20 @@ public class SkillLoader
         {
             return 2 + 1 * level;
         }
-
+        
         @Override
-        public int getTotalCooldown(int level)
+        public int getCooldown(int level)
         {
             return 60 + 20 * level;
         }
-
+        
         @Override
         public boolean onSkillSpell(SkillStack skillstack, World world, EntityPlayer player)
         {
             if(!world.isRemote)
             {
                 player.attackEntityFrom(DamageSourceLoader.causeSkillDamage(skillstack, player), 2.0F + 1.0F * this.getLevel(skillstack));
-
+                
                 for(int i = 0; i < 4; i++)
                 {
                     Random rand = new Random();
@@ -48,7 +50,7 @@ public class SkillLoader
                     double d5 = 0.0D;
                     world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
                 }
-
+                
                 return true;
             }
             return false;
@@ -61,11 +63,24 @@ public class SkillLoader
         {
             return 4 + 2 * level;
         }
-
+        
         @Override
-        public int getTotalCooldown(int level)
+        public int getCooldown(int level)
         {
             return 40 + 20 * level;
+        }
+
+        @Override
+        public String getSkillStackDisplayDesc(SkillStack skillstack)
+        {
+            return StatCollector.translateToLocalFormatted(this.getUnlocalizedName(skillstack) + ".desc",
+                    skillstack.getSkillConsume(), 4.0F + 2.0F * this.getLevel(skillstack), skillstack.getTotalCooldown());
+        }
+        
+        @Override
+        public void addInformation(SkillStack skillstack, EntityPlayer player, List<String> tooltip, boolean advanced)
+        {
+            tooltip.add(StatCollector.translateToLocal(this.getUnlocalizedName(skillstack) + ".desc2"));
         }
 
         @Override
@@ -74,7 +89,7 @@ public class SkillLoader
             if(!world.isRemote)
             {
                 player.heal(4.0F + 2.0F * this.getLevel(skillstack));
-
+                
                 for(int i = 0; i < 4; i++)
                 {
                     Random rand = new Random();
@@ -86,19 +101,19 @@ public class SkillLoader
                     double d5 = 0.0D;
                     world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
                 }
-
+                
                 return true;
             }
             return false;
         }
     }.setUnlocalizedName("heal").setCreativeTab(CreativeTabsLoader.tabSkills);
-
+    
     public SkillLoader(FMLPreInitializationEvent event)
     {
         register(attack, "attack");
         register(heal, "heal");
     }
-
+    
     /**
      * Register a skill with a name-id.
      *

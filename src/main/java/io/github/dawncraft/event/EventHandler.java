@@ -12,7 +12,6 @@ import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSlot;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
-import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.stats.AchievementLoader;
@@ -50,7 +49,6 @@ public class EventHandler
 {
     public EventHandler(FMLInitializationEvent event) {}
 
-    @SuppressWarnings("unused")
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
@@ -82,30 +80,8 @@ public class EventHandler
                     // 更新技能施放
                     if(magic.getSpellAction() == EnumSpellResult.SELECT)// 选中技能,检测是否符合施放条件
                     {
-                        boolean flag = true;
-
-                        if(flag && (magic.getPublicCooldownCount() > 0 || magic.getSkillInSpell().getCurrentCooldown() > 0))
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.COOLING, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, 0), serverPlayer);
-                        }
-                        if(flag && magic.getMana() < magic.getSkillInSpell().getSkillConsume())
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.NOMANA, 0, 0), serverPlayer);
-                        }
-                        if(flag && false) // 无目标
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.NOTARGET, 0, 0), serverPlayer);
-                        }
-
-                        if(flag)
+                        EnumSpellResult result = magic.getSkillInSpell().onSkillPreparing(world, player, -1);
+                        if(!result.isSpellFailed())
                         {
                             magic.setSpellAction(EnumSpellResult.PREPARING);
                             magic.setSkillInSpellCount(magic.getSkillInSpell().getTotalPrepare());
@@ -114,99 +90,52 @@ public class EventHandler
                         }
                         else
                         {
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
                             magic.clearSkillInSpell();
                         }
                     }
-                    else if(magic.getSpellAction() == EnumSpellResult.PREPARING)
+                    else if(magic.getSpellAction() == EnumSpellResult.PREPARING)// 准备阶段,检测是否能够施法
                     {
-                        boolean flag = true;
-
-                        if(flag && magic.isCanceled())
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.CANCEL, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && magic.getMana() < magic.getSkillInSpell().getSkillConsume())
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.NOMANA, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && false) // 目标丢失
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.MISSED, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
                         EnumSpellResult result = magic.getSkillInSpell().onSkillPreparing(world, player, magic.getSkillInSpellDuration());
-                        if(flag && result.isSpellFailed())
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-
-                        if(flag)
+                        if(!result.isSpellFailed())
                         {
                             if(magic.getSkillInSpellCount() <= 0)
                             {
                                 magic.setSpellAction(EnumSpellResult.SPELLING);
-                                magic.getSkillInSpell().cooldown = magic.getSkillInSpell().getTotalCooldown();
                                 magic.reduce(magic.getSkillInSpell().getSkillConsume());
+                                magic.getSkillInSpell().cooldown = magic.getSkillInSpell().getTotalCooldown();
                                 magic.getSkillInSpell().onSkillSpell(world, player);
+                                NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
                                 NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
+                                
                                 if(magic.getSkillInSpell().getMaxDuration() <= 0) magic.clearSkillInSpell();
                                 else magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());
-                                NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
                                 NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
                             }
                         }
                         else
                         {
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
                             magic.clearSkillInSpell();
                         }
                     }
-                    else if(magic.getSpellAction() == EnumSpellResult.SPELLING)
+                    else if(magic.getSpellAction() == EnumSpellResult.SPELLING)// 施放阶段,检测是否能持续施法
                     {
-                        boolean flag = true;
-
-                        if(flag && magic.isCanceled())
-                        {
-                            flag = false;
-                            magic.getSkillInSpell().onPlayerStoppedSpelling(world, player, magic.getSkillInSpellDuration());
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.CANCEL, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && player.isPotionActive(PotionLoader.potionSilent))
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.SILENT, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-                        if(flag && false) // 目标丢失
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.MISSED, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
                         EnumSpellResult result = magic.getSkillInSpell().onSkillSpelling(world, player, magic.getSkillInSpellDuration());
-                        if(flag && result.isSpellFailed())
-                        {
-                            flag = false;
-                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
-                        }
-
-                        if(flag)
+                        if(!result.isSpellFailed())
                         {
                             if(magic.getSkillInSpellCount() <= 0)
                             {
                                 inventory.setInventorySlotContents(magic.getSpellIndex(), magic.getSkillInSpell().onSkillSpellFinish(world, player));
                                 NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
+
                                 magic.clearSkillInSpell();
                                 NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
                             }
                         }
                         else
                         {
+                            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(result, 0, magic.getPublicCooldownCount()), serverPlayer);
                             magic.clearSkillInSpell();
                         }
                     }

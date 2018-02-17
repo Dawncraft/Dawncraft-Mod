@@ -22,19 +22,19 @@ public class CommandForget extends CommandBase
     {
         return "forget";
     }
-    
+
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-    
+
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.forget.usage";
     }
-    
+
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -44,12 +44,16 @@ public class CommandForget extends CommandBase
             if(entityPlayerMP.hasCapability(CapabilityLoader.magic, null))
             {
                 SkillInventoryPlayer inventory = (SkillInventoryPlayer) entityPlayerMP.getCapability(CapabilityLoader.magic, null).getInventory();
-                inventory.clear();
                 List<SkillStack> list = new ArrayList<SkillStack>();
+                int count = 0;
                 for(int i = 0; i < inventory.getSizeInventory(); i++)
-                    list.add(inventory.getStackInSlot(i));
+                {
+                    if(inventory.getStackInSlot(i) != null) count++;
+                    list.add(null);
+                }
+                inventory.clear();
                 NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), entityPlayerMP);
-                notifyOperators(sender, this, "commands.forget.success", new Object[] {entityPlayerMP.getName(), 0});
+                notifyOperators(sender, this, "commands.forget.success", new Object[] {entityPlayerMP.getName(), count});
             }
         }
         catch(Exception e)
@@ -57,13 +61,13 @@ public class CommandForget extends CommandBase
             throw new CommandException("commands.forget.failure", new Object[] {entityPlayerMP.getName()});
         }
     }
-    
+
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : null;
     }
-    
+
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();

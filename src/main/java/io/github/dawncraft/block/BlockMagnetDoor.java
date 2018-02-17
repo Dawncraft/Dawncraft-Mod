@@ -12,9 +12,11 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
@@ -59,20 +61,12 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                             world.setBlockState(blockPos2, blockState, 2);
                             world.markBlockRangeForRenderUpdate(blockPos2, blockPos);
                             world.playAuxSFXAtEntity(player, blockState.getValue(OPEN).booleanValue() ? 1003 : 1006, blockPos2, 0);
-                            player.addChatMessage(new ChatComponentTranslation(blockState.getValue(OPEN).booleanValue() ? "chat.tile.magnetDoor.open" : "chat.tile.magnetDoor.close"));
                             return true;
-                        }
-                        else
-                        {
-                            player.addChatMessage(new ChatComponentTranslation("chat.tile.magnetDoor.fail"));
                         }
                     }
                 }
             }
-            else
-            {
-                player.addChatMessage(new ChatComponentTranslation("chat.tile.magnetDoor.null"));
-            }
+            ((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S02PacketChat(new ChatComponentTranslation("container.isLocked", this.getLocalizedName()), (byte) 2));
         }
         return false;
     }
