@@ -23,26 +23,26 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageSpellSkillChange implements IMessage
 {
     public int slot;
-    
-    public MessageSpellSkillChange() {}
 
+    public MessageSpellSkillChange() {}
+    
     public MessageSpellSkillChange(int slot)
     {
         this.slot = slot;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.slot = buf.readByte();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeByte(this.slot);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageSpellSkillChange, IMessage>
     {
         @Override

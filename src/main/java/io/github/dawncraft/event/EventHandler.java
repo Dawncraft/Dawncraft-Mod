@@ -48,7 +48,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class EventHandler
 {
     public EventHandler(FMLInitializationEvent event) {}
-
+    
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
@@ -56,19 +56,19 @@ public class EventHandler
         {
             EntityPlayer player = event.player;
             World world = player.worldObj;
-
+            
             // 处理魔法
             if(player.hasCapability(CapabilityLoader.magic, null))
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 ISkillInventory inventory = magic.getInventory();
-
+                
                 if(event.side == Side.SERVER)
                 {
                     EntityPlayerMP serverPlayer = (EntityPlayerMP) player;
-
+                    
                     // 更新魔法值
-                    if (world.getGameRules().getBoolean("naturalRegeneration") && player.getFoodStats().getFoodLevel() >= 16)
+                    if (world.getGameRules().getBoolean("naturalRecovery") && player.getFoodStats().getFoodLevel() >= 16)
                     {
                         if (magic.getMana() < magic.getMaxMana() && player.ticksExisted % 40 == 0)
                         {
@@ -76,7 +76,7 @@ public class EventHandler
                             NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
                         }
                     }
-
+                    
                     // 更新技能施放
                     if(magic.getSpellAction() == EnumSpellResult.SELECT)// 选中技能,检测是否符合施放条件
                     {
@@ -107,7 +107,7 @@ public class EventHandler
                                 magic.getSkillInSpell().onSkillSpell(world, player);
                                 NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
                                 NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
-                                
+
                                 if(magic.getSkillInSpell().getMaxDuration() <= 0) magic.clearSkillInSpell();
                                 else magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());
                                 NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
@@ -128,7 +128,7 @@ public class EventHandler
                             {
                                 inventory.setInventorySlotContents(magic.getSpellIndex(), magic.getSkillInSpell().onSkillSpellFinish(world, player));
                                 NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
-
+                                
                                 magic.clearSkillInSpell();
                                 NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), serverPlayer);
                             }
@@ -147,7 +147,7 @@ public class EventHandler
                 // 更新技能相关字段
                 magic.update();
             }
-
+            
             if(event.side == Side.SERVER)
             {
                 // 处理曙光世界传送门
@@ -155,7 +155,7 @@ public class EventHandler
             }
         }
     }
-
+    
     /**
      * Check for can portal create in world.
      * From Benimatic's twilight forest Mod.Thanks.
@@ -171,7 +171,7 @@ public class EventHandler
         if(world != null && player != null && world.provider.getDimensionId() == 0)
         {
             List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().expand(rangeToCheck, rangeToCheck, rangeToCheck));
-
+            
             for(EntityItem entityItem : itemList)
             {
                 if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
@@ -187,7 +187,7 @@ public class EventHandler
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -202,7 +202,7 @@ public class EventHandler
             event.setResult(Result.ALLOW);
         }
     }
-
+    
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {

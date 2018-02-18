@@ -4,7 +4,12 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.LogLoader;
+import io.github.dawncraft.entity.immortal.EntityImmortal;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.ResourceLocation;
@@ -20,8 +25,43 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 public class PotionLoader
 {
     public static final ResourceLocation POTION_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/potion.png");
-    public static int nextIndex = 0;
     
+    public static Potion potionRecover = new PotionBase("recover", false, 0x0000FF)
+    {
+        @Override
+        public boolean isReady(int duration, int amplifier)
+        {
+            int k = 50 >> amplifier;
+            return k > 0 ? duration % k == 0 : true;
+        };
+
+        @Override
+        public void performEffect(EntityLivingBase entity, int amplifier)
+        {
+            if(entity instanceof EntityPlayer)
+            {
+                EntityPlayer player = (EntityPlayer) entity;
+                if(player.hasCapability(CapabilityLoader.magic, null))
+                {
+                    IMagic magic = player.getCapability(CapabilityLoader.magic, null);
+
+                    if(magic.getMana() < magic.getMaxMana())
+                    {
+                        magic.recover(1.0F);
+                    }
+                }
+            }
+            else if(entity instanceof EntityImmortal)
+            {
+                EntityImmortal god = (EntityImmortal) entity;
+                
+                if (god.getMana() < god.getMaxMana())
+                {
+                    god.recover(1.0F);
+                }
+            }
+        };
+    }.setPotionName("potion.recover");
     public static Potion potionSilent = new PotionBase("silent", true, 0x585858).setPotionName("potion.silent");
     public static Potion potionParalysis = new PotionBase("paralysis", true, 0x3C64C8).setPotionName("potion.paralysis");
     public static Potion potionConfusion = new PotionBase("confusion", true, 0x649664).setPotionName("potion.confusion");
@@ -46,7 +86,7 @@ public class PotionLoader
      *
      * @param potion 要注册的药水
      * @param recipe 药水酿造方式
-     * @param amplifier 放大器?
+     * @param amplifier 理论上是等级可是...
      *
      * @author QingChenW
      */

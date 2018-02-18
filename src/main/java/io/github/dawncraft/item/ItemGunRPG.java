@@ -8,9 +8,9 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemFlanRPG extends ItemGun
+public class ItemGunRPG extends ItemGun
 {
-    public ItemFlanRPG(int maxDamage)
+    public ItemGunRPG(int maxDamage)
     {
         super(28);
     }

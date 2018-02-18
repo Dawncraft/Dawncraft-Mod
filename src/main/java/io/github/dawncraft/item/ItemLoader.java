@@ -128,7 +128,7 @@ public class ItemLoader
             .setCreativeTab(CreativeTabsLoader.tabGuns);
     public static Item gunBullet = new Item().setUnlocalizedName("gunBullet")
             .setCreativeTab(CreativeTabsLoader.tabGuns);
-    public static Item gunRPG = new ItemFlanRPG(28).setUnlocalizedName("gunRPG")
+    public static Item gunRPG = new ItemGunRPG(28).setUnlocalizedName("gunRPG")
             .setCreativeTab(CreativeTabsLoader.tabGuns);
     public static Item gunRocket = new Item().setUnlocalizedName("gunRocket")
             .setCreativeTab(CreativeTabsLoader.tabGuns).setMaxStackSize(16);

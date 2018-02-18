@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.FMLEventChannel;
 
 /**
  * Dawncraft Mod For Minecraft with Forge Mod Loader.
@@ -34,39 +35,45 @@ public class Dawncraft
     /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-
+    
     /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-
+    
     /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-
+    
     /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit(event);
     }
-
+    
     /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-
+    
     /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)
     {
         proxy.interModComms(event);
+    }
+
+    @EventHandler
+    public void network(FMLEventChannel event)
+    {
+
     }
 }
