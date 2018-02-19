@@ -34,7 +34,6 @@ public class DawnByteBufUtils
         {
             pb.writeShort(Skill.getIdFromSkill(stack.getSkill()));
             pb.writeInt(stack.getSkillLevel());
-            pb.writeInt(stack.getCurrentCooldown());
         }
     }
     
@@ -56,7 +55,7 @@ public class DawnByteBufUtils
             {
                 int level = pb.readInt();
                 int cooldown = pb.readInt();
-                stack = new SkillStack(Skill.getSkillById(id), level, cooldown);
+                stack = new SkillStack(Skill.getSkillById(id), level);
             }
         }
         catch (Exception e)

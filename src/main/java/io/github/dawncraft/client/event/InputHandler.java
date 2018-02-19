@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputHandler
 {
     public InputHandler(FMLInitializationEvent event) {}
-
+    
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -46,7 +46,7 @@ public class InputHandler
                         if(player.hasCapability(CapabilityLoader.magic, null))
                         {
                             IMagic magic = player.getCapability(CapabilityLoader.magic, null);
-
+                            
                             if(magic.getSpellAction() == EnumSpellResult.NONE || i != magic.getSpellIndex())
                             {
                                 SkillStack stack = magic.getInventory().getStackInSlot(i);
@@ -55,9 +55,10 @@ public class InputHandler
                                     magic.setSpellAction(EnumSpellResult.SELECT);
                                     magic.setSpellIndex(i);
                                     magic.setSkillInSpell(stack);
+                                    GuiIngameDawn.getIngameDawnGUI().setSpellIndex(i);
                                     NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                                 }
-                                
+
                             }
                         }
                     }

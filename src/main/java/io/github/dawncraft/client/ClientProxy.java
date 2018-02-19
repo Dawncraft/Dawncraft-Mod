@@ -10,7 +10,6 @@ import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.server.ServerProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -34,19 +33,17 @@ public class ClientProxy extends ServerProxy
         new TileEntityRenderLoader(event);
         new SkillRenderLoader(event);
     }
-    
+
     @Override
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        Minecraft mc = Minecraft.getMinecraft();
-        mc.getBlockRendererDispatcher().getBlockModelShapes().registerBuiltInBlocks(BlockRenderLoader.BuiltInBlocks.toArray(new Block[0]));
-        SkillRenderer.skillRender = new SkillRenderer(mc);
+        SkillRenderer.skillRender = new SkillRenderer(Minecraft.getMinecraft());
         TextureLoader.loadTextureMap();
         new KeyLoader(event);
         new ClientEventLoader(event);
     }
-    
+
     @Override
     public void postInit(FMLPostInitializationEvent event)
     {

@@ -3,6 +3,7 @@ package io.github.dawncraft.capability;
 import java.util.Set;
 
 import io.github.dawncraft.container.ISkillInventory;
+import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
@@ -14,6 +15,8 @@ public interface IMagic
     public float getMaxMana();
     
     public void setMana(float amount);
+
+    public boolean shouldRecover();
     
     public void recover(float recoverAmount);
     
@@ -52,13 +55,17 @@ public interface IMagic
 
     public void setPublicCooldownCount(int count);
     
+    public SpellCooldownTracker getCooldownTracker();
+    
+    public void setCooldownTracker(SpellCooldownTracker tracker);
+    
+    public ISkillInventory getInventory();
+    
     public void setInventory(ISkillInventory inventory);
 
-    public ISkillInventory getInventory();
+    public int getTalentLevel(Talent talent);
 
     public void setTalent(Talent talent, int level);
-
-    public int getTalentLevel(Talent talent);
 
     /**
      * 现在先这么凑合着,天赋栏啥的以后再说

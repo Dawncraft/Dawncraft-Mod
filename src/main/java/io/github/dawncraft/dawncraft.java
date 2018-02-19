@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.network.FMLEventChannel;
  * @version mc-1.8.9
  * @author QingChenW
  **/
-@Mod(modid = Dawncraft.MODID, name = Dawncraft.NAME, version = Dawncraft.VERSION, guiFactory = Dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9")
+@Mod(modid = Dawncraft.MODID, name = Dawncraft.NAME, version = Dawncraft.VERSION, guiFactory = Dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9", dependencies = "after:dawncore[0.0.1,)")
 public class Dawncraft
 {
     /** The id of Dawncraft Mod. */
@@ -35,45 +35,45 @@ public class Dawncraft
     /** The instance of Server Proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static ServerProxy proxy;
-    
+
     /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-    
+
     /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-    
+
     /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit(event);
     }
-    
+
     /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-    
+
     /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)
     {
         proxy.interModComms(event);
     }
-
+    
     @EventHandler
     public void network(FMLEventChannel event)
     {
-
+        
     }
 }

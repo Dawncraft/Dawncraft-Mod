@@ -16,11 +16,14 @@ public class NetworkLoader
     public NetworkLoader(FMLInitializationEvent event)
     {
         registerMessage(MessageUpdateMana.Handler.class, MessageUpdateMana.class, Side.CLIENT);
-        registerMessage(MessageWindowSkills.Handler.class, MessageWindowSkills.class, Side.CLIENT);
-        registerMessage(MessageSetSlot.Handler.class, MessageSetSlot.class, Side.CLIENT);
+
         registerMessage(MessageSpellSkillChange.Handler.class, MessageSpellSkillChange.class, Side.CLIENT);
         registerMessage(MessageSpellSkillChange.Handler.class, MessageSpellSkillChange.class, Side.SERVER);
         registerMessage(MessagePlayerSpelling.Handler.class, MessagePlayerSpelling.class, Side.CLIENT);
+        registerMessage(MessageSpellCooldown.Handler.class, MessageSpellCooldown.class, Side.CLIENT);
+
+        registerMessage(MessageSetSlot.Handler.class, MessageSetSlot.class, Side.CLIENT);
+        registerMessage(MessageWindowSkills.Handler.class, MessageWindowSkills.class, Side.CLIENT);
     }
     
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(

@@ -1,10 +1,10 @@
-# Dawncraft Mod For Minecraft 1.8
+# Dawncraft Mod For Minecraft 1.8.9
 
 ----------
 
 ##简介
 
-我的世界曙光工艺Mod 版本1.8
+我的世界曙光工艺Mod 版本1.8.9
 
 曙光工艺采用[GPLv3协议](https://github.com/Wdawning/Dawn-Craft-Mod/blob/master/LICENSE)开源
 
@@ -15,6 +15,8 @@
 2017/12/31注:到[这里](http://www.eclipse.org/babel/downloads.php)查看Eclipse的多语言支持
 
 2018/2/8注:Windows下Git错误open /dev/null or dup failed: No such file or directory的解决方案:[这里](http://servicedefaults.com/10/null/)
+
+2018/2/19注:Eclipse中可用Bytecode Outline插件辅助查看字节码,方便使用ASM
 
 ##目录
 
@@ -93,9 +95,10 @@
 
 * [**Forge官方文档**](http://mcforge-cn.readthedocs.io/zh/latest/)
 * [**manageryzy的MC开发wiki**](https://mcdev-wiki.org/)
+*(wiki似乎已经挂掉了)*
 * [**ustc-zzzz的教程**](https://ustc-zzzz.gitbooks.io/fmltutor/content/)
 * [**szszss的教程**](http://blog.hakugyokurou.net/?page_id=126)
-*(貌似被墙了？)*
+*(并没有被墙，但是需要刷新个二三十次和一张好脸，不知道为啥，建议挂vpn)*
 
 ##开发者规范
 
@@ -111,7 +114,7 @@
 
 4. 请使用**正确**的Java语法，并且对自己的代码**负责**。
 
-5. 类名尽量符合**Forge命名规范**，例如物品类应该是`ItemWuPin`
+5. 类名尽量符合**Forge命名规范**，例如名为Name的物品类应该是`ItemName`
 
 6. 常量名称**大写**，变量、方法的名字请使用**小写驼峰**式。
 
@@ -125,9 +128,9 @@
 
 11. 写代码请注意**规范**,例如:
 
-    在`com.github.wdawning.dawncraft.item.ItemLoader`中注册物品
+    在`io.github.dawncraft.item.ItemLoader`中注册物品
 
-    而不是在`com.github.wdawning.dawncraft.common.CommonProxy`的`preInit`阶段中注册
+    而不是在`io.github.dawncraft.common.CommonProxy`的`preInit`阶段中注册
 
 12. 还有其他的就不一一列举了
 
@@ -147,6 +150,10 @@
 
 Mojang为我们带来的Minecraft，MCP和Forge团队的Forge/FML.
 
-NeoTech的管道模型文件。
+NeoTech的管道模型文件.
 
-#### &copy; 2016 Dawncraft Studio ####
+ustc-zzzz关于Mod的教程
+
+szszss关于CoreMod的教程.
+
+#### &copy; 2016-2018 Dawncraft Studio ####

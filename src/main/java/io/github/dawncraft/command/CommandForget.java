@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.container.SkillInventoryPlayer;
+import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.network.MessageWindowSkills;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.SkillStack;

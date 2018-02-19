@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class TileEntityRenderLoader
 {
     private static int nextID = 0;
-
+    
     public TileEntityRenderLoader(FMLPreInitializationEvent event)
     {
         registerSkullTexture("textures/entity/savage.png", false);
@@ -25,31 +25,31 @@ public class TileEntityRenderLoader
         registerTileItemRenderWithMeta(ItemLoader.skull, 1, TileEntitySkull.class);
         registerTileItemRenderWithMeta(ItemLoader.skull, 2, TileEntitySkull.class);
     }
-    
+
     private static void registerTileEntityRender(Class<? extends TileEntity> tileEntityClass,
             TileEntitySpecialRenderer renderer)
     {
         ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, renderer);
     }
-
+    
     /**
      * 这回吐槽Forge的设计，在1.9将会被移除，别忘了改
      * <br>知道为啥了，这个不能渲染带特殊值的te，例如头颅，需替代方案...目前没有</br>
      * @param metadata
-     * @deprecated
+     * TODO 替代方案有了，ASM改就对了
      */
     @Deprecated
     private static void registerTileItemRender(Item item, Class<? extends TileEntity> TileClass)
     {
         registerTileItemRenderWithMeta(item, 0, TileClass);
     }
-    
+
     @Deprecated
     private static void registerTileItemRenderWithMeta(Item item, int metadata, Class<? extends TileEntity> TileClass)
     {
         ForgeHooksClient.registerTESRItemStack(item, metadata, TileClass);
     }
-
+    
     private static void registerSkullTexture(String skullTexture, Boolean layer)
     {
         TileEntityRenderSkull.addSkullTexture(nextID, new ResourceLocation(Dawncraft.MODID + ":" + skullTexture));

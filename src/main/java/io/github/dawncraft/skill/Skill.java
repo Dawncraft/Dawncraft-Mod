@@ -5,6 +5,7 @@ import java.util.List;
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.api.skill.SkillRegistry;
 import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.RegistryNamespaced;
@@ -23,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class Skill
 {
-    private int maxLevel = 0;
+    private int maxLevel = 1;
     private String unlocalizedName;
     private CreativeSkillTabs tabToDisplayOn;
     
@@ -94,11 +95,6 @@ public class Skill
 
     /* 后摇?不存在的,为了简化机制,所以没有后摇啊哈哈哈 */
     // TODO 为技能添加后摇
-
-    public int getCurrentCooldown(SkillStack skillstack)
-    {
-        return skillstack.cooldown;
-    }
     
     public int getCooldown(SkillStack skillstack)
     {
@@ -202,7 +198,7 @@ public class Skill
     public void addInformation(SkillStack skillstack, EntityPlayer player, List<String> tooltip, boolean advanced) {}
     
     /**
-     * 和地图的类似,但这个主要用来更新冷却
+     * 和地图的类似,冷却移到了{@link SpellCooldownTracker}里,我也不知道这能干啥了
      *
      * @param stack 技能
      * @param worldIn 携带者所在世界
@@ -211,10 +207,6 @@ public class Skill
      */
     public void onUpdate(SkillStack stack, World worldIn, Entity entityIn, int skillSlot)
     {
-        if(stack != null)
-        {
-            if(stack.getCurrentCooldown() > 0) stack.cooldown--;
-        }
     }
 
     /**

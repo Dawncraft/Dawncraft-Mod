@@ -5,7 +5,7 @@ import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
-import io.github.dawncraft.container.SkillInventoryPlayer;
+import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.network.MessageWindowSkills;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.Skill;
@@ -50,9 +50,8 @@ public class CommandLearn extends CommandBase
 
             if(skill != null)
             {
-                int level = args.length >= 3 ? parseInt(args[2], 0, skill.getMaxLevel()) : 0;
-                int cooldown = args.length >= 4 ? parseInt(args[3], 0, skill.getCooldown(level)) : 0;
-                SkillStack skillstack = new SkillStack(skill, level, cooldown);
+                int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 0;
+                SkillStack skillstack = new SkillStack(skill, level);
                 if(entityPlayerMP.hasCapability(CapabilityLoader.magic, null))
                 {
                     IMagic magic = entityPlayerMP.getCapability(CapabilityLoader.magic, null);

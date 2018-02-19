@@ -18,6 +18,9 @@ public class SkillRenderLoader
     {
         registerRender(SkillLoader.attack);
         registerRender(SkillLoader.heal);
+        registerRender(SkillLoader.longPrepare);
+        registerRender(SkillLoader.longSpell);
+        registerRender(SkillLoader.longCooldown);
     }
 
     private static void registerRender(Skill skill)

@@ -139,6 +139,8 @@ container.magic.more=更多信息...
 
 enchantment.fireBurn=火焰灼烧
 
+potion.recover=魔法恢复
+potion.recover.postfix=活力药水
 potion.silent=沉默
 potion.paralysis=麻痹
 potion.confusion=混乱
@@ -209,7 +211,7 @@ gui.skill.broken=被打断
 gui.skill.cancel=取消施放
 
 commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)
-commands.magic.view=当前玩家魔法值为 %1$s, 最大魔法值为  %2$s, 魔法系统NBT为 %3$s.
+commands.magic.view=当前玩家魔法值为 %1$s, 最大魔法值为 %2$s, 魔法系统NBT为 %3$s.
 commands.magic.set=已成功将玩家魔法值设置为 %s.
 commands.magic.max=已成功将玩家最大魔法值设置为 %s
 commands.magic.reset=已成功重置玩家魔法值为最大值.

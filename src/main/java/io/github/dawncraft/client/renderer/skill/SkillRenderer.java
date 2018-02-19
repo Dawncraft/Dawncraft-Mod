@@ -1,8 +1,11 @@
 package io.github.dawncraft.client.renderer.skill;
 
+import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,14 +25,14 @@ public class SkillRenderer
     private final TextureManager textureManager;
     private final RenderManager renderManager;
     protected float zLevel;
-
+    
     public SkillRenderer(Minecraft mcIn)
     {
         this.mc = mcIn;
         this.textureManager = mcIn.getTextureManager();
         this.renderManager = mcIn.getRenderManager();
     }
-    
+
     public void renderSkillIntoGUI(SkillStack skillstack, int xPos, int yPos)
     {
         if(skillstack != null && skillstack.getSkill() != null)
@@ -59,29 +62,33 @@ public class SkillRenderer
             this.textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
         }
     }
-    
-    public void renderSkillOverlayIntoGUI(FontRenderer fr, SkillStack skillstack, int xPos, int yPos, String text)
+
+    public void renderSkillOverlayIntoGUI(FontRenderer fr, SkillStack skillstack, int xPos, int yPos, String def)
     {
         if (skillstack != null)
         {
-            if (skillstack.getSkillLevel() != 1 || text != null)
+            if (skillstack.getSkillLevel() > 0 || def != null)
             {
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
                 GlStateManager.disableBlend();
-                String s = text == null ? String.valueOf(skillstack.getSkillLevel()) : text;
-                fr.drawStringWithShadow(s, xPos + 19 - 2 - fr.getStringWidth(s), yPos + 6 + 3, 16777215);
+                String text = def == null ? String.valueOf(skillstack.getSkillLevel()) : def;
+                fr.drawStringWithShadow(text, xPos + 19 - 2 - fr.getStringWidth(text), yPos + 6 + 3, 16777215);
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
                 // Fixes opaque cooldown overlay a bit lower
                 // TODO: check if enabled blending still screws things up down the line.
                 GlStateManager.enableBlend();
             }
-
-            //EntityPlayerSP entityplayersp = Minecraft.getMinecraft().thePlayer;
-            //float cooldown = entityplayersp == null ? 0.0F : entityplayersp.getCooldownTracker().getCooldown(skillstack.getItem(), Minecraft.getMinecraft().getRenderPartialTicks());
-            float cooldown = skillstack.getCurrentCooldown() / skillstack.getTotalCooldown();
             
+            float cooldown = 0.0F;
+            EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
+            if(clientPlayer.hasCapability(CapabilityLoader.magic, null))
+            {
+                IMagic magic = clientPlayer.getCapability(CapabilityLoader.magic, null);
+                cooldown = magic.getCooldownTracker().getCooldown(skillstack.getSkill());
+            }
+
             if (cooldown > 0.0F)
             {
                 GlStateManager.disableLighting();
@@ -96,7 +103,7 @@ public class SkillRenderer
             }
         }
     }
-    
+
     /**
      * Draws a texture rectangle using the texture currently bound to the TextureManager
      */
@@ -111,7 +118,7 @@ public class SkillRenderer
         worldrenderer.pos(xCoord + 0, yCoord + 0, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMinV()).endVertex();
         tessellator.draw();
     }
-
+    
     /**
      * Draw with the WorldRenderer
      *
@@ -125,7 +132,7 @@ public class SkillRenderer
      * @param blue Blue component of the color
      * @param alpha Alpha component of the color
      */
-    private void draw(WorldRenderer renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
+    public void draw(WorldRenderer renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
     {
         renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
         renderer.pos(x + 0, y + 0, 0.0D).color(red, green, blue, alpha).endVertex();

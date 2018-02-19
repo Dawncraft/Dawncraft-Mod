@@ -62,7 +62,7 @@ public class EventHandler
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 ISkillInventory inventory = magic.getInventory();
-                
+
                 if(event.side == Side.SERVER)
                 {
                     EntityPlayerMP serverPlayer = (EntityPlayerMP) player;
@@ -70,7 +70,7 @@ public class EventHandler
                     // 更新魔法值
                     if (world.getGameRules().getBoolean("naturalRecovery") && player.getFoodStats().getFoodLevel() >= 16)
                     {
-                        if (magic.getMana() < magic.getMaxMana() && player.ticksExisted % 40 == 0)
+                        if (magic.shouldRecover() && player.ticksExisted % 40 == 0)
                         {
                             magic.recover(1.0F);
                             NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
@@ -103,10 +103,9 @@ public class EventHandler
                             {
                                 magic.setSpellAction(EnumSpellResult.SPELLING);
                                 magic.reduce(magic.getSkillInSpell().getSkillConsume());
-                                magic.getSkillInSpell().cooldown = magic.getSkillInSpell().getTotalCooldown();
+                                magic.getCooldownTracker().setCooldown(magic.getSkillInSpell().getSkill(), magic.getSkillInSpell().getTotalCooldown());
                                 magic.getSkillInSpell().onSkillSpell(world, player);
                                 NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
-                                NetworkLoader.instance.sendTo(new MessageSetSlot(0, magic.getSpellIndex(), magic.getSkillInSpell()), serverPlayer);
 
                                 if(magic.getSkillInSpell().getMaxDuration() <= 0) magic.clearSkillInSpell();
                                 else magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());
@@ -143,6 +142,8 @@ public class EventHandler
                     {
                         magic.clearSkillInSpell();
                     }
+
+                    magic.setCanceled(false);
                 }
                 // 更新技能相关字段
                 magic.update();

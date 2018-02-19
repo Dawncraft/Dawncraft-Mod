@@ -3,7 +3,7 @@ package io.github.dawncraft.network;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.LogLoader;
-import io.github.dawncraft.container.SkillInventoryPlayer;
+import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;

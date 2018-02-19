@@ -1,7 +1,8 @@
-package io.github.dawncraft.container;
+package io.github.dawncraft.entity.player;
 
 import java.util.concurrent.Callable;
 
+import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.crash.CrashReport;
