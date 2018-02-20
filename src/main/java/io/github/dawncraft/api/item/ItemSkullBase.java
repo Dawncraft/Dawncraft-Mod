@@ -6,9 +6,12 @@ import io.github.dawncraft.api.block.BlockSkullBase;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -23,10 +26,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  *
  * @author QingChenW
  */
-public abstract class ItemSkullBase extends Item
+public abstract class ItemSkullBase extends ItemSkull
 {
     private String[] skullTypes;
-    
+
     public ItemSkullBase(String[] types)
     {
         super();
@@ -34,30 +37,30 @@ public abstract class ItemSkullBase extends Item
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
-    
+
     /**
      * getSkullBlock 返回头颅方块
      *
      * @return BlockSkullBase
      */
     public abstract BlockSkullBase getSkullBlock();
-
+    
     public String[] getSkullTypes()
     {
         return this.skullTypes;
     }
-    
+
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         Block block = worldIn.getBlockState(pos).getBlock();
-        
+
         if (block.isReplaceable(worldIn, pos) && side != EnumFacing.DOWN)
         {
             side = EnumFacing.UP;
             pos = pos.down();
         }
-
+        
         if (side == EnumFacing.DOWN)
         {
             return false;
@@ -65,7 +68,7 @@ public abstract class ItemSkullBase extends Item
         else
         {
             block = worldIn.getBlockState(pos).getBlock();
-            
+
             if (!block.isReplaceable(worldIn, pos))
             {
                 if (!block.getMaterial().isSolid() && !worldIn.isSideSolid(pos, side, true))
@@ -74,7 +77,7 @@ public abstract class ItemSkullBase extends Item
                 }
                 pos = pos.offset(side);
             }
-            
+
             if (!playerIn.canPlayerEdit(pos, side, stack))
             {
                 return false;
@@ -89,7 +92,7 @@ public abstract class ItemSkullBase extends Item
                 {
                     if (!this.getSkullBlock().canPlaceBlockOnSide(worldIn, pos, side)) return false;
                     worldIn.setBlockState(pos, this.getSkullBlock().getDefaultState().withProperty(this.getSkullBlock().FACING, side), 3);
-                    
+
                     TileEntity tileentity = worldIn.getTileEntity(pos);
                     if (tileentity instanceof TileEntitySkull)
                     {
@@ -99,7 +102,7 @@ public abstract class ItemSkullBase extends Item
                         tileentityskull.setSkullRotation(rotation);
                         this.getSkullBlock().checkSpecialSpawn(worldIn, pos, tileentityskull);
                     }
-                    
+
                     --stack.stackSize;
                 }
                 return true;
@@ -108,19 +111,35 @@ public abstract class ItemSkullBase extends Item
     }
 
     @Override
+    public boolean isValidArmor(ItemStack stack, int armorType, Entity entity)
+    {
+        if (armorType == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
     public String getUnlocalizedName(ItemStack stack)
     {
         int i = stack.getMetadata();
         if (i < 0 || i >= this.skullTypes.length) i = 0;
         return super.getUnlocalizedName() + "." + this.skullTypes[i];
     }
-    
+
     @Override
     public int getMetadata(int damage)
     {
         return damage;
     }
-
+    
+    @Override
+    public boolean updateItemStackNBT(NBTTagCompound nbt)
+    {
+        return false;
+    }
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems)

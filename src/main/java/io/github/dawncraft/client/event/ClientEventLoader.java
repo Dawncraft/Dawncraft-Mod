@@ -12,10 +12,11 @@ public class ClientEventLoader
 {
     public ClientEventLoader(FMLInitializationEvent event)
     {
+        register(new GuiStatsDawn(event));
         register(new GuiIngameDawn(event));
         register(new InputHandler(event));
     }
-    
+
     static void register(Object target)
     {
         MinecraftForge.EVENT_BUS.register(target);

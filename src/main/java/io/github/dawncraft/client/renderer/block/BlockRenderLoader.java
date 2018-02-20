@@ -29,14 +29,15 @@ public class BlockRenderLoader
     public BlockRenderLoader(FMLPreInitializationEvent event)
     {
         registerRender((BlockFluidBase) BlockLoader.fluidPetroleum);
-        
-        registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
-        
-        registerBuiltIn(BlockLoader.superChest, BlockLoader.skull);
 
+        registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
+
+        registerBuiltIn(BlockLoader.superChest, BlockLoader.skull);
+        
         registerBrokenTexture(BlockLoader.skull, "minecraft:blocks/soul_sand");
+        registerBrokenTexture(BlockLoader.superChest, "minecraft:blocks/planks_oak");
     }
-    
+
     /**
      * Register a fluid's inventory model and it's model.
      *
@@ -63,7 +64,7 @@ public class BlockRenderLoader
             }
         });
     }
-
+    
     /**
      * Register a BlockStateMapper.
      *
@@ -74,7 +75,7 @@ public class BlockRenderLoader
     {
         ModelLoader.setCustomStateMapper(block, mapper);
     }
-    
+
     /**
      * Register a builtin block.
      *
@@ -85,7 +86,7 @@ public class BlockRenderLoader
     {
         RendererHelper.registerBuiltInBlocks(blocks);
     }
-
+    
     /**
      * Register broken texture for builtin block.
      *

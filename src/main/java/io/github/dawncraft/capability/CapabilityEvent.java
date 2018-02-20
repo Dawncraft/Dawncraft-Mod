@@ -4,12 +4,15 @@ import io.github.dawncraft.network.MessageWindowSkills;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.network.MessagePlayerSpelling;
+import io.github.dawncraft.network.MessageSpellCooldown;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
+import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -25,7 +28,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CapabilityEvent
 {
     public CapabilityEvent(FMLInitializationEvent event) {}
-
+    
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
@@ -36,7 +39,7 @@ public class CapabilityEvent
             event.addCapability(CapabilityLoader.res_magic, new CapabilityMagic.Provider(player));
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
@@ -47,24 +50,28 @@ public class CapabilityEvent
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
-                
+
                 ISkillInventory inventory = magic.getInventory();
                 List<SkillStack> list = new ArrayList<SkillStack>();
                 for(int i = 0; i < inventory.getSizeInventory(); i++)
                     list.add(inventory.getStackInSlot(i));
                 NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), player);
+                for(Entry<Skill, Integer> entry : magic.getCooldownTracker().cooldowns.entrySet())
+                {
+                    NetworkLoader.instance.sendTo(new MessageSpellCooldown(entry.getKey(), entry.getValue()), player);
+                }
                 NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), player);
                 NetworkLoader.instance.sendTo(new MessagePlayerSpelling(magic.getSpellAction(), magic.getSkillInSpellCount(), magic.getPublicCooldownCount()), player);
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
         Capability<IMagic> capability = CapabilityLoader.magic;
         IStorage<IMagic> storage = capability.getStorage();
-
+        
         if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
         {
             IMagic magic = event.original.getCapability(capability, null);

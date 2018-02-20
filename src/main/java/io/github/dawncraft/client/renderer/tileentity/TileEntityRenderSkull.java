@@ -51,8 +51,7 @@ public class TileEntityRenderSkull extends TileEntitySpecialRenderer<TileEntityS
     @Override
     public void renderTileEntityAt(TileEntitySkull tileentityskull, double x, double y, double z, float partialTicks, int destroyStage)
     {
-        // 我对于Minecraft和Forge表示很服
-        if(tileentityskull != null)
+        if(!tileentityskull.useByRenderer())
         {
             EnumFacing enumfacing = EnumFacing.getFront(tileentityskull.getBlockMetadata() & 7);
             this.renderSkull((float)x, (float)y, (float)z, enumfacing, tileentityskull.getSkullType(), tileentityskull.getSkullRotation() * 360 / 16.0F, destroyStage);
@@ -63,7 +62,7 @@ public class TileEntityRenderSkull extends TileEntitySpecialRenderer<TileEntityS
             GlStateManager.translate(-0.5F, 0.0F, -0.5F);
             GlStateManager.scale(2.0F, 2.0F, 2.0F);
             GlStateManager.disableCull();
-            this.renderSkull((float)x, (float)y, (float)z, EnumFacing.UP, 0, 0.0F, destroyStage);//TODO 只能渲染一种头颅的te
+            this.renderSkull((float)x, (float)y, (float)z, EnumFacing.UP, tileentityskull.getSkullType(), 0.0F, destroyStage);
             GlStateManager.enableCull();
             GlStateManager.popMatrix();
         }

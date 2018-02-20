@@ -10,6 +10,7 @@ import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSlot;
+import io.github.dawncraft.network.MessageSpellCooldown;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.EnumSpellResult;
@@ -106,6 +107,7 @@ public class EventHandler
                                 magic.getCooldownTracker().setCooldown(magic.getSkillInSpell().getSkill(), magic.getSkillInSpell().getTotalCooldown());
                                 magic.getSkillInSpell().onSkillSpell(world, player);
                                 NetworkLoader.instance.sendTo(new MessageUpdateMana(magic.getMana()), serverPlayer);
+                                NetworkLoader.instance.sendTo(new MessageSpellCooldown(magic.getSkillInSpell().getSkill(), magic.getCooldownTracker().getCooldown(magic.getSkillInSpell().getSkill())), serverPlayer);
 
                                 if(magic.getSkillInSpell().getMaxDuration() <= 0) magic.clearSkillInSpell();
                                 else magic.setSkillInSpellCount(magic.getSkillInSpell().getMaxDuration());

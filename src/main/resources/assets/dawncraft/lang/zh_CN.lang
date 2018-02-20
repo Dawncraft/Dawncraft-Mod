@@ -193,6 +193,9 @@ achievement.dawncraft.dawnPortal.desc=用巨Ger之心建造通往曙光世界的
 achievement.dawncraft.dawnArrival=天空之城
 achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
 
+stat.skillsButton=技能
+stat.skill.test=技能统计测试
+
 death.attack.skill=%1$s 被 %2$s 用技能杀死了
 death.attack.skill.skill=%1$s 被 %2$s 用技能: %3$s 杀死了
 death.attack.bullet=%1$s 被 %2$s 残酷地射死了

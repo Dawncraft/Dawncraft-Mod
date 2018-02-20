@@ -1,5 +1,23 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.4.0 update(Magic Update) log:
+--------------------
+1.Better magic gui!
+2.Add skill spell logic!!!
+3.Add cooldown tracker, but it can't work.
+4.Add core mod!!!!!
+5.Fix potions.
+6.Add potion recipes.
+7.Fix script loader.
+8.Fix skull.
+9.Add talent registry.
+10.Add a simple stats gui.
+11.Tidy up API.
+12.Add some blocks.
+13.Fix some bugs.
+14.Fix server support, you can play it now.
+15.Update gradle script.
+===========================================================
 0.2.3.3 update log:
 --------------------
 1.Tidy up world loader.

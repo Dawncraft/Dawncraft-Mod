@@ -1,6 +1,6 @@
 package io.github.dawncraft.entity.magicile;
 
-public interface IMagicile
+public abstract class EntityMagic
 {
     
 }

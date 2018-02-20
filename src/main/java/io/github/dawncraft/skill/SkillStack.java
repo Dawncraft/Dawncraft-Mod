@@ -2,7 +2,6 @@ package io.github.dawncraft.skill;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
@@ -12,7 +11,6 @@ import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.stats.StatLoader;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.HoverEvent;
@@ -123,6 +121,7 @@ public class SkillStack
     }
 
     // 只会在发送聊天信息时发送一次,所以按键显示额外信息毫无卵用
+    // 所以要想尽办法改一下啥子的
     public IChatComponent getChatComponent()
     {
         ChatComponentText chatcomponenttext = new ChatComponentText(this.getDisplayName());
@@ -130,9 +129,9 @@ public class SkillStack
 
         if (this.getSkill() != null)
         {
-            List<String> list = this.getTooltip(null, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
-            String information = StringUtils.join(list.iterator(), "\n");
-            ichatcomponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(information)));
+            NBTTagCompound tagCompound = new NBTTagCompound();
+            this.writeToNBT(tagCompound);
+            ichatcomponent.getChatStyle().setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(tagCompound.toString())));
             ichatcomponent.getChatStyle().setColor(EnumChatFormatting.AQUA);
         }
 

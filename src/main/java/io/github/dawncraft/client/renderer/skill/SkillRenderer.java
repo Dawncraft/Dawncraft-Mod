@@ -83,10 +83,10 @@ public class SkillRenderer
             
             float cooldown = 0.0F;
             EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
-            if(clientPlayer.hasCapability(CapabilityLoader.magic, null))
+            if(clientPlayer.hasCapability(CapabilityLoader.magic, null) && skillstack.getTotalCooldown() > 0.0F)
             {
                 IMagic magic = clientPlayer.getCapability(CapabilityLoader.magic, null);
-                cooldown = magic.getCooldownTracker().getCooldown(skillstack.getSkill());
+                cooldown = magic.getCooldownTracker().getCooldown(skillstack.getSkill()) / skillstack.getTotalCooldown();
             }
 
             if (cooldown > 0.0F)

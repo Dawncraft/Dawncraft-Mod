@@ -2,14 +2,10 @@ package io.github.dawncraft.entity.player;
 
 import com.google.common.collect.Maps;
 
-import io.github.dawncraft.network.MessageSpellCooldown;
-import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.Skill;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,20 +13,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SpellCooldownTracker
 {
-    private final EntityPlayer player;
-    private final Map<Skill, Integer> cooldowns = Maps.<Skill, Integer>newHashMap();
-
-    public SpellCooldownTracker(EntityPlayer player)
-    {
-        this.player = player;
-    }
+    public Map<Skill, Integer> cooldowns = Maps.<Skill, Integer>newHashMap();
 
     public boolean hasCooldown(Skill skill)
     {
-        return this.getCooldown(skill) > 0.0F;
+        return this.getCooldown(skill) > 0;
     }
 
-    public float getCooldown(Skill skill)
+    public int getCooldown(Skill skill)
     {
         if (this.cooldowns.containsKey(skill))
         {
@@ -39,37 +29,19 @@ public class SpellCooldownTracker
         }
         else
         {
-            return 0.0F;
+            return 0;
         }
     }
 
     public void setCooldown(Skill skill, int ticks)
     {
         this.cooldowns.put(skill, ticks);
-        this.notifyOnSet(skill, ticks);
     }
 
     @SideOnly(Side.CLIENT)
     public void removeCooldown(Skill skill)
     {
         this.cooldowns.remove(skill);
-        this.notifyOnRemove(skill);
-    }
-
-    public void notifyOnSet(Skill skill, int ticks)
-    {
-        if(this.player instanceof EntityPlayerMP)
-        {
-            NetworkLoader.instance.sendTo(new MessageSpellCooldown(skill, ticks), (EntityPlayerMP) this.player);
-        }
-    }
-
-    public void notifyOnRemove(Skill skill)
-    {
-        if(this.player instanceof EntityPlayerMP)
-        {
-            NetworkLoader.instance.sendTo(new MessageSpellCooldown(skill, 0), (EntityPlayerMP) this.player);
-        }
     }
 
     public void tick()
@@ -82,11 +54,9 @@ public class SpellCooldownTracker
                 {
                     entry.setValue(entry.getValue() - 1);
                 }
-
-                if (entry.getValue() <= 0)
+                else
                 {
                     this.cooldowns.remove(entry.getKey());
-                    this.notifyOnRemove(entry.getKey());
                 }
             }
         }

@@ -16,9 +16,26 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class TileEntitySkull extends TileEntity
 {
+    private boolean useByItemStackRenderer = false;
+    
     private int skullType;
     private int skullRotation;
+    
+    public TileEntitySkull() {}
+    
+    @SideOnly(Side.CLIENT)
+    public TileEntitySkull(int skullType)
+    {
+        this.useByItemStackRenderer = true;
+        this.skullType = skullType;
+    }
 
+    @SideOnly(Side.CLIENT)
+    public boolean useByRenderer()
+    {
+        return this.useByItemStackRenderer;
+    }
+    
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
@@ -26,7 +43,7 @@ public class TileEntitySkull extends TileEntity
         compound.setInteger("SkullType", this.skullType);
         compound.setByte("Rot", (byte)(this.skullRotation & 255));
     }
-
+    
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
@@ -34,7 +51,7 @@ public class TileEntitySkull extends TileEntity
         this.skullType = compound.getInteger("SkullType");
         this.skullRotation = compound.getByte("Rot");
     }
-
+    
     @Override
     public Packet getDescriptionPacket()
     {
@@ -42,7 +59,7 @@ public class TileEntitySkull extends TileEntity
         this.writeToNBT(nbttagcompound);
         return new S35PacketUpdateTileEntity(this.pos, 4, nbttagcompound);
     }
-
+    
     @Override
     public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packetIn)
     {
@@ -50,7 +67,7 @@ public class TileEntitySkull extends TileEntity
         {
             TileEntity tileentity = this.worldObj.getTileEntity(packetIn.getPos());
             int i = packetIn.getTileEntityType();
-
+            
             if (i == 4 && tileentity instanceof TileEntitySkull)
             {
                 tileentity.readFromNBT(packetIn.getNbtCompound());
@@ -61,22 +78,22 @@ public class TileEntitySkull extends TileEntity
             }
         }
     }
-
+    
     public void setSkullType(int type)
     {
         this.skullType = type;
     }
-
+    
     public int getSkullType()
     {
         return this.skullType;
     }
-
+    
     public void setSkullRotation(int rotation)
     {
         this.skullRotation = rotation;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getSkullRotation()
     {

@@ -16,7 +16,6 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 version = mod_version
 group = mod_group
 archivesBaseName = mod_id + "-" + minecraft_version
-// genGradleProjects.javaLevel = 1.8
 // gradle.user.home = /.gradle
 
 minecraft {
@@ -38,10 +37,16 @@ configurations {
     compile.extendsFrom shade
 }
 
+/*
+sourceCompatibility = targetCompatibility = '1.7'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.7'
+}
+*/
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: '*.jar')
+    // compile fileTree(dir: 'libs', include: '*.jar')
     shade files('libs/luaj-jse-3.0.1.jar', 
                 'libs/markdown4j-2.2.jar')
 }
@@ -61,28 +66,46 @@ processResources {
 }
 
 jar {
-    manifest {}
-    
     configurations.shade.each { dep ->
-        from(project.zipTree(dep)){
+        from(project.zipTree(dep)) {
             exclude 'META-INF', 'META-INF/**'
         }
     }
+
+    from sourceSets.main.output
+        exclude 'io/github/dawncraft/core/**'
+
+    manifest ()
+}
+
+task coreJar(type: Jar, dependsOn: 'reobf') {
+    from sourceSets.main.output
+        include 'io/github/dawncraft/core/**'
+
+    manifest {
+        attributes 'FMLCorePlugin': 'io.github.dawncraft.core.DawnCorePlugin'
+    }
+
+    classifier = 'core'
 }
 
 task apiJar(type: Jar) {
-    classifier = 'api'
     from sourceSets.main.output
-    include 'io/github/dawncraft/api/**'
+        include 'io/github/dawncraft/api/**'
+
+    classifier = 'api'
 }
 
 task apiSourceJar(type: Jar) {
-    classifier = 'api-source'
     from sourceSets.main.allSource
-    include 'io/github/dawncraft/api/**'
+        include 'io/github/dawncraft/api/**'
+
+    classifier = 'api-source'
 }
 
 artifacts {
+    archives coreJar
+    archives sourceJar 
     archives apiJar
     archives apiSourceJar
 }
