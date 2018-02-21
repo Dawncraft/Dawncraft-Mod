@@ -16,11 +16,9 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
-import net.minecraftforge.fml.common.Optional;
 
 /**
  * Register custom blocks' model.
- * <br>这是啥Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register()</br>
  *
  * @author QingChenW
  */
@@ -81,7 +79,6 @@ public class BlockRenderLoader
      *
      * @param blocks builtin block(s) to register
      */
-    @Optional.Method(modid = "dawncore")
     private static void registerBuiltIn(Block... blocks)
     {
         RendererHelper.registerBuiltInBlocks(blocks);
@@ -93,7 +90,6 @@ public class BlockRenderLoader
      * @param block builtin block to register
      * @param iconName the name of texture
      */
-    @Optional.Method(modid = "dawncore")
     private static void registerBrokenTexture(Block block, String iconName)
     {
         RendererHelper.registerBreakTexture(block, iconName);

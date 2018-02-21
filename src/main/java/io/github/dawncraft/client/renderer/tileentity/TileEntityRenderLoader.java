@@ -10,7 +10,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
@@ -68,7 +67,6 @@ public class TileEntityRenderLoader
      * @param metadata metadata to register
      * @param tileentity tileentity instance to register
      */
-    @Optional.Method(modid = "dawncore")
     private static void registerTileItemRenderWithTE(Item item, int metadata, TileEntity tileentity)
     {
         registerTileItemRender(item, metadata, tileentity.getClass());

@@ -16,25 +16,13 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 version = mod_version
 group = mod_group
 archivesBaseName = mod_id + "-" + minecraft_version
-// gradle.user.home = /.gradle
 
 minecraft {
     version = minecraft_version + "-" + forge_version
     mappings = mcp_mapping
-    runDir = "run"
+    runDir = run_dir
+    clientRunArgs += run_args
     makeObfSourceJar = false
-//    srgExtra "PK: org/luaj io/github/dawncraft/repack/org/luaj"
-//    srgExtra "PK: org/markdown4j io/github/dawncraft/repack/org/markdown4j"
-//    srgExtra "PK: com/github/rjeschke/txtmark io/github/dawncraft/repack/com/github/rjeschke/txtmark"
-}
-
-makeEclipseCleanRunClient {
-    // runArgs = run_args
-}
-
-configurations {
-    shade
-    compile.extendsFrom shade
 }
 
 /*
@@ -43,13 +31,7 @@ compileJava {
     sourceCompatibility = targetCompatibility = '1.7'
 }
 */
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-dependencies {
-    // compile fileTree(dir: 'libs', include: '*.jar')
-    shade files('libs/luaj-jse-3.0.1.jar', 
-                'libs/markdown4j-2.2.jar')
-}
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 processResources {
     inputs.property "version", project.version
@@ -65,6 +47,17 @@ processResources {
     }
 }
 
+configurations {
+    shade
+    compile.extendsFrom shade
+}
+
+dependencies {
+    // compile fileTree(dir: 'libs', include: '*.jar')
+    shade files('libs/luaj-jse-3.0.1.jar', 
+                'libs/markdown4j-2.2.jar')
+}
+
 jar {
     configurations.shade.each { dep ->
         from(project.zipTree(dep)) {
@@ -78,7 +71,7 @@ jar {
     manifest ()
 }
 
-task coreJar(type: Jar, dependsOn: 'reobf') {
+task coreJar(type: Jar) {
     from sourceSets.main.output
         include 'io/github/dawncraft/core/**'
 
@@ -87,6 +80,29 @@ task coreJar(type: Jar, dependsOn: 'reobf') {
     }
 
     classifier = 'core'
+}
+
+reobf {
+    jar {
+        // addExtraSrgLines []
+        // addExtraSrgLine 'PK: org/luaj io/github/dawncraft/repack/org/luaj'
+        // addExtraSrgLine 'PK: org/markdown4j io/github/dawncraft/repack/org/markdown4j'
+        // addExtraSrgLine 'PK: com/github/rjeschke/txtmark io/github/dawncraft/repack/com/github/rjeschke/txtmark'
+    }
+
+    coreJar {}
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+        include 'io/github/dawncraft/**'
+        include 'assets/**'
+
+    manifest {
+        attributes 'FMLCorePlugin': 'io.github.dawncraft.core.DawnCorePlugin'
+    }
+
+    classifier = 'dev'
 }
 
 task apiJar(type: Jar) {
@@ -105,7 +121,8 @@ task apiSourceJar(type: Jar) {
 
 artifacts {
     archives coreJar
-    archives sourceJar 
+    archives deobfJar
+    archives sourceJar
     archives apiJar
     archives apiSourceJar
 }

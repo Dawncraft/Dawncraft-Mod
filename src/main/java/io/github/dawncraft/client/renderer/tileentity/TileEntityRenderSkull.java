@@ -51,20 +51,21 @@ public class TileEntityRenderSkull extends TileEntitySpecialRenderer<TileEntityS
     @Override
     public void renderTileEntityAt(TileEntitySkull tileentityskull, double x, double y, double z, float partialTicks, int destroyStage)
     {
-        if(!tileentityskull.useByRenderer())
+        if(tileentityskull != null)
         {
-            EnumFacing enumfacing = EnumFacing.getFront(tileentityskull.getBlockMetadata() & 7);
-            this.renderSkull((float)x, (float)y, (float)z, enumfacing, tileentityskull.getSkullType(), tileentityskull.getSkullRotation() * 360 / 16.0F, destroyStage);
+            if(tileentityskull.useByRenderer())
+            {
+                this.renderSkullItem((float)x, (float)y, (float)z, tileentityskull.getSkullType(), destroyStage);
+            }
+            else
+            {
+                EnumFacing enumfacing = EnumFacing.getFront(tileentityskull.getBlockMetadata() & 7);
+                this.renderSkull((float)x, (float)y, (float)z, enumfacing, tileentityskull.getSkullType(), tileentityskull.getSkullRotation() * 360 / 16.0F, destroyStage);
+            }
         }
         else
         {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(-0.5F, 0.0F, -0.5F);
-            GlStateManager.scale(2.0F, 2.0F, 2.0F);
-            GlStateManager.disableCull();
-            this.renderSkull((float)x, (float)y, (float)z, EnumFacing.UP, tileentityskull.getSkullType(), 0.0F, destroyStage);
-            GlStateManager.enableCull();
-            GlStateManager.popMatrix();
+            this.renderSkullItem((float)x, (float)y, (float)z, 0, destroyStage);
         }
     }
 
@@ -73,6 +74,17 @@ public class TileEntityRenderSkull extends TileEntitySpecialRenderer<TileEntityS
     {
         super.setRendererDispatcher(rendererDispatcherIn);
         instance = this;
+    }
+    
+    public void renderSkullItem(float x, float y, float z, int skulltype, int destroystage)
+    {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(-0.5F, 0.0F, -0.5F);
+        GlStateManager.scale(2.0F, 2.0F, 2.0F);
+        GlStateManager.disableCull();
+        this.renderSkull((float)x, (float)y, (float)z, EnumFacing.UP, skulltype, 0.0F, destroystage);
+        GlStateManager.enableCull();
+        GlStateManager.popMatrix();
     }
     
     public void renderSkull(float x, float y, float z, EnumFacing enumfacing, int skulltype, float skullrotation, int destroystage)

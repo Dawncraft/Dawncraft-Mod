@@ -21,7 +21,7 @@ public class DawnCoreModContainer extends DummyModContainer
         meta.description = "A core mod for dawncraft mod. It will change a lot in the future.";
         meta.url = "https://github.com/Dawncraft/Dawncraft-Mod";
     }
-    
+
     @Override
     public boolean registerBus(EventBus bus, LoadController controller)
     {
