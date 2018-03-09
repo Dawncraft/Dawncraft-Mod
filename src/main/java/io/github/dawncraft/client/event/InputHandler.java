@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputHandler
 {
     public InputHandler(FMLInitializationEvent event) {}
-    
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -46,7 +46,7 @@ public class InputHandler
                         if(player.hasCapability(CapabilityLoader.magic, null))
                         {
                             IMagic magic = player.getCapability(CapabilityLoader.magic, null);
-                            
+
                             if(magic.getSpellAction() == EnumSpellResult.NONE || i != magic.getSpellIndex())
                             {
                                 SkillStack stack = magic.getInventory().getStackInSlot(i);
@@ -58,7 +58,7 @@ public class InputHandler
                                     GuiIngameDawn.getIngameDawnGUI().setSpellIndex(i);
                                     NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                                 }
-
+                                
                             }
                         }
                     }
@@ -72,23 +72,7 @@ public class InputHandler
             // Use key was pressed
             if (KeyLoader.use.isPressed())
             {
-                /*
-              //public float defaultFov;
-              if(KeyLoader.aim.isPressed())
-              {
-              if(mc.gameSettings.fovSetting != 10.0F)
-              {
-                  defaultFov = mc.gameSettings.fovSetting;
-                  mc.gameSettings.fovSetting = 10.0F;
-              }
-              else
-              {
-                  mc.gameSettings.fovSetting = defaultFov;
-              }
-
-              EntityPlayerSP player = mc.thePlayer;
-              player.addChatMessage(new ChatComponentTranslation("chat.dawncraft.zoom"));
-              }*/
+                
             }
         }
         // Wiki key was pressed

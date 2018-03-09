@@ -14,6 +14,7 @@ import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
+import io.github.dawncraft.stats.AchievementLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,7 +29,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CapabilityEvent
 {
     public CapabilityEvent(FMLInitializationEvent event) {}
-    
+
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
@@ -39,18 +40,19 @@ public class CapabilityEvent
             event.addCapability(CapabilityLoader.res_magic, new CapabilityMagic.Provider(player));
         }
     }
-
+    
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
         if (!event.world.isRemote && event.entity instanceof EntityPlayer)
         {
             EntityPlayerMP player = (EntityPlayerMP) event.entity;
+            player.triggerAchievement(AchievementLoader.basic);
             if (player.hasCapability(CapabilityLoader.magic, null))
             {
                 IMagic magic = player.getCapability(CapabilityLoader.magic, null);
                 IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
-
+                
                 ISkillInventory inventory = magic.getInventory();
                 List<SkillStack> list = new ArrayList<SkillStack>();
                 for(int i = 0; i < inventory.getSizeInventory(); i++)
@@ -65,13 +67,13 @@ public class CapabilityEvent
             }
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
         Capability<IMagic> capability = CapabilityLoader.magic;
         IStorage<IMagic> storage = capability.getStorage();
-        
+
         if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
         {
             IMagic magic = event.original.getCapability(capability, null);

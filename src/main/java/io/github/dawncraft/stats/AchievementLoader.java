@@ -18,6 +18,9 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  */
 public class AchievementLoader
 {
+    /** A new achievement page for Dawncraft Mod. */
+    public static AchievementPage pageDawncraft = new AchievementPage(Dawncraft.NAME);
+
     public static Achievement basic = new Achievement("achievement.dawncraft.basic", "dawncraft.basic", -2, -1, ItemLoader.funny, AchievementList.openInventory).initIndependentStat();
     // Energy
     public static Achievement energy = new Achievement("achievement.dawncraft.energy", "dawncraft.energy", 0, -5, ItemLoader.bucketPetroleum, basic);
@@ -39,7 +42,7 @@ public class AchievementLoader
     // Food
     public static Achievement food = new Achievement("achievement.dawncraft.food", "dawncraft.food", 0, 7, ItemLoader.cakeEgg, basic);
     public static Achievement foodFaeces = new Achievement("achievement.dawncraft.foodFaeces", "dawncraft.foodFaeces", 2, 7, ItemLoader.faeces, food);
-    // Flans
+    // Guns
     public static Achievement guns = new Achievement("achievement.dawncraft.guns", "dawncraft.guns", 0, 9, ItemLoader.gunAK47, basic);
     public static Achievement gunsRPG = new Achievement("achievement.dawncraft.gunsRpg", "dawncraft.gunsRpg", 2, 9, ItemLoader.gunRPG, guns);
     public static Achievement explodeSkeleton = new Achievement("achievement.dawncraft.explodeSkeleton", "dawncraft.explodeSkeleton", 2, 10, ItemLoader.gunRPG, gunsRPG).setSpecial();
@@ -52,48 +55,45 @@ public class AchievementLoader
     public static Achievement dawnPortal = new Achievement("achievement.dawncraft.dawnPortal", "dawncraft.dawnPortal", -5, -3, Blocks.obsidian, ger);
     public static Achievement dawnArrival = new Achievement("achievement.dawncraft.dawnArrival", "dawncraft.dawnArrival", -5, -1, Items.apple, dawnPortal);
 
-    /** A new achievement page for Dawncraft Mod. */
-    public static AchievementPage pageDawncraft = new AchievementPage(Dawncraft.NAME);
-
     public AchievementLoader(FMLInitializationEvent event)
     {
-        addAchievement(basic);
-        addAchievement(energy);
-        addAchievement(electricity);
-        addAchievement(magnetism);
-        addAchievement(magnetCard);
-        addAchievement(machine);
-        addAchievement(machineStarted);
-        addAchievement(computer);
-        addAchievement(computerStarted);
-        addAchievement(science);
-        addAchievement(furniture);
-        addAchievement(food);
-        addAchievement(foodFaeces);
-        addAchievement(guns);
-        addAchievement(gunsRPG);
-        addAchievement(explodeSkeleton);
-        addAchievement(magic);
-        addAchievement(arrive);
-        addAchievement(kill);
-        addAchievement(ger);
-        addAchievement(dawnPortal);
-        addAchievement(dawnArrival);
+        addAchievements(pageDawncraft, basic);
 
-        register(pageDawncraft);
+        addAchievements(pageDawncraft, energy, electricity);
+
+        addAchievements(pageDawncraft, magnetism, magnetCard);
+
+        addAchievements(pageDawncraft, machine, machineStarted);
+
+        addAchievements(pageDawncraft, computer, computerStarted);
+
+        addAchievements(pageDawncraft, science);
+
+        addAchievements(pageDawncraft, furniture);
+
+        addAchievements(pageDawncraft, food, foodFaeces);
+
+        addAchievements(pageDawncraft, guns, gunsRPG, explodeSkeleton);
+
+        addAchievements(pageDawncraft, magic);
+
+        addAchievements(pageDawncraft, arrive, kill, ger, dawnPortal, dawnArrival);
+
+        registerAchievementPage(pageDawncraft);
     }
     
-    public static void addAchievement(Achievement achievement)
+    public static void addAchievements(AchievementPage page, Achievement... achievements)
     {
-        addAchievement(pageDawncraft, achievement);
+        for(Achievement achievement : achievements)
+            addAchievement(page, achievement);
     }
-    
+
     public static void addAchievement(AchievementPage page, Achievement achievement)
     {
         page.getAchievements().add(achievement.registerStat());
     }
     
-    public static void register(AchievementPage page)
+    public static void registerAchievementPage(AchievementPage page)
     {
         AchievementPage.registerAchievementPage(page);
     }

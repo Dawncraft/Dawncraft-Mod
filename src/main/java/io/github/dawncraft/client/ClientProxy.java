@@ -5,7 +5,7 @@ import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
 import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
 import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
-import io.github.dawncraft.client.renderer.skill.SkillRenderer;
+import io.github.dawncraft.client.renderer.skill.RenderSkill;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
@@ -38,7 +38,7 @@ public class ClientProxy extends ServerProxy
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        SkillRenderer.skillRender = new SkillRenderer(Minecraft.getMinecraft());
+        RenderSkill.skillRender = new RenderSkill(Minecraft.getMinecraft());
         TextureLoader.loadTextureMap();
         new KeyLoader(event);
         new ClientEventLoader(event);
