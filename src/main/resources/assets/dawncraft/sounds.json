@@ -17,10 +17,22 @@
             "mob/gerking/say"
         ]
     },
-    "random.gun": {
+    "gun.basic.empty": {
         "category": "neutral",
         "sounds": [
-            "random/gun"
+            "random/gun_empty"
+        ]
+    },
+    "gun.basic.reload": {
+        "category": "neutral",
+        "sounds": [
+            "random/gun_reload"
+        ]
+    },
+    "gun.basic.shoot": {
+        "category": "neutral",
+        "sounds": [
+            "random/gun_shoot"
         ]
     },
 	"records.chinese": {

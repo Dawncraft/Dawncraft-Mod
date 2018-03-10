@@ -68,7 +68,9 @@ jar {
     from sourceSets.main.output
         exclude 'io/github/dawncraft/core/**'
 
-    manifest ()
+    manifest {
+        attributes 'FMLAT': 'dawncraft_at.cfg'
+    }
 }
 
 task coreJar(type: Jar) {

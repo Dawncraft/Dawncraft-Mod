@@ -14,10 +14,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBucket;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemSoup;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumChatFormatting;
@@ -58,13 +63,13 @@ public class ItemLoader
             .setRepairItem(new ItemStack(magnetIngot));
     public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET",
             Dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11);
-    public static Item magnetAxe = new ItemAxeBase(MAGNET_TOOL).setUnlocalizedName("magnetAxe");
-    public static Item magnetPickaxe = new ItemPickaxeBase(MAGNET_TOOL).setUnlocalizedName("magnetPickaxe");
-    public static Item magnetHammer = new ItemHammerBase(MAGNET_TOOL).setUnlocalizedName("magnetHammer");
-    public static Item magnetSpade = new ItemSpadeBase(MAGNET_TOOL).setUnlocalizedName("magnetSpade");
-    public static Item magnetHoe = new ItemHoeBase(MAGNET_TOOL).setUnlocalizedName("magnetHoe");
-    public static Item magnetSword = new ItemSwordBase(MAGNET_TOOL).setUnlocalizedName("magnetSword");
-    public static Item magnetWand = new ItemWandBase(MAGNET_TOOL, 0.8F).setUnlocalizedName("magnetWand");
+    public static Item magnetAxe = new ItemAxe(MAGNET_TOOL).setUnlocalizedName("magnetAxe");
+    public static Item magnetPickaxe = new ItemPickaxe(MAGNET_TOOL).setUnlocalizedName("magnetPickaxe");
+    public static Item magnetHammer = new ItemHammer(MAGNET_TOOL).setUnlocalizedName("magnetHammer");
+    public static Item magnetSpade = new ItemSpade(MAGNET_TOOL).setUnlocalizedName("magnetSpade");
+    public static Item magnetHoe = new ItemHoe(MAGNET_TOOL).setUnlocalizedName("magnetHoe");
+    public static Item magnetSword = new ItemSword(MAGNET_TOOL).setUnlocalizedName("magnetSword");
+    public static Item magnetWand = new ItemWand(MAGNET_TOOL, 0.8F).setUnlocalizedName("magnetWand");
     public static Item magnetHelmet = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 0)
             .setUnlocalizedName("magnetHelmet");
     public static Item magnetChestplate = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 1)
@@ -124,11 +129,11 @@ public class ItemLoader
     public static Item frog = new Item().setUnlocalizedName("frog").setCreativeTab(CreativeTabsLoader.tabFood);
 
     // Guns
-    public static Item gunAK47 = new ItemGunBase(423, 6.0F).setUnlocalizedName("gunAK47")
+    public static Item gunAK47 = new ItemGunRifle(423, 30, 69, 2, 1, 0.85F, 0.70F, 0.65F, 6.0F)
+            .setUnlocalizedName("gunAK47").setCreativeTab(CreativeTabsLoader.tabGuns);
+    public static Item gunRPG = new ItemGunLauncher(28, 3, 100, -1, 1, 0.5F, 0.5F, 0.95F).setUnlocalizedName("gunRPG")
             .setCreativeTab(CreativeTabsLoader.tabGuns);
     public static Item gunBullet = new Item().setUnlocalizedName("gunBullet")
-            .setCreativeTab(CreativeTabsLoader.tabGuns);
-    public static Item gunRPG = new ItemGunRPG(28).setUnlocalizedName("gunRPG")
             .setCreativeTab(CreativeTabsLoader.tabGuns);
     public static Item gunRocket = new Item().setUnlocalizedName("gunRocket")
             .setCreativeTab(CreativeTabsLoader.tabGuns).setMaxStackSize(16);
@@ -186,18 +191,18 @@ public class ItemLoader
     }.setAlwaysEdible().setUnlocalizedName("brainDead").setCreativeTab(CreativeTabsLoader.tabColourEgg);
     public static Item funny = new Item().setUnlocalizedName("funny").setCreativeTab(CreativeTabsLoader.tabColourEgg);
 
-    public static Item chinese = new ItemRecordBase("chinese").setUnlocalizedName("record")
+    public static Item chinese = new ItemRecordDawn("chinese").setUnlocalizedName("record")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
-    public static Item dj = new ItemRecordBase("dj").setUnlocalizedName("record")
+    public static Item dj = new ItemRecordDawn("dj").setUnlocalizedName("record")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
-    public static Item wz = new ItemRecordBase("wzsongs").setUnlocalizedName("record")
+    public static Item wz = new ItemRecordDawn("wzsongs").setUnlocalizedName("record")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
 
     public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F, 16);
     public static final Item.ToolMaterial MJOLNIR = EnumHelper.addToolMaterial("MJOLNIR", 4, 2586, 10.0F, 2.0F, 24);
-    public static Item goldiamondSword = new ItemSwordBase(ItemLoader.GOLDIAMOND).setUnlocalizedName("goldiamondSword")
+    public static Item goldiamondSword = new ItemSword(ItemLoader.GOLDIAMOND).setUnlocalizedName("goldiamondSword")
             .setCreativeTab(CreativeTabsLoader.tabColourEgg);
-    public static Item mjolnir = new ItemHammerBase(ItemLoader.MJOLNIR)
+    public static Item mjolnir = new ItemHammer(ItemLoader.MJOLNIR)
     {
         @Override
         public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)

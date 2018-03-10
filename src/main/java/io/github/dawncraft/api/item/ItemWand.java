@@ -8,12 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class ItemWandBase extends Item
+public class ItemWand extends Item
 {
     private final Item.ToolMaterial material;
     private float spellSpeed;
 
-    public ItemWandBase(Item.ToolMaterial material, float spellSpeed)
+    public ItemWand(Item.ToolMaterial material, float spellSpeed)
     {
         this.material = material;
         this.spellSpeed = spellSpeed;

@@ -45,6 +45,7 @@ item.advancedCPU.desc=曙光二代CPU,速度还算可以
 item.superCPU.name=超级CPU
 item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
+item.potato.desc=土豆栽子,苞米胚子,甜菜梆子
 item.faeces.name=§6屎
 item.cakeEgg.name=荷包蛋
 item.frog.name=青蛙
@@ -202,6 +203,7 @@ death.attack.bullet=%1$s 被 %2$s 残酷地射死了
 death.attack.byGer=%s Ger死了
 
 gui.moreinfo=按 %s 显示详细信息
+gui.gun.ammo=弹药: %1$d / %2$d
 gui.skill.preparing=准备施放 %1$s
 gui.skill.spelling=正在施放 %1$s
 gui.skill.global_cooling=您的脸滚得太快了:)

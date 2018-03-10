@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.Event.HasResult;
 /**
  * BulletNockEvent is fired when a player begins using a gun.<br>
  * This event is fired whenever a player begins using a gun in
- * ItemFlan#onItemRightClick(ItemStack, World, EntityPlayer).<br>
+ * ItemGun#onItemRightClick(ItemStack, World, EntityPlayer).<br>
  * <br>
  * {@link #result} contains the resulting ItemStack due to the use of the gun. <br>
  * <br>
@@ -24,7 +24,7 @@ import net.minecraftforge.fml.common.eventhandler.Event.HasResult;
 public class BulletNockEvent extends PlayerEvent
 {
     public ItemStack result;
-    
+
     public BulletNockEvent(EntityPlayer player, ItemStack result)
     {
         super(player);

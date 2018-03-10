@@ -1,5 +1,13 @@
 This is Dawn Craft Mod's update log.
 ===========================================================
+0.2.4.1 update log:
+--------------------
+1.Add new stats gui.
+2.Add gun api.
+3.Add tooltip event handler.
+4.Fix some spelling mistakes.
+5.Add AT.
+===========================================================
 0.2.4.0 update(Magic Update) log:
 --------------------
 1.Better magic gui!
