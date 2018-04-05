@@ -1,9 +1,9 @@
 package io.github.dawncraft.api.item;
 
-import io.github.dawncraft.entity.projectile.EntityBullet;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -46,8 +46,9 @@ public class ItemGunRifle extends ItemGun
 
                 if (!player.worldObj.isRemote)
                 {
-                    EntityBullet entity = new EntityBullet(player.worldObj, player, 3.0F);
-                    entity.setDamage(this.getDamage());
+                    //EntityBullet entity = new EntityBullet(player.worldObj, player, 3.0F);
+                    //entity.setDamage(this.getDamage());
+                    EntityArrow entity = new EntityArrow(player.worldObj, player, 1.0F);
                     player.worldObj.spawnEntityInWorld(entity);
                 }
             }

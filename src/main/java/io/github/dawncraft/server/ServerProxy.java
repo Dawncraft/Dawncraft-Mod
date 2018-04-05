@@ -3,7 +3,6 @@ package io.github.dawncraft.server;
 import java.io.IOException;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.Metrics;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.command.CommandLoader;
@@ -27,6 +26,7 @@ import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import io.github.dawncraft.stats.StatLoader;
 import io.github.dawncraft.tileentity.TileEntityLoader;
+import io.github.dawncraft.util.Metrics;
 import io.github.dawncraft.util.ScriptHelper;
 import io.github.dawncraft.world.WorldLoader;
 import io.github.dawncraft.world.biome.BiomeLoader;
@@ -61,7 +61,7 @@ public class ServerProxy
         new PotionLoader(event);
         new OreDictionaryLoader(event);
     }
-
+    
     public void init(FMLInitializationEvent event)
     {
         new CraftingLoader(event);
@@ -76,28 +76,28 @@ public class ServerProxy
         new FakePlayerLoader(event);
         new GuiLoader(event);
     }
-
+    
     public void postInit(FMLPostInitializationEvent event)
     {
         new ScriptHelper();
         try
         {
             Metrics metrics = new Metrics(Dawncraft.NAME, Dawncraft.VERSION);
-            metrics.start();
+            //metrics.start();
         }
         catch (IOException e)
         {
             LogLoader.logger().error("Can't load metrics:", e);
         }
     }
-
+    
     public void serverStarting(FMLServerStartingEvent event)
     {
         new CommandLoader(event);
     }
-
+    
     public void interModComms(IMCEvent event)
     {
-
+        
     }
 }

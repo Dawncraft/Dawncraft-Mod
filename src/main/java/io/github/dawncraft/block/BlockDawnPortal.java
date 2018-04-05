@@ -34,31 +34,37 @@ public class BlockDawnPortal extends BlockBreakable
         this.setHardness(-1F);
         this.setLightLevel(0.75F);
     }
-    
+
+    @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
         float f = 0.0625F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, f, 1.0F);
     }
-
+    
+    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
         return side == EnumFacing.DOWN ? super.shouldSideBeRendered(worldIn, pos, side) : false;
     }
-    
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity collidingEntity) {}
 
+    @Override
+    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List list, Entity collidingEntity) {}
+    
+    @Override
     public boolean isFullCube()
     {
         return false;
     }
-    
+
+    @Override
     public int quantityDropped(Random random)
     {
         return 0;
     }
-    
+
+    @Override
     public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn)
     {
         if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null)
@@ -68,31 +74,31 @@ public class BlockDawnPortal extends BlockBreakable
                 EntityPlayerMP playerMP = (EntityPlayerMP) entityIn;
                 if (playerMP.dimension != 23)
                 {
-//                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 23, new WorldTeleporterDawn(playerMP.mcServer.worldServerForDimension(23)));
-
+                    //                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 23, new WorldTeleporterDawn(playerMP.mcServer.worldServerForDimension(23)));
+                    
                     BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(new BlockPos(8, 97, 8));
-//                    playerMP.moveToBlockPosAndAngles(blockpos, playerMP.rotationYaw, playerMP.rotationPitch);
+                    //                    playerMP.moveToBlockPosAndAngles(blockpos, playerMP.rotationYaw, playerMP.rotationPitch);
                     playerMP.playerNetServerHandler.setPlayerLocation(blockpos.getX(), blockpos.getY(), blockpos.getZ(), playerMP.rotationYaw, playerMP.rotationPitch);
                     MinecraftServer.getServer().worldServerForDimension(23).setSpawnPoint(blockpos);
-                    
-//                    playerMP.triggerAchievement(AchievementLoader.dawnArrival);
+
+                    //                    playerMP.triggerAchievement(AchievementLoader.dawnArrival);
                 }
                 else
                 {
-//                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0, new WorldTeleporterDawn(playerMP.mcServer.worldServerForDimension(0)));
-                    
+                    //                    playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, 0, new WorldTeleporterDawn(playerMP.mcServer.worldServerForDimension(0)));
+
                     BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(playerMP.mcServer.worldServerForDimension(0).getSpawnPoint());
-//                    playerMP.moveToBlockPosAndAngles(blockpos, playerMP.rotationYaw, playerMP.rotationPitch);
+                    //                    playerMP.moveToBlockPosAndAngles(blockpos, playerMP.rotationYaw, playerMP.rotationPitch);
                     playerMP.playerNetServerHandler.setPlayerLocation(blockpos.getX(), blockpos.getY(), blockpos.getZ(), playerMP.rotationYaw, playerMP.rotationPitch);
                 }
             }
             else
             {
-                sendEntityToDimension(entityIn, 23);
+                this.sendEntityToDimension(entityIn, 23);
             }
         }
     }
-    
+
     public void sendEntityToDimension(Entity entityIn, int dimensionId)
     {
         if (!entityIn.worldObj.isRemote && !entityIn.isDead)
@@ -103,24 +109,24 @@ public class BlockDawnPortal extends BlockBreakable
             WorldServer worldserver = minecraftserver.worldServerForDimension(dim);
             WorldServer worldserver1 = minecraftserver.worldServerForDimension(dimensionId);
             entityIn.dimension = dimensionId;
-            
+
             if (dim == 23 && dimensionId == 23)
             {
                 worldserver1 = minecraftserver.worldServerForDimension(0);
                 entityIn.dimension = 0;
             }
-            
+
             entityIn.worldObj.removeEntity(entityIn);
             entityIn.isDead = false;
             entityIn.worldObj.theProfiler.startSection("reposition");
-//            minecraftserver.getConfigurationManager().transferEntityToWorld(entityIn, dim, worldserver, worldserver1,  new WorldTeleporterDawn(worldserver1));
+            //            minecraftserver.getConfigurationManager().transferEntityToWorld(entityIn, dim, worldserver, worldserver1,  new WorldTeleporterDawn(worldserver1));
             entityIn.worldObj.theProfiler.endStartSection("reloading");
             Entity transferEntity = EntityList.createEntityByName(EntityList.getEntityString(entityIn), worldserver1);
-
+            
             if (transferEntity != null)
             {
                 transferEntity.copyDataFromOld(entityIn);
-                
+
                 if (dim == 23 && dimensionId == 23)
                 {
                     BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(worldserver1.getSpawnPoint());
@@ -131,10 +137,10 @@ public class BlockDawnPortal extends BlockBreakable
                     BlockPos blockpos = entityIn.worldObj.getTopSolidOrLiquidBlock(new BlockPos(8, 97, 8));
                     transferEntity.moveToBlockPosAndAngles(blockpos, transferEntity.rotationYaw, transferEntity.rotationPitch);
                 }
-                
+
                 worldserver1.spawnEntityInWorld(transferEntity);
             }
-
+            
             entityIn.isDead = true;
             entityIn.worldObj.theProfiler.endSection();
             worldserver.resetUpdateEntityTick();
@@ -142,7 +148,8 @@ public class BlockDawnPortal extends BlockBreakable
             entityIn.worldObj.theProfiler.endSection();
         }
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
@@ -154,7 +161,8 @@ public class BlockDawnPortal extends BlockBreakable
         double d5 = 0.0D;
         worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, d3, d4, d5, new int[0]);
     }
-    
+
+    @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World worldIn, BlockPos pos)
     {

@@ -1,7 +1,6 @@
 package io.github.dawncraft.api.item;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.api.event.entity.BulletNockEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
@@ -12,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -81,8 +79,8 @@ public class ItemGun extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
-        BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
-        if (MinecraftForge.EVENT_BUS.post(event)) return event.result;
+        //BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
+        //if (MinecraftForge.EVENT_BUS.post(event)) return event.result;
 
         if (playerIn.capabilities.isCreativeMode || this.getAmmoAmount(itemStackIn) > 0)
         {
@@ -116,7 +114,6 @@ public class ItemGun extends Item
     @Override
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft)
     {
-        playerIn.clearItemInUse();
     }
     
     /**

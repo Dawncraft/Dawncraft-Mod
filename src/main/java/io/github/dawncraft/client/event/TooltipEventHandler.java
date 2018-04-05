@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class TooltipEventHandler
 {
-    // 政治家、永垂不朽、烧铝、酵母菌的食用方式、血绿蛋白、大眼激光
+    // 政治家、永垂不朽、烧铝、酵母菌的食用方式、血绿蛋白、大眼激光、略施魔法
     private static Map<Item, IItemTooltipHandler> tooltipMap = new HashMap<Item, IItemTooltipHandler>();
     public static IItemTooltipHandler defaultItemHandler = new IItemTooltipHandler()
     {
@@ -35,7 +35,7 @@ public class TooltipEventHandler
             return toolTip;
         }
     };
-
+    
     public TooltipEventHandler(FMLInitializationEvent event)
     {
         if(ConfigLoader.isColoreggEnabled())
@@ -43,7 +43,7 @@ public class TooltipEventHandler
             registerItemTooltip(Items.potato, null);
         }
     }
-    
+
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event)
     {
@@ -53,18 +53,18 @@ public class TooltipEventHandler
             event.toolTip.addAll(1, toolTip);
         }
     }
-    
+
     public static void registerItemTooltip(Item item, IItemTooltipHandler handler)
     {
         if(handler == null) handler = defaultItemHandler;
         tooltipMap.put(item, handler);
     }
-    
+
     public static void registerItemTooltip(Block block, IItemTooltipHandler handler)
     {
         registerItemTooltip(Item.getItemFromBlock(block), handler);
     }
-    
+
     interface IItemTooltipHandler
     {
         List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips);

@@ -28,7 +28,7 @@
  * either expressed or implied, of anybody else.
  */
 
-package io.github.dawncraft;
+package io.github.dawncraft.util;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.config.Configuration;

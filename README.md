@@ -18,6 +18,8 @@
 
 2018/2/19注:Eclipse中可用Bytecode Outline插件辅助查看字节码,方便使用ASM
 
+2018/4/5注:在工程目录下输入git config core.ignorecase false使git不再忽略大小写
+
 ##目录
 
 [开发Mod](#Mod开发)
