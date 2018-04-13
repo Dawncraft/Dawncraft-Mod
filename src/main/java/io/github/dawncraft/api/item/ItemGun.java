@@ -1,6 +1,7 @@
 package io.github.dawncraft.api.item;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
@@ -64,7 +65,11 @@ public class ItemGun extends Item
     @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
-        return EnumAction.BOW;
+        if(this.getAmmoAmount(stack) > 0)
+        {
+            return ItemLoader.SHOOT;
+        }
+        return super.getItemUseAction(stack);
     }
 
     @Override

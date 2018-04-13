@@ -29,48 +29,50 @@ public class BlockOreBase extends Block
     private int droppedRange;
     private int droppedExpMin;
     private int droppedExpMax;
-
+    
     public BlockOreBase()
     {
         this(Material.rock.getMaterialMapColor());
     }
-    
+
     public BlockOreBase(MapColor color)
     {
-        this(color, 1, 0, 0, 0);
+        this(color, 1, 0);
     }
-    
-    public BlockOreBase(int count, int range, int expMin, int expMax)
+
+    public BlockOreBase(int count, int range)
     {
-        this(Material.rock.getMaterialMapColor(), count, range, expMin, expMax);
+        this(Material.rock.getMaterialMapColor(), count, range);
     }
-    
-    public BlockOreBase(MapColor color, int count, int range, int expMin, int expMax)
+
+    public BlockOreBase(MapColor color, int count, int range)
     {
         super(Material.rock, color);
         this.droppedCount = count;
         this.droppedRange = range;
-        this.droppedExpMin = expMin;
-        this.droppedExpMax = expMax;
+        this.droppedExpMin = 0;
+        this.droppedExpMax = 0;
         this.setHardness(3.0f);
         this.setResistance(5.0f);
     }
-
+    
+    public BlockOreBase setDroppedExp(int expMin, int expMax)
+    {
+        this.droppedExpMin = expMin;
+        this.droppedExpMax = expMax;
+        return this;
+    }
+    
     public Item getMineral()
     {
         return Item.getItemFromBlock(this);
     }
-    
-    public boolean isDroppedItself()
+
+    public boolean isDroppedItself(IBlockState state, Random rand, int fortune)
     {
         return this.getMineral() == Item.getItemFromBlock(this);
     }
     
-    public boolean isDroppedItself(IBlockState state, Random rand, int fortune)
-    {
-        return this.isDroppedItself();
-    }
-
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
@@ -78,44 +80,55 @@ public class BlockOreBase extends Block
     }
 
     @Override
+    public int damageDropped(IBlockState state)
+    {
+        return 0;
+    }
+    
+    @Override
     public int quantityDropped(IBlockState state, int fortune, Random rand)
     {
-        if (!this.isDroppedItself(state, rand, fortune) && fortune > 0)
+        if (!this.isDroppedItself(state, rand, fortune))
         {
-            return this.quantityDroppedWithBonus(fortune, rand);
+            if(fortune > 0)
+            {
+                return this.quantityDroppedWithBonus(fortune, rand);
+            }
+            else
+            {
+                return this.quantityDropped(rand) + rand.nextInt(this.droppedRange);
+            }
         }
         else
         {
             return this.quantityDropped(rand);
         }
     }
-
-    /** 需要的话请用匿名内部类重写此方法
-     */
+    
     @Override
     public int quantityDroppedWithBonus(int fortune, Random random)
     {
-        return fortune;
+        int count = random.nextInt(fortune);
+        if (count < 0) count = 0;
+        return this.quantityDropped(random) + count;
     }
-    
+
     @Override
     public int quantityDropped(Random random)
     {
-        return this.isDroppedItself() ? this.droppedCount : this.droppedCount + random.nextInt(this.droppedRange);
+        return this.droppedCount;
     }
-
-    @Override
-    public int damageDropped(IBlockState state)
-    {
-        return 0;
-    }
-
+    
     @Override
     public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune)
     {
-        IBlockState state = world.getBlockState(pos);
-        Random rand = world instanceof World ? ((World)world).rand : new Random();
-        if (this.isDroppedItself(state, rand, fortune)) return 0;
-        return MathHelper.getRandomIntegerInRange(rand, this.droppedExpMin, this.droppedExpMax);
+        if(this.droppedExpMax > 0)
+        {
+            IBlockState state = world.getBlockState(pos);
+            Random rand = world instanceof World ? ((World)world).rand : new Random();
+            if (this.isDroppedItself(state, rand, fortune)) return 0;
+            return MathHelper.getRandomIntegerInRange(rand, this.droppedExpMin, this.droppedExpMax);
+        }
+        return 0;
     }
 }

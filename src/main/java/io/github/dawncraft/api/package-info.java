@@ -1,5 +1,5 @@
 /**
- * 曙光工艺提供给开发者的接口，目前乱七八糟...
+ * The APIs for developers of Dawncraft Mod.
  *
  * @author QingChenW
  */

@@ -8,7 +8,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
- * Register fluid in the class.
+ * Register some fluids.
  *
  * @author QingChenW
  */
@@ -16,15 +16,20 @@ public class FluidLoader
 {
     public static final ResourceLocation PETROLEUM_STILL = new ResourceLocation(Dawncraft.MODID + ":" + "fluid/petroleum_still");
     public static final ResourceLocation PETROLEUM_FLOWING = new ResourceLocation(Dawncraft.MODID + ":" + "fluid/petroleum_flow");
-    
+
     public static Fluid fluidPetroleum = new Fluid("petroleum", PETROLEUM_STILL, PETROLEUM_FLOWING).setUnlocalizedName("fluidPetroleum").setDensity(8000).setViscosity(850);
-    
+
     public FluidLoader(FMLPreInitializationEvent event)
     {
-        fluidPetroleum = register(fluidPetroleum);
+        this.register(fluidPetroleum);
     }
-    
-    public static Fluid register(Fluid fluid)
+
+    /**
+     * Register a fluid. If it has been registered by any other mod, then replace it.
+     *
+     * @param fluid The fluid to be registered.
+     */
+    public void register(Fluid fluid)
     {
         if (FluidRegistry.isFluidRegistered(fluidPetroleum))
         {
@@ -36,6 +41,5 @@ public class FluidLoader
         {
             FluidRegistry.registerFluid(fluidPetroleum);
         }
-        return fluid;
     }
 }

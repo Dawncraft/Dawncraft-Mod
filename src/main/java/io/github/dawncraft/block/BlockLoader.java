@@ -1,7 +1,5 @@
 package io.github.dawncraft.block;
 
-import java.util.Random;
-
 import io.github.dawncraft.api.block.*;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidLoader;
@@ -16,7 +14,7 @@ import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
- * Register Blocks in the class.
+ * Register Blocks.
  *
  * @author QingChenW
  */
@@ -25,10 +23,10 @@ public class BlockLoader
     // Energy
     public static Block fluidPetroleum = new BlockFluidClassic(FluidLoader.fluidPetroleum, Material.water)
             .setUnlocalizedName("fluidPetroleum");
-
+    
     public static Block electricCable = new BlockElectricCable().setUnlocalizedName("electricityCable")
             .setCreativeTab(CreativeTabsLoader.tabEnergy);
-
+    
     public static Block energyGeneratorHeat = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.HEAT)
             .setUnlocalizedName("heatGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
     public static Block energyGeneratorFluid = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.FLUID)
@@ -42,7 +40,7 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabEnergy);
     public static Block energyGeneratorMagic = new BlockEnergyGenerator(BlockEnergyGenerator.EnergyGeneratorType.MAGIC)
             .setUnlocalizedName("magicGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
-
+    
     // Magnet
     public static Block magnetOre = new BlockOreBase().setUnlocalizedName("magnetOre")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
@@ -53,7 +51,7 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
     public static Block magnetRail = new BlockMagnetRail().setUnlocalizedName("magnetRail")
             .setCreativeTab(CreativeTabsLoader.tabMagnetism);
-
+    
     // Machine
     public static Block copperOre = new BlockOreBase().setUnlocalizedName("copperOre")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
@@ -62,7 +60,7 @@ public class BlockLoader
             .setStepSound(Block.soundTypePiston);
     public static Block machineFurnace = new BlockMachineFurnace().setUnlocalizedName("machineFurnace")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
-
+    
     // Computer
     public static Block simpleComputer = new BlockComputerCase(BlockComputerCase.ComputerCaseType.SIMPLE)
             .setUnlocalizedName("simpleComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
@@ -70,9 +68,9 @@ public class BlockLoader
             .setUnlocalizedName("advancedComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
     public static Block superComputer = new BlockComputerCase(BlockComputerCase.ComputerCaseType.SUPER)
             .setUnlocalizedName("superComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
-
+    
     // Materials
-
+    
     // Furniture
     public static Block woodTable = new BlockFurnitureTable(Material.wood, Block.soundTypeWood)
             .setUnlocalizedName("woodTable").setCreativeTab(CreativeTabsLoader.tabFurniture);
@@ -84,146 +82,124 @@ public class BlockLoader
             .setUnlocalizedName("stoneChair").setCreativeTab(CreativeTabsLoader.tabFurniture);
     public static Block superChest = new BlockFurnitureSuperChest().setUnlocalizedName("superChest")
             .setCreativeTab(CreativeTabsLoader.tabFurniture);
-    
-    // Food
 
+    // Food
+    
     // Magic
-    public static Block magicOre = new BlockOreBase(1, 2, 5, 7)
+    public static Block magicOre = new BlockOreBase(1, 2)
     {
         @Override
         public Item getMineral()
         {
             return ItemLoader.magicDust;
         }
-        
-        @Override
-        public int quantityDroppedWithBonus(int fortune, Random random)
-        {
-            int count = random.nextInt(fortune + 1);
-            if (count < 0) count = 0;
-            return this.quantityDropped(random) + count;
-        }
-    }.setUnlocalizedName("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic);
-
+    }.setDroppedExp(5, 7).setUnlocalizedName("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic);
+    
     // Guns
-
+    
     // ColourEgg
     public static Block dawnPortal = new BlockDawnPortal().setUnlocalizedName("dawnPortal");
     public static Block skull = new BlockDawnSkull().setUnlocalizedName("skull");
-    
+
     public BlockLoader(FMLPreInitializationEvent event)
     {
         // Energy
         register(fluidPetroleum, "fluid_petroleum");
-        
+
         register(electricCable, "electric_cable");
-        
+
         register(energyGeneratorHeat, "heat_generator");
-//        register(energyGeneratorFluid, "fluid_generator");
-//        register(energyGeneratorSolar, "solar_generator");
-//        register(energyGeneratorWind, "wind_generator");
-//        register(energyGeneratorNuclear, "nuclear_generator");
-//        register(energyGeneratorMagic, "magic_generator");
+        //        register(energyGeneratorFluid, "fluid_generator");
+        //        register(energyGeneratorSolar, "solar_generator");
+        //        register(energyGeneratorWind, "wind_generator");
+        //        register(energyGeneratorNuclear, "nuclear_generator");
+        //        register(energyGeneratorMagic, "magic_generator");
         // Magnet
         register(magnetOre, "magnet_ore");
         magnetBlock.setHarvestLevel("ItemPickaxe", 1);
         register(magnetBlock, "magnet_block");
-        registerWithItem(magnetDoor, null, "magnet_door");
+        register(magnetDoor, ItemLoader.magnetDoor, "magnet_door");
         register(magnetRail, "magnet_rail");
-
+        
         // Machine
         register(copperOre, "copper_ore");
         register(copperBlock, "copper_block");
         register(machineFurnace, "iron_furnace");
-
+        
         // Computer
         register(simpleComputer, "simple_computer");
         register(advancedComputer, "advanced_computer");
         register(superComputer, "super_computer");
-        
-        // Materials
 
+        // Materials
+        
         // Furniture
         register(woodTable, "wood_table");
         register(stoneTable, "stone_table");
         register(woodChair, "wood_chair");
         register(stoneChair, "stone_chair");
         register(superChest, "super_chest");
-
+        
         // Food
-
+        
         // Magic
         register(magicOre, "magic_ore");
-
+        
         // Guns
-
+        
         // ColourEgg
-        registerWithItem(dawnPortal, null, "dawn_portal");
-        registerWithItem(skull, null, "skull");
+        register(dawnPortal, (Class) null, "dawn_portal");
+        register(skull, ItemLoader.skull, "skull");
     }
-    
+
     /**
-     * Register a block with a string id and a default item-block.
+     * Register a block with a string id and a default block item.
      *
-     * @param block
-     *            The block to register
-     * @param name
-     *            The block's string id
+     * @param block The block to be registered
+     * @param name The block's string id
      */
     private static void register(Block block, String name)
     {
         GameRegistry.registerBlock(block, name);
     }
-    
+
     /**
-     * Register a block with a string id and a item-block.
+     * Register a block with a string id and a block item which has no arguments.
      *
-     * @param block
-     *            The block to register
-     * @param itemclass
-     *            The item-block's class
-     * @param name
-     *            The block's string id
+     * @param block The block to be registered
+     * @param itemClass The block item's class
+     * @param name The block's string id
      */
-    private static void registerWithItem(Block block, Class<? extends ItemBlock> itemclass, String name)
+    private static void register(Block block, Class<? extends ItemBlock> itemClass, String name)
     {
-        GameRegistry.registerBlock(block, itemclass, name);
+        GameRegistry.registerBlock(block, itemClass, name);
     }
-    
+
     /**
-     * Register a block with a string id and a item-block.
+     * Register a block with a string id and a block item which has some arguments.
      *
-     * @param block
-     *            The block to register
-     * @param itemclass
-     *            The item-block's class
-     * @param name
-     *            The block's string id
-     * @param args
-     *            The item-block's constructor arguments
+     * @param block The block to be registered
+     * @param itemClass The block item's class
+     * @param name The block's string id
+     * @param args The block item's constructor arguments
      */
-    private static void registerWithItem(Block block, Class<? extends ItemBlock> itemclass, String name, Object... args)
+    private static void register(Block block, Class<? extends ItemBlock> itemClass, String name, Object... args)
     {
-        GameRegistry.registerBlock(block, itemclass, name, args);
+        GameRegistry.registerBlock(block, itemClass, name, args);
     }
-    
+
     /**
-     * Register a block with a string id and a item-block.
-     * <br><b>Not recommended, use {@link #registerWithItem(Block, Class, String, Object...)} instead of.</b><br/>
-     * This void will remove in next version.
+     * Register a block with a string id and a block item which is existed.
+     * <br>Not recommend, use {@link #register(Block, Class, String)} instead.<br/>
      *
-     * @param block
-     *            The block to register
-     * @param itemblock
-     *            The item-block
-     * @param name
-     *            The block's string id
+     * @param block The block to be registered
+     * @param item The block item
+     * @param name The block's string id
      */
     @Deprecated
-    private static void registerWithItem2(Block block, ItemBlock itemblock, String name)
+    private static void register(Block block, Item item, String name)
     {
         GameRegistry.registerBlock(block.setRegistryName(name), (Class<? extends ItemBlock>) null);
-        GameRegistry.registerItem(itemblock.setRegistryName(name));
-        GameData.getBlockItemMap().put(block, itemblock);
+        GameData.getBlockItemMap().put(block, item);
     }
 }

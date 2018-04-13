@@ -1,7 +1,5 @@
 package io.github.dawncraft.capability;
 
-import io.github.dawncraft.Dawncraft;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -15,16 +13,27 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class CapabilityLoader
 {
-    public static ResourceLocation res_magic = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
+    /** A capability to handle thirst for player. */
+    @CapabilityInject(IWater.class)
+    public static Capability<IWater> water;
+    /** A capability to handle magic for player. */
     @CapabilityInject(IMagic.class)
     public static Capability<IMagic> magic;
 
     public CapabilityLoader(FMLPreInitializationEvent event)
     {
-        register(IMagic.class, new CapabilityMagic.Storage(), CapabilityMagic.Implementation.class);
+        register(IMagic.class, CapabilityMagic.Implementation.class, new CapabilityMagic.Storage());
     }
     
-    public static <T> void register(Class<T> type, IStorage<T> storage, Class<? extends T> implementation)
+    /**
+     * Register a capability with its abstract class, the implementation of its abstract class and storage object.
+     *
+     * @param type The capability's abstract class
+     *
+     * @param implementation The capability's implementation class
+     * @param storage The capability's storage object
+     */
+    public static <T> void register(Class<T> type, Class<? extends T> implementation, IStorage<T> storage)
     {
         CapabilityManager.INSTANCE.register(type, storage, implementation);
     }

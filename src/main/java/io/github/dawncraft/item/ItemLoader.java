@@ -12,6 +12,7 @@ import io.github.dawncraft.potion.PotionLoader;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
@@ -36,11 +37,16 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * @author QingChenW
+ * Register some items.
  *
+ * @author QingChenW
  */
 public class ItemLoader
 {
+    // Action
+    public static final EnumAction SHOOT = EnumHelper.addAction("SHOOT");
+    public static final EnumAction RELOAD = EnumHelper.addAction("RELOAD");
+    
     // Energy
     public static Item bucketPetroleum = new ItemBucket(BlockLoader.fluidPetroleum)
             .setUnlocalizedName("petroleumBucket").setCreativeTab(CreativeTabsLoader.tabEnergy)
@@ -292,12 +298,10 @@ public class ItemLoader
     }
 
     /**
-     * Register a item with a name-id.
+     * Register a item with a string id.
      *
-     * @param item
-     *            The item to register
-     * @param name
-     *            The item's name-id
+     * @param item The item to be registered
+     * @param name The item's string id
      */
     private static void register(Item item, String name)
     {
