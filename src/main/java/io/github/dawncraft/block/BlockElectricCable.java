@@ -1,9 +1,8 @@
 package io.github.dawncraft.block;
 
-import io.github.dawncraft.api.block.BlockMachineBase;
+import io.github.dawncraft.api.block.BlockMachine;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
@@ -13,8 +12,9 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.IBlockAccess;
 
 /**
- * @author QingChenW
+ * Electric cable
  *
+ * @author QingChenW
  */
 public class BlockElectricCable extends Block
 {
@@ -24,27 +24,27 @@ public class BlockElectricCable extends Block
     public static final PropertyEnum WEST = PropertyEnum.create("west", BlockElectricCable.EnumAttachPosition.class);
     public static final PropertyEnum UP = PropertyEnum.create("up", BlockElectricCable.EnumAttachPosition.class);
     public static final PropertyEnum DOWN = PropertyEnum.create("down", BlockElectricCable.EnumAttachPosition.class);
-
+    
     public BlockElectricCable()
     {
         super(Material.circuits);
         this.setHardness(2.0F);
-        this.setBlockBounds(0.375F, 0.375F, 0.375F, 0.75F, 0.75F, 0.75F);
-        this.setDefaultState(
-                this.blockState.getBaseState().withProperty(NORTH, BlockElectricCable.EnumAttachPosition.NONE)
-                        .withProperty(EAST, BlockElectricCable.EnumAttachPosition.NONE)
-                        .withProperty(SOUTH, BlockElectricCable.EnumAttachPosition.NONE)
-                        .withProperty(WEST, BlockElectricCable.EnumAttachPosition.NONE)
-                        .withProperty(UP, BlockElectricCable.EnumAttachPosition.NONE)
-                        .withProperty(DOWN, BlockElectricCable.EnumAttachPosition.NONE));
+        this.setBlockBounds(0.375F, 0.375F, 0.375F, 0.625F, 0.625F, 0.625F);
+        this.setDefaultState(this.blockState.getBaseState()
+                .withProperty(NORTH, BlockElectricCable.EnumAttachPosition.NONE)
+                .withProperty(EAST, BlockElectricCable.EnumAttachPosition.NONE)
+                .withProperty(SOUTH, BlockElectricCable.EnumAttachPosition.NONE)
+                .withProperty(WEST, BlockElectricCable.EnumAttachPosition.NONE)
+                .withProperty(UP, BlockElectricCable.EnumAttachPosition.NONE)
+                .withProperty(DOWN, BlockElectricCable.EnumAttachPosition.NONE));
     }
-
+    
     @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
-
+    
     @Override
     public boolean isFullCube()
     {
@@ -52,68 +52,9 @@ public class BlockElectricCable extends Block
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
+    protected BlockState createBlockState()
     {
-        float x1 = 6F / 16F;
-        float x2 = 1.0F - x1;
-        float y1 = x1;
-        float y2 = 1.0F - y1;
-        float z1 = x1;
-        float z2 = 1.0F - z1;
-
-        if (this.getAttachPosition(worldIn, pos, EnumFacing.WEST) != BlockElectricCable.EnumAttachPosition.NONE)
-            x1 = 0.0F;
-        if (this.getAttachPosition(worldIn, pos, EnumFacing.EAST) != BlockElectricCable.EnumAttachPosition.NONE)
-            x2 = 1.0F;
-        if (this.getAttachPosition(worldIn, pos, EnumFacing.NORTH) != BlockElectricCable.EnumAttachPosition.NONE)
-            z1 = 0.0F;
-        if (this.getAttachPosition(worldIn, pos, EnumFacing.SOUTH) != BlockElectricCable.EnumAttachPosition.NONE)
-            z2 = 1.0F;
-        if (this.getAttachPosition(worldIn, pos, EnumFacing.DOWN) != BlockElectricCable.EnumAttachPosition.NONE)
-            y1 = 0.0F;
-        if (this.getAttachPosition(worldIn, pos, EnumFacing.UP) != BlockElectricCable.EnumAttachPosition.NONE)
-            y2 = 1.0F;
-
-        this.setBlockBounds(x1, y1, z1, x2, y2, z2);
-    }
-
-    @Override
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
-    {
-        state = state.withProperty(WEST, this.getAttachPosition(worldIn, pos, EnumFacing.WEST));
-        state = state.withProperty(EAST, this.getAttachPosition(worldIn, pos, EnumFacing.EAST));
-        state = state.withProperty(NORTH, this.getAttachPosition(worldIn, pos, EnumFacing.NORTH));
-        state = state.withProperty(SOUTH, this.getAttachPosition(worldIn, pos, EnumFacing.SOUTH));
-        state = state.withProperty(UP, this.getAttachPosition(worldIn, pos, EnumFacing.UP));
-        state = state.withProperty(DOWN, this.getAttachPosition(worldIn, pos, EnumFacing.DOWN));
-        return state;
-    }
-
-    private BlockElectricCable.EnumAttachPosition getAttachPosition(IBlockAccess worldIn, BlockPos pos,
-            EnumFacing direction)
-    {
-        BlockPos blockpos1 = pos.offset(direction);
-        Block block = worldIn.getBlockState(pos.offset(direction)).getBlock();
-        int flag = canConnect(worldIn, blockpos1, direction);
-
-        if (flag == 1)
-            return BlockElectricCable.EnumAttachPosition.CABLE;
-        else if (flag == 2)
-            return BlockElectricCable.EnumAttachPosition.MACHINE;
-        else
-            return BlockElectricCable.EnumAttachPosition.NONE;
-    }
-
-    protected static int canConnect(IBlockAccess world, BlockPos pos, EnumFacing side)
-    {
-        IBlockState state = world.getBlockState(pos);
-
-        if (state.getBlock() == BlockLoader.electricCable)
-            return 1;
-        else if (state.getBlock() instanceof BlockMachineBase)
-            return 2;
-        else
-            return 0;
+        return new BlockState(this, NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 
     @Override
@@ -127,31 +68,73 @@ public class BlockElectricCable extends Block
     {
         return 0;
     }
-
+    
     @Override
-    protected BlockState createBlockState()
+    public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos)
     {
-        return new BlockState(this, new IProperty[]
-        { NORTH, EAST, SOUTH, WEST, UP, DOWN });
+        return state.withProperty(WEST, this.getAttachPosition(world, pos, EnumFacing.WEST))
+                .withProperty(EAST, this.getAttachPosition(world, pos, EnumFacing.EAST))
+                .withProperty(NORTH, this.getAttachPosition(world, pos, EnumFacing.NORTH))
+                .withProperty(SOUTH, this.getAttachPosition(world, pos, EnumFacing.SOUTH))
+                .withProperty(UP, this.getAttachPosition(world, pos, EnumFacing.UP))
+                .withProperty(DOWN, this.getAttachPosition(world, pos, EnumFacing.DOWN));
     }
+    
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos)
+    {
+        float x1 = 0.375F;
+        float x2 = 0.625F;
+        float z1 = x1;
+        float z2 = x2;
+        float y1 = x1;
+        float y2 = x2;
+        
+        if (this.getAttachPosition(world, pos, EnumFacing.WEST) != BlockElectricCable.EnumAttachPosition.NONE)
+            x1 = 0.0F;
+        if (this.getAttachPosition(world, pos, EnumFacing.EAST) != BlockElectricCable.EnumAttachPosition.NONE)
+            x2 = 1.0F;
+        if (this.getAttachPosition(world, pos, EnumFacing.NORTH) != BlockElectricCable.EnumAttachPosition.NONE)
+            z1 = 0.0F;
+        if (this.getAttachPosition(world, pos, EnumFacing.SOUTH) != BlockElectricCable.EnumAttachPosition.NONE)
+            z2 = 1.0F;
+        if (this.getAttachPosition(world, pos, EnumFacing.DOWN) != BlockElectricCable.EnumAttachPosition.NONE)
+            y1 = 0.0F;
+        if (this.getAttachPosition(world, pos, EnumFacing.UP) != BlockElectricCable.EnumAttachPosition.NONE)
+            y2 = 1.0F;
+        
+        this.setBlockBounds(x1, y1, z1, x2, y2, z2);
+    }
+    
+    public EnumAttachPosition getAttachPosition(IBlockAccess world, BlockPos pos, EnumFacing side)
+    {
+        Block block = world.getBlockState(pos.offset(side)).getBlock();
 
+        if (block == this)
+            return BlockElectricCable.EnumAttachPosition.CABLE;
+        else if (block instanceof BlockMachine)
+            return BlockElectricCable.EnumAttachPosition.MACHINE;
+        else
+            return BlockElectricCable.EnumAttachPosition.NONE;
+    }
+    
     static enum EnumAttachPosition implements IStringSerializable
     {
         NONE("none"), CABLE("cable"), MACHINE("machine");
-
-        private final String _name;
-
+        
+        private final String name;
+        
         private EnumAttachPosition(String name)
         {
-            this._name = name;
+            this.name = name;
         }
-
+        
         @Override
         public String getName()
         {
-            return this._name;
+            return this.name;
         }
-
+        
         @Override
         public String toString()
         {

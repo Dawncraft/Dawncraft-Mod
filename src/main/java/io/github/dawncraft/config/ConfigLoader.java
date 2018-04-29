@@ -1,151 +1,85 @@
 package io.github.dawncraft.config;
 
-import io.github.dawncraft.Dawncraft;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
+
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
- * Register a configer and load configs.
+ * Register a configuration manager and load configurations.
  *
  * @author QingChenW
  */
 public class ConfigLoader
 {
-    public static final String PASSWORD = String.valueOf(0x459b7d);
-
     private static Configuration config;
 
-    public static boolean isEnergyEnabled;
+    @ConfigItem(EnumCategories.ENERGY)
+    public static boolean isEnergyEnabled = true;
 
-    public static boolean isMagnetismEnabled;
+    @ConfigItem(EnumCategories.MAGNET)
+    public static boolean isMagnetEnabled = true;
 
-    public static boolean isMachineEnabled;
+    @ConfigItem(EnumCategories.MACHINE)
+    public static boolean isMachineEnabled = true;
 
-    public static boolean isComputerEnabled;
+    @ConfigItem(EnumCategories.COMPUTER)
+    public static boolean isComputerEnabled = true;
 
-    public static boolean isScienceEnabled;
+    @ConfigItem(EnumCategories.SCIENCE)
+    public static boolean isScienceEnabled = true;
 
-    public static boolean isFurnitureEnabled;
+    @ConfigItem(EnumCategories.FURNITURE)
+    public static boolean isFurnitureEnabled = true;
+    @ConfigItem(EnumCategories.FURNITURE)
+    public static int chairHealAmount = 0;
 
-    public static boolean isFoodEnabled;
+    @ConfigItem(EnumCategories.CUISINE)
+    public static boolean isCuisineEnabled = true;
 
-    public static boolean isGunEnabled;
+    @ConfigItem(EnumCategories.WEAPON)
+    public static boolean isWeaponEnabled = true;
 
-    public static boolean isMagicEnabled;
-    public static boolean manaRenderType;
-    public static int publicPrepare;
-    public static int publicCooldown;
+    @ConfigItem(EnumCategories.MAGIC)
+    public static boolean isMagicEnabled = true;
+    @ConfigItem(EnumCategories.MAGIC)
+    public static boolean manaRenderType = true;
+    @ConfigItem(EnumCategories.MAGIC)
+    public static int publicPrepareTicks = 20;
+    @ConfigItem(EnumCategories.MAGIC)
+    public static int publicCooldownTicks = 20;
 
-    /* 就是不让你改 */
-    private static boolean isColoreggEnabled;
-    public static int enchantmentFireBurnId;
+    public static boolean isColoreggEnabled()
+    {
+        return gerKingPassword.equals(String.valueOf(0x459b7d));
+    }
+    @ConfigItem(EnumCategories.COLOREGG)
+    public static String gerKingPassword = "Please guess password!";
+    @ConfigItem(EnumCategories.COLOREGG)
+    public static int enchantmentFireBurnId = 36;
     
     public ConfigLoader(FMLPreInitializationEvent event)
     {
-        // TODO 好吧我又想重写配置了
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
-        this.loadConfig();
-        config.save();
+        this.reload();
     }
     
-    public static void loadConfig()
+    public static void reload()
     {
-        LogLoader.logger().info("Started loading config.");
+        LogLoader.logger().info("Started loading configuration.");
         
-        String category;
-
-        category = "energy";
-        isEnergyEnabled = config
-                .get(category, "isEnergyEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isEnergyEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isEnergyEnabled").getBoolean();
-
-        category = "magnetism";
-        isMagnetismEnabled = config
-                .get(category, "isMagnetismEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isMagnetismEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isMagnetismEnabled").getBoolean();
-
-        category = "machine";
-        isMachineEnabled = config
-                .get(category, "isMachineEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isMachineEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isMachineEnabled").getBoolean();
-
-        category = "computer";
-        isComputerEnabled = config
-                .get(category, "isComputerEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isComputerEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isComputerEnabled").getBoolean();
-
-        category = "science";
-        isScienceEnabled = config
-                .get(category, "isScienceEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isScienceEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isScienceEnabled").getBoolean();
-
-        category = "furniture";
-        isFurnitureEnabled = config
-                .get(category, "isFurnitureEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isFurnitureEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isFurnitureEnabled").getBoolean();
-
-        category = "food";
-        isFoodEnabled = config
-                .get(category, "isFoodEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isFoodEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isFoodEnabled").getBoolean();
-
-        category = "gun";
-        isGunEnabled = config
-                .get(category, "isGunEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isGunEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isGunEnabled").getBoolean();
-
-        category = "magic";
-        isMagicEnabled = config
-                .get(category, "isMagicEnabled", true,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".isMagicEnabled.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".isMagicEnabled").getBoolean();
-        manaRenderType = config
-                .get(category, "manaRenderType", false,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".manaRenderType.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".manaRenderType").getBoolean();
-        publicPrepare = config
-                .get(category, "publicPrepareTicks", 20,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".publicPrepareTicks.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".publicPrepareTicks").getInt();
-        publicCooldown = config
-                .get(category, "publicCooldownTicks", 20,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".publicCooldownTicks.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".publicCooldownTicks").getInt();
-
-        category = "coloregg";
-        String pw = config
-                .get(category, "gerKingPassword", "guess password!",
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".gerKingPassword.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".gerKingPassword").getString();
-        if (pw.equals(PASSWORD))
-        {
-            isColoreggEnabled = true;
-            LogLoader.logger().info(StatCollector.translateToLocal("console.coloregg.enable"));
-        }
-        enchantmentFireBurnId = config
-                .get(category, "enchantmentFireBurnId", 36,
-                        StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category + ".enchantmentFireBurnId.tooltip"))
-                .setLanguageKey(Dawncraft.MODID + ".config." + category + ".enchantmentFireBurnId").getInt();
-
-        for (String category2 : config.getCategoryNames())
-        {
-            config.setCategoryLanguageKey(category2, Dawncraft.MODID + ".config." + category2);
-            config.setCategoryComment(category2, StatCollector.translateToLocal(Dawncraft.MODID + ".config." + category2 + ".tooltip"));
-        }
+        loadConfig(config(), ConfigLoader.class);
         
-        config.save();
-
-        LogLoader.logger().info("Finished loading config.");
+        LogLoader.logger().info("Finished loading configuration.");
     }
     
     public static Configuration config()
@@ -153,8 +87,97 @@ public class ConfigLoader
         return config;
     }
     
-    public static boolean isColoreggEnabled()
+    /**
+     * Load your configuration and inject value into class' fields automatically.
+     *
+     * @param config The configuration to load
+     * @param clazz A class which has some static fields annotated by {@link ConfigItem}
+     */
+    public static void loadConfig(Configuration config, Class clazz)
     {
-        return isColoreggEnabled;
+        ModContainer container = Loader.instance().activeModContainer();
+        String modid = container != null ? container.getModId().toLowerCase() : "minecraft";
+        
+        for(Field field : clazz.getDeclaredFields())
+        {
+            if(field.isAnnotationPresent(ConfigItem.class))
+            {
+                ConfigItem item = field.getAnnotation(ConfigItem.class);
+                try
+                {
+                    field.setAccessible(true);
+
+                    String name = field.getName();
+                    String category = item.value().getName();
+                    String langKey = "config." + modid + "." + category + "." + name;
+                    String comment = StatCollector.translateToLocal(langKey + ".tooltip");
+                    Object defValue = field.get(null);
+                    Object value = defValue;
+
+                    if (defValue instanceof Boolean)
+                    {
+                        value = config.get(category, name, (Boolean) defValue, comment).setLanguageKey(langKey).getBoolean();
+                    }
+                    else if (defValue instanceof boolean[])
+                    {
+                        value = config.get(category, name, (boolean[]) defValue, comment).setLanguageKey(langKey).getBooleanList();
+                    }
+                    else if (defValue instanceof Integer)
+                    {
+                        value = config.get(category, name, (Integer) defValue, comment).setLanguageKey(langKey).getInt();
+                    }
+                    else if (defValue instanceof int[])
+                    {
+                        value = config.get(category, name, (int[]) defValue, comment).setLanguageKey(langKey).getIntList();
+                    }
+                    else if (defValue instanceof Double)
+                    {
+                        value = config.get(category, name, (Double) defValue, comment).setLanguageKey(langKey).getDouble();
+                    }
+                    else if (defValue instanceof double[])
+                    {
+                        value = config.get(category, name, (double[]) defValue, comment).setLanguageKey(langKey).getDoubleList();
+                    }
+                    else if (defValue instanceof String)
+                    {
+                        value = config.get(category, name, (String) defValue, comment).setLanguageKey(langKey).getString();
+                    }
+                    else if (defValue instanceof String[])
+                    {
+                        value = config.get(category, name, (String[]) defValue, comment).setLanguageKey(langKey).getString();
+                    }
+
+                    field.set(null, value);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        
+        for (String category : config.getCategoryNames())
+        {
+            String langKey = "config." + modid + "." + category;
+            config.setCategoryLanguageKey(category, langKey);
+            config.setCategoryComment(category, StatCollector.translateToLocal(langKey + ".tooltip"));
+        }
+        
+        config.save();
+    }
+    
+    /**
+     * An Annotation for injecting value into field automatically.
+     *
+     * @author QingChenW
+     */
+    @Retention(RUNTIME)
+    @Target(FIELD)
+    public @interface ConfigItem
+    {
+        /**
+         * @return The config's category
+         */
+        EnumCategories value() default EnumCategories.DEFAULT;
     }
 }

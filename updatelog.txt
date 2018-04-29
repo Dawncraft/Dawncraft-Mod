@@ -1,4 +1,13 @@
-This is Dawn Craft Mod's update log.
+This is Dawncraft Mod's update log.
+===========================================================
+0.2.4.2 update log:
+--------------------
+1.Remove Chinese song.
+2.Add hammer logic.
+3.Refactory config loader.
+4.Try to fix sittable entity, failed.
+5.Refactory some blocks.
+6.Tidy up README.md
 ===========================================================
 0.2.4.1 update log:
 --------------------

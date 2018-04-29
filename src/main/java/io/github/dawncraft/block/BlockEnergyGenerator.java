@@ -1,7 +1,7 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.api.block.BlockMachineBase;
+import io.github.dawncraft.api.block.BlockMachine;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 import net.minecraft.block.Block;
@@ -16,89 +16,77 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 /**
+ * Energy generator
  *
  * @author QingChenW
  */
-public class BlockEnergyGenerator extends BlockMachineBase
+public class BlockEnergyGenerator extends BlockMachine
 {
-    public BlockEnergyGenerator.EnergyGeneratorType generatorType;
-    
-    public BlockEnergyGenerator(EnergyGeneratorType type)
+    public EnumGeneratorType type;
+
+    public BlockEnergyGenerator(EnumGeneratorType generatorType)
     {
         super();
-        this.generatorType = type;
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING,
-                Boolean.FALSE));
+        this.type = generatorType;
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
     }
-
+    
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
-        TileEntity te = new TileEntityEnergyGenerator(this.generatorType);
+        TileEntity te = new TileEntityEnergyGenerator(this.type);
         te.setWorldObj(world);
         return te;
     }
-
+    
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn,
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
             EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (!worldIn.isRemote)
+        if (!world.isRemote)
         {
             int id;
-            switch (this.generatorType)
+            switch (this.type)
             {
                 default:
                 case HEAT:
                     id = GuiLoader.GUI_HEAT_GENERATOR;
                     break;
             }
-            playerIn.openGui(Dawncraft.instance, id, worldIn, pos.getX(), pos.getY(), pos.getZ());
+            player.openGui(Dawncraft.instance, id, world, pos.getX(), pos.getY(), pos.getZ());
         }
         return true;
     }
-
+    
     @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
-
-        if (this.generatorType == EnergyGeneratorType.HEAT)
+        TileEntity tileentity = world.getTileEntity(pos);
+        
+        if (this.type == EnumGeneratorType.HEAT)
         {
             IItemHandler slots = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
-            
+
             for (int i = slots.getSlots() - 1; i >= 0; --i)
             {
                 if (slots.getStackInSlot(i) != null)
                 {
-                    Block.spawnAsEntity(worldIn, pos, slots.getStackInSlot(i));
+                    Block.spawnAsEntity(world, pos, slots.getStackInSlot(i));
                     ((IItemHandlerModifiable) slots).setStackInSlot(i, null);
                 }
             }
         }
-
-        super.breakBlock(worldIn, pos, state);
+        
+        super.breakBlock(world, pos, state);
     }
-
+    
     /**
-     * 0=heat, 1=fluid, 2=solar, 3=wind, 4=nuclear, 5=magic
+     * heat, fluid, solar, wind, nuclear, magic
      *
      * @author QingChenW
      */
-    public enum EnergyGeneratorType
+    public enum EnumGeneratorType
     {
-        HEAT(0), FLUID(1), SOLAR(2), WIND(3), NUCLEAR(4), MAGIC(5);
-
-        private int _id;
-
-        EnergyGeneratorType(int id)
-        {
-            this._id = id;
-        }
-
-        public int getId()
-        {
-            return this._id;
-        }
+        HEAT, FLUID, SOLAR, WIND, NUCLEAR, MAGIC;
     }
 }

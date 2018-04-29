@@ -27,6 +27,11 @@ public class KeyLoader
         register(KeyLoader.Encyclopedia);
     }
 
+    /**
+     * Register a key binding
+     * 
+     * @param keybinding The key to bind
+     */
     private static void register(KeyBinding keybinding)
     {
         ClientRegistry.registerKeyBinding(keybinding);

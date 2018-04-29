@@ -23,29 +23,29 @@ import net.minecraft.world.World;
  *</br>
  * @author QingChenW
  */
-public class BlockOreBase extends Block
+public class BlockOre extends Block
 {
     private int droppedCount;
     private int droppedRange;
     private int droppedExpMin;
     private int droppedExpMax;
     
-    public BlockOreBase()
+    public BlockOre()
     {
         this(Material.rock.getMaterialMapColor());
     }
 
-    public BlockOreBase(MapColor color)
+    public BlockOre(MapColor color)
     {
         this(color, 1, 0);
     }
 
-    public BlockOreBase(int count, int range)
+    public BlockOre(int count, int range)
     {
         this(Material.rock.getMaterialMapColor(), count, range);
     }
 
-    public BlockOreBase(MapColor color, int count, int range)
+    public BlockOre(MapColor color, int count, int range)
     {
         super(Material.rock, color);
         this.droppedCount = count;
@@ -56,7 +56,7 @@ public class BlockOreBase extends Block
         this.setResistance(5.0f);
     }
     
-    public BlockOreBase setDroppedExp(int expMin, int expMax)
+    public BlockOre setDroppedExp(int expMin, int expMax)
     {
         this.droppedExpMin = expMin;
         this.droppedExpMax = expMax;
@@ -68,7 +68,7 @@ public class BlockOreBase extends Block
         return Item.getItemFromBlock(this);
     }
 
-    public boolean isDroppedItself(IBlockState state, Random rand, int fortune)
+    public boolean dropItself(IBlockState state, Random rand, int fortune)
     {
         return this.getMineral() == Item.getItemFromBlock(this);
     }
@@ -76,7 +76,7 @@ public class BlockOreBase extends Block
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return this.isDroppedItself(state, rand, fortune) ? Item.getItemFromBlock(this) : this.getMineral();
+        return this.dropItself(state, rand, fortune) ? Item.getItemFromBlock(this) : this.getMineral();
     }
 
     @Override
@@ -88,7 +88,7 @@ public class BlockOreBase extends Block
     @Override
     public int quantityDropped(IBlockState state, int fortune, Random rand)
     {
-        if (!this.isDroppedItself(state, rand, fortune))
+        if (!this.dropItself(state, rand, fortune))
         {
             if(fortune > 0)
             {
@@ -126,7 +126,7 @@ public class BlockOreBase extends Block
         {
             IBlockState state = world.getBlockState(pos);
             Random rand = world instanceof World ? ((World)world).rand : new Random();
-            if (this.isDroppedItself(state, rand, fortune)) return 0;
+            if (this.dropItself(state, rand, fortune)) return 0;
             return MathHelper.getRandomIntegerInRange(rand, this.droppedExpMin, this.droppedExpMax);
         }
         return 0;

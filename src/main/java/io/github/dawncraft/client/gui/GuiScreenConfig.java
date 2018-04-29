@@ -21,31 +21,31 @@ public class GuiScreenConfig extends GuiConfig
             elements.add(new ConfigElement(ConfigLoader.config().getCategory(category)));
         }
     }
-
+    
     public GuiScreenConfig(GuiScreen parent)
     {
         super(parent, elements, Dawncraft.MODID, true, false, Dawncraft.NAME);
     }
-
+    
     @Override
     public void onGuiClosed()
     {
-        ConfigLoader.loadConfig();
+        ConfigLoader.reload();
         super.onGuiClosed();
     }
-
+    
     @Override
     public void initGui()
     {
         super.initGui();
     }
-
+    
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
-
+    
     @Override
     protected void actionPerformed(GuiButton button)
     {

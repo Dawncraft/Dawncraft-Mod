@@ -2,8 +2,9 @@ package io.github.dawncraft.block;
 
 import java.util.List;
 
-import io.github.dawncraft.api.block.BlockMachineBase;
+import io.github.dawncraft.api.block.BlockMachine;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,61 +13,83 @@ import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
+ * Computer case
  *
  * @author QingChenW
  */
-public class BlockComputerCase extends BlockMachineBase
+public class BlockComputerCase extends BlockMachine
 {
-    public BlockComputerCase.ComputerCaseType type;
-    
-    public BlockComputerCase(ComputerCaseType caseType)
+    public EnumCaseType type;
+
+    public BlockComputerCase(EnumCaseType caseType)
     {
         super();
         this.type = caseType;
-        this.setHarvestLevel("ItemPickaxe", this.type.getTool());
         this.setStepSound(soundTypePiston);
-    }
-    
-    @Override
-    public boolean isOpaqueCube()
-    {
-        return false;
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
     }
 
     @Override
-    public boolean isFullCube()
-    {
-        return false;
-    }
-    
-    @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
-    {
-        if (worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.NORTH
-                || worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.SOUTH)
-            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
-        else if (worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.WEST
-                || worldIn.getBlockState(pos).getValue(FACING) == EnumFacing.EAST)
-            this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 0.75F);
-    }
-    
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
+    public TileEntity createNewTileEntity(World world, int meta)
     {
         // TODO 电脑机箱的te,别忘了233
         return null;
     }
 
     @Override
-    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+    
+    @Override
+    public boolean isFullCube()
+    {
+        return false;
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos)
+    {
+        EnumFacing facing = world.getBlockState(pos).getValue(FACING);
+        
+        if (facing.getAxis() == Axis.Z)
+            this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
+        else if (facing.getAxis() == Axis.X)
+            this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 0.75F);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    {
+        if (stack.hasDisplayName())
+        {
+            TileEntity tileentity = world.getTileEntity(pos);
+        }
+    }
+    
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+    {
+        if (!world.isRemote)
+        {
+            TileEntity tileentity = world.getTileEntity(pos);
+
+        }
+        return true;
+    }
+    
+    @Override
+    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity tileentity)
     {
         player.triggerAchievement(StatList.mineBlockStatArray[getIdFromBlock(this)]);
         player.addExhaustion(0.025F);
-        
+
         List<ItemStack> items = new java.util.ArrayList<ItemStack>();
         Item item = this.getItemDropped(state, null, 0);
         if (item != null)
@@ -80,35 +103,16 @@ public class BlockComputerCase extends BlockMachineBase
             }
             items.add(new ItemStack(item, 1, this.damageDropped(state)));
         }
-        
+
         net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, world, pos, world.getBlockState(pos), 0, 1.0f, true, player);
         for (ItemStack stack : items)
         {
             spawnAsEntity(world, pos, stack);
         }
     }
-    
-    public enum ComputerCaseType
+
+    public enum EnumCaseType
     {
-        SIMPLE(0, 1), ADVANCED(1, 2), SUPER(2, 2);
-        
-        private int _id;
-        private int _tool;
-        
-        ComputerCaseType(int id, int tool)
-        {
-            this._id = id;
-            this._tool = tool;
-        }
-        
-        public int getId()
-        {
-            return this._id;
-        }
-        
-        public int getTool()
-        {
-            return this._tool;
-        }
+        SIMPLE, ADVANCED, SUPER;
     }
 }

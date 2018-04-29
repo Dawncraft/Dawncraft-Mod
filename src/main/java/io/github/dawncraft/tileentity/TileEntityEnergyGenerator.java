@@ -1,7 +1,7 @@
 package io.github.dawncraft.tileentity;
 
 import io.github.dawncraft.block.BlockEnergyGenerator;
-import io.github.dawncraft.block.BlockEnergyGenerator.EnergyGeneratorType;
+import io.github.dawncraft.block.BlockEnergyGenerator.EnumGeneratorType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -22,7 +22,7 @@ import net.minecraftforge.items.ItemStackHandler;
  */
 public class TileEntityEnergyGenerator extends TileEntity implements ITickable
 {
-    public BlockEnergyGenerator.EnergyGeneratorType generatorType;
+    public BlockEnergyGenerator.EnumGeneratorType generatorType;
     public ItemStackHandler fuelItemStack = new ItemStackHandler();
     public int generatorBurnTime;
     public int currentItemBurnTime;
@@ -34,7 +34,7 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
         super();
     }
 
-    public TileEntityEnergyGenerator(EnergyGeneratorType type)
+    public TileEntityEnergyGenerator(EnumGeneratorType type)
     {
         super();
         this.generatorType = type;

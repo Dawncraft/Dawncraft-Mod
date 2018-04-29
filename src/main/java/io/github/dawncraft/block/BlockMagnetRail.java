@@ -31,18 +31,27 @@ public class BlockMagnetRail extends BlockRailBase
     }
     
     @Override
-    protected void onNeighborChangedInternal(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
+    public boolean isFlexibleRail(IBlockAccess world, BlockPos pos)
     {
-        if (neighborBlock.canProvidePower())
-        {
-            this.func_176564_a(worldIn, pos, state, false);
-        }
+        return false;
     }
-    
+
+    @Override
+    public float getRailMaxSpeed(World world, net.minecraft.entity.item.EntityMinecart cart, BlockPos pos)
+    {
+        return 0.6f;
+    }
+
     @Override
     public IProperty<BlockRailBase.EnumRailDirection> getShapeProperty()
     {
         return SHAPE;
+    }
+    
+    @Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, SHAPE);
     }
 
     @Override
@@ -56,23 +65,14 @@ public class BlockMagnetRail extends BlockRailBase
     {
         return state.getValue(SHAPE).getMetadata();
     }
-
-    @Override
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this, SHAPE);
-    }
     
     @Override
-    public boolean isFlexibleRail(IBlockAccess world, BlockPos pos)
+    protected void onNeighborChangedInternal(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        return false;
-    }
-
-    @Override
-    public float getRailMaxSpeed(World world, net.minecraft.entity.item.EntityMinecart cart, BlockPos pos)
-    {
-        return 0.6f;
+        if (neighborBlock.canProvidePower())
+        {
+            this.func_176564_a(worldIn, pos, state, false);
+        }
     }
     
     @Override
