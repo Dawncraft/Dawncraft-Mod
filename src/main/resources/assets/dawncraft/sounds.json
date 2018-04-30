@@ -35,15 +35,6 @@
             "random/gun_shoot"
         ]
     },
-	"records.chinese": {
-        "category": "record", 
-        "sounds": [ 
-		    {
-                "name": "dawncraft:records/chinese",
-                "stream": true
-			}
-        ] 
-    },
 	"records.dj": {
         "category": "record", 
         "sounds": [ 

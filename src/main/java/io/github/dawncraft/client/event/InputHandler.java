@@ -2,13 +2,13 @@ package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMagic;
-import io.github.dawncraft.client.gui.GuiEncyclopedia;
 import io.github.dawncraft.client.gui.magic.GuiMagic;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.EnumSpellResult;
 import io.github.dawncraft.skill.SkillStack;
+import io.github.dawncraft.util.WebBrowserV3;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -78,7 +78,8 @@ public class InputHandler
         // Wiki key was pressed
         if (KeyLoader.Encyclopedia.isPressed())
         {
-            mc.displayGuiScreen(new GuiEncyclopedia());
+            new WebBrowserV3("Wiki", "Main_Page");
+            //mc.displayGuiScreen(new GuiEncyclopedia());
         }
     }
 }

@@ -21,6 +21,7 @@ minecraft {
     version = minecraft_version + "-" + forge_version
     mappings = mcp_mapping
     runDir = run_dir
+    // assetDir = run_dir + "/assets"
     clientRunArgs += run_args
     makeObfSourceJar = false
 }
@@ -55,7 +56,8 @@ configurations {
 dependencies {
     // compile fileTree(dir: 'libs', include: '*.jar')
     shade files('libs/luaj-jse-3.0.1.jar', 
-                'libs/markdown4j-2.2.jar')
+                'libs/markdown4j-2.2.jar',
+                'libs/bliki-core-3.1.0.jar')
 }
 
 jar {

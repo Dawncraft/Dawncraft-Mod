@@ -119,9 +119,13 @@
 ## 小提示
 
 2017/7/9注:您可以用auto_build_cmd.bat批处理来快速构建开发环境或Mod
+
 2017/12/31注:到[这里](http://www.eclipse.org/babel/downloads.php)查看Eclipse的多语言支持
+
 2018/2/8注:Windows下Git错误open /dev/null or dup failed: No such file or directory的解决方案:[这里](http://servicedefaults.com/10/null/)
+
 2018/2/19注:Eclipse中可用Bytecode Outline插件辅助查看字节码,方便使用ASM
+
 2018/4/5注:在工程目录下输入git config core.ignorecase false使git不再忽略大小写
 
 ## 未来展望
@@ -135,8 +139,11 @@
 ## 特别致谢
 
 Mojang为我们带来的Minecraft，MCP和Forge团队的Forge/FML.
+
 ustc-zzzz的Mod教程和szszss的CoreMod教程.
+
 NeoTech的管道模型文件.
+
 KevinWalker的[Gun-Domain](https://coding.net/u/KevinWalker/p/Gun-Domain/)项目
 
 #### &copy; 2016-2018 Dawncraft Studio ####
