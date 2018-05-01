@@ -70,14 +70,14 @@ public class ConfigLoader
     {
         config = new Configuration(event.getSuggestedConfigurationFile());
         config.load();
-        this.reload();
+        reload();
     }
     
     public static void reload()
     {
         LogLoader.logger().info("Started loading configuration.");
         
-        loadConfig(config(), ConfigLoader.class);
+        loadConfig(config, ConfigLoader.class);
         
         LogLoader.logger().info("Finished loading configuration.");
     }

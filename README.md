@@ -8,7 +8,7 @@
 
 这里是曙光工艺Mod,适用于我的世界1.8.9
 
-本Mod采用[GPLv3协议](https://github.com/Wdawning/Dawn-Craft-Mod/blob/master/LICENSE)开源
+本Mod采用[GPLv3协议](https://github.com/Dawncraft/Dawncraft-Mod/blob/master/LICENSE)开源
 
 欢迎[加入我们](http://shang.qq.com/wpa/qunwpa?idkey=61928f37c251f45b49f652efc2d90857f24b38b2d5d69859c8d3ae6241479a02) QQ群:**287307326**
 
