@@ -44,6 +44,8 @@ public class ConfigLoader
 
     @ConfigItem(EnumCategories.CUISINE)
     public static boolean isCuisineEnabled = true;
+    @ConfigItem(EnumCategories.CUISINE)
+    public static boolean isThirstEnabled = false;
 
     @ConfigItem(EnumCategories.WEAPON)
     public static boolean isWeaponEnabled = true;
@@ -59,10 +61,12 @@ public class ConfigLoader
 
     public static boolean isColoreggEnabled()
     {
-        return gerKingPassword.equals(String.valueOf(0x459b7d));
+        return gerKingPassword.hashCode() == 474280700;
     }
     @ConfigItem(EnumCategories.COLOREGG)
     public static String gerKingPassword = "Please guess password!";
+    @ConfigItem(EnumCategories.COLOREGG)
+    public static double rangeToCheck = 32.0F;
     @ConfigItem(EnumCategories.COLOREGG)
     public static int enchantmentFireBurnId = 36;
     
@@ -129,6 +133,14 @@ public class ConfigLoader
                     else if (defValue instanceof int[])
                     {
                         value = config.get(category, name, (int[]) defValue, comment).setLanguageKey(langKey).getIntList();
+                    }
+                    else if (defValue instanceof Float)
+                    {
+                        LogLoader.logger().error("Our config system don't suppot float now.");
+                    }
+                    else if (defValue instanceof float[])// 有时间再修,但是不急
+                    {
+                        LogLoader.logger().error("Our config system don't suppot float array now.");
                     }
                     else if (defValue instanceof Double)
                     {

@@ -12,13 +12,13 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class LogLoader
 {
     private static Logger logger;
-
+    
     public LogLoader(FMLPreInitializationEvent event)
     {
         logger = event.getModLog();
         logger.info("Logger loaded successfully.");
     }
-
+    
     public static Logger logger()
     {
         return logger;

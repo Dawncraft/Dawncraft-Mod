@@ -14,10 +14,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  */
 public class DamageSourceLoader
 {
+    public static DamageSource thirst = new DamageSource("thirst").setDamageBypassesArmor().setDamageIsAbsolute();
     public static DamageSource ger = new DamageSource("byGer").setDifficultyScaled().setExplosion();
-
+    
     public DamageSourceLoader(FMLInitializationEvent event) {}
-
+    
     /**
      * returns EntityDamageSourceIndirect of a Magic Skill
      *
@@ -27,7 +28,7 @@ public class DamageSourceLoader
     {
         return new SkillDamageSource(skillStack, indirectEntityIn);
     }
-
+    
     /**
      * returns EntityDamageSourceIndirect of a bullet
      *
@@ -37,6 +38,6 @@ public class DamageSourceLoader
     {
         return new EntityDamageSourceIndirect("bullet", bullet, indirectEntityIn).setProjectile();
     }
-
     
+
 }

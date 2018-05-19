@@ -1,12 +1,13 @@
 package io.github.dawncraft.entity.immortal;
 
 import io.github.dawncraft.api.event.DawnEventFactory;
+import io.github.dawncraft.capability.IMana;
 import io.github.dawncraft.entity.AttributesLoader;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public abstract class EntityImmortal extends EntityAgeable
+public abstract class EntityImmortal extends EntityAgeable implements IMana
 {
     public static int MANA_ID = 19;
 
@@ -29,21 +30,25 @@ public abstract class EntityImmortal extends EntityAgeable
         this.getDataWatcher().addObject(MANA_ID, Float.valueOf(0));
     }
 
+    @Override
     public float getMana()
     {
         return this.getDataWatcher().getWatchableObjectFloat(MANA_ID);
     }
     
+    @Override
     public final float getMaxMana()
     {
         return (float) this.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue();
     }
 
+    @Override
     public void setMana(float mana)
     {
         this.getDataWatcher().updateObject(MANA_ID, Float.valueOf(MathHelper.clamp_float(mana, 0.0F, this.getMana())));
     }
     
+    @Override
     public void recover(float recoverAmount)
     {
         recoverAmount = DawnEventFactory.onLivingRecover(this, recoverAmount);
@@ -53,6 +58,7 @@ public abstract class EntityImmortal extends EntityAgeable
         this.setMana(mana + recoverAmount);
     }
     
+    @Override
     public boolean shouldRecover()
     {
         return this.getMana() < this.getMaxMana();

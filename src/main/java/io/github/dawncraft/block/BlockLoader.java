@@ -24,10 +24,10 @@ public class BlockLoader
     // Energy
     public static Block fluidPetroleum = new BlockFluidClassic(FluidLoader.fluidPetroleum, Material.water)
             .setUnlocalizedName("fluidPetroleum");
-
+    
     public static Block electricCable = new BlockElectricCable().setUnlocalizedName("electricityCable")
             .setCreativeTab(CreativeTabsLoader.tabEnergy);
-
+    
     public static Block energyGeneratorHeat = new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.HEAT)
             .setUnlocalizedName("heatGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
     public static Block energyGeneratorFluid = new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.FLUID)
@@ -41,18 +41,18 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabEnergy);
     public static Block energyGeneratorMagic = new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.MAGIC)
             .setUnlocalizedName("magicGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy);
-
+    
     // Magnet
     public static Block magnetOre = new BlockOre().setUnlocalizedName("magnetOre")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Block magnetBlock = new Block(Material.iron).setUnlocalizedName("magnetBlock")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism).setHardness(5.0f).setResistance(10.0f)
+            .setCreativeTab(CreativeTabsLoader.tabMagnet).setHardness(5.0f).setResistance(10.0f)
             .setStepSound(Block.soundTypePiston);
     public static Block magnetDoor = new BlockMagnetDoor().setUnlocalizedName("magnetDoor")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Block magnetRail = new BlockMagnetRail().setUnlocalizedName("magnetRail")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
-
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
+    
     // Machine
     public static Block copperOre = new BlockOre().setUnlocalizedName("copperOre")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
@@ -61,7 +61,7 @@ public class BlockLoader
             .setStepSound(Block.soundTypePiston);
     public static Block machineFurnace = new BlockMachineFurnace().setUnlocalizedName("machineFurnace")
             .setCreativeTab(CreativeTabsLoader.tabMachine);
-
+    
     // Computer
     public static Block simpleComputer = new BlockComputerCase(BlockComputerCase.EnumCaseType.SIMPLE)
             .setUnlocalizedName("simpleComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
@@ -69,9 +69,9 @@ public class BlockLoader
             .setUnlocalizedName("advancedComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
     public static Block superComputer = new BlockComputerCase(BlockComputerCase.EnumCaseType.SUPER)
             .setUnlocalizedName("superComputer").setCreativeTab(CreativeTabsLoader.tabComputer);
-
+    
     // Materials
-
+    
     // Furniture
     public static Block woodTable = new BlockFurnitureTable(EnumMaterialType.WOOD)
             .setUnlocalizedName("woodTable").setCreativeTab(CreativeTabsLoader.tabFurniture);
@@ -83,9 +83,9 @@ public class BlockLoader
             .setUnlocalizedName("stoneChair").setCreativeTab(CreativeTabsLoader.tabFurniture);
     public static Block superChest = new BlockFurnitureSuperChest().setUnlocalizedName("superChest")
             .setCreativeTab(CreativeTabsLoader.tabFurniture);
-    
-    // Food
 
+    // Food
+    
     // Magic
     public static Block magicOre = new BlockOre(1, 2)
     {
@@ -95,20 +95,20 @@ public class BlockLoader
             return ItemLoader.magicDust;
         }
     }.setDroppedExp(5, 7).setUnlocalizedName("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic);
-
+    
     // Guns
-
+    
     // ColourEgg
     public static Block dawnPortal = new BlockDawnPortal().setUnlocalizedName("dawnPortal");
     public static Block skull = new BlockDawnSkull().setUnlocalizedName("skull");
-    
+
     public BlockLoader(FMLPreInitializationEvent event)
     {
         // Energy
         register(fluidPetroleum, "fluid_petroleum");
-        
+
         register(electricCable, "electric_cable");
-        
+
         register(energyGeneratorHeat, "heat_generator");
         //        register(energyGeneratorFluid, "fluid_generator");
         //        register(energyGeneratorSolar, "solar_generator");
@@ -121,38 +121,38 @@ public class BlockLoader
         register(magnetBlock, "magnet_block");
         register(magnetDoor, ItemLoader.magnetDoor, "magnet_door");
         register(magnetRail, "magnet_rail");
-
+        
         // Machine
         register(copperOre, "copper_ore");
         register(copperBlock, "copper_block");
         register(machineFurnace, "iron_furnace");
-
+        
         // Computer
         register(simpleComputer, "simple_computer");
         register(advancedComputer, "advanced_computer");
         register(superComputer, "super_computer");
-        
-        // Materials
 
+        // Materials
+        
         // Furniture
         register(woodTable, "wood_table");
         register(stoneTable, "stone_table");
         register(woodChair, "wood_chair");
         register(stoneChair, "stone_chair");
         register(superChest, "super_chest");
-
+        
         // Food
-
+        
         // Magic
         register(magicOre, "magic_ore");
-
+        
         // Guns
-
+        
         // ColourEgg
         register(dawnPortal, (Class) null, "dawn_portal");
         register(skull, ItemLoader.skull, "skull");
     }
-    
+
     /**
      * Register a block with a string id and a default block item.
      *
@@ -163,7 +163,7 @@ public class BlockLoader
     {
         GameRegistry.registerBlock(block, name);
     }
-    
+
     /**
      * Register a block with a string id and a block item which has no arguments.
      *
@@ -175,7 +175,7 @@ public class BlockLoader
     {
         GameRegistry.registerBlock(block, itemClass, name);
     }
-    
+
     /**
      * Register a block with a string id and a block item which has some arguments.
      *
@@ -188,7 +188,7 @@ public class BlockLoader
     {
         GameRegistry.registerBlock(block, itemClass, name, args);
     }
-    
+
     /**
      * Register a block with a string id and a block item which is existed.
      * <br>Not recommend, use {@link #register(Block, Class, String)} instead.<br/>

@@ -7,12 +7,13 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.collect.Lists;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayer;
 import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.potion.PotionLoader;
+import io.github.dawncraft.entity.player.PlayerUtils;
 import io.github.dawncraft.stats.StatLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -187,79 +188,69 @@ public class SkillStack
         return list;
     }
     
-    public void updateAnimation(World worldIn, Entity entityIn, int skillSlot)
+    public void updateAnimation(World world, Entity entity, int skillSlot)
     {
         if (this.animationsToGo > 0)
         {
             --this.animationsToGo;
         }
         
-        this.skill.onUpdate(this, worldIn, entityIn, skillSlot);
+        this.skill.onUpdate(this, world, entity, skillSlot);
     }
     
-    public EnumSpellResult onSkillPreparing(World worldIn, EntityPlayer playerIn, int duration)
+    public EnumSpellAction onSkillPreparing(World world, EntityPlayer player, int duration)
     {
-        IMagic magic = playerIn.getCapability(CapabilityLoader.magic, null);
-        if(duration < 0 && magic.getPublicCooldownCount() > 0)
+        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+        if(playerCap.getCooldownTracker().getCooldown(this.getSkill()) > 0)
         {
-            return EnumSpellResult.GLOBAL_COOLING;
+            if(!world.isRemote)
+                PlayerUtils.cooldown((EntityPlayerMP) player);
+            return EnumSpellAction.NONE;
         }
-        if(duration >= 0 && magic.isCanceled())
+        if(playerCap.getMana() < this.getSkillConsume())
         {
-            return EnumSpellResult.CANCEL;
+            if(!world.isRemote)
+                PlayerUtils.nomana((EntityPlayerMP) player);
+            return EnumSpellAction.NONE;
         }
-        if(magic.getCooldownTracker().getCooldown(this.getSkill()) > 0)
-        {
-            return EnumSpellResult.COOLING;
-        }
-        if(playerIn.isPotionActive(PotionLoader.potionSilent))
-        {
-            return EnumSpellResult.SILENT;
-        }
-        if(magic.getMana() < this.getSkillConsume())
-        {
-            return EnumSpellResult.NOMANA;
-        }
-        return this.getSkill().onSkillPreparing(this, worldIn, playerIn, duration);
+        return this.getSkill().onSkillPreparing(this, world, player, duration);
     }
     
-    public boolean onSkillSpell(World worldIn, EntityPlayer playerIn)
+    public boolean onSkillSpell(World world, EntityPlayer player)
     {
-        //if (!worldIn.isRemote) return DawnEventFactory.onSpellSkillIntoWorld(this, playerIn, worldIn);
-        boolean flag = this.getSkill().onSkillSpell(this, worldIn, playerIn);
+        //if (!world.isRemote) return DawnEventFactory.onSpellSkillIntoWorld(this, player, world);
+        boolean flag = this.getSkill().onSkillSpell(this, world, player);
 
         if (flag)
         {
-            playerIn.triggerAchievement(StatLoader.objectSpellStats[Skill.getIdFromSkill(this.skill)]);
+            player.triggerAchievement(StatLoader.objectSpellStats[Skill.getIdFromSkill(this.skill)]);
         }
 
         return flag;
     }
     
-    public EnumSpellResult onSkillSpelling(World worldIn, EntityPlayer playerIn, int duration)
+    public EnumSpellAction onSkillSpelling(World world, EntityPlayer player, int duration)
     {
-        IMagic magic = playerIn.getCapability(CapabilityLoader.magic, null);
-        if(magic.isCanceled())
+        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+        if(playerCap.isCanceled())// TODO 找到打断施法的方法,然后移到那里
         {
-            this.onPlayerStoppedSpelling(worldIn, playerIn, duration);
-            return EnumSpellResult.CANCEL;
+            this.onPlayerStoppedSpelling(player.worldObj, player, playerCap.getSkillInSpellDuration());
+            if(!world.isRemote)
+                PlayerUtils.cancel((EntityPlayerMP) player);
+            return EnumSpellAction.NONE;
         }
-        if(playerIn.isPotionActive(PotionLoader.potionSilent))
-        {
-            return EnumSpellResult.SILENT;
-        }
-        return this.getSkill().onSkillSpelling(this, worldIn, playerIn, duration);
+        return this.getSkill().onSkillSpelling(this, world, player, duration);
     }
     
-    public void onPlayerStoppedSpelling(World worldIn, EntityPlayer playerIn, int duration)
+    public void onPlayerStoppedSpelling(World world, EntityPlayer player, int duration)
     {
-        this.getSkill().onPlayerStoppedSpelling(this, worldIn, playerIn, duration);
+        this.getSkill().onPlayerStoppedSpelling(this, world, player, duration);
     }
 
     // 突然发现用这个能做个变身之类的能开关的技能啊666666
-    public SkillStack onSkillSpellFinish(World worldIn, EntityPlayer playerIn)
+    public SkillStack onSkillSpellFinish(World world, EntityPlayer player)
     {
-        return this.getSkill().onSkillSpellFinish(this, worldIn, playerIn);
+        return this.getSkill().onSkillSpellFinish(this, world, player);
     }
     
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)

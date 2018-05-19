@@ -1,8 +1,8 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
-import io.github.dawncraft.skill.EnumSpellResult;
+import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.skill.EnumSpellAction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,35 +18,32 @@ import net.minecraftforge.fml.relauncher.Side;
  */
 public class MessagePlayerSpelling implements IMessage
 {
-    private EnumSpellResult spellAction;
+    private EnumSpellAction spellAction;
     private int spellCount;
-    private int cooldownCount;
-    
+    //private int cooldownCount;
+
     public MessagePlayerSpelling() {}
-    
-    public MessagePlayerSpelling(EnumSpellResult type, int count, int cooldown)
+
+    public MessagePlayerSpelling(EnumSpellAction type, int count)
     {
         this.spellAction = type;
         this.spellCount = count;
-        this.cooldownCount = cooldown;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.spellAction = EnumSpellResult.values()[buf.readShort()];
+        this.spellAction = EnumSpellAction.values()[buf.readShort()];
         this.spellCount = buf.readInt();
-        this.cooldownCount = buf.readInt();
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeShort(this.spellAction.ordinal());
         buf.writeInt(this.spellCount);
-        buf.writeInt(this.cooldownCount);
     }
-    
+
     public static class Handler implements IMessageHandler<MessagePlayerSpelling, IMessage>
     {
         @Override
@@ -60,13 +57,9 @@ public class MessagePlayerSpelling implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if (player.hasCapability(CapabilityLoader.magic, null))
-                        {
-                            IMagic magic = player.getCapability(CapabilityLoader.magic, null);
-                            magic.setSpellAction(message.spellAction);
-                            magic.setSkillInSpellCount(message.spellCount);
-                            magic.setPublicCooldownCount(message.cooldownCount);
-                        }
+                        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                        playerCap.setSpellAction(message.spellAction);
+                        playerCap.setSkillInSpellCount(message.spellCount);
                     }
                 });
             }

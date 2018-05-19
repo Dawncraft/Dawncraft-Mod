@@ -1,7 +1,7 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.api.block.BlockFurniture;
-import io.github.dawncraft.util.EntityUtils;
+import io.github.dawncraft.entity.EntityUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;

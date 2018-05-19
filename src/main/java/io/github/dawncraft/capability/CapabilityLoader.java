@@ -13,18 +13,15 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class CapabilityLoader
 {
-    /** A capability to handle thirst for player. */
-    @CapabilityInject(IWater.class)
-    public static Capability<IWater> water;
-    /** A capability to handle magic for player. */
-    @CapabilityInject(IMagic.class)
-    public static Capability<IMagic> magic;
-
+    /** A capability to handle extra data for player. */
+    @CapabilityInject(IPlayer.class)
+    public static Capability<IPlayer> player;
+    
     public CapabilityLoader(FMLPreInitializationEvent event)
     {
-        register(IMagic.class, CapabilityMagic.Implementation.class, new CapabilityMagic.Storage());
+        register(IPlayer.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
     }
-    
+
     /**
      * Register a capability with its abstract class, the implementation of its abstract class and storage object.
      *

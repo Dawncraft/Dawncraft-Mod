@@ -128,6 +128,8 @@
 
 2018/4/5注:在工程目录下输入git config core.ignorecase false使git不再忽略大小写
 
+2018/5/18注:建议使用[Blockbench](http://blockbench.net/)制作模型
+
 ## 未来展望
 
 等待更新。

@@ -1,5 +1,12 @@
 This is Dawncraft Mod's update log.
 ===========================================================
+0.2.4.4 update log:
+--------------------
+1.Refactory magic capability.
+2.Refactory spell logic.
+3.Add thirst system.
+4.Fix commands.
+===========================================================
 0.2.4.3 update log:
 --------------------
 1.Add simple Wiki support.

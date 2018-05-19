@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayer;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
@@ -22,16 +22,16 @@ public class MessageSetSlot implements IMessage
     private int windowId;
     private int slot;
     private SkillStack skillStack;
-
-    public MessageSetSlot() {}
     
+    public MessageSetSlot() {}
+
     public MessageSetSlot(int windowId, int slot, SkillStack skillStack)
     {
         this.windowId = windowId;
         this.slot = slot;
         this.skillStack = skillStack == null ? null : skillStack.copy();
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -39,7 +39,7 @@ public class MessageSetSlot implements IMessage
         this.slot = buf.readShort();
         this.skillStack = DawnByteBufUtils.readSkillStack(buf);
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -47,7 +47,7 @@ public class MessageSetSlot implements IMessage
         buf.writeShort(this.slot);
         DawnByteBufUtils.writeSkillStack(buf, this.skillStack);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSetSlot, IMessage>
     {
         @Override
@@ -61,19 +61,19 @@ public class MessageSetSlot implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if(player.hasCapability(CapabilityLoader.magic, null))
+                        if(player.hasCapability(CapabilityLoader.player, null))
                         {
-                            IMagic magic = player.getCapability(CapabilityLoader.magic, null);
-
+                            IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                            
                             if (message.windowId == -1)
                             {
-                                ((SkillInventoryPlayer) magic.getInventory()).setSkillStack(message.skillStack);
+                                ((SkillInventoryPlayer) playerCap.getInventory()).setSkillStack(message.skillStack);
                             }
                             else
                             {
                                 if(message.windowId == 0)
                                 {
-                                    magic.getInventory().setInventorySlotContents(message.slot, message.skillStack);
+                                    playerCap.getInventory().setInventorySlotContents(message.slot, message.skillStack);
                                 }
                                 // TODO SkillSlot和Container写完后重写这个
                                 /*                                boolean flag = false;

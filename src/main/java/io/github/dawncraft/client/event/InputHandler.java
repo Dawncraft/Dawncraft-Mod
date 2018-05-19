@@ -1,12 +1,12 @@
 package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayer;
 import io.github.dawncraft.client.gui.magic.GuiMagic;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
-import io.github.dawncraft.skill.EnumSpellResult;
+import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.util.WebBrowserV3;
 import net.minecraft.client.Minecraft;
@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputHandler
 {
     public InputHandler(FMLInitializationEvent event) {}
-
+    
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -43,22 +43,22 @@ public class InputHandler
                 {
                     if(mc.gameSettings.keyBindsHotbar[i].isPressed())
                     {
-                        if(player.hasCapability(CapabilityLoader.magic, null))
+                        if(player.hasCapability(CapabilityLoader.player, null))
                         {
-                            IMagic magic = player.getCapability(CapabilityLoader.magic, null);
-
-                            if(magic.getSpellAction() == EnumSpellResult.NONE || i != magic.getSpellIndex())
+                            IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                            
+                            if(playerCap.getSpellAction() == EnumSpellAction.NONE || i != playerCap.getSpellIndex())
                             {
-                                SkillStack stack = magic.getInventory().getStackInSlot(i);
+                                SkillStack stack = playerCap.getInventory().getStackInSlot(i);
                                 if(stack != null)
                                 {
-                                    magic.setSpellAction(EnumSpellResult.SELECT);
-                                    magic.setSpellIndex(i);
-                                    magic.setSkillInSpell(stack);
+                                    playerCap.setSpellAction(EnumSpellAction.PREPAR);
+                                    playerCap.setSpellIndex(i);
+                                    playerCap.setSkillInSpell(stack);
                                     GuiIngameDawn.getIngameDawnGUI().setSpellIndex(i);
                                     NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                                 }
-                                
+
                             }
                         }
                     }
@@ -72,7 +72,7 @@ public class InputHandler
             // Use key was pressed
             if (KeyLoader.use.isPressed())
             {
-                
+
             }
         }
         // Wiki key was pressed

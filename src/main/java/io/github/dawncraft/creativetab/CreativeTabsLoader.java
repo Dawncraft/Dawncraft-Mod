@@ -18,20 +18,20 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class CreativeTabsLoader
 {
     public static CreativeTabs tabEnergy;
-    public static CreativeTabs tabMagnetism;
+    public static CreativeTabs tabMagnet;
     public static CreativeTabs tabMachine;
     public static CreativeTabs tabComputer;
     public static CreativeTabs tabScience;
     public static CreativeTabs tabFurniture;
-    public static CreativeTabs tabFood;
-    public static CreativeTabs tabGuns;
+    public static CreativeTabs tabCuisine;
+    public static CreativeTabs tabWeapon;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-
+    
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-    
+
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
         tabEnergy = new CreativeTabs("Energy")
@@ -42,7 +42,7 @@ public class CreativeTabsLoader
                 return ItemLoader.bucketPetroleum;
             }
         };
-        tabMagnetism = new CreativeTabs("Magnetism")
+        tabMagnet = new CreativeTabs("Magnetism")
         {
             @Override
             public Item getTabIconItem()
@@ -82,7 +82,7 @@ public class CreativeTabsLoader
                 return Item.getItemFromBlock(BlockLoader.woodTable);
             }
         };
-        tabFood = new CreativeTabs("Food")
+        tabCuisine = new CreativeTabs("Food")
         {
             @Override
             public Item getTabIconItem()
@@ -90,7 +90,7 @@ public class CreativeTabsLoader
                 return ItemLoader.faeces;
             }
         };
-        tabGuns = new CreativeTabs("Guns")
+        tabWeapon = new CreativeTabs("Guns")
         {
             @Override
             public Item getTabIconItem()
@@ -114,7 +114,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-        
+
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override

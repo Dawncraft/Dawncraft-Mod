@@ -9,47 +9,64 @@ import net.minecraft.util.ResourceLocation;
 
 public class PotionBase extends Potion
 {
-    public static int nextIndex = 0;
+    private static final ResourceLocation POTION_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/potion.png");
+    private static int nextIndex = 0;
 
-    // 内部使用,需要重写
+    private int statusIconX = 0;
+    private int statusIconY = 0;
+    
     protected PotionBase(String id, boolean badEffect, int potionColor)
     {
         this(new ResourceLocation(Dawncraft.MODID + ":" + id), badEffect, potionColor);
         this.setIconIndex(nextIndex++);
     }
-    
+
     public PotionBase(ResourceLocation location, boolean badEffect, int potionColor)
     {
         super(location, badEffect, potionColor);
     }
-    
+
     public Potion setIconIndex(int index)
     {
-        return super.setIconIndex(index, 0);
+        int x = index % 16;
+        int y = Math.floorDiv(this.getStatusIconIndex(), 16);
+        return this.setIconIndex(x, y);
     }
     
     @Override
+    public Potion setIconIndex(int x, int y)
+    {
+        this.statusIconX = x;
+        this.statusIconY = y;
+        return this;
+    }
+
+    @Override
+    public boolean isInstant()
+    {
+        return false;
+    }
+
+    @Override
     public boolean isReady(int duration, int amplifier)
     {
-        return true;
+        return false;
     }
-    
+
     @Override
     public void performEffect(EntityLivingBase entity, int amplifier)
     {
     }
-
+    
     @Override
     public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
     {
         mc.getTextureManager().bindTexture(this.getPotionTexture(effect));
-        int u = this.getStatusIconIndex() % 16;
-        int v = Math.floorDiv(this.getStatusIconIndex(), 16);
-        mc.currentScreen.drawTexturedModalRect(x + 6, y + 7, u, v, 16, 16);
+        mc.currentScreen.drawTexturedModalRect(x + 6, y + 7, this.statusIconX * 16, this.statusIconY * 16, 16, 16);
     }
-    
+
     public ResourceLocation getPotionTexture(PotionEffect effect)
     {
-        return PotionLoader.POTION_TEXTURE;
+        return POTION_TEXTURE;
     }
 }

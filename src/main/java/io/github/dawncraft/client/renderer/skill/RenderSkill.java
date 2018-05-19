@@ -1,7 +1,7 @@
 package io.github.dawncraft.client.renderer.skill;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayer;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
@@ -88,10 +88,10 @@ public class RenderSkill
 
             float cooldown = 0.0F;
             EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
-            if(clientPlayer.hasCapability(CapabilityLoader.magic, null) && skillstack.getTotalCooldown() > 0.0F)
+            if(clientPlayer.hasCapability(CapabilityLoader.player, null) && skillstack.getTotalCooldown() > 0.0F)
             {
-                IMagic magic = clientPlayer.getCapability(CapabilityLoader.magic, null);
-                cooldown = magic.getCooldownTracker().getCooldown(skillstack.getSkill()) / skillstack.getTotalCooldown();
+                IPlayer player = clientPlayer.getCapability(CapabilityLoader.player, null);
+                cooldown = player.getCooldownTracker().getCooldown(skillstack.getSkill()) / skillstack.getTotalCooldown();
             }
             
             if (cooldown > 0.0F)

@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayer;
 import io.github.dawncraft.skill.Skill;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -15,29 +15,29 @@ public class MessageSpellCooldown implements IMessage
 {
     private Skill skill;
     private int ticks;
-    
+
     public MessageSpellCooldown() {}
-    
+
     public MessageSpellCooldown(Skill skill, int ticks)
     {
         this.skill = skill;
         this.ticks = ticks;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.skill = Skill.getSkillById(buf.readInt());
         this.ticks = buf.readInt();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeInt(Skill.getIdFromSkill(this.skill));
         buf.writeInt(this.ticks);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageSpellCooldown, IMessage>
     {
         @Override
@@ -51,10 +51,10 @@ public class MessageSpellCooldown implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if(player.hasCapability(CapabilityLoader.magic, null))
+                        if(player.hasCapability(CapabilityLoader.player, null))
                         {
-                            IMagic magic = player.getCapability(CapabilityLoader.magic, null);
-                            magic.getCooldownTracker().setCooldown(message.skill, message.ticks);
+                            IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                            playerCap.getCooldownTracker().setCooldown(message.skill, message.ticks);
                         }
                     }
                 });

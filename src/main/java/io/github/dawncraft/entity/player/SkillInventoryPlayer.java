@@ -26,60 +26,60 @@ public class SkillInventoryPlayer implements ISkillInventory
     private SkillStack skillStack;
     /** Set true whenever the inventory changes. */
     public boolean inventoryChanged;
-
+    
     public SkillInventoryPlayer(EntityPlayer playerIn)
     {
         this.player = playerIn;
     }
-    
+
     @Override
     public String getName()
     {
         return "container.skills";
     }
-
+    
     @Override
     public boolean hasCustomName()
     {
         return false;
     }
-
+    
     @Override
     public IChatComponent getDisplayName()
     {
         return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
     }
-    
+
     @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
         return this.player.isDead ? false : player.getDistanceSqToEntity(this.player) <= 64.0D;
     }
-
+    
     @Override
     public void openInventory(EntityPlayer player) {}
-
+    
     @Override
     public void closeInventory(EntityPlayer player) {}
-    
+
     @Override
     public int getSizeInventory()
     {
         return this.mainInventory.length;
     }
-
+    
     @Override
     public SkillStack getStackInSlot(int index)
     {
         return this.mainInventory[index];
     }
-
+    
     @Override
     public void setInventorySlotContents(int index, SkillStack stack)
     {
         this.mainInventory[index] = stack;
     }
-
+    
     @Override
     public SkillStack removeStackFromSlot(int index)
     {
@@ -91,13 +91,13 @@ public class SkillInventoryPlayer implements ISkillInventory
         }
         return null;
     }
-
+    
     @Override
     public boolean isSkillValidForSlot(int index, SkillStack stack)
     {
         return true;
     }
-
+    
     @Override
     public void clear()
     {
@@ -107,6 +107,17 @@ public class SkillInventoryPlayer implements ISkillInventory
         }
     }
 
+    public void decrementAnimations()
+    {
+        for (int i = 0; i < this.mainInventory.length; ++i)
+        {
+            if (this.mainInventory[i] != null)
+            {
+                this.mainInventory[i].updateAnimation(this.player.worldObj, this.player, i);
+            }
+        }
+    }
+    
     public boolean addSkillStackToInventory(final SkillStack skillStackIn)
     {
         if (skillStackIn != null && skillStackIn.getSkill() != null)
@@ -114,7 +125,7 @@ public class SkillInventoryPlayer implements ISkillInventory
             try
             {
                 int i = this.getFirstEmptyStack();
-                
+
                 if (i >= 0)
                 {
                     this.mainInventory[i] = SkillStack.copySkillStack(skillStackIn);
@@ -141,7 +152,7 @@ public class SkillInventoryPlayer implements ISkillInventory
         }
         return false;
     }
-
+    
     public int getFirstEmptyStack()
     {
         for (int i = 0; i < this.mainInventory.length; ++i)
@@ -151,26 +162,26 @@ public class SkillInventoryPlayer implements ISkillInventory
                 return i;
             }
         }
-        
+
         return -1;
     }
-
+    
     public void setSkillStack(SkillStack skillStackIn)
     {
         this.skillStack = skillStackIn;
     }
-    
+
     public SkillStack getSkillStack()
     {
         return this.skillStack;
     }
-
+    
     @Override
     public void markDirty()
     {
         this.inventoryChanged = true;
     }
-
+    
     public NBTTagList writeToNBT(NBTTagList nbtTagListIn)
     {
         for (int i = 0; i < this.mainInventory.length; ++i)
@@ -185,17 +196,17 @@ public class SkillInventoryPlayer implements ISkillInventory
         }
         return nbtTagListIn;
     }
-    
+
     public void readFromNBT(NBTTagList nbtTagListIn)
     {
         this.clear();
-        
+
         for (int i = 0; i < nbtTagListIn.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound = nbtTagListIn.getCompoundTagAt(i);
             int j = nbttagcompound.getByte("Slot") & 255;
             SkillStack skillstack = SkillStack.loadSkillStackFromNBT(nbttagcompound);
-            
+
             if (skillstack != null)
             {
                 if (j >= 0 && j < this.mainInventory.length)
@@ -205,7 +216,7 @@ public class SkillInventoryPlayer implements ISkillInventory
             }
         }
     }
-
+    
     public void copyInventory(SkillInventoryPlayer playerInventory)
     {
         for (int i = 0; i < this.mainInventory.length; ++i)
@@ -213,7 +224,7 @@ public class SkillInventoryPlayer implements ISkillInventory
             this.mainInventory[i] = SkillStack.copySkillStack(playerInventory.mainInventory[i]);
         }
     }
-
+    
     public static int getHotbarSize()
     {
         return InventoryPlayer.getHotbarSize();

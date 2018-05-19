@@ -1,10 +1,11 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayer;
 import io.github.dawncraft.config.LogLoader;
+import io.github.dawncraft.entity.player.PlayerUtils;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
-import io.github.dawncraft.skill.EnumSpellResult;
+import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -23,26 +24,26 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageSpellSkillChange implements IMessage
 {
     public int slot;
-
-    public MessageSpellSkillChange() {}
     
+    public MessageSpellSkillChange() {}
+
     public MessageSpellSkillChange(int slot)
     {
         this.slot = slot;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.slot = buf.readByte();
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeByte(this.slot);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSpellSkillChange, IMessage>
     {
         @Override
@@ -56,35 +57,33 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        if (serverPlayer.hasCapability(CapabilityLoader.magic, null))
+                        IPlayer playerCap = serverPlayer.getCapability(CapabilityLoader.player, null);
+                        if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
                         {
-                            IMagic magic = serverPlayer.getCapability(CapabilityLoader.magic, null);
-                            if (message.slot < SkillInventoryPlayer.getHotbarSize())
+                            SkillStack skillStack = playerCap.getInventory().getStackInSlot(message.slot);
+                            if(skillStack != null)
                             {
-                                if(message.slot >= 0)
+                                if(playerCap.getCooldownTracker().getPublicCooldownCount() <= 0)
                                 {
-                                    SkillStack skillStack = magic.getInventory().getStackInSlot(message.slot);
-                                    if(skillStack != null)
-                                    {
-                                        magic.setSpellAction(EnumSpellResult.SELECT);
-                                        magic.setSpellIndex(message.slot);
-                                        magic.setSkillInSpell(skillStack);
-                                        serverPlayer.markPlayerActive();
-                                        return;
-                                    }
+                                    playerCap.setSpellIndex(message.slot);
+                                    playerCap.setSkillInSpell(skillStack);
+                                    serverPlayer.markPlayerActive();
                                 }
-                                // 玩家选中了小于0的格子???或选中的格子内没有技能
-                                // 但我在客户端做了判断,理论上不会出现这种情况
-                                if(magic.getSpellAction() == EnumSpellResult.SELECT || magic.getSpellAction().isSpelling())
+                                else
                                 {
-                                    magic.clearSkillInSpell();
-                                    NetworkLoader.instance.sendTo(new MessagePlayerSpelling(EnumSpellResult.CANCEL, 0, 0), serverPlayer);
+                                    playerCap.clearSkillInSpell();
+                                    PlayerUtils.globleCooldown(serverPlayer);
                                 }
                             }
-                            else
+                            else if(playerCap.getSpellAction() != EnumSpellAction.NONE)
                             {
-                                LogLoader.logger().warn(serverPlayer.getName() + " tried to set an invalid spelled skill");
+                                playerCap.clearSkillInSpell();
+                                PlayerUtils.cancel(serverPlayer);
                             }
+                        }
+                        else
+                        {
+                            LogLoader.logger().warn(serverPlayer.getName() + " tried to set an invalid spelled skill");
                         }
                     }
                 });
@@ -97,13 +96,14 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        if (clientPlayer.hasCapability(CapabilityLoader.magic, null))
+                        IPlayer playerCap = clientPlayer.getCapability(CapabilityLoader.player, null);
+                        if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
                         {
-                            IMagic magic = clientPlayer.getCapability(CapabilityLoader.magic, null);
-                            if (message.slot < SkillInventoryPlayer.getHotbarSize())
-                            {
-                                magic.setSpellIndex(message.slot);
-                            }
+                            playerCap.setSpellIndex(message.slot);
+                        }
+                        else
+                        {
+                            LogLoader.logger().warn(clientPlayer.getName() + " tried to set an invalid spelled skill");
                         }
                     }
                 });

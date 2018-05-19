@@ -22,52 +22,49 @@ public class CommandForget extends CommandBase
     {
         return "forget";
     }
-
+    
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-
+    
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.forget.usage";
     }
-
+    
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        EntityPlayerMP entityPlayerMP = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
+        EntityPlayerMP serverPlayer = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
         try
         {
-            if(entityPlayerMP.hasCapability(CapabilityLoader.magic, null))
+            SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.player, null).getInventory();
+            List<SkillStack> list = new ArrayList<SkillStack>();
+            int count = 0;
+            for(int i = 0; i < inventory.getSizeInventory(); i++)
             {
-                SkillInventoryPlayer inventory = (SkillInventoryPlayer) entityPlayerMP.getCapability(CapabilityLoader.magic, null).getInventory();
-                List<SkillStack> list = new ArrayList<SkillStack>();
-                int count = 0;
-                for(int i = 0; i < inventory.getSizeInventory(); i++)
-                {
-                    if(inventory.getStackInSlot(i) != null) count++;
-                    list.add(null);
-                }
-                inventory.clear();
-                NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), entityPlayerMP);
-                notifyOperators(sender, this, "commands.forget.success", new Object[] {entityPlayerMP.getName(), count});
+                if(inventory.getStackInSlot(i) != null) count++;
+                list.add(null);
             }
+            inventory.clear();
+            NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), serverPlayer);
+            notifyOperators(sender, this, "commands.forget.success", new Object[] {serverPlayer.getName(), count});
         }
         catch(Exception e)
         {
-            throw new CommandException("commands.forget.failure", new Object[] {entityPlayerMP.getName()});
+            throw new CommandException("commands.forget.failure", new Object[] {serverPlayer.getName()});
         }
     }
-
+    
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : null;
     }
-
+    
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();

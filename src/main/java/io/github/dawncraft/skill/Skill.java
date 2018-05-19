@@ -205,7 +205,7 @@ public class Skill
      * @param entityIn 技能携带者
      * @param skillSlot 技能槽位
      */
-    public void onUpdate(SkillStack stack, World worldIn, Entity entityIn, int skillSlot)
+    public void onUpdate(SkillStack stack, World world, Entity entity, int skillSlot)
     {
     }
     
@@ -216,11 +216,11 @@ public class Skill
      * @param worldIn 施放者所在世界
      * @param playerIn 施放玩家
      * @param duration 已经准备了多少刻
-     * @return 准备施法的结果(如果返回值是COOLING以及下面的将会以该种原因取消技能准备)
+     * @return 准备施法的结果(如果返回值是NONE则取消技能准备)
      */
-    public EnumSpellResult onSkillPreparing(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
+    public EnumSpellAction onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
-        return EnumSpellResult.NONE;
+        return EnumSpellAction.PREPAR;
     }
 
     /**
@@ -231,7 +231,7 @@ public class Skill
      * @param playerIn 施放玩家
      * @return 是否施放成功(暂时无实际意义)
      */
-    public boolean onSkillSpell(SkillStack skillstack, World worldIn, EntityPlayer playerIn)
+    public boolean onSkillSpell(SkillStack skillstack, World world, EntityPlayer player)
     {
         return false;
     }
@@ -243,11 +243,11 @@ public class Skill
      * @param worldIn 施放者所在世界
      * @param playerIn 施放玩家
      * @param duration 已经施放了多少刻
-     * @return 施放魔法的结果(如果返回值是COOLING以及下面的将会以该种原因取消技能施放)
+     * @return 施放魔法的结果(如果返回值是NONE则取消技能施放)
      */
-    public EnumSpellResult onSkillSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
+    public EnumSpellAction onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
-        return EnumSpellResult.NONE;
+        return EnumSpellAction.SPELL;
     }
 
     /**
@@ -255,11 +255,11 @@ public class Skill
      * <br>如果释放过程中未被打断且施放完成会调用{@link #onSkillSpellFinish(SkillStack skillStack, World world, EntityPlayer player)}</br>
      *
      * @param skillStack  正在施放的技能
-     * @param worldIn 施放者所在世界
-     * @param playerIn 施放玩家
+     * @param world 施放者所在世界
+     * @param player 施放玩家
      * @param duration 已经施放了多少刻
      */
-    public void onPlayerStoppedSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
+    public void onPlayerStoppedSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
 
     }

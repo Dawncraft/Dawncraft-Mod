@@ -1,8 +1,7 @@
-package io.github.dawncraft.util;
+package io.github.dawncraft.entity;
 
 import java.util.List;
 
-import io.github.dawncraft.entity.EntitySittable;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;

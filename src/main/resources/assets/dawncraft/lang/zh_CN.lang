@@ -2,13 +2,13 @@
 dawncraft.name=曙光工艺模组
 
 itemGroup.Energy=能源
-itemGroup.Magnetism=磁力
+itemGroup.Magnet=磁力
 itemGroup.Machine=机械
 itemGroup.Computer=电脑
 itemGroup.Science=科学
 itemGroup.Furniture=家具
-itemGroup.Food=烹饪
-itemGroup.Guns=枪械
+itemGroup.Cuisine=烹饪
+itemGroup.Weapon=武器
 itemGroup.Magic=魔法
 itemGroup.ColourEgg=彩蛋
 
@@ -293,6 +293,3 @@ config.dawncraft.coloregg.gerKingPassword=输入密码
 config.dawncraft.coloregg.gerKingPassword.tooltip=请输入正确的Ger王名字
 config.dawncraft.coloregg.enchantmentFireBurnId=火焰灼烧附魔ID
 config.dawncraft.coloregg.enchantmentFireBurnId.tooltip=设置火焰灼烧附魔的ID
-config.dawncraft.coloregg.potionGerPowerID=巨ger之力效果ID
-config.dawncraft.coloregg.potionBadGerID=ger化效果ID
-config.dawncraft.coloregg.potionBrainDeadID=脑残效果ID

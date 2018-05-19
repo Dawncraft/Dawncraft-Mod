@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.network.MessageWindowSkills;
 import io.github.dawncraft.network.NetworkLoader;
@@ -45,28 +44,24 @@ public class CommandLearn extends CommandBase
     {
         if (args.length >= 2)
         {
-            EntityPlayerMP entityPlayerMP = getPlayer(sender, args[0]);
+            EntityPlayerMP serverPlayer = getPlayer(sender, args[0]);
             Skill skill = getSkillByText(sender, args[1]);
 
             if(skill != null)
             {
                 int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 0;
                 SkillStack skillstack = new SkillStack(skill, level);
-                if(entityPlayerMP.hasCapability(CapabilityLoader.magic, null))
+                SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.player, null).getInventory();
+                if(inventory.addSkillStackToInventory(skillstack))
                 {
-                    IMagic magic = entityPlayerMP.getCapability(CapabilityLoader.magic, null);
-                    SkillInventoryPlayer inventory = (SkillInventoryPlayer) magic.getInventory();
-                    if(inventory.addSkillStackToInventory(skillstack))
-                    {
-                        entityPlayerMP.worldObj.playSoundAtEntity(entityPlayerMP, "random.pop", 0.2F, ((entityPlayerMP.getRNG().nextFloat() - entityPlayerMP.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                        List<SkillStack> list = new ArrayList<SkillStack>();
-                        for(int i = 0; i < inventory.getSizeInventory(); i++)
-                            list.add(inventory.getStackInSlot(i));
-                        NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), entityPlayerMP);
-                        notifyOperators(sender, this, "commands.learn.success", new Object[] {skillstack.getChatComponent(), Integer.valueOf(level), entityPlayerMP.getName()});
-                    }
-                    else throw new CommandException("commands.learn.full", new Object[] {entityPlayerMP.getName()});
+                    serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                    List<SkillStack> list = new ArrayList<SkillStack>();
+                    for(int i = 0; i < inventory.getSizeInventory(); i++)
+                        list.add(inventory.getStackInSlot(i));
+                    NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), serverPlayer);
+                    notifyOperators(sender, this, "commands.learn.success", new Object[] {skillstack.getChatComponent(), Integer.valueOf(level), serverPlayer.getName()});
                 }
+                else throw new CommandException("commands.learn.full", new Object[] {serverPlayer.getName()});
             }
         }
         else throw new WrongUsageException("commands.learn.usage", new Object[0]);

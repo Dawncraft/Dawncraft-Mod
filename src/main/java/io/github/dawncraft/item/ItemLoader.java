@@ -53,17 +53,17 @@ public class ItemLoader
             .setContainerItem(Items.bucket);
     
     // Magnetism
-    public static Item magnet = new Item().setUnlocalizedName("magnet").setCreativeTab(CreativeTabsLoader.tabMagnetism);
+    public static Item magnet = new Item().setUnlocalizedName("magnet").setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Item magnetIngot = new Item().setUnlocalizedName("magnetIngot")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Item magnetStick = new Item().setUnlocalizedName("magnetStick")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Item magnetBall = new ItemMagnetBall().setUnlocalizedName("magnetBall")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Item magnetCard = new ItemMagnetCard().setUnlocalizedName("magnetCard")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Item magnetDoor = new ItemMagnetDoor().setUnlocalizedName("magnetDoor")
-            .setCreativeTab(CreativeTabsLoader.tabMagnetism);
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     
     public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11)
             .setRepairItem(new ItemStack(magnetIngot));
@@ -102,6 +102,7 @@ public class ItemLoader
     // Furniture
     
     // Food
+    public static Item bottle = new Item().setUnlocalizedName("bottle").setCreativeTab(CreativeTabsLoader.tabCuisine);
     public static Item faeces = (ItemFood) new ItemFood(1, 0.0F, true)
     {
         @Override
@@ -116,8 +117,8 @@ public class ItemLoader
             }
             super.onFoodEaten(stack, worldIn, player);
         }
-    }.setAlwaysEdible().setUnlocalizedName("faeces").setCreativeTab(CreativeTabsLoader.tabFood);
-    public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabFood);
+    }.setAlwaysEdible().setUnlocalizedName("faeces").setCreativeTab(CreativeTabsLoader.tabCuisine);
+    public static Item cakeEgg = new ItemFood(4, 6.0F, false).setUnlocalizedName("cakeEgg").setCreativeTab(CreativeTabsLoader.tabCuisine);
     public static Item frogStew = new ItemSoup(4)
     {
         public String getUnlocalizedDesc()
@@ -131,18 +132,18 @@ public class ItemLoader
         {
             tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(this.getUnlocalizedDesc()));
         }
-    }.setUnlocalizedName("frogStew").setCreativeTab(CreativeTabsLoader.tabFood);
-    public static Item frog = new Item().setUnlocalizedName("frog").setCreativeTab(CreativeTabsLoader.tabFood);
+    }.setUnlocalizedName("frogStew").setCreativeTab(CreativeTabsLoader.tabCuisine);
+    public static Item frog = new Item().setUnlocalizedName("frog").setCreativeTab(CreativeTabsLoader.tabCuisine);
     
     // Guns
     public static Item gunAK47 = new ItemGunRifle(423, 30, 69, 2, 1, 0.85F, 0.70F, 0.65F, 6.0F)
-            .setUnlocalizedName("gunAK47").setCreativeTab(CreativeTabsLoader.tabGuns);
+            .setUnlocalizedName("gunAK47").setCreativeTab(CreativeTabsLoader.tabWeapon);
     public static Item gunRPG = new ItemGunLauncher(28, 3, 100, -1, 1, 0.5F, 0.5F, 0.95F).setUnlocalizedName("gunRPG")
-            .setCreativeTab(CreativeTabsLoader.tabGuns);
+            .setCreativeTab(CreativeTabsLoader.tabWeapon);
     public static Item gunBullet = new Item().setUnlocalizedName("gunBullet")
-            .setCreativeTab(CreativeTabsLoader.tabGuns);
+            .setCreativeTab(CreativeTabsLoader.tabWeapon);
     public static Item gunRocket = new Item().setUnlocalizedName("gunRocket")
-            .setCreativeTab(CreativeTabsLoader.tabGuns).setMaxStackSize(16);
+            .setCreativeTab(CreativeTabsLoader.tabWeapon).setMaxStackSize(16);
     
     // Magic
     public static Item magicDust = new Item().setUnlocalizedName("magicDust")
@@ -258,6 +259,7 @@ public class ItemLoader
         // Furniture
         
         // Food
+        register(bottle, "bottle");
         register(faeces, "faeces");
         register(cakeEgg, "cake_egg");
         register(frogStew, "frog_stew");
