@@ -81,8 +81,11 @@ public class ItemRenderLoader
         // Food
         registerRender(ItemLoader.bottle);
         registerRender(ItemLoader.faeces);
-        registerRender(ItemLoader.cakeEgg);
+        registerRender(ItemLoader.cookedEgg);
+        registerRender(ItemLoader.honeyChicken);
+        registerRender(ItemLoader.honeyStew);
         registerRender(ItemLoader.frogStew);
+        registerRender(ItemLoader.honey);
         registerRender(ItemLoader.frog);
 
         // Magic

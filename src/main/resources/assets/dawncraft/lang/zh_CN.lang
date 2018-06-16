@@ -45,12 +45,17 @@ item.advancedCPU.desc=曙光二代CPU,速度还算可以
 item.superCPU.name=超级CPU
 item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
+item.bottle.name=杯子
 item.potato.desc=土豆栽子,苞米胚子,甜菜梆子
 item.faeces.name=§6屎
-item.cakeEgg.name=荷包蛋
-item.frog.name=青蛙
+item.eggCooked.name=荷包蛋
+item.chickenHoney.name=蜜汁鸡
+item.chickenHoney.desc=是幂之积不是蜜汁鸡
+item.honey.name=蜂房
+item.honeyStew.name=碗装蜂蜜
 item.frogStew.name=青蛙汤
 item.frogStew.desc=青蛙汤到真理-温水不能煮死青蛙
+item.frog.name=青蛙
 
 item.gunAK47.name=AK47
 item.gunBullet.name=子弹

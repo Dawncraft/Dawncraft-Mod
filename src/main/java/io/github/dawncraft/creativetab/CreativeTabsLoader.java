@@ -27,11 +27,11 @@ public class CreativeTabsLoader
     public static CreativeTabs tabWeapon;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-    
+
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-
+    
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
         tabEnergy = new CreativeTabs("Energy")
@@ -42,7 +42,7 @@ public class CreativeTabsLoader
                 return ItemLoader.bucketPetroleum;
             }
         };
-        tabMagnet = new CreativeTabs("Magnetism")
+        tabMagnet = new CreativeTabs("Magnet")
         {
             @Override
             public Item getTabIconItem()
@@ -82,15 +82,15 @@ public class CreativeTabsLoader
                 return Item.getItemFromBlock(BlockLoader.woodTable);
             }
         };
-        tabCuisine = new CreativeTabs("Food")
+        tabCuisine = new CreativeTabs("Cuisine")
         {
             @Override
             public Item getTabIconItem()
             {
-                return ItemLoader.faeces;
+                return ItemLoader.cookedEgg;
             }
         };
-        tabWeapon = new CreativeTabs("Guns")
+        tabWeapon = new CreativeTabs("Weapon")
         {
             @Override
             public Item getTabIconItem()
@@ -114,7 +114,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-
+        
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override

@@ -20,7 +20,7 @@ public class AchievementLoader
 {
     /** A new achievement page for Dawncraft Mod. */
     public static AchievementPage pageDawncraft = new AchievementPage(Dawncraft.NAME);
-
+    
     public static Achievement basic = new Achievement("achievement.dawncraft.basic", "dawncraft.basic", -2, -1, ItemLoader.funny, AchievementList.openInventory).initIndependentStat();
     // Energy
     public static Achievement energy = new Achievement("achievement.dawncraft.energy", "dawncraft.energy", 0, -5, ItemLoader.bucketPetroleum, basic);
@@ -40,7 +40,7 @@ public class AchievementLoader
     // Furniture
     public static Achievement furniture = new Achievement("achievement.dawncraft.furniture", "dawncraft.furniture", 0, 5, BlockLoader.woodTable, basic);
     // Food
-    public static Achievement food = new Achievement("achievement.dawncraft.food", "dawncraft.food", 0, 7, ItemLoader.cakeEgg, basic);
+    public static Achievement food = new Achievement("achievement.dawncraft.food", "dawncraft.food", 0, 7, ItemLoader.cookedEgg, basic);
     public static Achievement foodFaeces = new Achievement("achievement.dawncraft.foodFaeces", "dawncraft.foodFaeces", 2, 7, ItemLoader.faeces, food);
     // Guns
     public static Achievement guns = new Achievement("achievement.dawncraft.guns", "dawncraft.guns", 0, 9, ItemLoader.gunAK47, basic);
@@ -54,45 +54,45 @@ public class AchievementLoader
     public static Achievement ger = new Achievement("achievement.dawncraft.ger", "dawncraft.ger", -5, -5, ItemLoader.gerHeart, kill).setSpecial();
     public static Achievement dawnPortal = new Achievement("achievement.dawncraft.dawnPortal", "dawncraft.dawnPortal", -5, -3, Blocks.obsidian, ger);
     public static Achievement dawnArrival = new Achievement("achievement.dawncraft.dawnArrival", "dawncraft.dawnArrival", -5, -1, Items.apple, dawnPortal);
-
+    
     public AchievementLoader(FMLInitializationEvent event)
     {
         addAchievements(pageDawncraft, basic);
-
+        
         addAchievements(pageDawncraft, energy, electricity);
-
+        
         addAchievements(pageDawncraft, magnetism, magnetCard);
-
+        
         addAchievements(pageDawncraft, machine, machineStarted);
-
+        
         addAchievements(pageDawncraft, computer, computerStarted);
-
+        
         addAchievements(pageDawncraft, science);
-
+        
         addAchievements(pageDawncraft, furniture);
-
+        
         addAchievements(pageDawncraft, food, foodFaeces);
-
+        
         addAchievements(pageDawncraft, guns, gunsRPG, explodeSkeleton);
-
+        
         addAchievements(pageDawncraft, magic);
-
+        
         addAchievements(pageDawncraft, arrive, kill, ger, dawnPortal, dawnArrival);
-
+        
         registerAchievementPage(pageDawncraft);
     }
-    
+
     public static void addAchievements(AchievementPage page, Achievement... achievements)
     {
         for(Achievement achievement : achievements)
             addAchievement(page, achievement);
     }
-
+    
     public static void addAchievement(AchievementPage page, Achievement achievement)
     {
         page.getAchievements().add(achievement.registerStat());
     }
-    
+
     public static void registerAchievementPage(AchievementPage page)
     {
         AchievementPage.registerAchievementPage(page);

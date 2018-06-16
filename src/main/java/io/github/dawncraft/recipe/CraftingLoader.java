@@ -61,7 +61,7 @@ public class CraftingLoader
                 {
                         "# #", "#*#", "#M#", '#', Items.iron_ingot , '*', Items.stick, 'M', ItemLoader.magnet
                 });
-        
+
         registerShapedRecipe(new ItemStack(BlockLoader.simpleComputer, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.iron_ingot
@@ -75,7 +75,7 @@ public class CraftingLoader
                         "###", "# #", "###", '#', Items.diamond
                 });
         //Food
-        
+
         //Tools
         registerShapedOreRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
                 {
@@ -106,49 +106,49 @@ public class CraftingLoader
                 {
                         "# #", "# #", '#', "ingotMagnet"
                 });
-        
-        registerSmelting(BlockLoader.magnetOre, new ItemStack(ItemLoader.magnetIngot), 0.7F);
-        registerSmelting(Items.egg, new ItemStack(ItemLoader.cakeEgg), 0.3F);
-        registerFuel(ItemLoader.bucketPetroleum, 25600);
 
+        registerSmelting(BlockLoader.magnetOre, new ItemStack(ItemLoader.magnetIngot), 0.7F);
+        registerSmelting(Items.egg, new ItemStack(ItemLoader.cookedEgg), 0.3F);
+        registerFuel(ItemLoader.bucketPetroleum, 25600);
+        
         registerFish(FishableCategory.FISH, new ItemStack(ItemLoader.frog), 10);
     }
-
+    
     private static void registerShapedRecipe(ItemStack output, Object... params)
     {
         GameRegistry.addShapedRecipe(output, params);
     }
-    
+
     private static void registerShapelessRecipe(ItemStack output, Object... params)
     {
         GameRegistry.addShapelessRecipe(output, params);
     }
-    
+
     private static void registerShapedOreRecipe(ItemStack output, Object... params)
     {
         registerRecipe(new ShapedOreRecipe(output, params));
     }
-    
+
     private static void registerShapelessOreRecipe(ItemStack output, Object... params)
     {
         registerRecipe(new ShapelessOreRecipe(output, params));
     }
-    
+
     private static void registerRecipe(IRecipe recipe)
     {
         GameRegistry.addRecipe(recipe);
     }
-
+    
     private static void registerSmelting(Item input, ItemStack output, float xp)
     {
         GameRegistry.addSmelting(input, output, xp);
     }
-    
+
     private static void registerSmelting(Block input, ItemStack output, float xp)
     {
         GameRegistry.addSmelting(input, output, xp);
     }
-
+    
     private static void registerFuel(final Item input, final int burnTime)
     {
         registerFuel(new IFuelHandler()
@@ -160,37 +160,37 @@ public class CraftingLoader
             }
         });
     }
-    
+
     private static void registerFuel(final Block input, final int burnTime)
     {
         registerFuel(Item.getItemFromBlock(input), burnTime);
     }
-    
+
     private static void registerFuel(IFuelHandler handler)
     {
         GameRegistry.registerFuelHandler(handler);
     }
-    
+
     private static void registerPotion(ItemStack input, ItemStack ingredient, ItemStack output)
     {
         BrewingRecipeRegistry.addRecipe(input, ingredient, output);
     }
-
+    
     private static void registerOrePotion(ItemStack input, String ingredient, ItemStack output)
     {
         BrewingRecipeRegistry.addRecipe(input, ingredient, output);
     }
-
+    
     private static void registerPotion(IBrewingRecipe recipe)
     {
         BrewingRecipeRegistry.addRecipe(recipe);
     }
-    
+
     private static void registerFish(FishableCategory category, ItemStack itemstack, int weight)
     {
         registerFish(category, new WeightedRandomFishable(itemstack, weight));
     }
-    
+
     private static void registerFish(FishableCategory category, WeightedRandomFishable item)
     {
         switch(category)
