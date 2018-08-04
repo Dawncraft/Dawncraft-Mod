@@ -1,5 +1,14 @@
 This is Dawncraft Mod's update log.
 ===========================================================
+0.2.4.5 update log:
+--------------------
+1.Fix ItemDrink.
+2.Refactory capabilities.
+3.Add model loader.
+4.Refactory TooltipEventHandler.
+5.Dix DrinkStats.
+6.Add FingerprintViolationEvent.
+===========================================================
 0.2.4.4 update log:
 --------------------
 1.Refactory magic capability.

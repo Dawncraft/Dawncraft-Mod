@@ -29,8 +29,11 @@ public class DrinkStats
      */
     public void addStats(int drinkLevel, float drinkSaturationModifier)
     {
-        this.drinkLevel = Math.min(drinkLevel + this.drinkLevel, 20);
-        this.drinkSaturationLevel = Math.min(this.drinkSaturationLevel + drinkLevel * drinkSaturationModifier * 2.0F, this.drinkLevel);
+        if(ConfigLoader.isThirstEnabled)
+        {
+            this.drinkLevel = Math.min(drinkLevel + this.drinkLevel, 20);
+            this.drinkSaturationLevel = Math.min(this.drinkSaturationLevel + drinkLevel * drinkSaturationModifier * 2.0F, this.drinkLevel);
+        }
     }
 
     public void addStats(ItemDrink item, ItemStack stack)
@@ -173,7 +176,6 @@ public class DrinkStats
         this.drinkLevel = drinkLevel;
     }
 
-    @SideOnly(Side.CLIENT)
     public void setDrinkSaturationLevel(float drinkSaturationLevel)
     {
         this.drinkSaturationLevel = drinkSaturationLevel;

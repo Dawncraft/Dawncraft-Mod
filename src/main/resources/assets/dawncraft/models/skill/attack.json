@@ -1,6 +1,6 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "0": "dawncraft:skills/heal"
+        "0": "dawncraft:skills/attack"
     }
 }

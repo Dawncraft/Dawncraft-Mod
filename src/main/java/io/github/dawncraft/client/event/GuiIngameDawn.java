@@ -8,7 +8,7 @@ import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.item.ItemGun;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayer;
-import io.github.dawncraft.client.renderer.skill.RenderSkill;
+import io.github.dawncraft.client.renderer.entity.RenderSkill;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
@@ -323,7 +323,7 @@ public class GuiIngameDawn extends Gui
             this.renderHotbarSkill(i, x, y, entityplayer);
             if (cooldown > 0.0F)
             {
-                RenderSkill.skillRender.draw(worldrender, x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 255, 255, 255, 127);
+                RenderSkill.getSkillRender().draw(worldrender, x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 255, 255, 255, 127);
             }
         }
         
@@ -357,14 +357,14 @@ public class GuiIngameDawn extends Gui
                 GlStateManager.translate(-(xPos + 8), -(yPos + 12), 0.0F);
             }
 
-            RenderSkill.skillRender.renderSkillIntoGUI(skillstack, xPos, yPos);
+            RenderSkill.getSkillRender().renderSkillIntoGUI(skillstack, xPos, yPos);
 
             if (f > 0.0F)
             {
                 GlStateManager.popMatrix();
             }
             
-            RenderSkill.skillRender.renderSkillOverlayIntoGUI(this.mc.fontRendererObj, skillstack, xPos, yPos, null);
+            RenderSkill.getSkillRender().renderSkillOverlayIntoGUI(this.mc.fontRendererObj, skillstack, xPos, yPos);
         }
     }
     

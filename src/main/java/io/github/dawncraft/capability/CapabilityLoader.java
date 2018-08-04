@@ -13,12 +13,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class CapabilityLoader
 {
+    /** A capability to handle thirst for player. */
+    @CapabilityInject(IThirst.class)
+    public static Capability<IThirst> thirst;
     /** A capability to handle extra data for player. */
     @CapabilityInject(IPlayer.class)
     public static Capability<IPlayer> player;
     
     public CapabilityLoader(FMLPreInitializationEvent event)
     {
+        register(IThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
         register(IPlayer.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
     }
 

@@ -1,58 +1,39 @@
 package io.github.dawncraft.client.renderer.texture;
 
-import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.texture.IIconCreator;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
- * 注册材质，需重写
+ * 注册技能材质
  *
  * @author QingChenW
  */
-@Deprecated
 public class TextureLoader
 {
-    public static final ResourceLocation skillsTexture = new ResourceLocation(Dawncraft.MODID, "textures/atlas/skills.png");
-    private static TextureMap textureMapSkills;
-    
-    public TextureLoader(FMLPreInitializationEvent event)
+    public static TextureLoader textureLoader;
+    public static final ResourceLocation locationSkillsTexture = new ResourceLocation("textures/atlas/skills.png");
+    private TextureMap textureMapSkills;
+
+    public TextureLoader()
     {
         Minecraft mc = Minecraft.getMinecraft();
         
-        textureMapSkills = new TextureMap("textures", false);
-        textureMapSkills.setMipmapLevels(mc.gameSettings.mipmapLevels);
-        textureMapSkills.setBlurMipmapDirect(false, mc.gameSettings.mipmapLevels > 0);
+        this.textureMapSkills = new TextureMap("textures", true);
+        this.textureMapSkills.setMipmapLevels(mc.gameSettings.mipmapLevels);
+        mc.getTextureManager().loadTickableTexture(locationSkillsTexture, this.textureMapSkills);
+        this.textureMapSkills.setBlurMipmapDirect(false, mc.gameSettings.mipmapLevels > 0);
+        
+        textureLoader = this;
     }
     
-    public static void loadTextureMap()
+    public TextureMap getTextureMapSkills()
     {
-        Minecraft mc = Minecraft.getMinecraft();
-
-        mc.renderEngine.loadTickableTexture(skillsTexture, textureMapSkills);
-        textureMapSkills.loadSprites(mc.getResourceManager(), new IIconCreator()
-        {
-            @Override
-            public void registerSprites(TextureMap map)
-            {
-                for(ResourceLocation res : SkillRenderLoader.getTextures())
-                {
-                    map.registerSprite(getActualLocation(res));
-                }
-            }
-        });
+        return this.textureMapSkills;
     }
-
-    public static ResourceLocation getActualLocation(ResourceLocation location)
+    
+    public static TextureLoader getTextureLoader()
     {
-        return new ResourceLocation(location.getResourceDomain(), "skills/" + location.getResourcePath());
-    }
-
-    public static TextureMap getTextureMapSkills()
-    {
-        return TextureLoader.textureMapSkills;
+        return textureLoader;
     }
 }

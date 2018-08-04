@@ -2,7 +2,7 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayer;
-import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.capability.IThirst;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,39 +22,39 @@ public class MessageUpdateMana implements IMessage
     private float mana;
     private int drinkLevel;
     private float saturationLevel;
-
-    public MessageUpdateMana() {}
     
+    public MessageUpdateMana() {}
+
     public MessageUpdateMana(float mana)
     {
         this(mana, 0, 0.0F);
     }
-    
+
     public MessageUpdateMana(float mana, int drinkLevel, float saturation)
     {
         this.mana = mana;
         this.drinkLevel = drinkLevel;
         this.saturationLevel = saturation;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public float getMana()
     {
         return this.mana;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public int getDrinkLevel()
     {
         return this.drinkLevel;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public float getSaturationLevel()
     {
         return this.saturationLevel;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -62,7 +62,7 @@ public class MessageUpdateMana implements IMessage
         this.drinkLevel = buf.readInt();
         this.saturationLevel = buf.readFloat();
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -70,7 +70,7 @@ public class MessageUpdateMana implements IMessage
         buf.writeInt(this.drinkLevel);
         buf.writeFloat(this.saturationLevel);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageUpdateMana, IMessage>
     {
         @Override
@@ -84,12 +84,13 @@ public class MessageUpdateMana implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
-                        playerCap.setMana(message.getMana());
-                        if(ConfigLoader.isThirstEnabled)
+                        IPlayer playerDawn = player.getCapability(CapabilityLoader.player, null);
+                        playerDawn.setMana(message.getMana());
+                        IThirst thirst = player.getCapability(CapabilityLoader.thirst, null);
+                        if(thirst.getDrinkStats() != null)
                         {
-                            playerCap.getDrinkStats().setDrinkLevel(message.getDrinkLevel());
-                            playerCap.getDrinkStats().setDrinkSaturationLevel(message.getSaturationLevel());
+                            thirst.getDrinkStats().setDrinkLevel(message.getDrinkLevel());
+                            thirst.getDrinkStats().setDrinkSaturationLevel(message.getSaturationLevel());
                         }
                     }
                 });

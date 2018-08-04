@@ -3,14 +3,13 @@ package io.github.dawncraft.client;
 import io.github.dawncraft.client.event.ClientEventLoader;
 import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
+import io.github.dawncraft.client.renderer.entity.RenderSkill;
 import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
+import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
-import io.github.dawncraft.client.renderer.skill.RenderSkill;
-import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.server.ServerProxy;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -26,20 +25,19 @@ public class ClientProxy extends ServerProxy
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
-        new TextureLoader(event);
         new ItemRenderLoader(event);
         new BlockRenderLoader(event);
+        new SkillRenderLoader(event);
         new EntityRenderLoader(event);
         new TileEntityRenderLoader(event);
-        new SkillRenderLoader(event);
+        new ModelLoader(event);
     }
 
     @Override
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        RenderSkill.skillRender = new RenderSkill(Minecraft.getMinecraft());
-        TextureLoader.loadTextureMap();
+        new RenderSkill();
         new KeyLoader(event);
         new ClientEventLoader(event);
     }

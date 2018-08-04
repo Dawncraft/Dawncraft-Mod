@@ -9,7 +9,6 @@ import io.github.dawncraft.api.event.DawnEventFactory;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.entity.AttributesLoader;
-import io.github.dawncraft.entity.player.DrinkStats;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.item.ItemLoader;
@@ -51,7 +50,6 @@ public class CapabilityPlayer
     {
         private EntityPlayer player;
         private float mana;
-        private DrinkStats drinkStats = new DrinkStats();
         private EnumSpellAction spellAction;
         private boolean canceled;
         private int currentSkill;
@@ -106,18 +104,6 @@ public class CapabilityPlayer
         public boolean shouldRecover()
         {
             return this.getMana() > 0.0F && this.getMana() < this.getMaxMana();
-        }
-
-        @Override
-        public DrinkStats getDrinkStats()
-        {
-            return this.drinkStats;
-        }
-        
-        @Override
-        public boolean canDrink(boolean ignoreThirst)
-        {
-            return (!ConfigLoader.isThirstEnabled || ignoreThirst || this.drinkStats.needDrink()) && !this.player.capabilities.disableDamage;
         }
 
         @Override
@@ -260,9 +246,11 @@ public class CapabilityPlayer
                     this.recover(1.0F);
                 }
                 
-                if (ConfigLoader.isThirstEnabled && this.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
+                IThirst thirst = this.player.getCapability(CapabilityLoader.thirst, null);
+                
+                if (ConfigLoader.isThirstEnabled && thirst.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
                 {
-                    this.getDrinkStats().setDrinkLevel(this.getDrinkStats().getDrinkLevel() + 1);
+                    thirst.getDrinkStats().setDrinkLevel(thirst.getDrinkStats().getDrinkLevel() + 1);
                 }
             }
 
@@ -363,14 +351,15 @@ public class CapabilityPlayer
                 this.cancelSpelling();
             }
 
-            this.getDrinkStats().onUpdate(this.player);
+            IThirst thirst = this.player.getCapability(CapabilityLoader.thirst, null);
+            thirst.getDrinkStats().onUpdate(this.player);
             
-            if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != this.getDrinkStats().getDrinkLevel() || this.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
+            if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != thirst.getDrinkStats().getDrinkLevel() || thirst.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
             {
-                NetworkLoader.instance.sendTo(new MessageUpdateMana(this.getMana(), this.getDrinkStats().getDrinkLevel(), this.getDrinkStats().getSaturationLevel()), this.player);
+                NetworkLoader.instance.sendTo(new MessageUpdateMana(this.getMana(), thirst.getDrinkStats().getDrinkLevel(), thirst.getDrinkStats().getSaturationLevel()), this.player);
                 this.lastMana = this.getMana();
-                this.lastDrinkLevel = this.getDrinkStats().getDrinkLevel();
-                this.wasThirst = this.getDrinkStats().getSaturationLevel() == 0.0F;
+                this.lastDrinkLevel = thirst.getDrinkStats().getDrinkLevel();
+                this.wasThirst = thirst.getDrinkStats().getSaturationLevel() == 0.0F;
             }
 
             if (this.getSpellAction() != this.lastAction)

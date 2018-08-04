@@ -70,7 +70,7 @@
 
 	    gradlew.bat或./gradlew idea
 
-3. 打开IDE，将工程目录切换到这个目录，如果配置成功，IDE会注意到这个目录存在一个工程，并自动找到刚刚配置的这个Mod工程的源代码和资源文件的位置。
+3. 打开IDE，将工作空间切换到目录`eclipse`下，如果配置成功，IDE会注意到这个目录存在一个工程，并自动找到刚刚配置的这个Mod工程的源代码和资源文件的位置。
 
     Mod工程的源代码在目录`src/main/java`下，Mod工程的资源文件（如图片、模型等）在目录`src/main/resources`下。
 
@@ -147,5 +147,7 @@ ustc-zzzz的Mod教程和szszss的CoreMod教程.
 NeoTech的管道模型文件.
 
 KevinWalker的[Gun-Domain](https://coding.net/u/KevinWalker/p/Gun-Domain/)项目
+
+luaj,markdown4j,bliki和mediawiki
 
 #### &copy; 2016-2018 Dawncraft Studio ####

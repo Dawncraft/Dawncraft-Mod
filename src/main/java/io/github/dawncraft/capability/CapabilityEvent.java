@@ -16,7 +16,6 @@ import io.github.dawncraft.stats.AchievementLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -39,6 +38,7 @@ public class CapabilityEvent
         if (event.getEntity() instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.getEntity();
+            event.addCapability(IThirst.domain, new CapabilityThirst.Provider(player));
             player.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
             event.addCapability(IPlayer.domain, new CapabilityPlayer.Provider(player));
         }
@@ -72,20 +72,30 @@ public class CapabilityEvent
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
-        Capability<IPlayer> capability = CapabilityLoader.player;
-        IStorage<IPlayer> storage = capability.getStorage();
-
-        if (event.original.hasCapability(capability, null) && event.entityPlayer.hasCapability(capability, null))
+        IThirst thirst = event.original.getCapability(CapabilityLoader.thirst, null);
+        if(thirst.getDrinkStats() != null)
         {
-            IPlayer player = event.original.getCapability(capability, null);
-            NBTTagCompound nbt = (NBTTagCompound) storage.writeNBT(capability, player, null);
+            NBTTagCompound nbtThirst = (NBTTagCompound) CapabilityLoader.thirst.getStorage()
+                    .writeNBT(CapabilityLoader.thirst, thirst, null);
             if(event.wasDeath)
             {
-                float mana = player.getMaxMana();
-                nbt.setFloat("ManaF", mana);
-                nbt.setShort("Mana", (short) Math.ceil(mana));
+                thirst.getDrinkStats().setDrinkLevel(20);
+                thirst.getDrinkStats().setDrinkSaturationLevel(5.0F);
             }
-            storage.readNBT(capability, event.entityPlayer.getCapability(capability, null), null, nbt);
+            CapabilityLoader.thirst.getStorage().readNBT(CapabilityLoader.thirst,
+                    event.entityPlayer.getCapability(CapabilityLoader.thirst, null), null, nbtThirst);
         }
+
+        IPlayer player = event.original.getCapability(CapabilityLoader.player, null);
+        NBTTagCompound nbtPlayer = (NBTTagCompound) CapabilityLoader.player.getStorage()
+                .writeNBT(CapabilityLoader.player, player, null);
+        if(event.wasDeath)
+        {
+            float mana = player.getMaxMana();
+            nbtPlayer.setFloat("ManaF", mana);
+            nbtPlayer.setShort("Mana", (short) Math.ceil(mana));
+        }
+        CapabilityLoader.player.getStorage().readNBT(CapabilityLoader.player,
+                event.entityPlayer.getCapability(CapabilityLoader.player, null), null, nbtPlayer);
     }
 }

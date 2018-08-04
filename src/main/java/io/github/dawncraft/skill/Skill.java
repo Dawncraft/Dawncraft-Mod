@@ -193,6 +193,12 @@ public class Skill
     {
         return this.tabToDisplayOn;
     }
+    
+    @SideOnly(Side.CLIENT)
+    public int getColorFromSkillStack(SkillStack skillstack, int renderPass)
+    {
+        return 0xFFFFFF;
+    }
 
     @SideOnly(Side.CLIENT)
     public void addInformation(SkillStack skillstack, EntityPlayer player, List<String> tooltip, boolean advanced) {}
