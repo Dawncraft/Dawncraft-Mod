@@ -1,6 +1,6 @@
 package io.github.dawncraft.talent;
 
-import io.github.dawncraft.api.talent.TalentRegistry;
+import io.github.dawncraft.api.ModData;
 import net.minecraft.util.RegistryNamespaced;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
@@ -29,7 +29,7 @@ public class Talent
     public void onUpdate() {}
 
     /* ======================================== REGISTER START =====================================*/
-    public static final RegistryNamespaced<ResourceLocation, Talent> talentRegistry = TalentRegistry.getTalentRegistry();
+    public static final RegistryNamespaced<ResourceLocation, Talent> talentRegistry = ModData.getTalentRegistry();
     public final RegistryDelegate<Talent> delegate = ((FMLControlledNamespacedRegistry)talentRegistry).getDelegate(this, Talent.class);
     
     public static int getIdFromSkill(Talent talent)
@@ -85,10 +85,5 @@ public class Talent
     }
     public final Talent setRegistryName(ResourceLocation name){ return this.setRegistryName(name.toString()); }
     public final Talent setRegistryName(String modID, String name){ return this.setRegistryName(modID + ":" + name); }
-
-    public final Class<TalentRegistry> getRegistryType()
-    {
-        return TalentRegistry.class;
-    }
     /* ======================================== REGISTER END   =====================================*/
 }

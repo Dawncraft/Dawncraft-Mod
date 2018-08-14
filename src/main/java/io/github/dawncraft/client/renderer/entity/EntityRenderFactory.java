@@ -6,8 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 /**
- * a factory of entity render
- * 
+ * A factory of entity render.
+ *
  * @author ustc-zzzz
  */
 public class EntityRenderFactory<E extends Entity> implements IRenderFactory<E>
@@ -24,7 +24,7 @@ public class EntityRenderFactory<E extends Entity> implements IRenderFactory<E>
     {
         try
         {
-            return renderClass.getConstructor(RenderManager.class).newInstance(manager);
+            return this.renderClass.getConstructor(RenderManager.class).newInstance(manager);
         }
         catch (Exception e)
         {

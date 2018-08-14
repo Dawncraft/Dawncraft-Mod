@@ -12,8 +12,8 @@ public class ClientEventLoader
 {
     public ClientEventLoader(FMLInitializationEvent event)
     {
-        register(new GuiEventHandler(event));
-        register(new PlayerRenderEventHandler(event));
+        register(new GuiHandler(event));
+        register(new PlayerRenderHandler(event));
         register(new GuiIngameDawn(event));
         register(new TooltipEventHandler(event));
         register(new InputHandler(event));

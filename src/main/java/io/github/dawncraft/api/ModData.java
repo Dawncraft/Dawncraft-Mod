@@ -1,8 +1,8 @@
-package io.github.dawncraft.api.skill;
+package io.github.dawncraft.api;
 
-import com.google.common.base.Strings;
-
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.skill.Skill;
+import io.github.dawncraft.talent.Talent;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
@@ -11,33 +11,36 @@ import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
 
 /**
- * The register is out if date.
+ * The registry is out of date.
  * <br>The new version of Forge has RegistryBuilder to use.<br/>
  * But now, we can only use it...
  *
  * @author QingChenW
  */
 @Deprecated
-public class SkillRegistry
+public class ModData
 {
-    public static final ResourceLocation Skill = new ResourceLocation("dawncraft:skills");
+    public static final ResourceLocation Skill = new ResourceLocation(Dawncraft.MODID + ":" + "skills");
+    public static final ResourceLocation Talent = new ResourceLocation(Dawncraft.MODID + ":" + "talents");
     private static final int MIN_SKILL_ID = 0;
     private static final int MAX_SKILL_ID = 31999;
+    private static final int MIN_TALENT_ID = 0;
+    private static final int MAX_TALENT_ID = 4095;
+    
+    private static final ModData main = new ModData();
+    
     private final FMLControlledNamespacedRegistry<Skill> iSkillRegistry = PersistentRegistryManager.createRegistry(Skill, Skill.class, null, MAX_SKILL_ID, MIN_SKILL_ID, true);
+    private final FMLControlledNamespacedRegistry<Talent> iTalentRegistry = PersistentRegistryManager.createRegistry(Talent, Talent.class, null, MAX_TALENT_ID, MIN_TALENT_ID, true);
     
-    private static final SkillRegistry main = new SkillRegistry();
-    
-    private FMLControlledNamespacedRegistry<Skill> getRegistry()
-    {
-        return this.iSkillRegistry;
-    }
-    
-    private void register(Skill skill, String name)
+    void registerSkill(Skill skill, String name)
     {
         this.iSkillRegistry.register(-1, this.addPrefix(name), skill);
     }
 
-    private ResourceLocation addPrefix(String name)
+    /**
+     * Copy from {@link net.minecraftforge.fml.common.registry.GameData#addPrefix(String)}
+     */
+    public ResourceLocation addPrefix(String name)
     {
         int index = name.lastIndexOf(':');
         String oldPrefix = index == -1 ? "" : name.substring(0, index);
@@ -63,27 +66,18 @@ public class SkillRegistry
         return new ResourceLocation(prefix, name);
     }
     
-    public static SkillRegistry getMain()
+    public static ModData getMain()
     {
         return main;
     }
 
     public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry()
     {
-        return getMain().getRegistry();
+        return getMain().iSkillRegistry;
     }
-    
-    public static void registerSkill(Skill skill)
+
+    public static FMLControlledNamespacedRegistry<Talent> getTalentRegistry()
     {
-        registerSkill(skill, skill.getRegistryName());
-    }
-    
-    public static void registerSkill(Skill skill, String name)
-    {
-        if (Strings.isNullOrEmpty(name))
-        {
-            throw new IllegalArgumentException("Attempted to register a skill with no name: " + skill);
-        }
-        getMain().register(skill, name);
+        return getMain().iTalentRegistry;
     }
 }

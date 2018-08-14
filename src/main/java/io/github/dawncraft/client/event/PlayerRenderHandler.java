@@ -5,9 +5,9 @@ import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class PlayerRenderEventHandler
+public class PlayerRenderHandler
 {
-    public PlayerRenderEventHandler(FMLInitializationEvent event)
+    public PlayerRenderHandler(FMLInitializationEvent event)
     {
     }
 

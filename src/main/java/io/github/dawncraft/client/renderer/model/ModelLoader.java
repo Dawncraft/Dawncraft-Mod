@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.api.skill.SkillRegistry;
+import io.github.dawncraft.api.ModData;
 import io.github.dawncraft.client.renderer.skill.SkillModelMesher;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.Skill;
@@ -89,7 +89,7 @@ public class ModelLoader
         }
 
         List<String> skillVariants = Lists.newArrayList();
-        for(Skill skill : SkillRegistry.getSkillRegistry().typeSafeIterable())
+        for(Skill skill : ModData.getSkillRegistry().typeSafeIterable())
         {
             skillVariants.add(((ResourceLocation)Skill.skillRegistry.getNameForObject(skill)).toString());
         }

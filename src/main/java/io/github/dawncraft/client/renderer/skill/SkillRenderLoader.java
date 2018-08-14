@@ -10,11 +10,11 @@ public class SkillRenderLoader
 {
     public SkillRenderLoader(FMLPreInitializationEvent event)
     {
-        registerRender(SkillLoader.attack);
-        registerRender(SkillLoader.heal);
-        registerRender(SkillLoader.longPrepare);
-        registerRender(SkillLoader.longSpell);
-        registerRender(SkillLoader.longCooldown);
+        register(SkillLoader.attack);
+        register(SkillLoader.heal);
+        register(SkillLoader.longPrepare);
+        register(SkillLoader.longSpell);
+        register(SkillLoader.longCooldown);
     }
 
     /**
@@ -22,10 +22,10 @@ public class SkillRenderLoader
      *
      * @param skill skill's string id
      */
-    private static void registerRender(Skill skill)
+    private static void register(Skill skill)
     {
         for (int i = 0; i <= skill.getMaxLevel(); i++)
-            registerRender(skill, i, skill.getRegistryName());
+            register(skill, i, skill.getRegistryName());
     }
 
     /**
@@ -35,7 +35,7 @@ public class SkillRenderLoader
      * @param level skill's level
      * @param name skill's model suffix
      */
-    private static void registerRender(Skill skill, int level, String name)
+    private static void register(Skill skill, int level, String name)
     {
         ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
         ModelLoader.setCustomModelResourceLocation(skill, level, model);

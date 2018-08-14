@@ -22,16 +22,16 @@ public class EntityRenderLoader
 {
     public EntityRenderLoader(FMLPreInitializationEvent event)
     {
-        registerEntityRender(EntityMouse.class, RenderMouse.class);
-        registerEntityRender(EntitySavage.class, RenderSavage.class);
-        registerEntityRender(EntityGerKing.class, RenderGerKing.class);
+        register(EntityMouse.class, RenderMouse.class);
+        register(EntitySavage.class, RenderSavage.class);
+        register(EntityGerKing.class, RenderGerKing.class);
         
-        registerEntityRender(EntityMagnetBall.class, RenderMagnetBall.class);
-        registerEntityRender(EntityBullet.class, RenderBullet.class);
-        registerEntityRender(EntityRocket.class, RenderRocket.class);
+        register(EntityMagnetBall.class, RenderMagnetBall.class);
+        register(EntityBullet.class, RenderBullet.class);
+        register(EntityRocket.class, RenderRocket.class);
     }
     
-    private static <T extends Entity> void registerEntityRender(Class<T> entityClass, Class<? extends Render<T>> render)
+    private static <T extends Entity> void register(Class<T> entityClass, Class<? extends Render<T>> render)
     {
         RenderingRegistry.registerEntityRenderingHandler(entityClass, new EntityRenderFactory<T>(render));
     }

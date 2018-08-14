@@ -8,9 +8,9 @@ import net.minecraftforge.client.event.GuiScreenEvent.*;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class GuiEventHandler
+public class GuiHandler
 {
-    public GuiEventHandler(FMLInitializationEvent event)
+    public GuiHandler(FMLInitializationEvent event)
     {
     }
 
