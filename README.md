@@ -130,6 +130,8 @@
 
 2018/5/18注:建议使用[Blockbench](http://blockbench.net/)制作模型
 
+2018/8/14注:可以使用[Textcraft](https://textcraft.net/)制作Minecraft风格的文字
+
 ## 未来展望
 
 等待更新。
