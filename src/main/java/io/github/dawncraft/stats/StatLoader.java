@@ -2,19 +2,23 @@ package io.github.dawncraft.stats;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.client.gui.GuiStatsDawn;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.StatBase;
-import net.minecraft.stats.StatCrafting;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -51,16 +55,41 @@ public class StatLoader
         @SideOnly(Side.CLIENT)
         class StatsSkills extends GuiSlot
         {
-            public GuiStats guiStats;
-            protected List<StatCrafting> statsHolder;
-            protected Comparator<StatCrafting> statSorter;
+            public GuiStatsDawn guiStats;
+            protected List<StatLearning> statsHolder;
+            protected Comparator<StatLearning> statSorter;
 
             public StatsSkills(GuiStats guiStats)
             {
                 super(guiStats.mc, guiStats.width, guiStats.height, 32, guiStats.height - 64, 20);
                 this.setShowSelectionBox(false);
                 this.setHasListHeader(true, 20);
-                this.guiStats = guiStats;
+                this.guiStats = (GuiStatsDawn) guiStats;
+                
+                statsHolder = Lists.<StatLearning>newArrayList();
+                for (StatLearning statlearning : StatLoader.skillStats)
+                {
+                    boolean flag = false;
+                    int i = Skill.getIdFromSkill(statlearning.getSkill());
+
+                    if (this.guiStats.statFileWriter.readStat(statlearning) > 0)
+                    {
+                        flag = true;
+                    }
+                    else if (StatLoader.objectSpellStats[i] != null && this.guiStats.statFileWriter.readStat(StatLoader.objectSpellStats[i]) > 0)
+                    {
+                        flag = true;
+                    }
+                    else if (StatLoader.objectLearnStats[i] != null && this.guiStats.statFileWriter.readStat(StatLoader.objectLearnStats[i]) > 0)
+                    {
+                        flag = true;
+                    }
+
+                    if (flag)
+                    {
+                        this.statsHolder.add(statlearning);
+                    }
+                }
             }
             
             @Override
@@ -85,6 +114,11 @@ public class StatLoader
             {
             }
             
+            protected final StatLearning getStat(int index)
+            {
+                return this.statsHolder.get(index);
+            }
+            
             @Override
             protected final int getSize()
             {
@@ -94,19 +128,49 @@ public class StatLoader
             @Override
             protected void drawSlot(int entryID, int par1, int par2, int par3, int mouseXIn, int mouseYIn)
             {
-                this.guiStats.drawCenteredString(this.mc.fontRendererObj, I18n.format("stat.skill.test"), this.width / 2, this.height / 2, 0xFFFFFF);
+                StatLearning statlearning = this.getStat(entryID);
+                Skill skill = statlearning.getSkill();
+                this.guiStats.drawStatsScreen(par1 + 40, par2, skill);
+                int i = Skill.getIdFromSkill(skill);
+                this.drawStat(StatLoader.objectSpellStats[i], par1 + 165, par2, entryID % 2 == 0);
+                this.drawStat(statlearning, par1 + 215, par2, entryID % 2 == 0);
+            }
+            
+            protected void drawStat(StatBase stat, int x, int y, boolean isOddLine)
+            {
+                FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
+                if (stat != null)
+                {
+                    String s = stat.format(this.guiStats.statFileWriter.readStat(stat));
+                    this.guiStats.drawString(fontRenderer, s, x - fontRenderer.getStringWidth(s), y + 5, isOddLine ? 16777215 : 9474192);
+                }
+                else
+                {
+                    String s1 = "-";
+                    this.guiStats.drawString(fontRenderer, s1, x - fontRenderer.getStringWidth(s1), y + 5, isOddLine ? 16777215 : 9474192);
+                }
             }
         }
     };
     
-    public static List<StatSpelling> spellStats = Lists.<StatSpelling>newArrayList();
+    public static List<StatLearning> skillStats = Lists.<StatLearning>newArrayList();
+    public static final StatBase[] objectLearnStats = new StatBase[32000];
     public static final StatBase[] objectSpellStats = new StatBase[32000];
 
     public StatLoader(FMLInitializationEvent event)
     {
+        initLearnableStats();
         initSpellStats();
         
         registerStatPage(pageDawncraft);
+    }
+    
+    /**
+     * Initializes statistics related to learnable skills. Is only called after skill stats have been initialized.
+     */
+    private static void initLearnableStats()
+    {
+        Set<Skill> set = Sets.<Skill>newHashSet();
     }
 
     private static void initSpellStats()
@@ -120,8 +184,8 @@ public class StatLoader
                 
                 if (name != null)
                 {
-                    objectSpellStats[id] = new StatSpelling("stat.spellSkill.", name, new ChatComponentTranslation("stat.spellSkill", new SkillStack(skill).getChatComponent()), skill).registerStat();
-                    spellStats.add((StatSpelling) objectSpellStats[id]);
+                    objectLearnStats[id] = new StatLearning("stat.spellSkill.", name, new ChatComponentTranslation("stat.spellSkill", new SkillStack(skill).getChatComponent()), skill).registerStat();
+                    skillStats.add((StatLearning) objectLearnStats[id]);
                 }
             }
         }

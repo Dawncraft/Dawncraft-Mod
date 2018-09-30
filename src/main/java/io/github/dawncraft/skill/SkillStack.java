@@ -223,7 +223,7 @@ public class SkillStack
 
         if (flag)
         {
-            player.triggerAchievement(StatLoader.objectSpellStats[Skill.getIdFromSkill(this.skill)]);
+            player.triggerAchievement(StatLoader.objectLearnStats[Skill.getIdFromSkill(this.skill)]);
         }
 
         return flag;

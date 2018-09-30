@@ -29,7 +29,7 @@ public class PotionBase extends Potion
     public Potion setIconIndex(int index)
     {
         int x = index % 16;
-        int y = Math.floorDiv(this.getStatusIconIndex(), 16);
+        int y = Math.floorDiv(index, 16);
         return this.setIconIndex(x, y);
     }
     

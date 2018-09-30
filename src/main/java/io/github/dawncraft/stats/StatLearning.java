@@ -7,11 +7,11 @@ import net.minecraft.util.IChatComponent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class StatSpelling extends StatBase
+public class StatLearning extends StatBase
 {
     private final Skill skill;
     
-    public StatSpelling(String statPrefix, String statName, IChatComponent statNameIn, Skill skill)
+    public StatLearning(String statPrefix, String statName, IChatComponent statNameIn, Skill skill)
     {
         super(statPrefix + statName, statNameIn);
         this.skill = skill;

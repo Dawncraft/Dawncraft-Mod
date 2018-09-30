@@ -83,6 +83,6 @@ public abstract class StatPage
 
     public static String getTitle(int index)
     {
-        return index == -1 ? "Minecraft" : getStatPage(index).getName();
+        return index < 0 ? "Minecraft" : getStatPage(index).getName();
     }
 }
