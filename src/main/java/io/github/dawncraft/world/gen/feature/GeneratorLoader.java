@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class GeneratorLoader
 {
     private BlockPos lastOrePos;
-
+    
     public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockLoader.magnetOre.getDefaultState(), 6)
     {
         @Override
@@ -40,16 +40,16 @@ public class GeneratorLoader
                     }
                 }
             }
-            return false;
+            return true;
         }
     };
-
+    
     public GeneratorLoader(FMLInitializationEvent event)
     {
         MinecraftForge.TERRAIN_GEN_BUS.register(this);
         MinecraftForge.ORE_GEN_BUS.register(this);
     }
-
+    
     @SubscribeEvent
     public void onOreGenPost(OreGenEvent.Post event)
     {
@@ -59,13 +59,13 @@ public class GeneratorLoader
             magnetOreGenerator.generate(event.world, event.rand, event.pos);
         }
     }
-
+    
     @SubscribeEvent
     public void onOreGenGenerateMinable(OreGenEvent.GenerateMinable event)
     {
-
+        
     }
-    
+
     public static void register(IWorldGenerator generator, int weight)
     {
         GameRegistry.registerWorldGenerator(generator, weight);

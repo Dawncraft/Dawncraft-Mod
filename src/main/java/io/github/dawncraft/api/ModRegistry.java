@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import io.github.dawncraft.skill.Skill;
 
 /**
- * Register something that added by mod.
+ * Register something added by Dawncraft mod.
  *
  * @author QingChenW
  */
@@ -33,5 +33,17 @@ public class ModRegistry
             throw new IllegalArgumentException("Attempted to register a skill with no name: " + skill);
         }
         ModData.getMain().registerSkill(skill, name);
+    }
+    
+    /**
+     * Look up a mod skill in the global "named skill list"
+     *
+     * @param modId The modid owning the skill
+     * @param name  The name of the skill itself
+     * @return The skill or null if not found
+     */
+    public static Skill findSkill(String modId, String name)
+    {
+        return ModData.findSkill(modId, name);
     }
 }

@@ -28,6 +28,7 @@ public abstract class BlockFurniture extends Block
         this.setHardness(type.hardness);
         this.setResistance(type.resistance);
         this.setStepSound(type.sound);
+        this.setHarvestLevel("hammer", 0);
     }
     
     public BlockFurniture(Material material)

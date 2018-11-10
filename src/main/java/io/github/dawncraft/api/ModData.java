@@ -3,6 +3,7 @@ package io.github.dawncraft.api;
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.talent.Talent;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.Loader;
@@ -17,7 +18,6 @@ import net.minecraftforge.fml.common.registry.PersistentRegistryManager;
  *
  * @author QingChenW
  */
-@Deprecated
 public class ModData
 {
     public static final ResourceLocation Skill = new ResourceLocation(Dawncraft.MODID + ":" + "skills");
@@ -26,17 +26,17 @@ public class ModData
     private static final int MAX_SKILL_ID = 31999;
     private static final int MIN_TALENT_ID = 0;
     private static final int MAX_TALENT_ID = 4095;
-    
+
     private static final ModData main = new ModData();
-    
+
     private final FMLControlledNamespacedRegistry<Skill> iSkillRegistry = PersistentRegistryManager.createRegistry(Skill, Skill.class, null, MAX_SKILL_ID, MIN_SKILL_ID, true);
     private final FMLControlledNamespacedRegistry<Talent> iTalentRegistry = PersistentRegistryManager.createRegistry(Talent, Talent.class, null, MAX_TALENT_ID, MIN_TALENT_ID, true);
-    
+
     void registerSkill(Skill skill, String name)
     {
         this.iSkillRegistry.register(-1, this.addPrefix(name), skill);
     }
-
+    
     /**
      * Copy from {@link net.minecraftforge.fml.common.registry.GameData#addPrefix(String)}
      */
@@ -47,7 +47,7 @@ public class ModData
         name = index == -1 ? name : name.substring(index + 1);
         String prefix;
         ModContainer mc = Loader.instance().activeModContainer();
-        
+
         if (mc != null)
         {
             prefix = mc.getModId().toLowerCase();
@@ -56,28 +56,33 @@ public class ModData
         {
             prefix = "minecraft";
         }
-        
+
         if (!oldPrefix.equals(prefix) && oldPrefix.length() > 0)
         {
             FMLLog.bigWarning("Dangerous alternative prefix %s for name %s, invalid registry invocation/invalid name?", prefix, name);
             prefix = oldPrefix;
         }
-        
+
         return new ResourceLocation(prefix, name);
     }
-    
+
     public static ModData getMain()
     {
         return main;
     }
-
+    
     public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry()
     {
         return getMain().iSkillRegistry;
     }
-
+    
     public static FMLControlledNamespacedRegistry<Talent> getTalentRegistry()
     {
         return getMain().iTalentRegistry;
+    }
+    
+    static Skill findSkill(String modId, String name)
+    {
+        return getMain().iSkillRegistry.getObject(new ResourceLocation(modId, name));
     }
 }

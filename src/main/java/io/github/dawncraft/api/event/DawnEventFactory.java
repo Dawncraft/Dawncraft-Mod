@@ -3,12 +3,20 @@ package io.github.dawncraft.api.event;
 import java.util.List;
 
 import io.github.dawncraft.api.event.entity.LivingRecoverEvent;
+import io.github.dawncraft.api.event.player.PlayerSpellSkillEvent;
+import io.github.dawncraft.api.event.player.SkillTooltipEvent;
 import io.github.dawncraft.skill.SkillStack;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 
+/**
+ * Dawncraft's event factory class.
+ *
+ * @author QingChenW
+ */
 public class DawnEventFactory
 {
     public static float onLivingRecover(EntityLivingBase entity, float amount)
@@ -19,25 +27,25 @@ public class DawnEventFactory
     
     public static int onSkillSpellStart(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        //PlayerUseItemEvent event = new PlayerUseItemEvent.Start(player, item, duration);
-        return duration;//MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
+        PlayerSpellSkillEvent event = new PlayerSpellSkillEvent.Start(player, skillstack, duration);
+        return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
     }
     
     public static int onSkillSpellTick(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        //PlayerUseItemEvent event = new PlayerUseItemEvent.Tick(player, item, duration);
-        return duration;//MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
+        PlayerSpellSkillEvent event = new PlayerSpellSkillEvent.Tick(player, skillstack, duration);
+        return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
     }
     
     public static boolean onSpellSkillStop(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        return false;//return MinecraftForge.EVENT_BUS.post(new PlayerUseItemEvent.Stop(player, item, duration));
+        return MinecraftForge.EVENT_BUS.post(new PlayerSpellSkillEvent.Stop(player, skillstack, duration));
     }
 
     public static SkillStack onSpellSkillFinish(EntityPlayer player, SkillStack skillstack, int duration, SkillStack result)
     {
-        //PlayerUseItemEvent.Finish event = new PlayerUseItemEvent.Finish(player, item, duration, result);
-        //MinecraftForge.EVENT_BUS.post(event);
+        PlayerSpellSkillEvent.Finish event = new PlayerSpellSkillEvent.Finish(player, skillstack, duration, result);
+        MinecraftForge.EVENT_BUS.post(event);
         return result;
     }
     
@@ -46,12 +54,10 @@ public class DawnEventFactory
         return false;
     }
 
-    public static void onItemTooltip(SkillStack skillStack, EntityPlayer entityPlayer, List<String> toolTip, boolean showAdvancedItemTooltips)
+    public static SkillTooltipEvent onSkillTooltip(SkillStack skillStack, EntityPlayer entityPlayer, List<String> toolTip, boolean showAdvancedSkillTooltips)
     {
-        /*
-        ItemTooltipEvent event = new ItemTooltipEvent(new ItemStack(), entityPlayer, toolTip, showAdvancedItemTooltips);
+        SkillTooltipEvent event = new SkillTooltipEvent(skillStack, entityPlayer, toolTip, showAdvancedSkillTooltips);
         MinecraftForge.EVENT_BUS.post(event);
         return event;
-         */
     }
 }

@@ -12,6 +12,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.stats.StatList;
 import net.minecraft.world.World;
 
+/**
+ * Like ItemFood, but it is used to be drunk.
+ *
+ * @author QingChenW
+ */
 public class ItemDrink extends Item
 {
     /** Number of ticks to run while 'EnumAction'ing until result. */
@@ -21,7 +26,7 @@ public class ItemDrink extends Item
     private final float saturationModifier;
     /** If this field is true, the food can be consumed even if the player don't need to eat. */
     private boolean alwaysDrinkable;
-    /** represents the potion effect that will occurr upon eating this food. Set by setPotionEffect */
+    /** represents the potion effect that will occur upon eating this food. Set by setPotionEffect */
     private int potionId;
     /** set by setPotionEffect */
     private int potionDuration;

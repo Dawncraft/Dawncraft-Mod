@@ -5,12 +5,18 @@ import java.util.List;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Creative skill inventory tab.
+ *
+ * @author QingChenW
+ */
 public abstract class CreativeSkillTabs
 {
-    public static CreativeSkillTabs[] creativeTabArray = new CreativeSkillTabs[2];
+    public static CreativeSkillTabs[] creativeTabArray = new CreativeSkillTabs[12];
     private final int tabIndex;
     private final String tabLabel;
     private String theTexture = "skills.png";
@@ -18,90 +24,29 @@ public abstract class CreativeSkillTabs
     private boolean drawTitle = true;
     @SideOnly(Side.CLIENT)
     private SkillStack iconSkillStack;
-    
+
     public CreativeSkillTabs(String label)
     {
         this(getNextID(), label);
     }
-    
+
     public CreativeSkillTabs(int index, String label)
     {
         if (index >= creativeTabArray.length)
         {
             CreativeSkillTabs[] tmp = new CreativeSkillTabs[index + 1];
-            for (int x = 0; x < creativeTabArray.length; x++)
-            {
-                tmp[x] = creativeTabArray[x];
-            }
+            System.arraycopy(creativeTabArray, 0, tmp, 0, creativeTabArray.length);
             creativeTabArray = tmp;
         }
         this.tabIndex = index;
         this.tabLabel = label;
         creativeTabArray[index] = this;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getTabIndex()
     {
         return this.tabIndex;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public String getTabLabel()
-    {
-        return this.tabLabel;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public String getTranslatedTabLabel()
-    {
-        return "skillGroup." + this.getTabLabel();
-    }
-
-    public CreativeSkillTabs setBackgroundImageName(String texture)
-    {
-        this.theTexture = texture;
-        return this;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public String getBackgroundImageName()
-    {
-        return this.theTexture;
-    }
-    
-    public CreativeSkillTabs setNoScrollbar()
-    {
-        this.hasScrollbar = false;
-        return this;
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public boolean shouldHidePlayerInventory()
-    {
-        return this.hasScrollbar;
-    }
-    
-    public CreativeSkillTabs setNoTitle()
-    {
-        this.drawTitle = false;
-        return this;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public boolean drawInForegroundOfTab()
-    {
-        return this.drawTitle;
-    }
-
-    public boolean hasSearchBar()
-    {
-        return this.tabIndex == CreativeTabsLoader.tabSearch.tabIndex;
-    }
-    
-    public int getSearchbarWidth()
-    {
-        return 43;
     }
     
     @SideOnly(Side.CLIENT)
@@ -111,10 +56,10 @@ public abstract class CreativeSkillTabs
         {
             this.iconSkillStack = new SkillStack(this.getTabIconSkill(), this.getIconSkillLevel());
         }
-        
+
         return this.iconSkillStack;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public abstract Skill getTabIconSkill();
 
@@ -125,35 +70,99 @@ public abstract class CreativeSkillTabs
     }
     
     @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getTabIcon()
+    {
+        return null;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public String getTabLabel()
+    {
+        return this.tabLabel;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public String getTranslatedTabLabel()
+    {
+        return "skillGroup." + this.getTabLabel();
+    }
+
+    public CreativeSkillTabs setNoTitle()
+    {
+        this.drawTitle = false;
+        return this;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public boolean drawInForegroundOfTab()
+    {
+        return this.drawTitle;
+    }
+    
+    public CreativeSkillTabs setNoScrollbar()
+    {
+        this.hasScrollbar = false;
+        return this;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean shouldHidePlayerInventory()
+    {
+        return this.hasScrollbar;
+    }
+    
+    public boolean hasSearchBar()
+    {
+        return this.tabIndex == CreativeTabsLoader.tabSearch.tabIndex;
+    }
+
+    public int getSearchbarWidth()
+    {
+        return 89;
+    }
+    
+    public CreativeSkillTabs setBackgroundImageName(String texture)
+    {
+        this.theTexture = texture;
+        return this;
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public String getBackgroundImageName()
+    {
+        return this.theTexture;
+    }
+
+    @SideOnly(Side.CLIENT)
     public int getTabPage()
     {
-        if (this.tabIndex > 9)
+        if (this.tabIndex > 11)
         {
-            return (this.tabIndex - 10) / 8 + 1;
+            return (this.tabIndex - 12) / 10 + 1;
         }
         return 0;
     }
-
+    
     @SideOnly(Side.CLIENT)
-    public int getTabRow()
+    public int getTabColumn()
     {
-        if (this.tabIndex > 9)
+        if (this.tabIndex > 11)
         {
-            return (this.tabIndex - 10) % 8 % 4;
+            return (this.tabIndex - 12) % 10 % 5;
         }
-        return this.tabIndex % 5;
+        return this.tabIndex % 6;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public boolean isTabInFirstColumn()
     {
-        if (this.tabIndex > 9)
+        if (this.tabIndex > 11)
         {
-            return (this.tabIndex - 10) % 8 < 4;
+            return (this.tabIndex - 12) % 10 < 5;
         }
-        return this.tabIndex < 5;
+        return this.tabIndex < 6;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public void displayAllSkills(List<Skill> skillList)
     {
@@ -169,9 +178,14 @@ public abstract class CreativeSkillTabs
             }
         }
     }
-
+    
     public static int getNextID()
     {
-        return creativeTabArray.length;
+        int max = creativeTabArray.length;
+        for (int i = 0; i < max; i++)
+        {
+            if (creativeTabArray[i] == null) return i;
+        }
+        return max;
     }
 }

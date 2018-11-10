@@ -30,12 +30,12 @@ public abstract class BlockMachine extends BlockContainer
 {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyBool WORKING = PropertyBool.create("working");
-
+    
     public BlockMachine()
     {
         this(Material.iron.getMaterialMapColor());
     }
-
+    
     public BlockMachine(MapColor color)
     {
         super(Material.iron, color);
@@ -43,23 +43,24 @@ public abstract class BlockMachine extends BlockContainer
         this.setHardness(5.0F);
         this.setResistance(10.0f);
         this.setStepSound(Block.soundTypeMetal);
+        this.setHarvestLevel("hammer", 1);
     }
-
+    
     @Override
     public int getRenderType()
     {
         return 3;
     }
-    
+
     @Override
     public abstract TileEntity createNewTileEntity(World world, int meta);
-    
+
     @Override
     protected BlockState createBlockState()
     {
         return new BlockState(this, FACING, WORKING);
     }
-
+    
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
@@ -67,7 +68,7 @@ public abstract class BlockMachine extends BlockContainer
         Boolean working = Boolean.valueOf((meta & 4) != 0);
         return this.getDefaultState().withProperty(FACING, facing).withProperty(WORKING, working);
     }
-
+    
     @Override
     public int getMetaFromState(IBlockState state)
     {
@@ -75,21 +76,21 @@ public abstract class BlockMachine extends BlockContainer
         int working = state.getValue(WORKING).booleanValue() ? 4 : 0;
         return facing | working;
     }
-
+    
     @Override
     @SideOnly(Side.CLIENT)
     public IBlockState getStateForEntityRender(IBlockState state)
     {
         return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH).withProperty(WORKING, false);
     }
-
+    
     @Override
     public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ,
             int meta, EntityLivingBase placer)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(WORKING, false);
     }
-    
+
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
@@ -98,13 +99,13 @@ public abstract class BlockMachine extends BlockContainer
             TileEntity tileentity = world.getTileEntity(pos);
         }
     }
-
+    
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state)
     {
         this.setDefaultFacing(world, pos, state);
     }
-
+    
     private void setDefaultFacing(World world, BlockPos pos, IBlockState state)
     {
         if (!world.isRemote)
@@ -114,7 +115,7 @@ public abstract class BlockMachine extends BlockContainer
             Block west = world.getBlockState(pos.west()).getBlock();
             Block east = world.getBlockState(pos.east()).getBlock();
             EnumFacing facing = (EnumFacing) state.getValue(FACING);
-            
+
             if (facing == EnumFacing.NORTH && north.isFullBlock() && !south.isFullBlock())
             {
                 facing = EnumFacing.SOUTH;
@@ -131,42 +132,42 @@ public abstract class BlockMachine extends BlockContainer
             {
                 facing = EnumFacing.WEST;
             }
-            
+
             world.setBlockState(pos, state.withProperty(FACING, facing), 2);
         }
     }
-
+    
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         return true;
     }
-
+    
     @Override
     public boolean hasComparatorInputOverride()
     {
         return true;
     }
-    
+
     @Override
     public int getComparatorInputOverride(World world, BlockPos pos)
     {
         return Container.calcRedstone(world.getTileEntity(pos));
     }
-
+    
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
         world.updateComparatorOutputLevel(pos, this);
         super.breakBlock(world, pos, state);
     }
-
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
     {
     }
-
+    
     public static void setBlockState(boolean active, World world, BlockPos pos)
     {
         world.setBlockState(pos, world.getBlockState(pos).withProperty(WORKING, active), 3);

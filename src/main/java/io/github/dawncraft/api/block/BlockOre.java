@@ -53,6 +53,7 @@ public class BlockOre extends Block
         this.droppedExpMax = 0;
         this.setHardness(3.0f);
         this.setResistance(5.0f);
+        this.setHarvestLevel(1);
     }
 
     public BlockOre setDroppedExp(int expMin, int expMax)
@@ -61,6 +62,13 @@ public class BlockOre extends Block
         this.droppedExpMax = expMax;
         return this;
     }
+    
+    public BlockOre setHarvestLevel(int level)
+    {
+        this.setHarvestLevel("pickaxe", level);
+        return this;
+    }
+
 
     public Item getMineral()
     {

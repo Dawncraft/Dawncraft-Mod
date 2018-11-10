@@ -2,12 +2,16 @@ package io.github.dawncraft.creativetab;
 
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.client.renderer.entity.RenderSkill;
+import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillLoader;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
@@ -123,20 +127,34 @@ public class CreativeTabsLoader
                 return SkillLoader.heal;
             }
         };
-        tabSearch = new CreativeSkillTabs("Search")
-        {
-            @Override
-            public Skill getTabIconSkill()
-            {
-                return SkillLoader.attack;
-            }
-        };
-        tabInventory = new CreativeSkillTabs("inventory")
+        tabSearch = new CreativeSkillTabs(5, "Search")
         {
             @Override
             public Skill getTabIconSkill()
             {
                 return null;
+            };
+
+            @Override
+            public TextureAtlasSprite getTabIcon()
+            {
+                ResourceLocation res = RenderSkill.getActualLocation(new ResourceLocation(SkillLoader.heal.getRegistryName()));
+                return TextureLoader.getTextureLoader().getTextureMapSkills().getAtlasSprite(res.toString());
+            }
+        };
+        tabInventory = new CreativeSkillTabs(11, "inventory")
+        {
+            @Override
+            public Skill getTabIconSkill()
+            {
+                return null;
+            };
+
+            @Override
+            public TextureAtlasSprite getTabIcon()
+            {
+                ResourceLocation res = RenderSkill.getActualLocation(new ResourceLocation(SkillLoader.heal.getRegistryName()));
+                return TextureLoader.getTextureLoader().getTextureMapSkills().getAtlasSprite(res.toString());
             }
         }.setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
     }

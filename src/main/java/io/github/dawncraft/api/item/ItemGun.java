@@ -15,6 +15,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * The base gun class.
+ *
+ * @author QingChenW
+ */
 public class ItemGun extends Item
 {
     private int clipAmount;
@@ -24,12 +29,12 @@ public class ItemGun extends Item
     private int ammoVelocity;
     private double ammoDeviation;
     private double sneakMoifier;
-    
+
     public ItemGun(int maxDamage, int clip, int reload, int interval, int velocity, double deviation, double sway)
     {
         this(maxDamage, clip, reload, interval, velocity, deviation, sway, 0.75F);
     }
-    
+
     public ItemGun(int maxDamage, int clip, int reload, int interval, int velocity, double deviation, double sway, double moifier)
     {
         this.setFull3D();
@@ -43,14 +48,14 @@ public class ItemGun extends Item
         this.setSway(sway);
         this.setMoifier(moifier);
     }
-
+    
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
         stack.damageItem(1, attacker);
         return true;
     }
-    
+
     @Override
     public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
     {
@@ -58,10 +63,10 @@ public class ItemGun extends Item
         {
             stack.damageItem(2, playerIn);
         }
-
+        
         return true;
     }
-
+    
     @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
@@ -71,13 +76,13 @@ public class ItemGun extends Item
         }
         return super.getItemUseAction(stack);
     }
-
+    
     @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
         return 72000;
     }
-
+    
     /**
      * 当枪械第一次使用时
      */
@@ -86,7 +91,7 @@ public class ItemGun extends Item
     {
         //BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
         //if (MinecraftForge.EVENT_BUS.post(event)) return event.result;
-
+        
         if (playerIn.capabilities.isCreativeMode || this.getAmmoAmount(itemStackIn) > 0)
         {
             playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
@@ -103,7 +108,7 @@ public class ItemGun extends Item
         }
         return itemStackIn;
     }
-    
+
     /**
      * 当枪械一直在使用时
      */
@@ -111,7 +116,7 @@ public class ItemGun extends Item
     public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
     {
     }
-    
+
     /**
      * 玩家停止使用枪械时
      * 火箭筒之类的应该重写这个
@@ -120,7 +125,7 @@ public class ItemGun extends Item
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft)
     {
     }
-    
+
     /**
      * 玩家使用完枪械时
      * 步枪之类的应该重写这个
@@ -130,7 +135,7 @@ public class ItemGun extends Item
     {
         return stack;
     }
-    
+
     /**
      * 渲染十字准星
      *
@@ -142,9 +147,9 @@ public class ItemGun extends Item
     @SideOnly(Side.CLIENT)
     public void renderSightOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks)
     {
-        
+
     }
-    
+
     /**
      * @return 未装弹射击音效
      */
@@ -152,7 +157,7 @@ public class ItemGun extends Item
     {
         return Dawncraft.MODID + ":" + "gun.basic.empty";
     }
-    
+
     /**
      * @return 装弹音效
      */
@@ -160,7 +165,7 @@ public class ItemGun extends Item
     {
         return Dawncraft.MODID + ":" + "gun.basic.reload";
     }
-    
+
     /**
      * @return 射击音效
      */
@@ -168,7 +173,7 @@ public class ItemGun extends Item
     {
         return Dawncraft.MODID + ":" + "gun.basic.shoot";
     }
-    
+
     /**
      * 获取弹药物品
      *
@@ -178,7 +183,7 @@ public class ItemGun extends Item
     {
         return null;
     }
-    
+
     /**
      * 获取弹夹容量
      *
@@ -188,7 +193,7 @@ public class ItemGun extends Item
     {
         return this.clipAmount;
     }
-    
+
     /**
      * 设置弹夹容量
      *
@@ -198,7 +203,7 @@ public class ItemGun extends Item
     {
         this.clipAmount = amount;
     }
-    
+
     /**
      * 获取当前物品的弹药数量
      *
@@ -213,7 +218,7 @@ public class ItemGun extends Item
         }
         return 0;
     }
-
+    
     /**
      * 设置当前物品的弹药数量
      *
@@ -225,7 +230,7 @@ public class ItemGun extends Item
         if(amount < 0) amount = 0;
         stack.setTagInfo("ammo", new NBTTagInt(amount));
     }
-    
+
     /**
      * 为一个枪械的弹药数量减一
      */
@@ -238,7 +243,7 @@ public class ItemGun extends Item
             // this.renderBulletShells(stack, entityIn);
         }
     }
-    
+
     /**
      * 获取装弹时间刻
      *
@@ -248,7 +253,7 @@ public class ItemGun extends Item
     {
         return this.reloadTicks;
     }
-    
+
     /**
      * 设置装弹时间刻
      *
@@ -258,7 +263,7 @@ public class ItemGun extends Item
     {
         this.reloadTicks = ticks;
     }
-    
+
     /**
      * 获取射击间隔时间刻
      *
@@ -268,7 +273,7 @@ public class ItemGun extends Item
     {
         return this.shootInterval;
     }
-    
+
     /**
      * 设置射击间隔时间刻
      *
@@ -278,7 +283,7 @@ public class ItemGun extends Item
     {
         this.shootInterval = ticks;
     }
-    
+
     /**
      * 获取视角晃动倍数
      *
@@ -288,7 +293,7 @@ public class ItemGun extends Item
     {
         return this.shootSway;
     }
-    
+
     /**
      * 设置视角晃动倍数
      *
@@ -298,7 +303,7 @@ public class ItemGun extends Item
     {
         this.shootSway = moifier;
     }
-    
+
     /**
      * 获取弹药发射速度
      *
@@ -308,7 +313,7 @@ public class ItemGun extends Item
     {
         return this.ammoVelocity;
     }
-    
+
     /**
      * 设置弹药发射速度
      *
@@ -318,7 +323,7 @@ public class ItemGun extends Item
     {
         this.ammoVelocity = speed;
     }
-    
+
     /**
      * 获取弹药发射偏差倍数
      * <br>现实世界中偏差是阻力造成的,不过我的世界又没有风这种东西</br>
@@ -329,7 +334,7 @@ public class ItemGun extends Item
     {
         return this.ammoDeviation;
     }
-    
+
     /**
      * 设置弹药发射偏差倍数
      *
@@ -339,7 +344,7 @@ public class ItemGun extends Item
     {
         this.ammoDeviation = moifier;
     }
-    
+
     /**
      * 获取潜行误差补偿倍数
      * <br>蹲下的时候可以打得准点嘛</br>
@@ -350,7 +355,7 @@ public class ItemGun extends Item
     {
         return this.sneakMoifier;
     }
-    
+
     /**
      * 设置潜行误差补偿倍数
      *

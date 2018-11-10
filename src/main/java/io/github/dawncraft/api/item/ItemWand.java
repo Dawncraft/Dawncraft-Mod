@@ -8,6 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+/**
+ * A new weapon that can help spell skills.
+ *
+ * @author QingChenW
+ */
 public class ItemWand extends Item
 {
     private final Item.ToolMaterial material;
