@@ -127,9 +127,24 @@ tile.magicOre.name=魔力矿石
 
 fluid.petroleum=石油
 
+attribute.name.generic.maxMana=最大魔法值
+attribute.name.generic.spellSpeed=施法速度
+
 entity.dawncraft.Mouse.name=老鼠
 entity.dawncraft.Savage.name=野蛮人
 entity.dawncraft.GerKing.name=Ger王
+
+enchantment.enhancement=魔力增强
+enchantment.fireBurn=火焰灼烧
+
+potion.recover=魔法恢复
+potion.recover.postfix=活力药水
+potion.silent=沉默
+potion.paralysis=麻痹
+potion.confusion=混乱
+potion.brainDead=脑残
+potion.gerPower=巨Ger之力
+potion.badGer=Ger化
 
 container.heatGenerator=热能发电机
 container.machineFurnace=电炉
@@ -143,16 +158,18 @@ container.magic.health=血量: %1$s/%2$s
 container.magic.mana=魔法: %1$s/%2$s
 container.magic.more=更多信息...
 
-enchantment.fireBurn=火焰灼烧
-
-potion.recover=魔法恢复
-potion.recover.postfix=活力药水
-potion.silent=沉默
-potion.paralysis=麻痹
-potion.confusion=混乱
-potion.brainDead=脑残
-potion.gerPower=巨Ger之力
-potion.badGer=Ger化
+gui.moreinfo=按 %s 显示详细信息
+gui.gun.ammo=弹药: %1$d / %2$d
+gui.skill.preparing=准备施放 %1$s
+gui.skill.spelling=正在施放 %1$s
+gui.skill.global_cooling=您的脸滚得太快了:)
+gui.skill.cooling=%1$s 冷却中
+gui.skill.silent=您已被沉默
+gui.skill.nomana=您的魔法值不足
+gui.skill.notarget=无目标
+gui.skill.missed=目标已丢失
+gui.skill.broken=被打断
+gui.skill.cancel=取消施放
 
 achievement.dawncraft.basic=曙光工艺已安装
 achievement.dawncraft.basic.desc=感谢您对曙光工艺Mod的支持
@@ -207,18 +224,13 @@ death.attack.skill.skill=%1$s 被 %2$s 用技能: %3$s 杀死了
 death.attack.bullet=%1$s 被 %2$s 残酷地射死了
 death.attack.byGer=%s Ger死了
 
-gui.moreinfo=按 %s 显示详细信息
-gui.gun.ammo=弹药: %1$d / %2$d
-gui.skill.preparing=准备施放 %1$s
-gui.skill.spelling=正在施放 %1$s
-gui.skill.global_cooling=您的脸滚得太快了:)
-gui.skill.cooling=%1$s 冷却中
-gui.skill.silent=您已被沉默
-gui.skill.nomana=您的魔法值不足
-gui.skill.notarget=无目标
-gui.skill.missed=目标已丢失
-gui.skill.broken=被打断
-gui.skill.cancel=取消施放
+chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
+chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
+chat.dawncraft.zoom=[§6曙光工艺§r] §c警告：§r放大目前为测试功能，可能存在Bug，并且请在退出存档前关闭放大模式。
+chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
+chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下无Ger
+chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
+chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!
 
 commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)
 commands.magic.view=当前玩家魔法值为 %1$s, 最大魔法值为 %2$s, 魔法系统NBT为 %3$s.
@@ -232,14 +244,6 @@ commands.learn.full=%s 的魔法栏已满
 commands.forget.usage=/forget [玩家] [技能] [等级] [冷却] [标签]
 commands.forget.success=已清空 %s 的魔法栏, 移除了 %d 个技能
 commands.forget.failure=不能清除 %s 的魔法栏, 没有需要移除的技能
-
-chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
-chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
-chat.dawncraft.zoom=[§6曙光工艺§r] §c警告：§r放大目前为测试功能，可能存在Bug，并且请在退出存档前关闭放大模式。
-chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
-chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下吴Ger
-chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
-chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!
 
 key.categories.dawncraft=曙光工艺
 key.dawncraft.switch=切换模式(施法/放置)
@@ -293,6 +297,8 @@ config.dawncraft.magic.publicPrepareTicks=公共施法准备时间
 config.dawncraft.magic.publicPrepareTicks.tooltip=所有技能释放前的准备时间(单位为刻)
 config.dawncraft.magic.publicCooldownTicks=公共技能冷却时间
 config.dawncraft.magic.publicCooldownTicks.tooltip=技能释放后所有技能的冷却时间(单位为刻)
+config.dawncraft.magic.enchantmentEnhancementId=魔力增强附魔ID
+config.dawncraft.magic.enchantmentEnhancementId.tooltip=设置魔力增强附魔的ID
 config.dawncraft.coloregg=彩蛋
 config.dawncraft.coloregg.tooltip=???
 config.dawncraft.coloregg.gerKingPassword=输入密码

@@ -1,15 +1,20 @@
 package io.github.dawncraft.api.item;
 
+import com.google.common.collect.Multimap;
+
+import io.github.dawncraft.entity.AttributesLoader;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * A new weapon that can help spell skills.
+ * A new weapon that can speed up spelling skills.
  *
  * @author QingChenW
  */
@@ -26,6 +31,14 @@ public class ItemWand extends Item
         this.setMaxStackSize(1);
         this.setMaxDamage(material.getMaxUses());
         this.setCreativeTab(CreativeTabs.tabCombat);
+    }
+
+    /**
+     * Returns the percent of speed this wand can provide.
+     */
+    public float getSpellSpeed()
+    {
+        return this.spellSpeed;
     }
 
     @Override
@@ -63,5 +76,14 @@ public class ItemWand extends Item
         ItemStack mat = this.material.getRepairItemStack();
         if (mat != null && net.minecraftforge.oredict.OreDictionary.itemMatches(mat, repair, false)) return true;
         return super.getIsRepairable(toRepair, repair);
+    }
+
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack)
+    {
+        Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.material.getDamageVsEntity(), 0));
+        multimap.put(AttributesLoader.spellSpeed.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.spellSpeed, 0));
+        return multimap;
     }
 }

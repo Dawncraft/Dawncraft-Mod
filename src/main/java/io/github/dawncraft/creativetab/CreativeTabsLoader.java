@@ -1,14 +1,17 @@
 package io.github.dawncraft.creativetab;
 
+import com.google.common.collect.ObjectArrays;
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.client.renderer.entity.RenderSkill;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
+import io.github.dawncraft.enchantment.EnchantmentLoader;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillLoader;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -31,13 +34,15 @@ public class CreativeTabsLoader
     public static CreativeTabs tabWeapon;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-
+    
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-    
+
     public CreativeTabsLoader(FMLPreInitializationEvent event)
     {
+        EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat(CreativeTabs.tabCombat.getRelevantEnchantmentTypes(), EnchantmentLoader.WAND);
+        CreativeTabs.tabCombat.setRelevantEnchantmentTypes(newEnchantmentTypes);
         tabEnergy = new CreativeTabs("Energy")
         {
             @Override
@@ -118,7 +123,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-        
+
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
@@ -134,7 +139,7 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-
+            
             @Override
             public TextureAtlasSprite getTabIcon()
             {
@@ -149,7 +154,7 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-
+            
             @Override
             public TextureAtlasSprite getTabIcon()
             {

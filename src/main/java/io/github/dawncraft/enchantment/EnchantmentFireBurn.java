@@ -1,7 +1,6 @@
 package io.github.dawncraft.enchantment;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.config.ConfigLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
@@ -10,9 +9,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class EnchantmentFireBurn extends Enchantment
 {
-    public EnchantmentFireBurn()
+    public EnchantmentFireBurn(int enchID, String enchName, int enchWeight)
     {
-        super(ConfigLoader.enchantmentFireBurnId, new ResourceLocation(Dawncraft.MODID + ":" + "fire_burn"), 1, EnumEnchantmentType.DIGGER);
+        super(enchID, new ResourceLocation(Dawncraft.MODID + ":" + enchName), enchWeight, EnumEnchantmentType.DIGGER);
     }
     
     @Override
@@ -24,7 +23,7 @@ public class EnchantmentFireBurn extends Enchantment
     @Override
     public int getMaxEnchantability(int enchantmentLevel)
     {
-        return super.getMinEnchantability(enchantmentLevel) + 50;
+        return this.getMinEnchantability(enchantmentLevel) + 50;
     }
     
     @Override

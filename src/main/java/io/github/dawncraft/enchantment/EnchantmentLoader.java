@@ -1,8 +1,11 @@
 package io.github.dawncraft.enchantment;
 
+import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.LogLoader;
 
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
@@ -12,10 +15,17 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class EnchantmentLoader
 {
-    public static Enchantment fireBurn = new EnchantmentFireBurn().setName("fireBurn");
+    // Enchantment type
+    public static final EnumEnchantmentType WAND = EnumHelper.addEnchantmentType("WAND");
+
+    // Magic
+    public static Enchantment enhancement = new EnchantmentWandEnhancement(ConfigLoader.enchantmentEnhancementId, "enhancement", 10).setName("enhancement");
+    // ColorEgg
+    public static Enchantment fireBurn = new EnchantmentFireBurn(ConfigLoader.enchantmentFireBurnId, "fire_burn", 1).setName("fireBurn");
 
     public EnchantmentLoader(FMLPreInitializationEvent event)
     {
+        register(enhancement);
         register(fireBurn);
     }
     

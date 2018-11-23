@@ -69,7 +69,7 @@ public class ItemLoader
     public static Item magnetSpade = new ItemSpade(MAGNET_TOOL).setUnlocalizedName("magnetSpade");
     public static Item magnetHoe = new ItemHoe(MAGNET_TOOL).setUnlocalizedName("magnetHoe");
     public static Item magnetSword = new ItemSword(MAGNET_TOOL).setUnlocalizedName("magnetSword");
-    public static Item magnetWand = new ItemWand(MAGNET_TOOL, 0.8F).setUnlocalizedName("magnetWand");
+    public static Item magnetWand = new ItemWand(MAGNET_TOOL, 0.20F).setUnlocalizedName("magnetWand");
     public static Item magnetHelmet = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 0)
             .setUnlocalizedName("magnetHelmet");
     public static Item magnetChestplate = new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), 1)
