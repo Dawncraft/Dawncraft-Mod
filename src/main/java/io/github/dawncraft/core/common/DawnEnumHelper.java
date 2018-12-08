@@ -1,9 +1,9 @@
-package io.github.dawncraft.util;
+package io.github.dawncraft.core.common;
 
 import net.minecraft.event.HoverEvent;
 import net.minecraftforge.common.util.EnumHelper;
 
-public class EnumHelperDawn extends EnumHelper
+public class DawnEnumHelper extends EnumHelper
 {
     private static Class[][] newTypes =
     {

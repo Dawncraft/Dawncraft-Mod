@@ -3,8 +3,8 @@ package io.github.dawncraft.api.item;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IThirst;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
+import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,7 +34,7 @@ public class ItemDrink extends Item
     private int potionAmplifier;
     /** probably of the set potion effect occurring */
     private float potionEffectProbability;
-
+    
     public ItemDrink(int amount, float saturation)
     {
         this.setMaxStackSize(1);
@@ -43,31 +43,31 @@ public class ItemDrink extends Item
         this.saturationModifier = saturation;
         this.setCreativeTab(CreativeTabsLoader.tabCuisine);
     }
-    
+
     public ItemDrink(int amount)
     {
         this(amount, 0.6F);
     }
-
+    
     @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
         return EnumAction.DRINK;
     }
-
+    
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
         IThirst thirst = player.getCapability(CapabilityLoader.thirst, null);
-
+        
         if (thirst.canDrink(this.alwaysDrinkable))
         {
             player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
         }
-        
+
         return stack;
     }
-    
+
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World world, EntityPlayer player)
     {
@@ -77,9 +77,9 @@ public class ItemDrink extends Item
         world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         this.onDrinkDrunk(stack, world, player);
         player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-        return new ItemStack(Items.bowl);
+        return new ItemStack(ItemLoader.bottle);
     }
-    
+
     protected void onDrinkDrunk(ItemStack stack, World world, EntityPlayer player)
     {
         if (!world.isRemote && this.potionId > 0 && world.rand.nextFloat() < this.potionEffectProbability)
@@ -87,17 +87,17 @@ public class ItemDrink extends Item
             player.addPotionEffect(new PotionEffect(this.potionId, this.potionDuration * 20, this.potionAmplifier));
         }
     }
-    
+
     public int getWaterAmount(ItemStack stack)
     {
         return this.waterAmount;
     }
-
+    
     public float getSaturationModifier(ItemStack stack)
     {
         return this.saturationModifier;
     }
-
+    
     /**
      * sets a potion effect on the item. Args: int potionId, int duration (will be multiplied by 20), int amplifier,
      * float probability of effect happening
@@ -110,7 +110,7 @@ public class ItemDrink extends Item
         this.potionEffectProbability = probability;
         return this;
     }
-    
+
     /**
      * Set the field 'alwaysEdible' to true, and make the drink drinkable even if the player don't need to drink.
      */

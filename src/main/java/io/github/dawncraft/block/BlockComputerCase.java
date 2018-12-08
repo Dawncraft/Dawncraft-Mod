@@ -18,14 +18,14 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
- * Computer case
+ * The computer case.
  *
  * @author QingChenW
  */
 public class BlockComputerCase extends BlockMachine
 {
     public EnumCaseType type;
-
+    
     public BlockComputerCase(EnumCaseType caseType)
     {
         super();
@@ -33,37 +33,36 @@ public class BlockComputerCase extends BlockMachine
         this.setStepSound(soundTypePiston);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
     }
-
+    
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
-        // TODO 电脑机箱的te,别忘了233
         return null;
     }
-
+    
     @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
-    
+
     @Override
     public boolean isFullCube()
     {
         return false;
     }
-
+    
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos)
     {
         EnumFacing facing = world.getBlockState(pos).getValue(FACING);
-        
+
         if (facing.getAxis() == Axis.Z)
             this.setBlockBounds(0.25F, 0.0F, 0.0F, 0.75F, 1.0F, 1.0F);
         else if (facing.getAxis() == Axis.X)
             this.setBlockBounds(0.0F, 0.0F, 0.25F, 1.0F, 1.0F, 0.75F);
     }
-
+    
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
@@ -72,24 +71,24 @@ public class BlockComputerCase extends BlockMachine
             TileEntity tileentity = world.getTileEntity(pos);
         }
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         if (!world.isRemote)
         {
             TileEntity tileentity = world.getTileEntity(pos);
-
+            
         }
         return true;
     }
-    
+
     @Override
     public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity tileentity)
     {
         player.triggerAchievement(StatList.mineBlockStatArray[getIdFromBlock(this)]);
         player.addExhaustion(0.025F);
-
+        
         List<ItemStack> items = new java.util.ArrayList<ItemStack>();
         Item item = this.getItemDropped(state, null, 0);
         if (item != null)
@@ -103,16 +102,16 @@ public class BlockComputerCase extends BlockMachine
             }
             items.add(new ItemStack(item, 1, this.damageDropped(state)));
         }
-
+        
         net.minecraftforge.event.ForgeEventFactory.fireBlockHarvesting(items, world, pos, world.getBlockState(pos), 0, 1.0f, true, player);
         for (ItemStack stack : items)
         {
             spawnAsEntity(world, pos, stack);
         }
     }
-
+    
     public enum EnumCaseType
     {
-        SIMPLE, ADVANCED, SUPER;
+        SIMPLE, ADVANCED, PROFESSIONAL, CUSTOM;
     }
 }

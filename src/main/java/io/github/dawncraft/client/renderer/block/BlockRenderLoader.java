@@ -2,7 +2,8 @@ package io.github.dawncraft.client.renderer.block;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.BlockMagnetDoor;
-import io.github.dawncraft.core.RendererHelper;
+import io.github.dawncraft.core.client.DawnClientHooks;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -81,7 +82,7 @@ public class BlockRenderLoader
      */
     private static void registerBuiltIn(Block... blocks)
     {
-        RendererHelper.registerBuiltInBlocks(blocks);
+        DawnClientHooks.registerBuiltInBlocks(blocks);
     }
 
     /**
@@ -92,6 +93,6 @@ public class BlockRenderLoader
      */
     private static void registerBrokenTexture(Block block, String iconName)
     {
-        RendererHelper.registerBreakTexture(block, iconName);
+        DawnClientHooks.registerBreakTexture(block, iconName);
     }
 }

@@ -7,9 +7,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 //TODO 天域
 public class WorldLoader
 {
+    public static final int DAWNWORLD = 23;
+    
     public WorldLoader(FMLInitializationEvent event)
     {
-        registerWorld(23, WorldProviderDawn.class, true);
+        registerWorld(DAWNWORLD, WorldProviderDawn.class, true);
     }
 
     /**

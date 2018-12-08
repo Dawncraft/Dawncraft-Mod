@@ -1,4 +1,4 @@
-package io.github.dawncraft.core;
+package io.github.dawncraft.core.client;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,7 +24,7 @@ import net.minecraft.tileentity.TileEntity;
  * @author QingChenW
  */
 @Deprecated
-public class RendererHelper
+public class DawnClientHooks
 {
     public static Set<Block> BuiltInBlocks = new HashSet<Block>();
     public static Map<Block, String> BlockBrokenTextures = new HashMap<Block, String>();

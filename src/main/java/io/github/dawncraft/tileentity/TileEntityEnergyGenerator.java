@@ -1,7 +1,7 @@
 package io.github.dawncraft.tileentity;
 
 import io.github.dawncraft.block.BlockEnergyGenerator;
-import io.github.dawncraft.block.BlockEnergyGenerator.EnumGeneratorType;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -28,26 +28,10 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
     public int currentItemBurnTime;
     public int electricity;
     public final int Max_Electricity = 12800;
-
-    public TileEntityEnergyGenerator()
-    {
-        super();
-    }
-
-    public TileEntityEnergyGenerator(EnumGeneratorType type)
-    {
-        super();
-        this.generatorType = type;
-    }
     
     public IChatComponent getDisplayName()
     {
-        String name;
-        switch(this.generatorType)
-        {
-            default:
-            case HEAT: name = "container.heatGenerator"; break;
-        }
+        String name = "container." + this.getWorld().getBlockState(this.getPos()).getBlock().getUnlocalizedName();
         return new ChatComponentTranslation(name, new Object[0]);
     }
     
@@ -91,16 +75,15 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
         compound.setShort("Electricity", (short) this.electricity);
     }
     
-    // 需替代方案
-    /*    @Override
+    @Override
     public void onLoad()
     {
-        Block block = this.getWorld().getBlockState(this.getPos()).getBlock();
+        /*        Block block = this.getWorld().getBlockState(this.getPos()).getBlock();
         if(block instanceof BlockEnergyGenerator)
         {
-            this.generatorType = ((BlockEnergyGenerator) block).generatorType;
-        }
-    }*/
+            this.generatorType = ((BlockEnergyGenerator) block).type;
+        }*/
+    }
 
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)

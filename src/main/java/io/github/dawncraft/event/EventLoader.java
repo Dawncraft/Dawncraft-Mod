@@ -3,7 +3,7 @@ package io.github.dawncraft.event;
 import io.github.dawncraft.capability.CapabilityEvent;
 import io.github.dawncraft.enchantment.EnchantmentEvent;
 import io.github.dawncraft.potion.PotionEvent;
-import io.github.dawncraft.world.GameRuleEvent;
+import io.github.dawncraft.world.WorldEventHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
@@ -20,7 +20,7 @@ public class EventLoader
         register(new EnchantmentEvent(event));
         register(new PotionEvent(event));
         register(new CapabilityEvent(event));
-        register(new GameRuleEvent(event));
+        register(new WorldEventHandler(event));
     }
 
     private static void register(Object target)

@@ -34,9 +34,7 @@ public class BlockEnergyGenerator extends BlockMachine
     @Override
     public TileEntity createNewTileEntity(World world, int meta)
     {
-        TileEntity te = new TileEntityEnergyGenerator(this.type);
-        te.setWorldObj(world);
-        return te;
+        return new TileEntityEnergyGenerator();
     }
     
     @Override
