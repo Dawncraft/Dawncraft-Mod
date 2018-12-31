@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
@@ -13,9 +14,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
+
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import org.lwjgl.input.Keyboard;
 
 /**
  * 用事件添加一些奇怪的提示
@@ -40,6 +46,10 @@ public class TooltipEventHandler
 
     public TooltipEventHandler(FMLInitializationEvent event)
     {
+        IItemTooltipHandler customItemTooltipHandler = new CustomItemTooltipHandler(false);
+        registerItemTooltip(ItemLoader.simpleCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemLoader.advancedCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemLoader.superCPU, customItemTooltipHandler);
         if(ConfigLoader.isColoreggEnabled())
         {
             registerItemTooltip(Items.potato);
@@ -54,8 +64,8 @@ public class TooltipEventHandler
     {
         if(tooltipMap.containsKey(event.itemStack.getItem()))
         {
-            List<String> toolTip = tooltipMap.get(event.itemStack.getItem()).addItemTooltip(event.itemStack, event.entityPlayer, event.showAdvancedItemTooltips);
             int index = event.showAdvancedItemTooltips ? event.toolTip.size() - 1 : event.toolTip.size();
+            List<String> toolTip = tooltipMap.get(event.itemStack.getItem()).addItemTooltip(event.itemStack, event.entityPlayer, event.showAdvancedItemTooltips);
             event.toolTip.addAll(index, toolTip);
         }
     }
@@ -80,8 +90,35 @@ public class TooltipEventHandler
         registerItemTooltip(Item.getItemFromBlock(block), handler);
     }
     
-    interface IItemTooltipHandler
+    public interface IItemTooltipHandler
     {
         List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips);
+    }
+
+    public static class CustomItemTooltipHandler implements IItemTooltipHandler
+    {
+        /** If need press key to show information */
+        private boolean show;
+        
+        public CustomItemTooltipHandler(boolean show)
+        {
+            this.show = show;
+        }
+
+        @Override
+        public List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips)
+        {
+            List<String> toolTip = new ArrayList<String>();
+            // Don't use KeyLoader.use.isKeyDown()
+            if (this.show || Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
+            {
+                toolTip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(I18n.format(itemStack.getUnlocalizedName() + ".desc")));
+            }
+            else
+            {
+                toolTip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("gui.moreinfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+            }
+            return toolTip;
+        }
     }
 }

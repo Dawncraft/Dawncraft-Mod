@@ -5,7 +5,6 @@ import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.oredict.OreDictionary;
 
 /**
@@ -16,7 +15,7 @@ import net.minecraftforge.oredict.OreDictionary;
  */
 public class OreDictionaryLoader
 {
-    public OreDictionaryLoader(FMLPreInitializationEvent event)
+    public static void initOreDictionary()
     {
         registerOre("ingotMagnet", ItemLoader.magnetIngot);
         registerOre("oreMagnet", BlockLoader.magnetOre);

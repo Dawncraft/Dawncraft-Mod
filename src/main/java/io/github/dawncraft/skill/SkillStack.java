@@ -7,7 +7,7 @@ import org.lwjgl.input.Keyboard;
 import com.google.common.collect.Lists;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.entity.player.PlayerUtils;
 import io.github.dawncraft.stats.StatLoader;
@@ -200,7 +200,7 @@ public class SkillStack
     
     public EnumSpellAction onSkillPreparing(World world, EntityPlayer player, int duration)
     {
-        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+        IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
         if(playerCap.getCooldownTracker().getCooldown(this.getSkill()) > 0)
         {
             if(!world.isRemote)
@@ -231,7 +231,7 @@ public class SkillStack
     
     public EnumSpellAction onSkillSpelling(World world, EntityPlayer player, int duration)
     {
-        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+        IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
         if(playerCap.isCanceled())// TODO 找到打断施法的方法,然后移到那里
         {
             this.onPlayerStoppedSpelling(player.worldObj, player, playerCap.getSkillInSpellDuration());

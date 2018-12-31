@@ -99,6 +99,6 @@ public class GuiMagic extends GuiContainer
 
         // 绘制信息栏
         this.fontRendererObj.drawString(I18n.format("container.magic.health", (int)this.mc.thePlayer.getHealth(), (int)this.mc.thePlayer.getMaxHealth()), x + offset + 6, y + 35, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.magic.mana", this.mc.thePlayer.getCapability(CapabilityLoader.player, null).getMana(), "20"), x + offset + 6, y + 44, 4210752);
+        this.fontRendererObj.drawString(I18n.format("container.magic.mana", this.mc.thePlayer.getCapability(CapabilityLoader.magic, null).getMana(), "20"), x + offset + 6, y + 44, 4210752);
     }
 }

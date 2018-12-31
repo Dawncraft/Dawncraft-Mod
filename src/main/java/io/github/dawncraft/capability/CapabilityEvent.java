@@ -40,7 +40,7 @@ public class CapabilityEvent
             EntityPlayer player = (EntityPlayer) event.getEntity();
             event.addCapability(IThirst.domain, new CapabilityThirst.Provider(player));
             player.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
-            event.addCapability(IPlayer.domain, new CapabilityPlayer.Provider(player));
+            event.addCapability(IMagic.domain, new CapabilityPlayer.Provider(player));
         }
     }
     
@@ -51,10 +51,10 @@ public class CapabilityEvent
         {
             EntityPlayerMP player = (EntityPlayerMP) event.entity;
             player.triggerAchievement(AchievementLoader.basic);
-            if (player.hasCapability(CapabilityLoader.player, null))
+            if (player.hasCapability(CapabilityLoader.magic, null))
             {
-                IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
-                IStorage<IPlayer> storage = CapabilityLoader.player.getStorage();
+                IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
+                IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
                 
                 ISkillInventory inventory = playerCap.getInventory();
                 List<SkillStack> list = new ArrayList<SkillStack>();
@@ -86,16 +86,16 @@ public class CapabilityEvent
                     event.entityPlayer.getCapability(CapabilityLoader.thirst, null), null, nbtThirst);
         }
 
-        IPlayer player = event.original.getCapability(CapabilityLoader.player, null);
-        NBTTagCompound nbtPlayer = (NBTTagCompound) CapabilityLoader.player.getStorage()
-                .writeNBT(CapabilityLoader.player, player, null);
+        IMagic magic = event.original.getCapability(CapabilityLoader.magic, null);
+        NBTTagCompound nbtPlayer = (NBTTagCompound) CapabilityLoader.magic.getStorage()
+                .writeNBT(CapabilityLoader.magic, magic, null);
         if(event.wasDeath)
         {
-            float mana = player.getMaxMana();
+            float mana = magic.getMaxMana();
             nbtPlayer.setFloat("ManaF", mana);
             nbtPlayer.setShort("Mana", (short) Math.ceil(mana));
         }
-        CapabilityLoader.player.getStorage().readNBT(CapabilityLoader.player,
-                event.entityPlayer.getCapability(CapabilityLoader.player, null), null, nbtPlayer);
+        CapabilityLoader.magic.getStorage().readNBT(CapabilityLoader.magic,
+                event.entityPlayer.getCapability(CapabilityLoader.magic, null), null, nbtPlayer);
     }
 }

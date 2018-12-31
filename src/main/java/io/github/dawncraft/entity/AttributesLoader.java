@@ -10,5 +10,5 @@ public class AttributesLoader
     
     public static final IAttribute spellSpeed = new RangedAttribute((IAttribute)null, "generic.spellSpeed", 0.0D, 0.0D, 2.0D).setDescription("Spell Speed");
     
-    public AttributesLoader(FMLPreInitializationEvent event) {}
+    public static void initAttributes() {}
 }

@@ -6,7 +6,6 @@ import io.github.dawncraft.config.LogLoader;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register enchantments.
@@ -23,7 +22,7 @@ public class EnchantmentLoader
     // ColorEgg
     public static Enchantment fireBurn = new EnchantmentFireBurn(ConfigLoader.enchantmentFireBurnId, "fire_burn", 1).setName("fireBurn");
 
-    public EnchantmentLoader(FMLPreInitializationEvent event)
+    public static void initEnchantments()
     {
         register(enhancement);
         register(fireBurn);

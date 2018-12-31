@@ -10,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fluids.BlockFluidClassic;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -102,7 +101,7 @@ public class BlockLoader
     public static Block dawnPortal = new BlockDawnPortal().setUnlocalizedName("dawnPortal");
     public static Block skull = new BlockDawnSkull().setUnlocalizedName("skull");
 
-    public BlockLoader(FMLPreInitializationEvent event)
+    public static void initBlocks()
     {
         // Energy
         register(fluidPetroleum, "fluid_petroleum");

@@ -28,15 +28,20 @@ import info.bliki.wiki.model.WikiModel;
 
 /**
  * 网页浏览器主程序
+ * <br>与V1相同,但添加了wiki系统</br>
  * <br>请勿使用此类，这只是个纪念品</br>
- * 如何使用：WebBrowserV1 webBrowser = new WebBrowserV1("我的世界中文维基百科", "http://minecraft-zh.gamepedia.com/Minecraft_Wiki");
+ * 如何使用：WebBrowserV3 webBrowser = new WebBrowserV3("我的世界中文维基百科", "Minecraft_Wiki");
  *
- * @version v1.0
+ * @version v1.1
  * @author QingChenW
  */
 public class WebBrowserV3 extends JFrame implements HyperlinkListener, ActionListener
 {
-    public static WikiModel wikiModel = new WikiModel("https://en.wikipedia.org/wiki/${image}", "https://en.wikipedia.org/wiki/${title}");
+    // https://en.wikipedia.org/w/api.php
+    private static final String WIKI_API_URL = "http://minecraft-zh.gamepedia.com/api.php";
+    
+    // public static WikiModel wikiModel = new WikiModel("https://en.wikipedia.org/wiki/${image}", "https://en.wikipedia.org/wiki/${title}");
+    public static WikiModel wikiModel = new WikiModel("http://minecraft-zh.gamepedia.com/${image}", "http://minecraft-zh.gamepedia.com/${title}");
 
     String htmlSource;
     private ArrayList<String> history = new ArrayList<String>();
@@ -89,7 +94,7 @@ public class WebBrowserV3 extends JFrame implements HyperlinkListener, ActionLis
         this.pack();
         this.setVisible(true);
 
-        loadWikiContent(url);
+        this.loadWikiContent(url);
         //this.loadWebPage(url);
     }
 
@@ -100,14 +105,14 @@ public class WebBrowserV3 extends JFrame implements HyperlinkListener, ActionLis
         if (e.getSource() == this.picGo || e.getSource() == this.jurl || e.getSource() == this.picRefresh)
         {
             url = this.jurl.getText();
-            loadWikiContent(url);
+            this.loadWikiContent(url);
             //this.loadWebPage(url);
         } else if (e.getSource() == this.picBack)
         {
             if (this.historyIndex > 0)
                 this.historyIndex--;
             url = this.history.get(this.historyIndex);
-            loadWikiContent(url);
+            this.loadWikiContent(url);
             //this.loadWebPage(url);
         }
     }
@@ -118,7 +123,7 @@ public class WebBrowserV3 extends JFrame implements HyperlinkListener, ActionLis
         try
         {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
-                loadWikiContent(e.getDescription());
+                this.loadWikiContent(e.getDescription());
             //this.jEditorPane.setPage(e.getURL());
         } catch (Exception ex)
         {
@@ -151,7 +156,7 @@ public class WebBrowserV3 extends JFrame implements HyperlinkListener, ActionLis
 
     public void loadWikiContent(String title)
     {
-        User user = new User("", "", "https://en.wikipedia.org/w/api.php");
+        User user = new User("", "", WIKI_API_URL);
         user.login();
         String content = "";
         for (Page page : user.queryContent(title))

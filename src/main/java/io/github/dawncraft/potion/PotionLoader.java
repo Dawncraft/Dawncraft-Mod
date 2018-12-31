@@ -5,7 +5,7 @@ import java.util.Map;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IMana;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.entity.immortal.EntityImmortal;
 import io.github.dawncraft.entity.player.PlayerUtils;
@@ -15,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionHelper;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
@@ -33,21 +32,21 @@ public class PotionLoader
             int k = 50 >> amplifier;
             return k > 0 ? duration % k == 0 : true;
         };
-
+        
         @Override
         public void performEffect(EntityLivingBase entity, int amplifier)
         {
             IMana mana = null;
-
+            
             if(entity instanceof EntityPlayer)
             {
-                mana = entity.getCapability(CapabilityLoader.player, null);
+                mana = entity.getCapability(CapabilityLoader.magic, null);
             }
             else if(entity instanceof EntityImmortal)
             {
                 mana = (EntityImmortal) entity;
             }
-
+            
             if(mana != null && mana.shouldRecover())
             {
                 mana.recover(1.0F);
@@ -61,14 +60,14 @@ public class PotionLoader
         {
             return true;
         }
-        
+
         @Override
         public void performEffect(EntityLivingBase entity, int amplifier)
         {
             if(entity instanceof EntityPlayer)
             {
                 EntityPlayer player = (EntityPlayer) entity;
-                IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
                 playerCap.cancelSpelling();
                 if(player.isServerWorld())
                     PlayerUtils.silent((EntityPlayerMP) entity);
@@ -77,21 +76,21 @@ public class PotionLoader
     }.setPotionName("potion.silent");
     public static Potion potionParalysis = new PotionBase("paralysis", true, 0x3C64C8).setPotionName("potion.paralysis");
     public static Potion potionConfusion = new PotionBase("confusion", true, 0x649664).setPotionName("potion.confusion");
-
+    
     public static Potion potionBrainDead = new PotionBase("brain_dead", true, 0x7F0000).setPotionName("potion.brainDead");
     public static Potion potionGerPower = new PotionBase("ger_power", false, 0x7F0000).setPotionName("potion.gerPower");
     public static Potion potionBadGer = new PotionBase("bad_ger", true, 0x7F0000).setPotionName("potion.badGer");
-
-    public PotionLoader(FMLPreInitializationEvent event)
+    
+    public static void initPotions()
     {
         register(potionGerPower, "0 & !1 & !2 & !3 & 0+6", "5");
     }
-
+    
     private static void register(Potion potion, String recipe, String amplifier)
     {
         reflectPotionHelper(potion, recipe, amplifier);
     }
-
+    
     /**
      * 公共API,注册你的药水物品吧
      * <br>Mojang写的都是啥啊,自己看吧 {@link net.minecraft.potion.PotionHelper}</br>
@@ -111,7 +110,7 @@ public class PotionLoader
             Map<Integer, String> potionRequirements = (Map<Integer, String>) field.get(null);
             potionRequirements.put(potion.getId(), recipe);
             EnumHelper.setFailsafeFieldValue(field, null, potionRequirements);
-            
+
             Field field2 = ReflectionHelper.findField(PotionHelper.class, "potionAmplifiers", "field_179540_p");
             Map<Integer, String> potionAmplifiers = (Map<Integer, String>) field2.get(null);
             potionAmplifiers.put(potion.getId(), amplifier);

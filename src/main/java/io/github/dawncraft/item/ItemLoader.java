@@ -27,7 +27,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -86,11 +85,11 @@ public class ItemLoader
             .setCreativeTab(CreativeTabsLoader.tabMachine);
 
     // Computer
-    public static Item simpleCPU = new ItemWithInfo(false).setUnlocalizedName("simpleCPU")
+    public static Item simpleCPU = new Item().setUnlocalizedName("simpleCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
-    public static Item advancedCPU = new ItemWithInfo(false).setUnlocalizedName("advancedCPU")
+    public static Item advancedCPU = new Item().setUnlocalizedName("advancedCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
-    public static Item superCPU = new ItemWithInfo(false).setUnlocalizedName("superCPU")
+    public static Item superCPU = new Item().setUnlocalizedName("superCPU")
             .setCreativeTab(CreativeTabsLoader.tabComputer);
 
     // Science
@@ -205,7 +204,7 @@ public class ItemLoader
         }
     }.setUnlocalizedName("mjolnir").setCreativeTab(CreativeTabsLoader.tabColourEgg);
 
-    public ItemLoader(FMLPreInitializationEvent event)
+    public static void initItems()
     {
         // Energy
         register(bucketPetroleum, "petroleum_bucket");

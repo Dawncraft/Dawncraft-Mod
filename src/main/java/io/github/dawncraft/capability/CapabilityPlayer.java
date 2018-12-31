@@ -46,7 +46,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
  */
 public class CapabilityPlayer
 {
-    public static class Common implements IPlayer
+    public static class Common implements IMagic
     {
         private EntityPlayer player;
         private float mana;
@@ -408,10 +408,10 @@ public class CapabilityPlayer
         }
     }
     
-    public static class Storage implements Capability.IStorage<IPlayer>
+    public static class Storage implements Capability.IStorage<IMagic>
     {
         @Override
-        public NBTBase writeNBT(Capability<IPlayer> capability, IPlayer instance, EnumFacing side)
+        public NBTBase writeNBT(Capability<IMagic> capability, IMagic instance, EnumFacing side)
         {
             NBTTagCompound compound = new NBTTagCompound();
             float mana = instance.getMana();
@@ -439,7 +439,7 @@ public class CapabilityPlayer
         }
 
         @Override
-        public void readNBT(Capability<IPlayer> capability, IPlayer instance, EnumFacing side, NBTBase nbt)
+        public void readNBT(Capability<IMagic> capability, IMagic instance, EnumFacing side, NBTBase nbt)
         {
             NBTTagCompound compound = (NBTTagCompound) nbt;
 
@@ -482,26 +482,26 @@ public class CapabilityPlayer
     
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
-        private IPlayer player;
-        private IStorage<IPlayer> storage;
+        private IMagic magic;
+        private IStorage<IMagic> storage;
 
         public Provider(EntityPlayer player)
         {
             if(player instanceof EntityPlayerMP)
             {
-                this.player = new Server((EntityPlayerMP) player);
+                this.magic = new Server((EntityPlayerMP) player);
             }
             else
             {
-                this.player = new Common(player);
+                this.magic = new Common(player);
             }
-            this.storage = CapabilityLoader.player.getStorage();
+            this.storage = CapabilityLoader.magic.getStorage();
         }
 
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
-            return CapabilityLoader.player.equals(capability);
+            return CapabilityLoader.magic.equals(capability);
         }
 
         @Override
@@ -509,7 +509,7 @@ public class CapabilityPlayer
         {
             if (this.hasCapability(capability, facing))
             {
-                T result = (T) this.player;
+                T result = (T) this.magic;
                 return result;
             }
             return null;
@@ -518,13 +518,13 @@ public class CapabilityPlayer
         @Override
         public NBTTagCompound serializeNBT()
         {
-            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.player, this.player, null);
+            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.magic, this.magic, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound compound)
         {
-            this.storage.readNBT(CapabilityLoader.player, this.player, null, compound);
+            this.storage.readNBT(CapabilityLoader.magic, this.magic, null, compound);
         }
     }
 }

@@ -15,7 +15,6 @@ import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register CreativeTabs in the class.
@@ -34,12 +33,12 @@ public class CreativeTabsLoader
     public static CreativeTabs tabWeapon;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-    
+
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-
-    public CreativeTabsLoader(FMLPreInitializationEvent event)
+    
+    public static void initCreativeTabs()
     {
         EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat(CreativeTabs.tabCombat.getRelevantEnchantmentTypes(), EnchantmentLoader.WAND);
         CreativeTabs.tabCombat.setRelevantEnchantmentTypes(newEnchantmentTypes);
@@ -123,7 +122,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-
+        
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
@@ -139,7 +138,7 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-            
+
             @Override
             public TextureAtlasSprite getTabIcon()
             {
@@ -154,7 +153,7 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-            
+
             @Override
             public TextureAtlasSprite getTabIcon()
             {

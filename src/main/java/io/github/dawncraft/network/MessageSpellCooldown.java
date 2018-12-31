@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.skill.Skill;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -51,9 +51,9 @@ public class MessageSpellCooldown implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if(player.hasCapability(CapabilityLoader.player, null))
+                        if(player.hasCapability(CapabilityLoader.magic, null))
                         {
-                            IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                            IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
                             playerCap.getCooldownTracker().setCooldown(message.skill, message.ticks);
                         }
                     }

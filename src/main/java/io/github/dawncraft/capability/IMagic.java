@@ -10,7 +10,7 @@ import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
 import net.minecraft.util.ResourceLocation;
 
-public interface IPlayer extends IMana
+public interface IMagic extends IMana
 {
     public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "player");
 

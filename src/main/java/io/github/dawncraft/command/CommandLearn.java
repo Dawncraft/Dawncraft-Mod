@@ -51,7 +51,7 @@ public class CommandLearn extends CommandBase
             {
                 int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 0;
                 SkillStack skillstack = new SkillStack(skill, level);
-                SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.player, null).getInventory();
+                SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.magic, null).getInventory();
                 if(inventory.addSkillStackToInventory(skillstack))
                 {
                     serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);

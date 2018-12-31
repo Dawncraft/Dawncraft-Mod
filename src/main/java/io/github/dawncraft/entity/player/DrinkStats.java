@@ -2,7 +2,7 @@ package io.github.dawncraft.entity.player;
 
 import io.github.dawncraft.api.item.ItemDrink;
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -46,7 +46,7 @@ public class DrinkStats
      */
     public void onUpdate(EntityPlayer player)
     {
-        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+        IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
         EnumDifficulty difficulty = player.worldObj.getDifficulty();
 
         if(ConfigLoader.isThirstEnabled)

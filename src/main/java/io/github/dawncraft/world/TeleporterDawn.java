@@ -12,14 +12,14 @@ public class TeleporterDawn extends Teleporter
 {
     private final WorldServer worldServerInstance;
     private final Random random;
-
+    
     public TeleporterDawn(WorldServer world)
     {
         super(world);
         this.worldServerInstance = world;
         this.random = new Random(world.getSeed());
     }
-
+    
     @Override
     public void placeInPortal(Entity entity, float rotationYaw)
     {
@@ -34,19 +34,19 @@ public class TeleporterDawn extends Teleporter
         }
         entity.moveToBlockPosAndAngles(blockPos, entity.rotationYaw, entity.rotationPitch);
     }
-
+    
     @Override
     public boolean placeInExistingPortal(Entity entity, float rotationYaw)
     {
         return false;
     }
-
+    
     @Override
     public boolean makePortal(Entity entity)
     {
         return false;
     }
-
+    
     @Override
     public void removeStalePortalLocations(long time)
     {

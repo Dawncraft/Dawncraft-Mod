@@ -46,20 +46,20 @@ public class ServerProxy
 {
     public void preInit(FMLPreInitializationEvent event)
     {
-        new LogLoader(event);
-        new ConfigLoader(event);
-        new CapabilityLoader(event);
-        new CreativeTabsLoader(event);
-        new FluidLoader(event);
-        new ItemLoader(event);
-        new BlockLoader(event);
-        new AttributesLoader(event);
-        new EntityLoader(event);
-        new TileEntityLoader(event);
-        new SkillLoader(event);
-        new EnchantmentLoader(event);
-        new PotionLoader(event);
-        new OreDictionaryLoader(event);
+        LogLoader.init(event.getModLog());
+        ConfigLoader.init(event.getSuggestedConfigurationFile());
+        CapabilityLoader.initCapabilities();
+        CreativeTabsLoader.initCreativeTabs();
+        FluidLoader.initFluids();
+        ItemLoader.initItems();
+        BlockLoader.initBlocks();
+        AttributesLoader.initAttributes();
+        EntityLoader.initEntities();
+        TileEntityLoader.initTileEntities();
+        SkillLoader.initSkills();
+        EnchantmentLoader.initEnchantments();
+        PotionLoader.initPotions();
+        OreDictionaryLoader.initOreDictionary();
     }
     
     public void init(FMLInitializationEvent event)
@@ -83,7 +83,7 @@ public class ServerProxy
         try
         {
             Metrics metrics = new Metrics(Dawncraft.NAME, Dawncraft.VERSION);
-            //metrics.start();
+            // metrics.start();
         }
         catch (IOException e)
         {

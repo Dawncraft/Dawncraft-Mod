@@ -41,7 +41,7 @@ public class CommandForget extends CommandBase
         EntityPlayerMP serverPlayer = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
         try
         {
-            SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.player, null).getInventory();
+            SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.magic, null).getInventory();
             List<SkillStack> list = new ArrayList<SkillStack>();
             int count = 0;
             for(int i = 0; i < inventory.getSizeInventory(); i++)

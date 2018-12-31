@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.skill.EnumSpellAction;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -57,7 +57,7 @@ public class MessagePlayerSpelling implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        IPlayer playerCap = player.getCapability(CapabilityLoader.player, null);
+                        IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
                         playerCap.setSpellAction(message.spellAction);
                         playerCap.setSkillInSpellCount(message.spellCount);
                     }

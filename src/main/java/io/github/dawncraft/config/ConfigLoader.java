@@ -3,15 +3,17 @@ package io.github.dawncraft.config;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+
+import io.github.dawncraft.ModCategories;
 
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register a configuration manager and load configurations.
@@ -22,58 +24,58 @@ public class ConfigLoader
 {
     private static Configuration config;
     
-    @ConfigItem(EnumCategories.ENERGY)
+    @ConfigItem(ModCategories.ENERGY)
     public static boolean isEnergyEnabled = true;
     
-    @ConfigItem(EnumCategories.MAGNET)
+    @ConfigItem(ModCategories.MAGNET)
     public static boolean isMagnetEnabled = true;
     
-    @ConfigItem(EnumCategories.MACHINE)
+    @ConfigItem(ModCategories.MACHINE)
     public static boolean isMachineEnabled = true;
     
-    @ConfigItem(EnumCategories.COMPUTER)
+    @ConfigItem(ModCategories.COMPUTER)
     public static boolean isComputerEnabled = true;
     
-    @ConfigItem(EnumCategories.SCIENCE)
+    @ConfigItem(ModCategories.SCIENCE)
     public static boolean isScienceEnabled = true;
     
-    @ConfigItem(EnumCategories.FURNITURE)
+    @ConfigItem(ModCategories.FURNITURE)
     public static boolean isFurnitureEnabled = true;
-    @ConfigItem(EnumCategories.FURNITURE)
+    @ConfigItem(ModCategories.FURNITURE)
     public static int chairHealAmount = 0;
     
-    @ConfigItem(EnumCategories.CUISINE)
+    @ConfigItem(ModCategories.CUISINE)
     public static boolean isCuisineEnabled = true;
-    @ConfigItem(EnumCategories.CUISINE)
+    @ConfigItem(ModCategories.CUISINE)
     public static boolean isThirstEnabled = false;
     
-    @ConfigItem(EnumCategories.WEAPON)
+    @ConfigItem(ModCategories.WEAPON)
     public static boolean isWeaponEnabled = true;
     
-    @ConfigItem(EnumCategories.MAGIC)
+    @ConfigItem(ModCategories.MAGIC)
     public static boolean isMagicEnabled = true;
-    @ConfigItem(EnumCategories.MAGIC)
+    @ConfigItem(ModCategories.MAGIC)
     public static boolean manaRenderType = true;
-    @ConfigItem(EnumCategories.MAGIC)
+    @ConfigItem(ModCategories.MAGIC)
     public static int publicPrepareTicks = 20;
-    @ConfigItem(EnumCategories.MAGIC)
+    @ConfigItem(ModCategories.MAGIC)
     public static int publicCooldownTicks = 20;
-    @ConfigItem(EnumCategories.MAGIC)
+    @ConfigItem(ModCategories.MAGIC)
     public static int enchantmentEnhancementId = 52;
     public static boolean isColoreggEnabled()
     {
         return gerKingPassword.hashCode() == 474280700;
     }
-    @ConfigItem(EnumCategories.COLOREGG)
+    @ConfigItem(ModCategories.COLOREGG)
     public static String gerKingPassword = "Please guess password!";
-    @ConfigItem(EnumCategories.COLOREGG)
+    @ConfigItem(ModCategories.COLOREGG)
     public static double rangeToCheck = 32.0F;
-    @ConfigItem(EnumCategories.COLOREGG)
+    @ConfigItem(ModCategories.COLOREGG)
     public static int enchantmentFireBurnId = 36;
 
-    public ConfigLoader(FMLPreInitializationEvent event)
+    public static void init(File file)
     {
-        config = new Configuration(event.getSuggestedConfigurationFile());
+        config = new Configuration(file);
         config.load();
         reload();
     }
@@ -191,6 +193,6 @@ public class ConfigLoader
         /**
          * @return The config's category
          */
-        EnumCategories value() default EnumCategories.DEFAULT;
+        ModCategories value() default ModCategories.DEFAULT;
     }
 }

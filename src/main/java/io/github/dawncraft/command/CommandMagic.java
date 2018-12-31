@@ -1,7 +1,7 @@
 package io.github.dawncraft.command;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.entity.AttributesLoader;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -33,11 +33,11 @@ public class CommandMagic extends CommandBase
         if(args.length > 0)
         {
             EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
-            IPlayer playerCap = serverPlayer.getCapability(CapabilityLoader.player, null);
+            IMagic playerCap = serverPlayer.getCapability(CapabilityLoader.magic, null);
             if(args[0].equals("view"))
             {
                 float mana = playerCap.getMana();
-                NBTBase nbt = CapabilityLoader.player.getStorage().writeNBT(CapabilityLoader.player, playerCap, null);
+                NBTBase nbt = CapabilityLoader.magic.getStorage().writeNBT(CapabilityLoader.magic, playerCap, null);
                 serverPlayer.addChatMessage(new ChatComponentTranslation("commands.magic.view",
                         mana, serverPlayer.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue(), nbt.toString()));
             }

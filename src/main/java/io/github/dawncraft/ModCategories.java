@@ -1,13 +1,15 @@
-package io.github.dawncraft.config;
+package io.github.dawncraft;
 
 import static net.minecraftforge.common.config.Configuration.CATEGORY_GENERAL;
+
+import io.github.dawncraft.config.ConfigLoader;
 
 /**
  * All categories of Dawncraft mod.
  *
  * @author QingChenW
  */
-public enum EnumCategories
+public enum ModCategories
 {
     DEFAULT(CATEGORY_GENERAL)
     {
@@ -100,7 +102,7 @@ public enum EnumCategories
 
     private String name;
     
-    private EnumCategories(String name)
+    private ModCategories(String name)
     {
         this.name = name;
     }

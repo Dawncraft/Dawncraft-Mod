@@ -2,8 +2,6 @@ package io.github.dawncraft.config;
 
 import org.apache.logging.log4j.Logger;
 
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
 /**
  * Register a logger and log something.
  *
@@ -13,9 +11,9 @@ public class LogLoader
 {
     private static Logger logger;
     
-    public LogLoader(FMLPreInitializationEvent event)
+    public static void init(Logger logger)
     {
-        logger = event.getModLog();
+        LogLoader.logger = logger;
         logger.info("Logger loaded successfully.");
     }
     

@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayer;
+import io.github.dawncraft.capability.IMagic;
 import io.github.dawncraft.capability.IThirst;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -84,7 +84,7 @@ public class MessageUpdateMana implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        IPlayer playerDawn = player.getCapability(CapabilityLoader.player, null);
+                        IMagic playerDawn = player.getCapability(CapabilityLoader.magic, null);
                         playerDawn.setMana(message.getMana());
                         IThirst thirst = player.getCapability(CapabilityLoader.thirst, null);
                         if(thirst.getDrinkStats() != null)

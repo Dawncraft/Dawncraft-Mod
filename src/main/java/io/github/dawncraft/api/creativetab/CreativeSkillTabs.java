@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Creative skill inventory tab.
+ * Skill creative inventory tab.
  *
  * @author QingChenW
  */
@@ -24,12 +24,12 @@ public abstract class CreativeSkillTabs
     private boolean drawTitle = true;
     @SideOnly(Side.CLIENT)
     private SkillStack iconSkillStack;
-
+    
     public CreativeSkillTabs(String label)
     {
         this(getNextID(), label);
     }
-
+    
     public CreativeSkillTabs(int index, String label)
     {
         if (index >= creativeTabArray.length)
@@ -42,13 +42,13 @@ public abstract class CreativeSkillTabs
         this.tabLabel = label;
         creativeTabArray[index] = this;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public int getTabIndex()
     {
         return this.tabIndex;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public SkillStack getIconSkillStack()
     {
@@ -56,83 +56,83 @@ public abstract class CreativeSkillTabs
         {
             this.iconSkillStack = new SkillStack(this.getTabIconSkill(), this.getIconSkillLevel());
         }
-
+        
         return this.iconSkillStack;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public abstract Skill getTabIconSkill();
-
+    
     @SideOnly(Side.CLIENT)
     public int getIconSkillLevel()
     {
         return 0;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getTabIcon()
     {
         return null;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public String getTabLabel()
     {
         return this.tabLabel;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public String getTranslatedTabLabel()
     {
         return "skillGroup." + this.getTabLabel();
     }
-
+    
     public CreativeSkillTabs setNoTitle()
     {
         this.drawTitle = false;
         return this;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean drawInForegroundOfTab()
     {
         return this.drawTitle;
     }
-    
+
     public CreativeSkillTabs setNoScrollbar()
     {
         this.hasScrollbar = false;
         return this;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public boolean shouldHidePlayerInventory()
     {
         return this.hasScrollbar;
     }
-    
+
     public boolean hasSearchBar()
     {
         return this.tabIndex == CreativeTabsLoader.tabSearch.tabIndex;
     }
-
+    
     public int getSearchbarWidth()
     {
         return 89;
     }
-    
+
     public CreativeSkillTabs setBackgroundImageName(String texture)
     {
         this.theTexture = texture;
         return this;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public String getBackgroundImageName()
     {
         return this.theTexture;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public int getTabPage()
     {
@@ -142,7 +142,7 @@ public abstract class CreativeSkillTabs
         }
         return 0;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getTabColumn()
     {
@@ -152,7 +152,7 @@ public abstract class CreativeSkillTabs
         }
         return this.tabIndex % 6;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean isTabInFirstColumn()
     {
@@ -162,7 +162,7 @@ public abstract class CreativeSkillTabs
         }
         return this.tabIndex < 6;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void displayAllSkills(List<Skill> skillList)
     {
@@ -178,7 +178,7 @@ public abstract class CreativeSkillTabs
             }
         }
     }
-    
+
     public static int getNextID()
     {
         int max = creativeTabArray.length;

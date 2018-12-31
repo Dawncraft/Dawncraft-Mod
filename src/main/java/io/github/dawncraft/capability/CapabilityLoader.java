@@ -4,7 +4,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register capabilities.
@@ -17,15 +16,15 @@ public class CapabilityLoader
     @CapabilityInject(IThirst.class)
     public static Capability<IThirst> thirst;
     /** A capability to handle extra data for player. */
-    @CapabilityInject(IPlayer.class)
-    public static Capability<IPlayer> player;
-    
-    public CapabilityLoader(FMLPreInitializationEvent event)
+    @CapabilityInject(IMagic.class)
+    public static Capability<IMagic> magic;
+
+    public static void initCapabilities()
     {
         register(IThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
-        register(IPlayer.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
+        register(IMagic.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
     }
-
+    
     /**
      * Register a capability with its abstract class, the implementation of its abstract class and storage object.
      *
