@@ -51,6 +51,8 @@ public class BlockLoader
             .setCreativeTab(CreativeTabsLoader.tabMagnet);
     public static Block magnetRail = new BlockMagnetRail().setUnlocalizedName("magnetRail")
             .setCreativeTab(CreativeTabsLoader.tabMagnet);
+    public static Block magnetChest = new BlockMagnetChest().setUnlocalizedName("magnetChest")
+            .setCreativeTab(CreativeTabsLoader.tabMagnet);
     
     // Machine
     public static Block copperOre = new BlockOre().setUnlocalizedName("copperOre")
@@ -120,6 +122,7 @@ public class BlockLoader
         register(magnetBlock, "magnet_block");
         register(magnetDoor, ItemLoader.magnetDoor, "magnet_door");
         register(magnetRail, "magnet_rail");
+        register(magnetChest, "magnet_chest");
         
         // Machine
         register(copperOre, "copper_ore");

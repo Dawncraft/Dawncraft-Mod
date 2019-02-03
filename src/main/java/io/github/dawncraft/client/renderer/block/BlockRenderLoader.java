@@ -31,10 +31,11 @@ public class BlockRenderLoader
         
         registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
         
-        registerBuiltIn(BlockLoader.superChest, BlockLoader.skull);
+        registerBuiltIn(BlockLoader.magnetChest, BlockLoader.superChest, BlockLoader.skull);
 
-        registerBrokenTexture(BlockLoader.skull, "minecraft:blocks/soul_sand");
+        registerBrokenTexture(BlockLoader.magnetChest, "minecraft:blocks/planks_oak");
         registerBrokenTexture(BlockLoader.superChest, "minecraft:blocks/planks_oak");
+        registerBrokenTexture(BlockLoader.skull, "minecraft:blocks/soul_sand");
     }
     
     /**

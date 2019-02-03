@@ -9,12 +9,12 @@ public class TileEntityLoader
     public static void initTileEntities()
     {
         registerTileEntity(TileEntityEnergyGenerator.class, "EnergyGenerator");
-        registerTileEntity(TileEntityMachineFurnace.class, "MachineFurnace");
-        // registerTileEntity(TileEntityWchest.class, "SuperChest");
-        registerTileEntity(TileEntitySkull.class, "Skull");
+        registerTileEntity(TileEntityMagnetChest.class, "MagnetChest");
         registerTileEntity(TileEntityMagnetDoor.class, "MagnetDoor");
+        registerTileEntity(TileEntityMachineFurnace.class, "MachineFurnace");
+        registerTileEntity(TileEntitySkull.class, "Skull");
     }
-
+    
     private static void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
     {
         GameRegistry.registerTileEntity(tileEntityClass, Dawncraft.MODID + ":" + id);

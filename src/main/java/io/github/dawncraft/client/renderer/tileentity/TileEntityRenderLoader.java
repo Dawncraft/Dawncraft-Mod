@@ -1,8 +1,10 @@
 package io.github.dawncraft.client.renderer.tileentity;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.core.client.DawnClientHooks;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.tileentity.TileEntityMagnetChest;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
@@ -20,19 +22,23 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class TileEntityRenderLoader
 {
     private static int nextID = 0;
-
+    
     public TileEntityRenderLoader(FMLPreInitializationEvent event)
     {
+        registerTileEntityRender(TileEntityMagnetChest.class, new TileEntityRenderChest());
         registerTileEntityRender(TileEntitySkull.class, new TileEntityRenderSkull());
+        
+        registerTileItemRenderWithTE(Item.getItemFromBlock(BlockLoader.magnetChest), 0, new TileEntityMagnetChest());
+        //        registerTileItemRenderWithTE(Item.getItemFromBlock(BlockLoader.superChest), 0, TileEntityChest.class);
         registerTileItemRenderWithTE(ItemLoader.skull, 0, new TileEntitySkull(0));
         registerTileItemRenderWithTE(ItemLoader.skull, 1, new TileEntitySkull(1));
         registerTileItemRenderWithTE(ItemLoader.skull, 2, new TileEntitySkull(2));
-        
+
         registerSkullTexture("textures/entity/savage.png", false);
         registerSkullTexture("textures/entity/barbarian_king.png", false);
         registerSkullTexture("textures/entity/ger_king.png", true);
     }
-    
+
     /**
      * Register a tileentity's renderer.
      *
@@ -44,7 +50,7 @@ public class TileEntityRenderLoader
     {
         ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, renderer);
     }
-
+    
     /**
      * Register tileentity render for item in inventory.
      * <br>It don't supports tileentity with custom data like skulls.</br>
@@ -58,7 +64,7 @@ public class TileEntityRenderLoader
     {
         ForgeHooksClient.registerTESRItemStack(item, metadata, tileEntityClass);
     }
-    
+
     /**
      * Register tileentity render for item in inventory.
      * <br>This can register a tileentity instance for renderer.</br>
@@ -72,7 +78,7 @@ public class TileEntityRenderLoader
         registerTileItemRender(item, metadata, tileentity.getClass());
         DawnClientHooks.registerTileEntityItem(item, metadata, tileentity);
     }
-
+    
     /**
      * Register texture of skull.
      *
