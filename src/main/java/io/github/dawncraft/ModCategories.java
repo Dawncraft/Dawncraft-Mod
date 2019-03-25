@@ -75,12 +75,12 @@ public enum ModCategories
             return ConfigLoader.isCuisineEnabled;
         }
     },
-    WEAPON("weapon")
+    WAR("war")
     {
         @Override
         public boolean isEnabled()
         {
-            return ConfigLoader.isWeaponEnabled;
+            return ConfigLoader.isWarEnabled;
         }
     },
     MAGIC("magic")
@@ -99,18 +99,18 @@ public enum ModCategories
             return ConfigLoader.isColoreggEnabled();
         }
     };
-
-    private String name;
     
+    private String name;
+
     private ModCategories(String name)
     {
         this.name = name;
     }
-
+    
     public String getName()
     {
         return this.name;
     }
-    
+
     public abstract boolean isEnabled();
 }

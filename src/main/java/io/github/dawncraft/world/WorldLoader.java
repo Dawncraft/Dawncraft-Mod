@@ -2,18 +2,17 @@ package io.github.dawncraft.world;
 
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 //TODO 天域
 public class WorldLoader
 {
     public static final int DAWNWORLD = 23;
-    
-    public WorldLoader(FMLInitializationEvent event)
+
+    public static void initWorlds()
     {
         registerWorld(DAWNWORLD, WorldProviderDawn.class, true);
     }
-
+    
     /**
      * Register a world.
      *

@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/magnetism/magnet_hoe"
+        "layer0": "dawncraft:items/magnet/magnet_hoe"
     },
     "display": {
         "thirdperson": {

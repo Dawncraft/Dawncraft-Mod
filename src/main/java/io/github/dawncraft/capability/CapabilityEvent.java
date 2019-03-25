@@ -20,7 +20,6 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
@@ -30,8 +29,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  */
 public class CapabilityEvent
 {
-    public CapabilityEvent(FMLInitializationEvent event) {}
-
+    public CapabilityEvent() {}
+    
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
@@ -43,7 +42,7 @@ public class CapabilityEvent
             event.addCapability(IMagic.domain, new CapabilityPlayer.Provider(player));
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
@@ -55,7 +54,7 @@ public class CapabilityEvent
             {
                 IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
                 IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
-                
+
                 ISkillInventory inventory = playerCap.getInventory();
                 List<SkillStack> list = new ArrayList<SkillStack>();
                 for(int i = 0; i < inventory.getSizeInventory(); i++)
@@ -68,7 +67,7 @@ public class CapabilityEvent
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
@@ -85,7 +84,7 @@ public class CapabilityEvent
             CapabilityLoader.thirst.getStorage().readNBT(CapabilityLoader.thirst,
                     event.entityPlayer.getCapability(CapabilityLoader.thirst, null), null, nbtThirst);
         }
-
+        
         IMagic magic = event.original.getCapability(CapabilityLoader.magic, null);
         NBTTagCompound nbtPlayer = (NBTTagCompound) CapabilityLoader.magic.getStorage()
                 .writeNBT(CapabilityLoader.magic, magic, null);

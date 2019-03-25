@@ -4,17 +4,15 @@ import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PotionEvent
 {
     private Random rand = new Random();
-
-    public PotionEvent(FMLInitializationEvent event) {}
-
+    
+    public PotionEvent() {}
+    
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event)
     {

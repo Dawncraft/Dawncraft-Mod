@@ -5,7 +5,6 @@ import io.github.dawncraft.enchantment.EnchantmentEvent;
 import io.github.dawncraft.potion.PotionEvent;
 import io.github.dawncraft.world.WorldEventHandler;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * Register some common events.
@@ -14,16 +13,16 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  */
 public class EventLoader
 {
-    public EventLoader(FMLInitializationEvent event)
+    public static void initEvents()
     {
-        register(new EventHandler(event));
-        register(new EnchantmentEvent(event));
-        register(new PotionEvent(event));
-        register(new CapabilityEvent(event));
-        register(new WorldEventHandler(event));
+        registerEvent(new EventHandler());
+        registerEvent(new EnchantmentEvent());
+        registerEvent(new PotionEvent());
+        registerEvent(new CapabilityEvent());
+        registerEvent(new WorldEventHandler());
     }
 
-    private static void register(Object target)
+    private static void registerEvent(Object target)
     {
         MinecraftForge.EVENT_BUS.register(target);
     }

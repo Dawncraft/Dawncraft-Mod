@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/magnetism/magnet_ingot"
+        "layer0": "dawncraft:items/magnet/magnet_ingot"
     },
     "display": {
         "thirdperson": {

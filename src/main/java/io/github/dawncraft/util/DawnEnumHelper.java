@@ -1,4 +1,4 @@
-package io.github.dawncraft.core.common;
+package io.github.dawncraft.util;
 
 import net.minecraft.event.HoverEvent;
 import net.minecraftforge.common.util.EnumHelper;

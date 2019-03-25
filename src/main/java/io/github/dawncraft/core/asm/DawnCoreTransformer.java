@@ -57,7 +57,7 @@ public class DawnCoreTransformer implements IClassTransformer
                         if (insnNode.getOpcode() == Opcodes.RETURN)
                         {
                             methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 0));
-                            methodNode.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "addBuiltInBlocks", "(Lnet/minecraft/client/renderer/BlockModelShapes;)V", false));
+                            methodNode.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "onRegisterAllBlocks", "(Lnet/minecraft/client/renderer/BlockModelShapes;)V", false));
                         }
                     }
                 }
@@ -81,7 +81,7 @@ public class DawnCoreTransformer implements IClassTransformer
                                 String fieldName = DawnCoreSetuper.isDeobfEnv ? (String) FIELDNAMES[0].get(1) : (String) FIELDNAMES[0].get(0);
                                 methodNode.instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/renderer/BlockModelShapes", fieldName, "Lnet/minecraft/client/resources/model/ModelManager;"));
                                 methodNode.instructions.add(new IntInsnNode(Opcodes.ALOAD, 2));
-                                methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getBreakTexture", "(Lnet/minecraft/client/resources/model/ModelManager;Lnet/minecraft/block/Block;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", false));
+                                methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getBlockParticle", "(Lnet/minecraft/client/resources/model/ModelManager;Lnet/minecraft/block/Block;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", false));
                                 methodNode.instructions.add(new InsnNode(Opcodes.ARETURN));
                                 // 把这个字节码改为跳转到上面加的标签
                                 methodNode.instructions.set(insnNode, new JumpInsnNode(Opcodes.IF_ACMPNE, label));
@@ -106,7 +106,7 @@ public class DawnCoreTransformer implements IClassTransformer
                         {
                             methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ALOAD, 0));
                             methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ILOAD, 1));
-                            methodNode.instructions.set(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getTileEntityForRender", "(Lnet/minecraft/item/Item;I)Lnet/minecraft/tileentity/TileEntity;", false));
+                            methodNode.instructions.set(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getTileentityForItem", "(Lnet/minecraft/item/Item;I)Lnet/minecraft/tileentity/TileEntity;", false));
                         }
                     }
                 }
@@ -168,7 +168,7 @@ public class DawnCoreTransformer implements IClassTransformer
     
     static public byte[] getBytecode(ClassNode classNode)
     {
-        //让ClassWriter自行计算最大栈深度和栈映射帧等信息
+        // 让ClassWriter自行计算最大栈深度和栈映射帧等信息
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         classNode.accept(classWriter);
         return classWriter.toByteArray();

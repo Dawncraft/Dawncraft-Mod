@@ -1,6 +1,6 @@
 {
     "parent": "block/rail_flat",
     "textures": {
-        "rail": "dawncraft:blocks/magnetism/magnet_rail"
+        "rail": "dawncraft:blocks/magnet/magnet_rail"
     }
 }

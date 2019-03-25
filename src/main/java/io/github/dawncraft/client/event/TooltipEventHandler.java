@@ -18,7 +18,6 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.lwjgl.input.Keyboard;
@@ -43,8 +42,8 @@ public class TooltipEventHandler
             return toolTip;
         }
     };
-
-    public TooltipEventHandler(FMLInitializationEvent event)
+    
+    public TooltipEventHandler()
     {
         IItemTooltipHandler customItemTooltipHandler = new CustomItemTooltipHandler(false);
         registerItemTooltip(ItemLoader.simpleCPU, customItemTooltipHandler);
@@ -58,7 +57,7 @@ public class TooltipEventHandler
             registerItemTooltip(ItemLoader.mjolnir);
         }
     }
-    
+
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event)
     {
@@ -69,42 +68,42 @@ public class TooltipEventHandler
             event.toolTip.addAll(index, toolTip);
         }
     }
-
+    
     private static void registerItemTooltip(Item item)
     {
         registerItemTooltip(item, defaultItemHandler);
     }
-
+    
     private static void registerItemTooltip(Block block)
     {
         registerItemTooltip(block, defaultItemHandler);
     }
-    
+
     public static void registerItemTooltip(Item item, IItemTooltipHandler handler)
     {
         tooltipMap.put(item, handler == null ? defaultItemHandler : handler);
     }
-    
+
     public static void registerItemTooltip(Block block, IItemTooltipHandler handler)
     {
         registerItemTooltip(Item.getItemFromBlock(block), handler);
     }
-    
+
     public interface IItemTooltipHandler
     {
         List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips);
     }
-
+    
     public static class CustomItemTooltipHandler implements IItemTooltipHandler
     {
         /** If need press key to show information */
         private boolean show;
-        
+
         public CustomItemTooltipHandler(boolean show)
         {
             this.show = show;
         }
-
+        
         @Override
         public List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips)
         {

@@ -10,13 +10,13 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
  */
 public class ClientEventLoader
 {
-    public ClientEventLoader(FMLInitializationEvent event)
+    public static void initClientEvents()
     {
-        register(new GuiHandler(event));
-        register(new PlayerRenderHandler(event));
-        register(new GuiIngameDawn(event));
-        register(new TooltipEventHandler(event));
-        register(new InputHandler(event));
+        register(new GuiHandler());
+        register(new PlayerRenderHandler());
+        register(new GuiIngameDawn());
+        register(new TooltipEventHandler());
+        register(new InputHandler());
     }
 
     static void register(Object target)

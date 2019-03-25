@@ -5,13 +5,12 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import net.minecraftforge.common.BiomeManager.BiomeType;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 public class BiomeLoader
 {
     public static BiomeGenBase fairyland = null;
 
-    public BiomeLoader(FMLInitializationEvent event)
+    public static void initBiomes()
     {
 
     }

@@ -4,30 +4,29 @@ import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillLoader;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class SkillRenderLoader
 {
-    public SkillRenderLoader(FMLPreInitializationEvent event)
+    public static void initSkillRender()
     {
-        register(SkillLoader.attack);
-        register(SkillLoader.heal);
-        register(SkillLoader.longPrepare);
-        register(SkillLoader.longSpell);
-        register(SkillLoader.longCooldown);
+        registerSkill(SkillLoader.attack);
+        registerSkill(SkillLoader.heal);
+        registerSkill(SkillLoader.longPrepare);
+        registerSkill(SkillLoader.longSpell);
+        registerSkill(SkillLoader.longCooldown);
     }
-
+    
     /**
      * Register a skill's inventory model.
      *
      * @param skill skill's string id
      */
-    private static void register(Skill skill)
+    private static void registerSkill(Skill skill)
     {
         for (int i = 0; i <= skill.getMaxLevel(); i++)
-            register(skill, i, skill.getRegistryName());
+            registerSkill(skill, i, skill.getRegistryName());
     }
-
+    
     /**
      * Register a skill's inventory model with level and name.
      *
@@ -35,7 +34,7 @@ public class SkillRenderLoader
      * @param level skill's level
      * @param name skill's model suffix
      */
-    private static void register(Skill skill, int level, String name)
+    private static void registerSkill(Skill skill, int level, String name)
     {
         ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
         ModelLoader.setCustomModelResourceLocation(skill, level, model);

@@ -73,7 +73,7 @@ public class ItemMagnetDoor extends ItemDoor
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
+    public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
         if (stack.hasTagCompound())
         {

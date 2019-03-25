@@ -34,85 +34,82 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderSkill implements IResourceManagerReloadListener
 {
-    private static RenderSkill skillRender;
     public float zLevel;
     private final SkillModelMesher skillModelMesher;
     private final TextureManager textureManager;
-
+    
     public RenderSkill()
     {
         super();
         this.textureManager = Minecraft.getMinecraft().getTextureManager();
         this.skillModelMesher = new SkillModelMesher();
         ModelLoader.onRegisterSkills(this.skillModelMesher);
-
-        skillRender = this;
     }
-    
+
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager)
     {
         this.skillModelMesher.rebuildCache();
     }
-    
+
     private void renderModel(IBakedModel model, SkillStack stack)
     {
         this.renderModel(model, -1, stack);
     }
-    
+
     private void renderModel(IBakedModel model, int color)
     {
         this.renderModel(model, color, (SkillStack) null);
     }
-    
+
     private void renderModel(IBakedModel model, int color, SkillStack stack)
     {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.ITEM);
-        
+
         for (EnumFacing enumfacing : EnumFacing.values())
         {
             this.renderQuads(worldrenderer, model.getFaceQuads(enumfacing), color, stack);
         }
-        
+
         this.renderQuads(worldrenderer, model.getGeneralQuads(), color, stack);
         tessellator.draw();
     }
-    
+
     private void renderQuads(WorldRenderer renderer, List<BakedQuad> quads, int color, SkillStack stack)
     {
         boolean flag = color == -1 && stack != null;
         int i = 0;
-        
+
         for (int j = quads.size(); i < j; ++i)
         {
             BakedQuad bakedquad = (BakedQuad)quads.get(i);
             int k = color;
-            
+
             if (flag && bakedquad.hasTintIndex())
             {
                 k = stack.getSkill().getColorFromSkillStack(stack, bakedquad.getTintIndex());
-                
+
                 if (EntityRenderer.anaglyphEnable)
                 {
                     k = TextureUtil.anaglyphColor(k);
                 }
-                
+
                 k = k | -16777216;
             }
-            
+
             net.minecraftforge.client.model.pipeline.LightUtil.renderQuadColor(renderer, bakedquad, k);
         }
     }
-    
+
     public void renderSkill(SkillStack stack, IBakedModel model)
     {
         if (stack != null)
         {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            
+
             if (model.isBuiltInRenderer())
             {
                 GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
@@ -126,11 +123,11 @@ public class RenderSkill implements IResourceManagerReloadListener
                 GlStateManager.translate(-0.5F, -0.5F, -0.5F);
                 this.renderModel(model, stack);
             }
-            
+
             GlStateManager.popMatrix();
         }
     }
-    
+
     public void renderSkill(SkillStack stack, TextureAtlasSprite sprite, int x, int y)
     {
         if (stack != null)
@@ -141,7 +138,7 @@ public class RenderSkill implements IResourceManagerReloadListener
             GlStateManager.popMatrix();
         }
     }
-    
+
     public void renderSkillIntoGUI(SkillStack stack, int x, int y)
     {
         //IBakedModel ibakedmodel = this.skillModelMesher.getSkillModel(stack);
@@ -167,19 +164,19 @@ public class RenderSkill implements IResourceManagerReloadListener
         this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
         this.textureManager.getTexture(TextureLoader.locationSkillsTexture).restoreLastBlurMipmap();
     }
-    
+
     public static ResourceLocation getActualLocation(ResourceLocation location)
     {
         return new ResourceLocation(location.getResourceDomain(), "skills/" + location.getResourcePath());
     }
-    
+
     private void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d)
     {
         GlStateManager.translate((float)xPosition, (float)yPosition, 100.0F + this.zLevel);
         GlStateManager.translate(8.0F, 8.0F, 0.0F);
         GlStateManager.scale(1.0F, 1.0F, -1.0F);
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
-        
+
         if (isGui3d)
         {
             GlStateManager.scale(40.0F, 40.0F, 40.0F);
@@ -194,13 +191,13 @@ public class RenderSkill implements IResourceManagerReloadListener
             GlStateManager.disableLighting();
         }
     }
-    
+
     public void renderSkillAndEffectIntoGUI(final SkillStack stack, int xPosition, int yPosition)
     {
         if (stack != null && stack.getSkill() != null)
         {
             this.zLevel += 50.0F;
-            
+
             try
             {
                 this.renderSkillIntoGUI(stack, xPosition, yPosition);
@@ -235,11 +232,11 @@ public class RenderSkill implements IResourceManagerReloadListener
                 });
                 throw new ReportedException(crashreport);
             }
-            
+
             this.zLevel -= 50.0F;
         }
     }
-    
+
     /**
      * Renders the stack level for the given SkillStack.
      */
@@ -248,19 +245,19 @@ public class RenderSkill implements IResourceManagerReloadListener
         if (stack != null)
         {
             String s = String.valueOf(stack.skillLevel);
-            
+
             if (stack.skillLevel < 1)
             {
                 s = EnumChatFormatting.RED + String.valueOf(stack.skillLevel);
             }
-            
+
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
             GlStateManager.disableBlend();
             fr.drawStringWithShadow(s, (float)(xPosition + 19 - 2 - fr.getStringWidth(s)), (float)(yPosition + 6 + 3), 16777215);
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
-            
+
             float cooldown = 0.0F;
             EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
             if(clientPlayer.hasCapability(CapabilityLoader.magic, null) && stack.getTotalCooldown() > 0.0F)
@@ -268,7 +265,7 @@ public class RenderSkill implements IResourceManagerReloadListener
                 IMagic magic = clientPlayer.getCapability(CapabilityLoader.magic, null);
                 cooldown = magic.getCooldownTracker().getCooldown(stack.getSkill()) / stack.getTotalCooldown();
             }
-
+            
             if (cooldown > 0.0F)
             {
                 GlStateManager.disableLighting();
@@ -283,7 +280,7 @@ public class RenderSkill implements IResourceManagerReloadListener
             }
         }
     }
-    
+
     /**
      * Draw with the WorldRenderer
      *
@@ -306,7 +303,7 @@ public class RenderSkill implements IResourceManagerReloadListener
         renderer.pos((double)(x + width), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
         Tessellator.getInstance().draw();
     }
-    
+
     /**
      * Draws a texture rectangle using the texture currently bound to the TextureManager
      */
@@ -321,14 +318,9 @@ public class RenderSkill implements IResourceManagerReloadListener
         worldrenderer.pos(xCoord + 0, yCoord + 0, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMinV()).endVertex();
         tessellator.draw();
     }
-
+    
     public SkillModelMesher getSkillModelMesher()
     {
         return this.skillModelMesher;
-    }
-
-    public static RenderSkill getSkillRender()
-    {
-        return skillRender;
     }
 }

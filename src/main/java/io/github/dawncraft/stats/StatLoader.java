@@ -21,7 +21,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.stats.StatBase;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,7 +38,7 @@ public class StatLoader
             }
             return null;
         }
-
+        
         @Override
         @SideOnly(Side.CLIENT)
         public void createButtons(List<GuiButton> buttonList, int suggestId, int width, int height)
@@ -48,30 +47,30 @@ public class StatLoader
             buttonList.add(guibutton);
             GuiButton guibutton1 = new GuiButton(++suggestId, width / 2 - 80, height - 52, 80, 20, I18n.format("stat.testButton"));
             buttonList.add(guibutton1);
-            
+
             guibutton1.enabled = false;
         }
-
+        
         @SideOnly(Side.CLIENT)
         class StatsSkills extends GuiSlot
         {
             public GuiStatsDawn guiStats;
             protected List<StatLearning> statsHolder;
             protected Comparator<StatLearning> statSorter;
-
+            
             public StatsSkills(GuiStats guiStats)
             {
                 super(guiStats.mc, guiStats.width, guiStats.height, 32, guiStats.height - 64, 20);
                 this.setShowSelectionBox(false);
                 this.setHasListHeader(true, 20);
                 this.guiStats = (GuiStatsDawn) guiStats;
-                
-                statsHolder = Lists.<StatLearning>newArrayList();
+
+                this.statsHolder = Lists.<StatLearning>newArrayList();
                 for (StatLearning statlearning : StatLoader.skillStats)
                 {
                     boolean flag = false;
                     int i = Skill.getIdFromSkill(statlearning.getSkill());
-
+                    
                     if (this.guiStats.statFileWriter.readStat(statlearning) > 0)
                     {
                         flag = true;
@@ -84,47 +83,47 @@ public class StatLoader
                     {
                         flag = true;
                     }
-
+                    
                     if (flag)
                     {
                         this.statsHolder.add(statlearning);
                     }
                 }
             }
-            
+
             @Override
             protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY)
             {
             }
-            
+
             @Override
             protected boolean isSelected(int slotIndex)
             {
                 return false;
             }
-            
+
             @Override
             protected void drawBackground()
             {
                 this.guiStats.drawDefaultBackground();
             }
-
+            
             @Override
             protected void drawListHeader(int p_148129_1_, int p_148129_2_, Tessellator p_148129_3_)
             {
             }
-            
+
             protected final StatLearning getStat(int index)
             {
                 return this.statsHolder.get(index);
             }
-            
+
             @Override
             protected final int getSize()
             {
                 return this.statsHolder.size();
             }
-
+            
             @Override
             protected void drawSlot(int entryID, int par1, int par2, int par3, int mouseXIn, int mouseYIn)
             {
@@ -135,7 +134,7 @@ public class StatLoader
                 this.drawStat(StatLoader.objectSpellStats[i], par1 + 165, par2, entryID % 2 == 0);
                 this.drawStat(statlearning, par1 + 215, par2, entryID % 2 == 0);
             }
-            
+
             protected void drawStat(StatBase stat, int x, int y, boolean isOddLine)
             {
                 FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
@@ -152,19 +151,19 @@ public class StatLoader
             }
         }
     };
-    
+
     public static List<StatLearning> skillStats = Lists.<StatLearning>newArrayList();
     public static final StatBase[] objectLearnStats = new StatBase[32000];
     public static final StatBase[] objectSpellStats = new StatBase[32000];
-
-    public StatLoader(FMLInitializationEvent event)
+    
+    public static void initStats()
     {
         initLearnableStats();
         initSpellStats();
-        
+
         registerStatPage(pageDawncraft);
     }
-    
+
     /**
      * Initializes statistics related to learnable skills. Is only called after skill stats have been initialized.
      */
@@ -172,7 +171,7 @@ public class StatLoader
     {
         Set<Skill> set = Sets.<Skill>newHashSet();
     }
-
+    
     private static void initSpellStats()
     {
         for (Skill skill : Skill.skillRegistry)
@@ -181,7 +180,7 @@ public class StatLoader
             {
                 int id = Skill.getIdFromSkill(skill);
                 String name = replace(Skill.skillRegistry.getNameForObject(skill));
-                
+
                 if (name != null)
                 {
                     objectLearnStats[id] = new StatLearning("stat.spellSkill.", name, new ChatComponentTranslation("stat.spellSkill", new SkillStack(skill).getChatComponent()), skill).registerStat();
@@ -190,12 +189,12 @@ public class StatLoader
             }
         }
     }
-    
+
     public static String replace(ResourceLocation resourcelocation)
     {
         return resourcelocation != null ? resourcelocation.toString().replace(':', '.') : null;
     }
-    
+
     public static void registerStatPage(StatPage page)
     {
         StatPage.registerStatPage(page);

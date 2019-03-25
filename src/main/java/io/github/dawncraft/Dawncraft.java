@@ -1,6 +1,7 @@
 package io.github.dawncraft;
 
 import io.github.dawncraft.server.ServerProxy;
+
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

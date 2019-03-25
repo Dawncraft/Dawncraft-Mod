@@ -3,6 +3,7 @@ package io.github.dawncraft.client.gui;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
+import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.renderer.entity.RenderSkill;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.skill.Skill;
@@ -31,7 +32,7 @@ public class GuiStatsDawn extends GuiStats
     public GuiStatsDawn(GuiScreen parentScreen, StatFileWriter statFile)
     {
         super(parentScreen, statFile);
-        skillRender = RenderSkill.getSkillRender();
+        this.skillRender = ClientProxy.getSkillRender();
         this.statFileWriter = statFile;
     }
 

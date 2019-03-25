@@ -16,7 +16,6 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -29,8 +28,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
  */
 public class EventHandler
 {
-    public EventHandler(FMLInitializationEvent event) {}
-
+    public EventHandler() {}
+    
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
@@ -41,7 +40,7 @@ public class EventHandler
             playerCap.update();
         }
     }
-
+    
     @SubscribeEvent
     public void onFillBucket(FillBucketEvent event)
     {
@@ -56,7 +55,7 @@ public class EventHandler
             event.setResult(Result.ALLOW);
         }
     }
-
+    
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {

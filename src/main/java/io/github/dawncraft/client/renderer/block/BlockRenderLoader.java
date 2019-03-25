@@ -15,7 +15,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameData;
 
 /**
@@ -25,25 +24,23 @@ import net.minecraftforge.fml.common.registry.GameData;
  */
 public class BlockRenderLoader
 {
-    public BlockRenderLoader(FMLPreInitializationEvent event)
+    public static void initBlockRender()
     {
-        registerRender((BlockFluidBase) BlockLoader.fluidPetroleum);
+        registerFieldModel((BlockFluidBase) BlockLoader.fluidPetroleum);
         
         registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
-        
-        registerBuiltIn(BlockLoader.magnetChest, BlockLoader.superChest, BlockLoader.skull);
 
-        registerBrokenTexture(BlockLoader.magnetChest, "minecraft:blocks/planks_oak");
-        registerBrokenTexture(BlockLoader.superChest, "minecraft:blocks/planks_oak");
-        registerBrokenTexture(BlockLoader.skull, "minecraft:blocks/soul_sand");
+        registerBuiltIn(BlockLoader.magnetChest, "minecraft:blocks/planks_oak");
+        registerBuiltIn(BlockLoader.superChest, "minecraft:blocks/planks_oak");
+        registerBuiltIn(BlockLoader.skull, "minecraft:blocks/soul_sand");
     }
     
     /**
-     * Register a fluid's inventory model and it's model.
+     * Register a fluid's model.
      *
      * @param blockFluid Fluid block to register
      */
-    public static void registerRender(BlockFluidBase blockFluid)
+    private static void registerFieldModel(BlockFluidBase blockFluid)
     {
         Item itemFluid = Item.getItemFromBlock(blockFluid);
         final String name = GameData.getBlockRegistry().getNameForObject(blockFluid).toString();
@@ -79,21 +76,12 @@ public class BlockRenderLoader
     /**
      * Register a builtin block.
      *
-     * @param blocks builtin block(s) to register
-     */
-    private static void registerBuiltIn(Block... blocks)
-    {
-        DawnClientHooks.registerBuiltInBlocks(blocks);
-    }
-
-    /**
-     * Register broken texture for builtin block.
-     *
      * @param block builtin block to register
      * @param iconName the name of texture
      */
-    private static void registerBrokenTexture(Block block, String iconName)
+    private static void registerBuiltIn(Block block, String iconName)
     {
-        DawnClientHooks.registerBreakTexture(block, iconName);
+        DawnClientHooks.registerBuiltInBlocks(block);
+        DawnClientHooks.registerBlockParticle(block, iconName);
     }
 }

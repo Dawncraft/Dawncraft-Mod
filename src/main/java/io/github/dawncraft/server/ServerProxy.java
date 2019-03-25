@@ -1,6 +1,8 @@
 package io.github.dawncraft.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockLoader;
@@ -19,8 +21,11 @@ import io.github.dawncraft.fluid.FluidLoader;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.potion.PotionLoader;
+import io.github.dawncraft.recipe.BrewingLoader;
 import io.github.dawncraft.recipe.CraftingLoader;
+import io.github.dawncraft.recipe.FishingLoader;
 import io.github.dawncraft.recipe.OreDictionaryLoader;
+import io.github.dawncraft.recipe.SmeltingLoader;
 import io.github.dawncraft.skill.SkillLoader;
 import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
@@ -31,6 +36,9 @@ import io.github.dawncraft.util.ScriptHelper;
 import io.github.dawncraft.world.WorldLoader;
 import io.github.dawncraft.world.biome.BiomeLoader;
 import io.github.dawncraft.world.gen.feature.GeneratorLoader;
+
+import net.minecraft.command.CommandBase;
+
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -53,10 +61,10 @@ public class ServerProxy
         FluidLoader.initFluids();
         ItemLoader.initItems();
         BlockLoader.initBlocks();
+        SkillLoader.initSkills();
         AttributesLoader.initAttributes();
         EntityLoader.initEntities();
         TileEntityLoader.initTileEntities();
-        SkillLoader.initSkills();
         EnchantmentLoader.initEnchantments();
         PotionLoader.initPotions();
         OreDictionaryLoader.initOreDictionary();
@@ -64,22 +72,25 @@ public class ServerProxy
     
     public void init(FMLInitializationEvent event)
     {
-        new CraftingLoader(event);
-        new StatLoader(event);
-        new AchievementLoader(event);
-        new DamageSourceLoader(event);
-        new WorldLoader(event);
-        new BiomeLoader(event);
-        new GeneratorLoader(event);
-        new EventLoader(event);
-        new NetworkLoader(event);
-        new FakePlayerLoader(event);
-        new GuiLoader(event);
+        CraftingLoader.initCrafting();
+        SmeltingLoader.initSmelting();
+        BrewingLoader.initBrewing();
+        FishingLoader.initFishing();
+        StatLoader.initStats();
+        AchievementLoader.initAchievements();
+        DamageSourceLoader.initDamageSources();
+        BiomeLoader.initBiomes();
+        GeneratorLoader.initGenerators();
+        WorldLoader.initWorlds();
+        EventLoader.initEvents();
+        FakePlayerLoader.initFakePlayers();
+        NetworkLoader.initNetwork();
+        GuiLoader.initGuiHandler();
     }
     
     public void postInit(FMLPostInitializationEvent event)
     {
-        new ScriptHelper();
+        ScriptHelper.runScripts();
         try
         {
             Metrics metrics = new Metrics(Dawncraft.NAME, Dawncraft.VERSION);
@@ -93,7 +104,12 @@ public class ServerProxy
     
     public void serverStarting(FMLServerStartingEvent event)
     {
-        new CommandLoader(event);
+        List<CommandBase> commands = new ArrayList<CommandBase>();
+        CommandLoader.initCommands(commands);
+        for (CommandBase command : commands)
+        {
+            event.registerServerCommand(command);
+        }
     }
     
     public void interModComms(IMCEvent event)

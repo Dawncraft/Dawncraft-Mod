@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:blocks/magnetism/magnet_rail"
+        "layer0": "dawncraft:blocks/magnet/magnet_rail"
     },
     "display": {
         "thirdperson": {

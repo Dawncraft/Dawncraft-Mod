@@ -24,11 +24,11 @@ public class EnchantmentLoader
 
     public static void initEnchantments()
     {
-        register(enhancement);
-        register(fireBurn);
+        registerEnchantment(enhancement);
+        registerEnchantment(fireBurn);
     }
     
-    private static void register(Enchantment enchantment)
+    private static void registerEnchantment(Enchantment enchantment)
     {
         try
         {

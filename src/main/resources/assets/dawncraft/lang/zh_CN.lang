@@ -8,7 +8,7 @@ itemGroup.Computer=电脑
 itemGroup.Science=科学
 itemGroup.Furniture=家具
 itemGroup.Cuisine=烹饪
-itemGroup.Weapon=武器
+itemGroup.War=战争
 itemGroup.Magic=魔法
 itemGroup.ColourEgg=彩蛋
 
@@ -63,12 +63,9 @@ item.gunRPG.name=火箭筒
 item.gunRocket.name=导弹
 
 item.magicDust.name=魔力粉
-item.magicBook.name=神奇魔法书
-item.metalEssence.name=金之精华
-item.woodEssence.name=草本精华
-item.waterEssence.name=水之精华
-item.fireEssence.name=火焰精华
-item.dirtEssence.name=土之精华
+item.skillBook.name=技能书
+item.skillBook.desc=学习 %s
+item.skillBook.null=空白技能书
 
 item.skull.savage.name=野蛮人的头
 item.skull.barbarianking.name=野蛮人之王的头
@@ -108,6 +105,7 @@ tile.fluidPetroleum.name=石油
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
 tile.magnetRail.name=磁力铁轨
+tile.magnetChest.name=磁力箱
 
 tile.copperOre.name=铜矿
 tile.copperBlock.name=铜块
@@ -147,6 +145,7 @@ potion.gerPower=巨Ger之力
 potion.badGer=Ger化
 
 container.heatGenerator=热能发电机
+container.magnetChest=磁力箱
 container.machineFurnace=电炉
 
 container.skill=魔法栏
@@ -247,7 +246,7 @@ commands.forget.failure=不能清除 %s 的魔法栏, 没有需要移除的技�
 
 key.categories.dawncraft=曙光工艺
 key.dawncraft.switch=切换模式(施法/放置)
-key.dawncraft.magic=打开魔法栏
+key.dawncraft.reload=换弹
 key.dawncraft.use=使用方块或物品
 key.dawncraft.wiki=打开百科全书
 
@@ -283,10 +282,10 @@ config.dawncraft.cuisine=烹饪
 config.dawncraft.cuisine.tooltip=管理烹饪类别的设置
 config.dawncraft.cuisine.isCuisineEnabled=开启食物条目
 config.dawncraft.cuisine.isCuisineEnabled.tooltip=是否开启食物条目
-config.dawncraft.weapon=武器
-config.dawncraft.weapon.tooltip=管理武器类别的设置
-config.dawncraft.weapon.isWeaponEnabled=开启枪械条目
-config.dawncraft.weapon.isWeaponEnabled.tooltip=是否开启枪械条目
+config.dawncraft.war=战争
+config.dawncraft.war.tooltip=管理战争类别的设置
+config.dawncraft.war.isWeaponEnabled=开启战争条目
+config.dawncraft.war.isWeaponEnabled.tooltip=是否开启战争条目
 config.dawncraft.magic=魔法
 config.dawncraft.magic.tooltip=管理魔法类别的设置
 config.dawncraft.magic.isMagicEnabled=开启魔法条目

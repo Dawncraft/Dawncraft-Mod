@@ -5,7 +5,6 @@ import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * Register some damage source.
@@ -16,9 +15,9 @@ public class DamageSourceLoader
 {
     public static DamageSource thirst = new DamageSource("thirst").setDamageBypassesArmor().setDamageIsAbsolute();
     public static DamageSource ger = new DamageSource("byGer").setDifficultyScaled().setExplosion();
-    
-    public DamageSourceLoader(FMLInitializationEvent event) {}
-    
+
+    public static void initDamageSources() {}
+
     /**
      * returns EntityDamageSourceIndirect of a Magic Skill
      *
@@ -28,7 +27,7 @@ public class DamageSourceLoader
     {
         return new SkillDamageSource(skillStack, indirectEntityIn);
     }
-    
+
     /**
      * returns EntityDamageSourceIndirect of a bullet
      *
@@ -38,6 +37,6 @@ public class DamageSourceLoader
     {
         return new EntityDamageSourceIndirect("bullet", bullet, indirectEntityIn).setProjectile();
     }
-    
 
+    
 }

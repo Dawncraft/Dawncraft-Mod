@@ -26,19 +26,19 @@ public class CommandLearn extends CommandBase
     {
         return "learn";
     }
-
+    
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-    
+
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.learn.usage";
     }
-    
+
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -46,13 +46,13 @@ public class CommandLearn extends CommandBase
         {
             EntityPlayerMP serverPlayer = getPlayer(sender, args[0]);
             Skill skill = getSkillByText(sender, args[1]);
-
+            
             if(skill != null)
             {
                 int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 0;
                 SkillStack skillstack = new SkillStack(skill, level);
                 SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.magic, null).getInventory();
-                if(inventory.addSkillStackToInventory(skillstack))
+                if (inventory.addSkillStackToInventory(skillstack))
                 {
                     serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
                     List<SkillStack> list = new ArrayList<SkillStack>();
@@ -66,22 +66,22 @@ public class CommandLearn extends CommandBase
         }
         else throw new WrongUsageException("commands.learn.usage", new Object[0]);
     }
-    
+
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Skill.skillRegistry.getKeys()) : null;
     }
-    
+
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();
     }
-
+    
     public static Skill getSkillByText(ICommandSender sender, String id) throws NumberInvalidException
     {
         Skill skill = Skill.getByNameOrId(id);
-        
+
         if (skill == null)
         {
             throw new NumberInvalidException("commands.learn.skill.notFound", new Object[] {new ResourceLocation(id)});

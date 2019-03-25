@@ -3,7 +3,6 @@ package io.github.dawncraft.client.gui.magic;
 import java.io.IOException;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.config.KeyLoader;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -51,7 +50,7 @@ public class GuiContainer extends GuiScreen
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
-        if (keyCode == 1 || keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode() || keyCode == KeyLoader.magic.getKeyCode())
+        if (keyCode == 1 || keyCode == this.mc.gameSettings.keyBindInventory.getKeyCode())
         {
             this.mc.thePlayer.closeScreen();
         }

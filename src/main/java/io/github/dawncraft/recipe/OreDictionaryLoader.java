@@ -11,7 +11,6 @@ import net.minecraftforge.oredict.OreDictionary;
  * Register ore dictionary.
  *
  * @author QingChenW
- *
  */
 public class OreDictionaryLoader
 {
@@ -26,17 +25,17 @@ public class OreDictionaryLoader
         registerOre("dustMagic", ItemLoader.magicDust);
         registerOre("oreMagic", BlockLoader.magicOre);
     }
-
+    
     public static void registerOre(String name, Item ore)
     {
         OreDictionary.registerOre(name, ore);
     }
-
+    
     public static void registerOre(String name, Block ore)
     {
         OreDictionary.registerOre(name, ore);
     }
-
+    
     public static void registerOre(String name, ItemStack ore)
     {
         OreDictionary.registerOre(name, ore);

@@ -22,28 +22,28 @@ import io.github.dawncraft.config.LogLoader;
  */
 public class ScriptHelper
 {
-    public ScriptHelper()
+    public static void runScripts()
     {
-        if(ConfigLoader.isColoreggEnabled())
+        if (ConfigLoader.isColoreggEnabled())
         {
             LogLoader.logger().info("Script Loader Started.");
-            
+
             // create an environment to run in
             Globals globals = JsePlatform.standardGlobals();
-
+            
             // Use the convenience function on Globals to load a chunk.
-            globals.loadfile("/assets/Dawncraft/lua/hello.lua").call();
-
+            globals.loadfile("/assets/Dawncraft/scripts/hello.lua").call();
+            
             // Use any of the "call()" or "invoke()" functions directly on the chunk.
             LuaValue chunk = globals.get(LuaValue.valueOf("print_introduction"));
             chunk.invoke(LuaValue.valueOf("Hello World!"));// new LuaValue[] {}
-
+            
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");// JavaScript
             if(engine != null)
             {
                 try
                 {
-                    InputStreamReader reader = new InputStreamReader(this.getClass().getResourceAsStream("/assets/Dawncraft/lua/hello.js"));
+                    InputStreamReader reader = new InputStreamReader(ScriptHelper.class.getResourceAsStream("/assets/Dawncraft/scripts/hello.js"));
                     engine.eval(reader);
                     reader.close();
                 } catch (IOException e)
@@ -57,7 +57,7 @@ public class ScriptHelper
             LogLoader.logger().info("Script Loader Stopped.");
         }
     }
-
+    
     public static void showEngineList()
     {
         ScriptEngineManager manager = new ScriptEngineManager();

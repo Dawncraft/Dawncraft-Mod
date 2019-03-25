@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/guns/gun_ak47"
+        "layer0": "dawncraft:items/war/gun_ak47"
     },
     "display": {
         "thirdperson": {

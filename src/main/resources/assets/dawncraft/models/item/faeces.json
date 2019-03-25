@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/food/faeces"
+        "layer0": "dawncraft:items/cuisine/faeces"
     },
     "display": {
         "thirdperson": {

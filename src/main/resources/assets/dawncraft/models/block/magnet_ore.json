@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "dawncraft:blocks/magnetism/magnet_ore"
+        "all": "dawncraft:blocks/magnet/magnet_ore"
     }
 }

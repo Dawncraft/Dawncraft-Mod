@@ -1,6 +1,8 @@
 package io.github.dawncraft.command;
 
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraft.command.CommandBase;
+
+import java.util.List;
 
 /**
  * Register commands.
@@ -9,11 +11,11 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
  */
 public class CommandLoader
 {
-    public CommandLoader(FMLServerStartingEvent event)
+    public static void initCommands(List<CommandBase> commands)
     {
-        event.registerServerCommand(new CommandMagic());
-        event.registerServerCommand(new CommandLearn());
-        event.registerServerCommand(new CommandForget());
-        event.registerServerCommand(new CommandTalent());
+        commands.add(new CommandMagic());
+        commands.add(new CommandLearn());
+        commands.add(new CommandForget());
+        commands.add(new CommandTalent());
     }
 }

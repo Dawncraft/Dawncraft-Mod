@@ -36,7 +36,6 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.RegistryDelegate;
 
@@ -55,14 +54,14 @@ public class ModelLoader
 
     private ProgressBar skillBar;
 
-    public ModelLoader(FMLPreInitializationEvent event)
+    public static void initModelLoader()
     {
+        modelLoader = new ModelLoader();
+
         OBJLoader.instance.addDomain(Dawncraft.MODID);
         B3DLoader.instance.addDomain(Dawncraft.MODID);
         
-        MinecraftForge.EVENT_BUS.register(this);
-        
-        modelLoader = this;
+        MinecraftForge.EVENT_BUS.register(modelLoader);
     }
 
     /**

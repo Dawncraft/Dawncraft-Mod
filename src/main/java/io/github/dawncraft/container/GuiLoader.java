@@ -6,7 +6,6 @@ import io.github.dawncraft.client.gui.container.GuiMachineFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,16 +21,16 @@ public class GuiLoader implements IGuiHandler
     public static final int GUI_COMPUTER_CASE = 3;
     // Furniture
     
-    // Food
+    // Cuisine
+
+    // War
     
     // Magic
-    
-    // Flan
-    
 
-    public GuiLoader(FMLInitializationEvent event)
+
+    public static void initGuiHandler()
     {
-        register(this);
+        registerGuiHandler(new GuiLoader());
     }
     
     @Override
@@ -61,7 +60,7 @@ public class GuiLoader implements IGuiHandler
         return null;
     }
     
-    public static void register(IGuiHandler handler)
+    private static void registerGuiHandler(IGuiHandler handler)
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(Dawncraft.instance, handler);
     }

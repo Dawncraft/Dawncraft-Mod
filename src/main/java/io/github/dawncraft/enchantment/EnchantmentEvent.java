@@ -6,15 +6,13 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.util.EnumFacing;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EnchantmentEvent
 {
-    public EnchantmentEvent(FMLInitializationEvent event) {}
-
+    public EnchantmentEvent() {}
+    
     @SubscribeEvent
     public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)
     {

@@ -23,35 +23,35 @@ import net.minecraftforge.fml.common.ModContainer;
 public class ConfigLoader
 {
     private static Configuration config;
-    
+
     @ConfigItem(ModCategories.ENERGY)
     public static boolean isEnergyEnabled = true;
-    
+
     @ConfigItem(ModCategories.MAGNET)
     public static boolean isMagnetEnabled = true;
-    
+
     @ConfigItem(ModCategories.MACHINE)
     public static boolean isMachineEnabled = true;
-    
+
     @ConfigItem(ModCategories.COMPUTER)
     public static boolean isComputerEnabled = true;
-    
+
     @ConfigItem(ModCategories.SCIENCE)
     public static boolean isScienceEnabled = true;
-    
+
     @ConfigItem(ModCategories.FURNITURE)
     public static boolean isFurnitureEnabled = true;
     @ConfigItem(ModCategories.FURNITURE)
     public static int chairHealAmount = 0;
-    
+
     @ConfigItem(ModCategories.CUISINE)
     public static boolean isCuisineEnabled = true;
     @ConfigItem(ModCategories.CUISINE)
     public static boolean isThirstEnabled = false;
-    
-    @ConfigItem(ModCategories.WEAPON)
-    public static boolean isWeaponEnabled = true;
-    
+
+    @ConfigItem(ModCategories.WAR)
+    public static boolean isWarEnabled = true;
+
     @ConfigItem(ModCategories.MAGIC)
     public static boolean isMagicEnabled = true;
     @ConfigItem(ModCategories.MAGIC)
@@ -72,28 +72,28 @@ public class ConfigLoader
     public static double rangeToCheck = 32.0F;
     @ConfigItem(ModCategories.COLOREGG)
     public static int enchantmentFireBurnId = 36;
-
+    
     public static void init(File file)
     {
         config = new Configuration(file);
         config.load();
         reload();
     }
-
+    
     public static void reload()
     {
         LogLoader.logger().info("Started loading configuration.");
-
+        
         loadConfig(config, ConfigLoader.class);
-
+        
         LogLoader.logger().info("Finished loading configuration.");
     }
-
+    
     public static Configuration config()
     {
         return config;
     }
-
+    
     /**
      * Load your configuration and inject value into class' fields automatically.
      *
@@ -104,7 +104,7 @@ public class ConfigLoader
     {
         ModContainer container = Loader.instance().activeModContainer();
         String modid = container != null ? container.getModId().toLowerCase() : "minecraft";
-
+        
         for(Field field : clazz.getDeclaredFields())
         {
             if(field.isAnnotationPresent(ConfigItem.class))
@@ -113,14 +113,14 @@ public class ConfigLoader
                 try
                 {
                     field.setAccessible(true);
-                    
+
                     String name = field.getName();
                     String category = item.value().getName();
                     String langKey = "config." + modid + "." + category + "." + name;
                     String comment = StatCollector.translateToLocal(langKey + ".tooltip");
                     Object defValue = field.get(null);
                     Object value = defValue;
-                    
+
                     if (defValue instanceof Boolean)
                     {
                         value = config.get(category, name, (Boolean) defValue, comment).setLanguageKey(langKey).getBoolean();
@@ -161,7 +161,7 @@ public class ConfigLoader
                     {
                         value = config.get(category, name, (String[]) defValue, comment).setLanguageKey(langKey).getString();
                     }
-                    
+
                     field.set(null, value);
                 }
                 catch (Exception e)
@@ -170,17 +170,17 @@ public class ConfigLoader
                 }
             }
         }
-
+        
         for (String category : config.getCategoryNames())
         {
             String langKey = "config." + modid + "." + category;
             config.setCategoryLanguageKey(category, langKey);
             config.setCategoryComment(category, StatCollector.translateToLocal(langKey + ".tooltip"));
         }
-
+        
         config.save();
     }
-
+    
     /**
      * An Annotation for injecting value into field automatically.
      *

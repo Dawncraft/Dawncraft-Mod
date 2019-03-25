@@ -11,7 +11,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import net.minecraftforge.fml.common.IWorldGenerator;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -44,10 +43,11 @@ public class GeneratorLoader
         }
     };
     
-    public GeneratorLoader(FMLInitializationEvent event)
+    public static void initGenerators()
     {
-        MinecraftForge.TERRAIN_GEN_BUS.register(this);
-        MinecraftForge.ORE_GEN_BUS.register(this);
+        // registerGenerator
+
+        registerEvent(new GeneratorLoader());
     }
     
     @SubscribeEvent
@@ -65,8 +65,14 @@ public class GeneratorLoader
     {
         
     }
+    
+    private static void registerEvent(Object target)
+    {
+        MinecraftForge.TERRAIN_GEN_BUS.register(target);
+        MinecraftForge.ORE_GEN_BUS.register(target);
+    }
 
-    public static void register(IWorldGenerator generator, int weight)
+    private static void registerGenerator(IWorldGenerator generator, int weight)
     {
         GameRegistry.registerWorldGenerator(generator, weight);
     }

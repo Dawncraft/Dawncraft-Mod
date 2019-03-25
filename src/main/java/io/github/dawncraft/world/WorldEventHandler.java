@@ -8,7 +8,6 @@ import net.minecraft.world.GameRules.ValueType;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.world.WorldEvent;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -19,15 +18,15 @@ import io.github.dawncraft.stats.AchievementLoader;
 
 public class WorldEventHandler
 {
-    public WorldEventHandler(FMLInitializationEvent event) {}
-    
+    public WorldEventHandler() {}
+
     @SubscribeEvent
     public void onWorldLoaded(WorldEvent.Load event)
     {
         // Register custom game rules
         GameRules gamerules = event.world.getGameRules();
         addGameRule(gamerules, "naturalRecovery", String.valueOf(true), ValueType.BOOLEAN_VALUE);
-
+        
         // Register custom world teleporter by reflection
         if (!event.world.isRemote && event.world.provider.getDimensionId() == WorldLoader.DAWNWORLD)
         {
@@ -43,7 +42,7 @@ public class WorldEventHandler
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onEntityTravelToDimension(EntityTravelToDimensionEvent event)
     {
@@ -56,7 +55,7 @@ public class WorldEventHandler
             }
         }
     }
-    
+
     public static void addGameRule(GameRules gamerules, String key, String value, ValueType type)
     {
         if (!gamerules.hasRule(key))

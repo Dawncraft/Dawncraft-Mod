@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/magic/water_essence"
+        "layer0": "dawncraft:items/magic/skill_book"
     },
     "display": {
         "thirdperson": {

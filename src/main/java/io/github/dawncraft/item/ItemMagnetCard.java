@@ -24,13 +24,13 @@ public class ItemMagnetCard extends Item
     {
         this.setMaxStackSize(16);
     }
-    
+
     @Override
     public int getItemStackLimit(ItemStack itemStack)
     {
         return itemStack.hasTagCompound() ? 1 : super.getItemStackLimit(itemStack);
     }
-    
+
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
     {
@@ -39,15 +39,15 @@ public class ItemMagnetCard extends Item
             if (itemStack.hasTagCompound())
             {
                 NBTTagCompound nbt = itemStack.getTagCompound();
-                if(nbt.hasKey("Owner", 8))
+                if (nbt.hasKey("Owner", 8))
                 {
                     MinecraftServer server = MinecraftServer.getServer();
                     EntityPlayerMP ep = server.getConfigurationManager().getPlayerByUsername(nbt.getString("Owner"));
-                    if(nbt.hasKey("UUID", 8))
+                    if (nbt.hasKey("UUID", 8))
                     {
                         String oldUuid = nbt.getString("UUID");
                         String newUuid = EntityPlayer.getUUID(ep.getGameProfile()).toString();
-                        if(!oldUuid.equals(newUuid))
+                        if (!oldUuid.equals(newUuid))
                         {
                             ep = server.getConfigurationManager().getPlayerByUUID(UUID.fromString(oldUuid));
                             nbt.setString("Owner", ep.getName());
@@ -62,12 +62,12 @@ public class ItemMagnetCard extends Item
             else
             {
                 ItemStack newItemStack = new ItemStack(ItemLoader.magnetCard);
-                
+
                 NBTTagCompound nbt = new NBTTagCompound();
                 nbt.setString("Owner", player.getName());
                 nbt.setString("UUID", player.getUniqueID().toString());
                 newItemStack.setTagCompound(nbt);
-
+                
                 --itemStack.stackSize;
                 if (itemStack.stackSize <= 0) return newItemStack;
                 if (!player.inventory.addItemStackToInventory(newItemStack.copy()))
@@ -77,7 +77,7 @@ public class ItemMagnetCard extends Item
         player.triggerAchievement(AchievementLoader.magnetCard);
         return itemStack;
     }
-
+    
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced)
@@ -86,7 +86,7 @@ public class ItemMagnetCard extends Item
         {
             NBTTagCompound nbt = stack.getTagCompound();
             String name = nbt.getString("Owner");
-            if(!StringUtils.isNullOrEmpty(name))
+            if (!StringUtils.isNullOrEmpty(name))
             {
                 tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.magnetCard.desc", name));
             }

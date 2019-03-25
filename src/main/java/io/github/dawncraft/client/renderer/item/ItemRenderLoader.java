@@ -6,23 +6,21 @@ import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Register items' inventory model.(Include ItemBlock)
- * <br>这是啥Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register()</br>
  *
  * @author QingChenW
  */
 public class ItemRenderLoader
 {
-    public ItemRenderLoader(FMLPreInitializationEvent event)
+    public static void initItemRender()
     {
         // Energy
-        register(ItemLoader.bucketPetroleum);
+        registerItem(ItemLoader.bucketPetroleum);
         
-        register(BlockLoader.electricCable);
-        register(BlockLoader.energyGeneratorHeat);
+        registerBlock(BlockLoader.electricCable);
+        registerBlock(BlockLoader.energyGeneratorHeat);
         //        register(BlockLoader.energyGeneratorFluid);
         //        register(BlockLoader.energyGeneratorSolar);
         //        register(BlockLoader.energyGeneratorWind);
@@ -30,95 +28,90 @@ public class ItemRenderLoader
         //        register(BlockLoader.energyGeneratorMagic);
 
         // Magnet
-        register(ItemLoader.magnet);
-        register(ItemLoader.magnetIngot);
-        register(ItemLoader.magnetStick);
-        register(ItemLoader.magnetBall);
-        register(ItemLoader.magnetCard);
-        register(ItemLoader.magnetDoor);
+        registerItem(ItemLoader.magnet);
+        registerItem(ItemLoader.magnetIngot);
+        registerItem(ItemLoader.magnetStick);
+        registerItem(ItemLoader.magnetBall);
+        registerItem(ItemLoader.magnetCard);
+        registerItem(ItemLoader.magnetDoor);
 
-        register(ItemLoader.magnetAxe);
-        register(ItemLoader.magnetPickaxe);
-        register(ItemLoader.magnetHammer);
-        register(ItemLoader.magnetSpade);
-        register(ItemLoader.magnetHoe);
-        register(ItemLoader.magnetSword);
-        register(ItemLoader.magnetWand);
-        register(ItemLoader.magnetHelmet);
-        register(ItemLoader.magnetChestplate);
-        register(ItemLoader.magnetLeggings);
-        register(ItemLoader.magnetBoots);
+        registerItem(ItemLoader.magnetAxe);
+        registerItem(ItemLoader.magnetPickaxe);
+        registerItem(ItemLoader.magnetHammer);
+        registerItem(ItemLoader.magnetSpade);
+        registerItem(ItemLoader.magnetHoe);
+        registerItem(ItemLoader.magnetSword);
+        registerItem(ItemLoader.magnetWand);
+        registerItem(ItemLoader.magnetHelmet);
+        registerItem(ItemLoader.magnetChestplate);
+        registerItem(ItemLoader.magnetLeggings);
+        registerItem(ItemLoader.magnetBoots);
 
-        register(BlockLoader.magnetOre);
-        register(BlockLoader.magnetBlock);
-        register(BlockLoader.magnetRail);
-        register(BlockLoader.magnetChest);
+        registerBlock(BlockLoader.magnetOre);
+        registerBlock(BlockLoader.magnetBlock);
+        registerBlock(BlockLoader.magnetRail);
+        registerBlock(BlockLoader.magnetChest);
 
         // Machine
-        register(ItemLoader.copperIngot);
+        registerItem(ItemLoader.copperIngot);
         
-        register(BlockLoader.copperOre);
-        register(BlockLoader.copperBlock);
-        register(BlockLoader.machineFurnace);
+        registerBlock(BlockLoader.copperOre);
+        registerBlock(BlockLoader.copperBlock);
+        registerBlock(BlockLoader.machineFurnace);
 
         // Computer
-        register(ItemLoader.simpleCPU);
-        register(ItemLoader.advancedCPU);
-        register(ItemLoader.superCPU);
+        registerItem(ItemLoader.simpleCPU);
+        registerItem(ItemLoader.advancedCPU);
+        registerItem(ItemLoader.superCPU);
 
-        register(BlockLoader.simpleComputer);
-        register(BlockLoader.advancedComputer);
-        register(BlockLoader.superComputer);
+        registerBlock(BlockLoader.simpleComputer);
+        registerBlock(BlockLoader.advancedComputer);
+        registerBlock(BlockLoader.superComputer);
 
         // Materials
 
         // Furniture
-        register(BlockLoader.woodTable);
-        register(BlockLoader.stoneTable);
-        register(BlockLoader.woodChair);
-        register(BlockLoader.stoneChair);
-        register(BlockLoader.superChest);
+        registerBlock(BlockLoader.woodTable);
+        registerBlock(BlockLoader.stoneTable);
+        registerBlock(BlockLoader.woodChair);
+        registerBlock(BlockLoader.stoneChair);
+        registerBlock(BlockLoader.superChest);
 
         // Food
-        register(ItemLoader.bottle);
-        register(ItemLoader.faeces);
-        register(ItemLoader.cookedEgg);
-        register(ItemLoader.honeyChicken);
-        register(ItemLoader.honeyStew);
-        register(ItemLoader.frogStew);
-        register(ItemLoader.honey);
-        register(ItemLoader.frog);
+        registerItem(ItemLoader.bottle);
+        registerItem(ItemLoader.faeces);
+        registerItem(ItemLoader.cookedEgg);
+        registerItem(ItemLoader.honeyChicken);
+        registerItem(ItemLoader.honeyStew);
+        registerItem(ItemLoader.frogStew);
+        registerItem(ItemLoader.honey);
+        registerItem(ItemLoader.frog);
 
         // Magic
-        register(ItemLoader.magicDust);
-        register(ItemLoader.magicBook);
-        register(ItemLoader.metalEssence);
-        register(ItemLoader.woodEssence);
-        register(ItemLoader.waterEssence);
-        register(ItemLoader.fireEssence);
-        register(ItemLoader.dirtEssence);
-
-        register(BlockLoader.magicOre);
+        registerBlock(BlockLoader.magicOre);
+        registerItem(ItemLoader.magicDust);
+        registerItem(ItemLoader.skillBook);
 
         // Guns
-        register(ItemLoader.gunAK47);
-        register(ItemLoader.gunBullet);
-        register(ItemLoader.gunRPG);
-        register(ItemLoader.gunRocket);
+        registerItem(ItemLoader.gunAK47);
+        registerItem(ItemLoader.gunBullet);
+        registerItem(ItemLoader.gunRPG);
+        registerItem(ItemLoader.gunRocket);
 
         // ColourEgg
-        register(ItemLoader.skull, 0, ItemLoader.skull.getRegistryName() + "_savage");
-        register(ItemLoader.skull, 1, ItemLoader.skull.getRegistryName() + "_barbarianking");
-        register(ItemLoader.skull, 2, ItemLoader.skull.getRegistryName() + "_gerking");
-        register(ItemLoader.gerHeart);
-        register(ItemLoader.brainDead);
-        register(ItemLoader.funny);
+        String suffix = ItemLoader.skull.getRegistryName() + "_";
+        registerItem(ItemLoader.skull, 0, suffix + "savage");
+        registerItem(ItemLoader.skull, 1, suffix + "barbarianking");
+        registerItem(ItemLoader.skull, 2, suffix + "gerking");
+        registerItem(ItemLoader.gerHeart);
+        registerItem(ItemLoader.brainDead);
+        registerItem(ItemLoader.funny);
 
-        register(ItemLoader.dj);
-        register(ItemLoader.wz);
+        registerItem(ItemLoader.dj);
+        registerItem(ItemLoader.wz);
 
-        register(ItemLoader.goldiamondSword);
-        register(ItemLoader.mjolnir);
+        registerItem(ItemLoader.goldiamondSword);
+        registerItem(ItemLoader.mjolnir);
     }
 
     /**
@@ -126,9 +119,9 @@ public class ItemRenderLoader
      *
      * @param item item's string id
      */
-    private static void register(Item item)
+    private static void registerItem(Item item)
     {
-        register(item, 0, item.getRegistryName());
+        registerItem(item, 0, item.getRegistryName());
     }
 
     /**
@@ -136,9 +129,9 @@ public class ItemRenderLoader
      *
      * @param block block's string id
      */
-    private static void register(Block block)
+    private static void registerBlock(Block block)
     {
-        register(block, 0, block.getRegistryName());
+        registerBlock(block, 0, block.getRegistryName());
     }
     
     /**
@@ -146,12 +139,11 @@ public class ItemRenderLoader
      *
      * @param item item to register
      * @param meta item's meta
-     * @param name item's model suffix
+     * @param name item's model name
      */
-    private static void register(Item item, int meta, String name)
+    private static void registerItem(Item item, int meta, String name)
     {
-        ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
-        ModelLoader.setCustomModelResourceLocation(item, meta, model);
+        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(name, "inventory"));
     }
 
     /**
@@ -159,11 +151,10 @@ public class ItemRenderLoader
      *
      * @param block block to register
      * @param meta item's meta
-     * @param name item's model suffix
+     * @param name item's model name
      */
-    private static void register(Block block, int meta, String name)
+    private static void registerBlock(Block block, int meta, String name)
     {
-        Item item = Item.getItemFromBlock(block);
-        register(item, meta, name);
+        registerItem(Item.getItemFromBlock(block), meta, name);
     }
 }

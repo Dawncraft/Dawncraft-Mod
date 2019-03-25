@@ -12,6 +12,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 
 /**
+ * Magnet chest's tileentity
+ *
  * @author QingChenW
  **/
 public class TileEntityMagnetChest extends TileEntityChest
@@ -137,6 +139,12 @@ public class TileEntityMagnetChest extends TileEntityChest
                     entityItem.motionZ = d16;
             }
         }
+    }
+    
+    @Override
+    public String getName()
+    {
+        return this.hasCustomName() ? this.getName() : "container.magnetChest";
     }
 
     @Override

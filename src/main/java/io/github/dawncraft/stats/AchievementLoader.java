@@ -9,7 +9,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraftforge.common.AchievementPage;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * Register achievements.
@@ -47,7 +46,7 @@ public class AchievementLoader
     public static Achievement gunsRPG = new Achievement("achievement.dawncraft.gunsRpg", "dawncraft.gunsRpg", 2, 9, ItemLoader.gunRPG, guns);
     public static Achievement explodeSkeleton = new Achievement("achievement.dawncraft.explodeSkeleton", "dawncraft.explodeSkeleton", 2, 10, ItemLoader.gunRPG, gunsRPG).setSpecial();
     // Magic
-    public static Achievement magic = new Achievement("achievement.dawncraft.magic", "dawncraft.magic", -3, 1, ItemLoader.magicBook, basic);
+    public static Achievement magic = new Achievement("achievement.dawncraft.magic", "dawncraft.magic", -3, 1, ItemLoader.skillBook, basic);
     // ColourEgg
     public static Achievement arrive = new Achievement("achievement.dawncraft.arrive", "dawncraft.arrive", -3, -3, new ItemStack(ItemLoader.skull, 1, 0), basic);
     public static Achievement kill = new Achievement("achievement.dawncraft.kill", "dawncraft.kill", -3, -5, new ItemStack(ItemLoader.skull, 1, 1), arrive);
@@ -55,7 +54,7 @@ public class AchievementLoader
     public static Achievement dawnPortal = new Achievement("achievement.dawncraft.dawnPortal", "dawncraft.dawnPortal", -5, -3, Blocks.obsidian, ger);
     public static Achievement dawnArrival = new Achievement("achievement.dawncraft.dawnArrival", "dawncraft.dawnArrival", -5, -1, Items.apple, dawnPortal);
     
-    public AchievementLoader(FMLInitializationEvent event)
+    public static void initAchievements()
     {
         addAchievements(pageDawncraft, basic);
         

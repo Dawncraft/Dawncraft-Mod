@@ -11,7 +11,6 @@ import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.util.WebBrowserV3;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
@@ -22,8 +21,8 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
  */
 public class InputHandler
 {
-    public InputHandler(FMLInitializationEvent event) {}
-
+    public InputHandler() {}
+    
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -46,7 +45,7 @@ public class InputHandler
                         if(player.hasCapability(CapabilityLoader.magic, null))
                         {
                             IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
-
+                            
                             if(playerCap.getSpellAction() == EnumSpellAction.NONE || i != playerCap.getSpellIndex())
                             {
                                 SkillStack stack = playerCap.getInventory().getStackInSlot(i);
@@ -58,25 +57,25 @@ public class InputHandler
                                     GuiIngameDawn.getIngameDawnGUI().setSpellIndex(i);
                                     NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                                 }
-                                
+
                             }
                         }
                     }
                 }
             }
             // Magic key was pressed
-            if (KeyLoader.magic.isPressed())
+            if (KeyLoader.reload.isPressed())
             {
                 mc.displayGuiScreen(new GuiMagic(player));
             }
             // Use key was pressed
             if (KeyLoader.use.isPressed())
             {
-                
+
             }
         }
         // Wiki key was pressed
-        if (KeyLoader.Encyclopedia.isPressed())
+        if (KeyLoader.encyclopedia.isPressed())
         {
             new WebBrowserV3("Wiki", "Minecraft_Wiki");
             //mc.displayGuiScreen(new GuiEncyclopedia());

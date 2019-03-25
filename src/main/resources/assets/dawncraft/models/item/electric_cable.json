@@ -1,7 +1,7 @@
 {
     "parent" : "dawncraft:block/pipe_item",
     "textures" : {
-        "base" :  "dawncraft:blocks/electricity/cable"
+        "base" :  "dawncraft:blocks/energy/cable"
     },
     "display": {
         "thirdperson": {
