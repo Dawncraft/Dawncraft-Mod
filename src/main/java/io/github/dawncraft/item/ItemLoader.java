@@ -80,7 +80,7 @@ public class ItemLoader
     // Furniture
 
     // Cuisine
-    public static Item bottle = new Item().setUnlocalizedName("bottle").setCreativeTab(CreativeTabsLoader.tabCuisine);
+    public static Item tumbler = new Item().setUnlocalizedName("tumbler").setCreativeTab(CreativeTabsLoader.tabCuisine);
     public static Item faeces = (ItemFood) new ItemFood(1, 0.0F, true)
     {
         @Override
@@ -207,7 +207,7 @@ public class ItemLoader
         // Furniture
         
         // Cuisine
-        registerItem(bottle, "bottle");
+        registerItem(tumbler, "tumbler");
         registerItem(faeces, "faeces");
         registerItem(cookedEgg, "cooked_egg");
         registerItem(honeyChicken, "honey_chicken");

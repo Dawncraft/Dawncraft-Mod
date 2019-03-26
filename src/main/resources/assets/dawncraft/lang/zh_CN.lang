@@ -45,7 +45,7 @@ item.advancedCPU.desc=曙光二代CPU,速度还算可以
 item.superCPU.name=超级CPU
 item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
-item.bottle.name=杯子
+item.tumbler.name=平底玻璃杯
 item.potato.desc=土豆栽子,苞米胚子,甜菜梆子
 item.faeces.name=§6屎
 item.eggCooked.name=荷包蛋
@@ -119,9 +119,12 @@ tile.woodTable.name=木质桌子
 tile.stoneTable.name=石质桌子
 tile.woodChair.name=木质椅子
 tile.stoneChair.name=石质椅子
-tile.superChest.name=炒鸡工具箱
+tile.alarmClock.name=闹钟
+tile.alarmClock.desc=你艳姐再也不用担心你起床晚了~
 
 tile.magicOre.name=魔力矿石
+
+tile.superChest.name=炒鸡工具箱
 
 fluid.petroleum=石油
 

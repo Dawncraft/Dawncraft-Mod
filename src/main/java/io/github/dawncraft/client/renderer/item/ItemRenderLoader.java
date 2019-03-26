@@ -18,7 +18,7 @@ public class ItemRenderLoader
     {
         // Energy
         registerItem(ItemLoader.bucketPetroleum);
-        
+
         registerBlock(BlockLoader.electricCable);
         registerBlock(BlockLoader.energyGeneratorHeat);
         //        register(BlockLoader.energyGeneratorFluid);
@@ -26,7 +26,7 @@ public class ItemRenderLoader
         //        register(BlockLoader.energyGeneratorWind);
         //        register(BlockLoader.energyGeneratorNuclear);
         //        register(BlockLoader.energyGeneratorMagic);
-
+        
         // Magnet
         registerItem(ItemLoader.magnet);
         registerItem(ItemLoader.magnetIngot);
@@ -34,7 +34,7 @@ public class ItemRenderLoader
         registerItem(ItemLoader.magnetBall);
         registerItem(ItemLoader.magnetCard);
         registerItem(ItemLoader.magnetDoor);
-
+        
         registerItem(ItemLoader.magnetAxe);
         registerItem(ItemLoader.magnetPickaxe);
         registerItem(ItemLoader.magnetHammer);
@@ -46,39 +46,39 @@ public class ItemRenderLoader
         registerItem(ItemLoader.magnetChestplate);
         registerItem(ItemLoader.magnetLeggings);
         registerItem(ItemLoader.magnetBoots);
-
+        
         registerBlock(BlockLoader.magnetOre);
         registerBlock(BlockLoader.magnetBlock);
         registerBlock(BlockLoader.magnetRail);
         registerBlock(BlockLoader.magnetChest);
-
+        
         // Machine
         registerItem(ItemLoader.copperIngot);
-        
+
         registerBlock(BlockLoader.copperOre);
         registerBlock(BlockLoader.copperBlock);
         registerBlock(BlockLoader.machineFurnace);
-
+        
         // Computer
         registerItem(ItemLoader.simpleCPU);
         registerItem(ItemLoader.advancedCPU);
         registerItem(ItemLoader.superCPU);
-
+        
         registerBlock(BlockLoader.simpleComputer);
         registerBlock(BlockLoader.advancedComputer);
         registerBlock(BlockLoader.superComputer);
-
-        // Materials
-
+        
+        // Science
+        
         // Furniture
         registerBlock(BlockLoader.woodTable);
         registerBlock(BlockLoader.stoneTable);
         registerBlock(BlockLoader.woodChair);
         registerBlock(BlockLoader.stoneChair);
-        registerBlock(BlockLoader.superChest);
-
-        // Food
-        registerItem(ItemLoader.bottle);
+        registerBlock(BlockLoader.alarmClock);
+        
+        // Cuisine
+        registerItem(ItemLoader.tumbler);
         registerItem(ItemLoader.faeces);
         registerItem(ItemLoader.cookedEgg);
         registerItem(ItemLoader.honeyChicken);
@@ -86,19 +86,20 @@ public class ItemRenderLoader
         registerItem(ItemLoader.frogStew);
         registerItem(ItemLoader.honey);
         registerItem(ItemLoader.frog);
-
+        
         // Magic
         registerBlock(BlockLoader.magicOre);
         registerItem(ItemLoader.magicDust);
         registerItem(ItemLoader.skillBook);
-
-        // Guns
+        
+        // War
         registerItem(ItemLoader.gunAK47);
         registerItem(ItemLoader.gunBullet);
         registerItem(ItemLoader.gunRPG);
         registerItem(ItemLoader.gunRocket);
-
+        
         // ColourEgg
+        registerBlock(BlockLoader.superChest);
         String suffix = ItemLoader.skull.getRegistryName() + "_";
         registerItem(ItemLoader.skull, 0, suffix + "savage");
         registerItem(ItemLoader.skull, 1, suffix + "barbarianking");
@@ -106,14 +107,14 @@ public class ItemRenderLoader
         registerItem(ItemLoader.gerHeart);
         registerItem(ItemLoader.brainDead);
         registerItem(ItemLoader.funny);
-
+        
         registerItem(ItemLoader.dj);
         registerItem(ItemLoader.wz);
-
+        
         registerItem(ItemLoader.goldiamondSword);
         registerItem(ItemLoader.mjolnir);
     }
-
+    
     /**
      * Register a item's inventory model and its variants.
      *
@@ -123,7 +124,7 @@ public class ItemRenderLoader
     {
         registerItem(item, 0, item.getRegistryName());
     }
-
+    
     /**
      * Register a block's inventory model and its variants.
      *
@@ -133,7 +134,7 @@ public class ItemRenderLoader
     {
         registerBlock(block, 0, block.getRegistryName());
     }
-    
+
     /**
      * Register a item's inventory model with meta and name and its variants.
      *
@@ -145,7 +146,7 @@ public class ItemRenderLoader
     {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(name, "inventory"));
     }
-
+    
     /**
      * Register a block's inventory model with meta and name and its variants.
      *

@@ -14,25 +14,29 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public abstract class StatPage
 {
     private String name;
-    
+
     public StatPage(String name)
     {
         this.name = name;
     }
-    
+
     public String getName()
     {
         return this.name;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public abstract void createButtons(List<GuiButton> buttonList, int suggestId, int width, int height);
-
+    
     @SideOnly(Side.CLIENT)
     public abstract GuiSlot initStatSlot(GuiStats guiStats, int index);
-
+    
     private static LinkedList<StatPage> statPages = new LinkedList<StatPage>();
-
+    
+    /**
+     * Registers a stat page.
+     * @param page The page.
+     */
     public static void registerStatPage(StatPage page)
     {
         if (getStatPage(page.getName()) != null)
@@ -41,7 +45,7 @@ public abstract class StatPage
         }
         statPages.add(page);
     }
-
+    
     /**
      * Will return a stat page by its index on the list.
      *
@@ -52,7 +56,7 @@ public abstract class StatPage
     {
         return statPages.get(index);
     }
-
+    
     /**
      * Will return a stat page by its name.
      *
@@ -70,7 +74,7 @@ public abstract class StatPage
         }
         return null;
     }
-
+    
     /**
      * Will return the list of stat pages.
      *
@@ -80,7 +84,7 @@ public abstract class StatPage
     {
         return new HashSet<StatPage>(statPages);
     }
-
+    
     public static String getTitle(int index)
     {
         return index < 0 ? "Minecraft" : getStatPage(index).getName();

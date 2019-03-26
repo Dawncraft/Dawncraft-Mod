@@ -77,7 +77,7 @@ public class ItemDrink extends Item
         world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         this.onDrinkDrunk(stack, world, player);
         player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-        return new ItemStack(ItemLoader.bottle);
+        return new ItemStack(ItemLoader.tumbler);
     }
 
     protected void onDrinkDrunk(ItemStack stack, World world, EntityPlayer player)

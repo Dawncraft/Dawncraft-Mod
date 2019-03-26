@@ -1,5 +1,6 @@
 package io.github.dawncraft.client.renderer.block;
 
+import io.github.dawncraft.block.BlockFurnitureAlarmClock;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.block.BlockMagnetDoor;
 import io.github.dawncraft.core.client.DawnClientHooks;
@@ -29,6 +30,7 @@ public class BlockRenderLoader
         registerFieldModel((BlockFluidBase) BlockLoader.fluidPetroleum);
         
         registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
+        registerStateMapper(BlockLoader.alarmClock, new StateMap.Builder().ignore(BlockFurnitureAlarmClock.FACING).build());
 
         registerBuiltIn(BlockLoader.magnetChest, "minecraft:blocks/planks_oak");
         registerBuiltIn(BlockLoader.superChest, "minecraft:blocks/planks_oak");

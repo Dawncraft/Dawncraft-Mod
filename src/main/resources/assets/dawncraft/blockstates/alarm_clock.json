@@ -1,0 +1,12 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "dawncraft:alarm_clock.obj"
+    },
+    "variants": {
+        "normal": {
+            "model": "dawncraft:alarm_clock.obj"
+        },
+        "inventory": [{}]
+    }
+}

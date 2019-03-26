@@ -22,19 +22,19 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class ClientProxy extends ServerProxy
 {
     private static RenderSkill skillRender;
-
+    
     @Override
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
+        ModelLoader.initModelLoader();
         ItemRenderLoader.initItemRender();
         BlockRenderLoader.initBlockRender();
         SkillRenderLoader.initSkillRender();
         EntityRenderLoader.initEntityRender();
         TileEntityRenderLoader.initTileEntityRender();
-        ModelLoader.initModelLoader();
     }
-
+    
     @Override
     public void init(FMLInitializationEvent event)
     {
@@ -43,13 +43,13 @@ public class ClientProxy extends ServerProxy
         KeyLoader.initKeys();
         ClientEventLoader.initClientEvents();
     }
-
+    
     @Override
     public void postInit(FMLPostInitializationEvent event)
     {
         super.postInit(event);
     }
-    
+
     public static RenderSkill getSkillRender()
     {
         return skillRender;

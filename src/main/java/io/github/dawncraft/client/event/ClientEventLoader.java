@@ -1,7 +1,6 @@
 package io.github.dawncraft.client.event;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
 /**
  * Register some client events.
@@ -12,11 +11,11 @@ public class ClientEventLoader
 {
     public static void initClientEvents()
     {
-        register(new GuiHandler());
-        register(new PlayerRenderHandler());
-        register(new GuiIngameDawn());
+        register(new PlayerRenderEventHandler());
+        register(new InputEventHandler());
         register(new TooltipEventHandler());
-        register(new InputHandler());
+        register(new GuiEventHandler());
+        register(new GuiIngameDawn());
     }
 
     static void register(Object target)

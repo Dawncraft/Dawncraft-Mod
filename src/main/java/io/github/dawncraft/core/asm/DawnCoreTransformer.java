@@ -27,6 +27,7 @@ public class DawnCoreTransformer implements IClassTransformer
                 Arrays.asList("registerAllBlocks", "func_178119_d", "d"),
                 Arrays.asList("getTexture", "func_178122_a", "a"),
                 Arrays.asList("renderTileItem"),// emmm,Forge没有混淆
+                Arrays.asList("mouseClicked", "func_73864_a", "a"),
                 Arrays.asList("transferEntityToWorld", "func_82448_a", "a"),
                 Arrays.asList("transferPlayerToDimension", "func_72356_a", "a")
         };
@@ -112,12 +113,31 @@ public class DawnCoreTransformer implements IClassTransformer
                 }
             }
         }
+        if (transformedName.equals("net.minecraft.client.gui.GuiScreen"))
+        {
+            for (MethodNode methodNode : classNode.methods)
+            {
+                if (METHODNAMES[3].contains(methodNode.name) && methodNode.desc.equals("(III)V"))
+                {
+                    changed = true;
+                    // 对GuiScreen.mouseClicked(int, int, int)进行操作
+                    for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
+                    {
+                        // POP
+                        if (insnNode.getOpcode() == Opcodes.POP && insnNode.getPrevious().getOpcode() == Opcodes.INVOKEVIRTUAL)
+                        {
+                            methodNode.instructions.insert(insnNode, new InsnNode(Opcodes.RETURN));
+                        }
+                    }
+                }
+            }
+        }
         // 服务器
         if (transformedName.equals("net.minecraft.server.management.ServerConfigurationManager"))
         {
             for (MethodNode methodNode : classNode.methods)
             {
-                if (METHODNAMES[3].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
+                if (METHODNAMES[4].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
                 {
                     changed = true;
                     // 对net.minecraft.server.management.ServerConfigurationManager.transferEntityToWorld(Entity, int, WorldServer, WorldServer)进行操作
@@ -133,7 +153,7 @@ public class DawnCoreTransformer implements IClassTransformer
                         }
                     }
                 }
-                else if (METHODNAMES[4].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
+                else if (METHODNAMES[5].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
                 {
                     changed = true;
                     // 对net.minecraft.server.management.ServerConfigurationManager.transferPlayerToDimension(EntityPlayerMP, int)进行操作

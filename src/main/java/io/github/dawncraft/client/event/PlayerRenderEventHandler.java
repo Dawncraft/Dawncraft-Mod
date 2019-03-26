@@ -4,7 +4,7 @@ import io.github.dawncraft.config.KeyLoader;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class PlayerRenderHandler
+public class PlayerRenderEventHandler
 {
     @SubscribeEvent
     public void onFOVUpdate(FOVUpdateEvent event)

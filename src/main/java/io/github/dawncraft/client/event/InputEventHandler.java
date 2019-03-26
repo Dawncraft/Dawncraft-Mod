@@ -19,9 +19,9 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
  *
  * @author QingChenW
  */
-public class InputHandler
+public class InputEventHandler
 {
-    public InputHandler() {}
+    public InputEventHandler() {}
     
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)

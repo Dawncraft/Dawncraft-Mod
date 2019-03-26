@@ -30,17 +30,6 @@ public class StatLoader
     {
         @Override
         @SideOnly(Side.CLIENT)
-        public GuiSlot initStatSlot(GuiStats guiStats, int index)
-        {
-            if(index == 0)
-            {
-                return new StatsSkills(guiStats);
-            }
-            return null;
-        }
-        
-        @Override
-        @SideOnly(Side.CLIENT)
         public void createButtons(List<GuiButton> buttonList, int suggestId, int width, int height)
         {
             GuiButton guibutton = new GuiButton(suggestId, width / 2 - 160, height - 52, 80, 20, I18n.format("stat.skillsButton"));
@@ -50,15 +39,26 @@ public class StatLoader
 
             guibutton1.enabled = false;
         }
+
+        @Override
+        @SideOnly(Side.CLIENT)
+        public GuiSlot initStatSlot(GuiStats guiStats, int index)
+        {
+            if (index == 0)
+            {
+                return new StatsSkill(guiStats);
+            }
+            return null;
+        }
         
         @SideOnly(Side.CLIENT)
-        class StatsSkills extends GuiSlot
+        class StatsSkill extends GuiSlot
         {
             public GuiStatsDawn guiStats;
             protected List<StatLearning> statsHolder;
             protected Comparator<StatLearning> statSorter;
             
-            public StatsSkills(GuiStats guiStats)
+            public StatsSkill(GuiStats guiStats)
             {
                 super(guiStats.mc, guiStats.width, guiStats.height, 32, guiStats.height - 64, 20);
                 this.setShowSelectionBox(false);
@@ -71,15 +71,15 @@ public class StatLoader
                     boolean flag = false;
                     int i = Skill.getIdFromSkill(statlearning.getSkill());
                     
-                    if (this.guiStats.statFileWriter.readStat(statlearning) > 0)
+                    if (this.guiStats.field_146546_t.readStat(statlearning) > 0)
                     {
                         flag = true;
                     }
-                    else if (StatLoader.objectSpellStats[i] != null && this.guiStats.statFileWriter.readStat(StatLoader.objectSpellStats[i]) > 0)
+                    else if (StatLoader.objectSpellStats[i] != null && this.guiStats.field_146546_t.readStat(StatLoader.objectSpellStats[i]) > 0)
                     {
                         flag = true;
                     }
-                    else if (StatLoader.objectLearnStats[i] != null && this.guiStats.statFileWriter.readStat(StatLoader.objectLearnStats[i]) > 0)
+                    else if (StatLoader.objectLearnStats[i] != null && this.guiStats.field_146546_t.readStat(StatLoader.objectLearnStats[i]) > 0)
                     {
                         flag = true;
                     }
@@ -89,6 +89,15 @@ public class StatLoader
                         this.statsHolder.add(statlearning);
                     }
                 }
+                
+                this.statSorter = new Comparator<StatLearning>()
+                {
+                    @Override
+                    public int compare(StatLearning o1, StatLearning o2)
+                    {
+                        return 0;
+                    }
+                };
             }
 
             @Override
@@ -140,7 +149,7 @@ public class StatLoader
                 FontRenderer fontRenderer = Minecraft.getMinecraft().fontRendererObj;
                 if (stat != null)
                 {
-                    String s = stat.format(this.guiStats.statFileWriter.readStat(stat));
+                    String s = stat.format(this.guiStats.field_146546_t.readStat(stat));
                     this.guiStats.drawString(fontRenderer, s, x - fontRenderer.getStringWidth(s), y + 5, isOddLine ? 16777215 : 9474192);
                 }
                 else
