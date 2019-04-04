@@ -1,17 +1,18 @@
-package io.github.dawncraft.client.gui;
+package io.github.dawncraft.client.gui.stats;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.renderer.entity.RenderSkill;
-import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
-import io.github.dawncraft.stats.StatPage;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -21,31 +22,24 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.util.ResourceLocation;
 
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
 public class GuiStatsDawn extends GuiStats
 {
     public static final ResourceLocation statIconsDawn = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/stats_icons.png");
-    
+
     /** Holds a instance of RenderSkill, used to draw the achievement icons on screen (is based on SkillStack) */
     protected RenderSkill skillRender;
+    private List<GuiSlot> statSlots;
     private GuiButton buttonDone;
     private GuiButton buttonPage;
     private int currentPage = -1;
-
+    
     public GuiStatsDawn(GuiScreen parentScreen, StatFileWriter statFile)
     {
         super(parentScreen, statFile);
         this.skillRender = ClientProxy.getSkillRender();
+        this.statSlots = new ArrayList<GuiSlot>();
     }
-    
-    @Override
-    public void func_175366_f()
-    {
-        super.func_175366_f();
-    }
-    
+
     @Override
     public void createButtons()
     {
@@ -54,7 +48,7 @@ public class GuiStatsDawn extends GuiStats
         this.buttonPage = new GuiButton(5, this.width / 2 - 160, this.height - 28, 125, 20, StatPage.getTitle(this.currentPage));
         this.buttonList.add(this.buttonPage);
     }
-    
+
     @Override
     public void actionPerformed(GuiButton button) throws IOException
     {
@@ -74,25 +68,18 @@ public class GuiStatsDawn extends GuiStats
                 this.buttonPage.displayString = StatPage.getTitle(this.currentPage);
                 this.buttonList.add(this.buttonPage);
                 StatPage.getStatPage(this.currentPage).createButtons(this.buttonList, 6, this.width, this.height);
+                this.statSlots.clear();
+                StatPage.getStatPage(this.currentPage).initStatSlots(this, this.statSlots);
             }
-            
+
         }
         else if (button.id > 5)
         {
-            StatPage page = StatPage.getStatPage(this.currentPage);
-            try
-            {
-                Field field = ReflectionHelper.findField(GuiStats.class, "displaySlot", "field_146545_u");
-                EnumHelper.setFailsafeFieldValue(field, this, page.initStatSlot(this, button.id - 6));
-            }
-            catch (Exception e)
-            {
-                LogLoader.logger().error("Reflect GuiStats failed: {}", e.toString());
-            }
+            this.displaySlot = this.statSlots.get(button.id - 6);
         }
         else super.actionPerformed(button);
     }
-    
+
     public void drawStatsScreen(int z, int y, Skill skill)
     {
         this.drawSprite(z + 1, y + 1, 0, 0);
@@ -102,7 +89,7 @@ public class GuiStatsDawn extends GuiStats
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
     }
-    
+
     @Override
     public void drawSprite(int p_146527_1_, int p_146527_2_, int p_146527_3_, int p_146527_4_)
     {

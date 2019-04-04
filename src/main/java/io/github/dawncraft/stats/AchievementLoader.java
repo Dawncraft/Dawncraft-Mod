@@ -83,7 +83,7 @@ public class AchievementLoader
 
     public static void addAchievements(AchievementPage page, Achievement... achievements)
     {
-        for(Achievement achievement : achievements)
+        for (Achievement achievement : achievements)
             addAchievement(page, achievement);
     }
     

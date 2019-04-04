@@ -15,14 +15,14 @@ public class CapabilityLoader
     /** A capability to handle thirst for player. */
     @CapabilityInject(IThirst.class)
     public static Capability<IThirst> thirst;
-    /** A capability to handle extra data for player. */
+    /** A capability to handle magic for player. */
     @CapabilityInject(IMagic.class)
     public static Capability<IMagic> magic;
 
     public static void initCapabilities()
     {
-        register(IThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
-        register(IMagic.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
+        registerCapability(IThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
+        registerCapability(IMagic.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
     }
     
     /**
@@ -33,7 +33,7 @@ public class CapabilityLoader
      * @param implementation The capability's implementation class
      * @param storage The capability's storage object
      */
-    public static <T> void register(Class<T> type, Class<? extends T> implementation, IStorage<T> storage)
+    private static <T> void registerCapability(Class<T> type, Class<? extends T> implementation, IStorage<T> storage)
     {
         CapabilityManager.INSTANCE.register(type, storage, implementation);
     }

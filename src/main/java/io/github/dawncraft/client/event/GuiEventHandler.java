@@ -1,11 +1,12 @@
 package io.github.dawncraft.client.event;
 
-import io.github.dawncraft.client.gui.GuiStatsDawn;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import io.github.dawncraft.client.gui.stats.GuiStatsDawn;
 
 public class GuiEventHandler
 {

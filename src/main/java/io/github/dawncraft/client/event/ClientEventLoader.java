@@ -11,14 +11,14 @@ public class ClientEventLoader
 {
     public static void initClientEvents()
     {
-        register(new PlayerRenderEventHandler());
-        register(new InputEventHandler());
-        register(new TooltipEventHandler());
-        register(new GuiEventHandler());
-        register(new GuiIngameDawn());
+        registerEvent(new PlayerRenderEventHandler());
+        registerEvent(new InputEventHandler());
+        registerEvent(new TooltipEventHandler());
+        registerEvent(new GuiEventHandler());
+        registerEvent(new GuiIngameDawn());
     }
-
-    static void register(Object target)
+    
+    private static void registerEvent(Object target)
     {
         MinecraftForge.EVENT_BUS.register(target);
     }
