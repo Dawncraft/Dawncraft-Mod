@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
@@ -61,9 +61,9 @@ public class MessageSetSlot implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if(player.hasCapability(CapabilityLoader.magic, null))
+                        if(player.hasCapability(CapabilityLoader.playerMagic, null))
                         {
-                            IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
+                            IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
                             
                             if (message.windowId == -1)
                             {

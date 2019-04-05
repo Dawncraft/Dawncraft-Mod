@@ -44,9 +44,9 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
  *
  * @author QingChenW
  */
-public class CapabilityPlayer
+public class CapabilityMagic
 {
-    public static class Common implements IMagic
+    public static class Common implements IPlayerMagic
     {
         private EntityPlayer player;
         private float mana;
@@ -246,11 +246,11 @@ public class CapabilityPlayer
                     this.recover(1.0F);
                 }
                 
-                IThirst thirst = this.player.getCapability(CapabilityLoader.thirst, null);
+                IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
                 
-                if (ConfigLoader.isThirstEnabled && thirst.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
+                if (ConfigLoader.isThirstEnabled && playerThirst.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
                 {
-                    thirst.getDrinkStats().setDrinkLevel(thirst.getDrinkStats().getDrinkLevel() + 1);
+                    playerThirst.getDrinkStats().setDrinkLevel(playerThirst.getDrinkStats().getDrinkLevel() + 1);
                 }
             }
 
@@ -351,15 +351,15 @@ public class CapabilityPlayer
                 this.cancelSpelling();
             }
 
-            IThirst thirst = this.player.getCapability(CapabilityLoader.thirst, null);
-            thirst.getDrinkStats().onUpdate(this.player);
+            IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
+            playerThirst.getDrinkStats().onUpdate(this.player);
             
-            if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != thirst.getDrinkStats().getDrinkLevel() || thirst.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
+            if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != playerThirst.getDrinkStats().getDrinkLevel() || playerThirst.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
             {
-                NetworkLoader.instance.sendTo(new MessageUpdateMana(this.getMana(), thirst.getDrinkStats().getDrinkLevel(), thirst.getDrinkStats().getSaturationLevel()), this.player);
+                NetworkLoader.instance.sendTo(new MessageUpdateMana(this.getMana(), playerThirst.getDrinkStats().getDrinkLevel(), playerThirst.getDrinkStats().getSaturationLevel()), this.player);
                 this.lastMana = this.getMana();
-                this.lastDrinkLevel = thirst.getDrinkStats().getDrinkLevel();
-                this.wasThirst = thirst.getDrinkStats().getSaturationLevel() == 0.0F;
+                this.lastDrinkLevel = playerThirst.getDrinkStats().getDrinkLevel();
+                this.wasThirst = playerThirst.getDrinkStats().getSaturationLevel() == 0.0F;
             }
 
             if (this.getSpellAction() != this.lastAction)
@@ -408,10 +408,10 @@ public class CapabilityPlayer
         }
     }
     
-    public static class Storage implements Capability.IStorage<IMagic>
+    public static class Storage implements Capability.IStorage<IPlayerMagic>
     {
         @Override
-        public NBTBase writeNBT(Capability<IMagic> capability, IMagic instance, EnumFacing side)
+        public NBTBase writeNBT(Capability<IPlayerMagic> capability, IPlayerMagic instance, EnumFacing side)
         {
             NBTTagCompound compound = new NBTTagCompound();
             float mana = instance.getMana();
@@ -439,7 +439,7 @@ public class CapabilityPlayer
         }
 
         @Override
-        public void readNBT(Capability<IMagic> capability, IMagic instance, EnumFacing side, NBTBase nbt)
+        public void readNBT(Capability<IPlayerMagic> capability, IPlayerMagic instance, EnumFacing side, NBTBase nbt)
         {
             NBTTagCompound compound = (NBTTagCompound) nbt;
 
@@ -482,26 +482,26 @@ public class CapabilityPlayer
     
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
-        private IMagic magic;
-        private IStorage<IMagic> storage;
+        private IPlayerMagic playerMagic;
+        private IStorage<IPlayerMagic> storage;
 
         public Provider(EntityPlayer player)
         {
             if(player instanceof EntityPlayerMP)
             {
-                this.magic = new Server((EntityPlayerMP) player);
+                this.playerMagic = new Server((EntityPlayerMP) player);
             }
             else
             {
-                this.magic = new Common(player);
+                this.playerMagic = new Common(player);
             }
-            this.storage = CapabilityLoader.magic.getStorage();
+            this.storage = CapabilityLoader.playerMagic.getStorage();
         }
 
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
-            return CapabilityLoader.magic.equals(capability);
+            return CapabilityLoader.playerMagic.equals(capability);
         }
 
         @Override
@@ -509,7 +509,7 @@ public class CapabilityPlayer
         {
             if (this.hasCapability(capability, facing))
             {
-                T result = (T) this.magic;
+                T result = (T) this.playerMagic;
                 return result;
             }
             return null;
@@ -518,13 +518,13 @@ public class CapabilityPlayer
         @Override
         public NBTTagCompound serializeNBT()
         {
-            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.magic, this.magic, null);
+            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerMagic, this.playerMagic, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound compound)
         {
-            this.storage.readNBT(CapabilityLoader.magic, this.magic, null, compound);
+            this.storage.readNBT(CapabilityLoader.playerMagic, this.playerMagic, null, compound);
         }
     }
 }

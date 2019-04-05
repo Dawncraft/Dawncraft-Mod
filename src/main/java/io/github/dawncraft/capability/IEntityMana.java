@@ -3,7 +3,7 @@ package io.github.dawncraft.capability;
 import io.github.dawncraft.Dawncraft;
 import net.minecraft.util.ResourceLocation;
 
-public interface IMana
+public interface IEntityMana
 {
     public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "mana");
 

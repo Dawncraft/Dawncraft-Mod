@@ -1,7 +1,7 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.entity.player.PlayerUtils;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
@@ -57,7 +57,7 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        IMagic playerCap = serverPlayer.getCapability(CapabilityLoader.magic, null);
+                        IPlayerMagic playerCap = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
                         {
                             SkillStack skillStack = playerCap.getInventory().getStackInSlot(message.slot);
@@ -96,7 +96,7 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        IMagic playerCap = clientPlayer.getCapability(CapabilityLoader.magic, null);
+                        IPlayerMagic playerCap = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
                         {
                             playerCap.setSpellIndex(message.slot);

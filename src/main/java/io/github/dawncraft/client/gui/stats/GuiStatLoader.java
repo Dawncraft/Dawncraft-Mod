@@ -4,7 +4,7 @@ import net.minecraft.client.gui.GuiSlot;
 import io.github.dawncraft.Dawncraft;
 
 /**
- *
+ * Register some stat slots.
  *
  * @author QingChenW
  */
@@ -20,12 +20,12 @@ public class GuiStatLoader
         registerStatPage(pageDawncraft);
     }
 
-    public static void addStatSlot(StatPage page, String name, Class<? extends GuiSlot> slotClass)
+    private static void addStatSlot(StatPage page, String name, Class<? extends GuiSlot> slotClass)
     {
         page.addSlot(name, slotClass);
     }
 
-    public static void registerStatPage(StatPage page)
+    private static void registerStatPage(StatPage page)
     {
         StatPage.registerStatPage(page);
     }

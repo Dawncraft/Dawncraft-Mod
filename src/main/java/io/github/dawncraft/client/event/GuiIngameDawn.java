@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.item.ItemGun;
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.entity.AttributesLoader;
@@ -165,10 +165,10 @@ public class GuiIngameDawn extends Gui
     protected void updateTick()
     {
         EntityPlayer player = this.mc.thePlayer;
-        IMagic playerCap = null;
-        if(player.hasCapability(CapabilityLoader.magic, null))
+        IPlayerMagic playerCap = null;
+        if(player.hasCapability(CapabilityLoader.playerMagic, null))
         {
-            playerCap = player.getCapability(CapabilityLoader.magic, null);
+            playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
         }
         
         this.cooldownTicks = playerCap.getCooldownTracker().getPublicCooldownCount();
@@ -217,7 +217,7 @@ public class GuiIngameDawn extends Gui
         GlStateManager.enableBlend();
 
         EntityPlayer player = (EntityPlayer)this.mc.getRenderViewEntity();
-        if(!player.hasCapability(CapabilityLoader.magic, null)) return;
+        if(!player.hasCapability(CapabilityLoader.playerMagic, null)) return;
 
         boolean highlight = this.manaUpdateCounter > this.getIngameGUI().getUpdateCounter() && (this.manaUpdateCounter - this.getIngameGUI().getUpdateCounter()) / 3L % 2L == 1L;
         int recover = player.isPotionActive(PotionLoader.potionRecover) ? this.getIngameGUI().getUpdateCounter() % 25 : -1;
@@ -226,7 +226,7 @@ public class GuiIngameDawn extends Gui
         int manaRows = MathHelper.ceiling_float_int(manaMax / 2.0F / 10.0F);
         int rowHeight = Math.max(10 - (manaRows - 2), 3);
 
-        int mana = MathHelper.ceiling_float_int(player.getCapability(CapabilityLoader.magic, null).getMana());
+        int mana = MathHelper.ceiling_float_int(player.getCapability(CapabilityLoader.playerMagic, null).getMana());
         if (mana < this.playerMana)
         {
             this.lastSystemTime = Minecraft.getSystemTime();
@@ -337,9 +337,9 @@ public class GuiIngameDawn extends Gui
     protected void renderHotbarSkill(int index, int xPos, int yPos, EntityPlayer player)
     {
         SkillInventoryPlayer inventory = null;
-        if(player.hasCapability(CapabilityLoader.magic, null))
+        if(player.hasCapability(CapabilityLoader.playerMagic, null))
         {
-            IMagic inventoryCap = player.getCapability(CapabilityLoader.magic, null);
+            IPlayerMagic inventoryCap = player.getCapability(CapabilityLoader.playerMagic, null);
             inventory = (SkillInventoryPlayer) inventoryCap.getInventory();
         }
         SkillStack skillstack = inventory != null ? inventory.getStackInSlot(index) : null;

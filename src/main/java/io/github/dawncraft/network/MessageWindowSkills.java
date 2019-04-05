@@ -68,9 +68,9 @@ public class MessageWindowSkills implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if (player.hasCapability(CapabilityLoader.magic, null))
+                        if (player.hasCapability(CapabilityLoader.playerMagic, null))
                         {
-                            SkillInventoryPlayer inventory = (SkillInventoryPlayer) player.getCapability(CapabilityLoader.magic, null).getInventory();
+                            SkillInventoryPlayer inventory = (SkillInventoryPlayer) player.getCapability(CapabilityLoader.playerMagic, null).getInventory();
                             
                             if (message.windowId == 0)
                             {

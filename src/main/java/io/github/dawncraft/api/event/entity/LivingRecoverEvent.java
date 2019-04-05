@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 
 /**
  * LivingRecoverEvent is fired when an Entity is set to be recovered. <br>
- * This event is fired whenever an Entity is recovered in {@link IMana#recover(float)}<br>
+ * This event is fired whenever an Entity is recovered in {@link IEntityMana#recover(float)}<br>
  * <br>
  * This event is fired via the {@link DawnEventFactory#onLivingRecover(EntityLivingBase, float)}.<br>
  * <br>

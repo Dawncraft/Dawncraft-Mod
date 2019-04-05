@@ -37,9 +37,9 @@ public class CapabilityEvent
         if (event.getEntity() instanceof EntityPlayer)
         {
             EntityPlayer player = (EntityPlayer) event.getEntity();
-            event.addCapability(IThirst.domain, new CapabilityThirst.Provider(player));
+            event.addCapability(IPlayerThirst.domain, new CapabilityThirst.Provider(player));
             player.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
-            event.addCapability(IMagic.domain, new CapabilityPlayer.Provider(player));
+            event.addCapability(IPlayerMagic.domain, new CapabilityMagic.Provider(player));
         }
     }
 
@@ -50,10 +50,10 @@ public class CapabilityEvent
         {
             EntityPlayerMP player = (EntityPlayerMP) event.entity;
             player.triggerAchievement(AchievementLoader.basic);
-            if (player.hasCapability(CapabilityLoader.magic, null))
+            if (player.hasCapability(CapabilityLoader.playerMagic, null))
             {
-                IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
-                IStorage<IMagic> storage = CapabilityLoader.magic.getStorage();
+                IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
+                IStorage<IPlayerMagic> storage = CapabilityLoader.playerMagic.getStorage();
 
                 ISkillInventory inventory = playerCap.getInventory();
                 List<SkillStack> list = new ArrayList<SkillStack>();
@@ -71,30 +71,30 @@ public class CapabilityEvent
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
-        IThirst thirst = event.original.getCapability(CapabilityLoader.thirst, null);
-        if(thirst.getDrinkStats() != null)
+        IPlayerThirst playerThirst = event.original.getCapability(CapabilityLoader.playerThirst, null);
+        if(playerThirst.getDrinkStats() != null)
         {
-            NBTTagCompound nbtThirst = (NBTTagCompound) CapabilityLoader.thirst.getStorage()
-                    .writeNBT(CapabilityLoader.thirst, thirst, null);
+            NBTTagCompound nbtThirst = (NBTTagCompound) CapabilityLoader.playerThirst.getStorage()
+                    .writeNBT(CapabilityLoader.playerThirst, playerThirst, null);
             if(event.wasDeath)
             {
-                thirst.getDrinkStats().setDrinkLevel(20);
-                thirst.getDrinkStats().setDrinkSaturationLevel(5.0F);
+                playerThirst.getDrinkStats().setDrinkLevel(20);
+                playerThirst.getDrinkStats().setDrinkSaturationLevel(5.0F);
             }
-            CapabilityLoader.thirst.getStorage().readNBT(CapabilityLoader.thirst,
-                    event.entityPlayer.getCapability(CapabilityLoader.thirst, null), null, nbtThirst);
+            CapabilityLoader.playerThirst.getStorage().readNBT(CapabilityLoader.playerThirst,
+                    event.entityPlayer.getCapability(CapabilityLoader.playerThirst, null), null, nbtThirst);
         }
         
-        IMagic magic = event.original.getCapability(CapabilityLoader.magic, null);
-        NBTTagCompound nbtPlayer = (NBTTagCompound) CapabilityLoader.magic.getStorage()
-                .writeNBT(CapabilityLoader.magic, magic, null);
+        IPlayerMagic playerMagic = event.original.getCapability(CapabilityLoader.playerMagic, null);
+        NBTTagCompound nbtPlayer = (NBTTagCompound) CapabilityLoader.playerMagic.getStorage()
+                .writeNBT(CapabilityLoader.playerMagic, playerMagic, null);
         if(event.wasDeath)
         {
-            float mana = magic.getMaxMana();
+            float mana = playerMagic.getMaxMana();
             nbtPlayer.setFloat("ManaF", mana);
             nbtPlayer.setShort("Mana", (short) Math.ceil(mana));
         }
-        CapabilityLoader.magic.getStorage().readNBT(CapabilityLoader.magic,
-                event.entityPlayer.getCapability(CapabilityLoader.magic, null), null, nbtPlayer);
+        CapabilityLoader.playerMagic.getStorage().readNBT(CapabilityLoader.playerMagic,
+                event.entityPlayer.getCapability(CapabilityLoader.playerMagic, null), null, nbtPlayer);
     }
 }

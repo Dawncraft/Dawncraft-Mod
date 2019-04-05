@@ -4,7 +4,7 @@ import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.entity.player.DrinkStats;
 import net.minecraft.util.ResourceLocation;
 
-public interface IThirst
+public interface IPlayerThirst
 {
     public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "thrist");
     

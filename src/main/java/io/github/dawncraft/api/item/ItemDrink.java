@@ -1,7 +1,7 @@
 package io.github.dawncraft.api.item;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IThirst;
+import io.github.dawncraft.capability.IPlayerThirst;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -58,9 +58,9 @@ public class ItemDrink extends Item
     @Override
     public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player)
     {
-        IThirst thirst = player.getCapability(CapabilityLoader.thirst, null);
+        IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);
         
-        if (thirst.canDrink(this.alwaysDrinkable))
+        if (playerThirst.canDrink(this.alwaysDrinkable))
         {
             player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
         }
@@ -72,8 +72,8 @@ public class ItemDrink extends Item
     public ItemStack onItemUseFinish(ItemStack stack, World world, EntityPlayer player)
     {
         --stack.stackSize;
-        IThirst thirst = player.getCapability(CapabilityLoader.thirst, null);
-        if(thirst.getDrinkStats() != null) thirst.getDrinkStats().addStats(this, stack);
+        IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);
+        if(playerThirst.getDrinkStats() != null) playerThirst.getDrinkStats().addStats(this, stack);
         world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         this.onDrinkDrunk(stack, world, player);
         player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);

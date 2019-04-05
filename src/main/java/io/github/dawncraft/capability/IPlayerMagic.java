@@ -10,49 +10,49 @@ import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
 import net.minecraft.util.ResourceLocation;
 
-public interface IMagic extends IMana
+public interface IPlayerMagic extends IEntityMana
 {
-    public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "player");
-
+    public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
+    
     public EnumSpellAction getSpellAction();
-
+    
     void setSpellAction(EnumSpellAction action);
-
+    
     boolean isCanceled();
-
+    
     void cancelSpelling();
-
+    
     void setCanceled(boolean isCanceled);
-    
+
     public int getSpellIndex();
-
+    
     public void setSpellIndex(int index);
-
+    
     public SkillStack getSkillInSpell();
-
+    
     public void setSkillInSpell(SkillStack stack);
-
+    
     public void clearSkillInSpell();
-
+    
     public int getSkillInSpellCount();
-    
+
     public int getSkillInSpellDuration();
-    
+
     public void setSkillInSpellCount(int count);
-
+    
     public SpellCooldownTracker getCooldownTracker();
-
+    
     public SkillInventoryPlayer getInventory();
-    
+
     public int getTalentLevel(Talent talent);
-    
+
     public void setTalent(Talent talent, int level);
-    
+
     /**
      * 现在先这么凑合着,天赋栏啥的以后再说
      */
     @Deprecated
     public Set<Talent> getTalents();
-    
+
     public void update();
 }

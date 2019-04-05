@@ -19,4 +19,9 @@ public class TileEntityLoader
     {
         GameRegistry.registerTileEntity(tileEntityClass, Dawncraft.MODID + ":" + id);
     }
+    
+    private static void registerTileEntityWithAlias(Class<? extends TileEntity> tileEntityClass, String id, String... alternatives)
+    {
+        GameRegistry.registerTileEntityWithAlternatives(tileEntityClass, id, alternatives);
+    }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.SkillModelMesher;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
@@ -260,10 +260,10 @@ public class RenderSkill implements IResourceManagerReloadListener
 
             float cooldown = 0.0F;
             EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
-            if(clientPlayer.hasCapability(CapabilityLoader.magic, null) && stack.getTotalCooldown() > 0.0F)
+            if(clientPlayer.hasCapability(CapabilityLoader.playerMagic, null) && stack.getTotalCooldown() > 0.0F)
             {
-                IMagic magic = clientPlayer.getCapability(CapabilityLoader.magic, null);
-                cooldown = magic.getCooldownTracker().getCooldown(stack.getSkill()) / stack.getTotalCooldown();
+                IPlayerMagic playerMagic = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                cooldown = playerMagic.getCooldownTracker().getCooldown(stack.getSkill()) / stack.getTotalCooldown();
             }
             
             if (cooldown > 0.0F)

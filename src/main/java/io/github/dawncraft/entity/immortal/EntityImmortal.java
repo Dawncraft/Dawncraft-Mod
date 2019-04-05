@@ -1,13 +1,13 @@
 package io.github.dawncraft.entity.immortal;
 
 import io.github.dawncraft.api.event.DawnEventFactory;
-import io.github.dawncraft.capability.IMana;
+import io.github.dawncraft.capability.IEntityMana;
 import io.github.dawncraft.entity.AttributesLoader;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public abstract class EntityImmortal extends EntityAgeable implements IMana
+public abstract class EntityImmortal extends EntityAgeable implements IEntityMana
 {
     public static int MANA_ID = 19;
 

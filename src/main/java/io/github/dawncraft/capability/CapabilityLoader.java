@@ -13,16 +13,16 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 public class CapabilityLoader
 {
     /** A capability to handle thirst for player. */
-    @CapabilityInject(IThirst.class)
-    public static Capability<IThirst> thirst;
+    @CapabilityInject(IPlayerThirst.class)
+    public static Capability<IPlayerThirst> playerThirst;
     /** A capability to handle magic for player. */
-    @CapabilityInject(IMagic.class)
-    public static Capability<IMagic> magic;
+    @CapabilityInject(IPlayerMagic.class)
+    public static Capability<IPlayerMagic> playerMagic;
 
     public static void initCapabilities()
     {
-        registerCapability(IThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
-        registerCapability(IMagic.class, CapabilityPlayer.Common.class, new CapabilityPlayer.Storage());
+        registerCapability(IPlayerThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
+        registerCapability(IPlayerMagic.class, CapabilityMagic.Common.class, new CapabilityMagic.Storage());
     }
     
     /**

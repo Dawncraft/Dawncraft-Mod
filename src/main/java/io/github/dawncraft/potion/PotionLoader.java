@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMana;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IEntityMana;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.entity.immortal.EntityImmortal;
 import io.github.dawncraft.entity.player.PlayerUtils;
@@ -36,20 +36,20 @@ public class PotionLoader
         @Override
         public void performEffect(EntityLivingBase entity, int amplifier)
         {
-            IMana mana = null;
+            IEntityMana entityMana = null;
             
             if(entity instanceof EntityPlayer)
             {
-                mana = entity.getCapability(CapabilityLoader.magic, null);
+                entityMana = entity.getCapability(CapabilityLoader.playerMagic, null);
             }
             else if(entity instanceof EntityImmortal)
             {
-                mana = (EntityImmortal) entity;
+                entityMana = (EntityImmortal) entity;
             }
             
-            if(mana != null && mana.shouldRecover())
+            if(entityMana != null && entityMana.shouldRecover())
             {
-                mana.recover(1.0F);
+                entityMana.recover(1.0F);
             }
         };
     }.setPotionName("potion.recover");
@@ -67,7 +67,7 @@ public class PotionLoader
             if(entity instanceof EntityPlayer)
             {
                 EntityPlayer player = (EntityPlayer) entity;
-                IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
+                IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
                 playerCap.cancelSpelling();
                 if(player.isServerWorld())
                     PlayerUtils.silent((EntityPlayerMP) entity);

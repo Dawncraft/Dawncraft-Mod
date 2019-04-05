@@ -1,7 +1,7 @@
 package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IMagic;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.gui.magic.GuiMagic;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageSpellSkillChange;
@@ -42,9 +42,9 @@ public class InputEventHandler
                 {
                     if(mc.gameSettings.keyBindsHotbar[i].isPressed())
                     {
-                        if(player.hasCapability(CapabilityLoader.magic, null))
+                        if(player.hasCapability(CapabilityLoader.playerMagic, null))
                         {
-                            IMagic playerCap = player.getCapability(CapabilityLoader.magic, null);
+                            IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
                             
                             if(playerCap.getSpellAction() == EnumSpellAction.NONE || i != playerCap.getSpellIndex())
                             {
