@@ -12,8 +12,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 /**
- * @author QingChenW
+ * Register smone skills.
  *
+ * @author QingChenW
  */
 public class SkillLoader
 {
@@ -118,7 +119,7 @@ public class SkillLoader
         @Override
         public EnumSpellAction onSkillPreparing(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
         {
-            return EnumSpellAction.PREPAR;
+            return EnumSpellAction.PREPARE;
         }
         
         @Override
@@ -169,7 +170,7 @@ public class SkillLoader
         @Override
         public int getCooldown(int level)
         {
-            return 80;
+            return 160;
         }
         
         @Override

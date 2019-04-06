@@ -63,7 +63,7 @@ public class MessageSpellSkillChange implements IMessage
                             SkillStack skillStack = playerCap.getInventory().getStackInSlot(message.slot);
                             if(skillStack != null)
                             {
-                                if(playerCap.getCooldownTracker().getPublicCooldownCount() <= 0)
+                                if (!playerCap.getCooldownTracker().isGlobalCooldown())
                                 {
                                     playerCap.setSpellIndex(message.slot);
                                     playerCap.setSkillInSpell(skillStack);

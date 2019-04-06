@@ -162,10 +162,10 @@ container.magic.more=更多信息...
 
 gui.moreinfo=按 %s 显示详细信息
 gui.gun.ammo=弹药: %1$d / %2$d
-gui.skill.preparing=准备施放 %1$s
-gui.skill.spelling=正在施放 %1$s
-gui.skill.global_cooling=您的脸滚得太快了:)
-gui.skill.cooling=%1$s 冷却中
+gui.skill.prepare=准备施放 %1$s
+gui.skill.spell=正在施放 %1$s
+gui.skill.globalcool=您的脸滚得太快了:)
+gui.skill.cool=%1$s 冷却中
 gui.skill.silent=您已被沉默
 gui.skill.nomana=您的魔法值不足
 gui.skill.notarget=无目标

@@ -13,37 +13,64 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageSpellCooldown implements IMessage
 {
+    private boolean isGlobal;
     private Skill skill;
-    private int ticks;
-
+    private int tick;
+    
     public MessageSpellCooldown() {}
 
-    public MessageSpellCooldown(Skill skill, int ticks)
+    /**
+     * Send a global cooldown message
+     *
+     * @param tick
+     */
+    public MessageSpellCooldown(int tick)
     {
-        this.skill = skill;
-        this.ticks = ticks;
+        this.isGlobal = true;
+        this.tick = tick;
     }
     
+    /**
+     * Send a skill cooldown message
+     *
+     * @param skill
+     * @param tick
+     */
+    public MessageSpellCooldown(Skill skill, int tick)
+    {
+        this.isGlobal = false;
+        this.skill = skill;
+        this.tick = tick;
+    }
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.skill = Skill.getSkillById(buf.readInt());
-        this.ticks = buf.readInt();
+        this.isGlobal = buf.readBoolean();
+        if (!this.isGlobal)
+        {
+            this.skill = Skill.getSkillById(buf.readInt());
+        }
+        this.tick = buf.readInt();
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeInt(Skill.getIdFromSkill(this.skill));
-        buf.writeInt(this.ticks);
+        buf.writeBoolean(this.isGlobal);
+        if (!this.isGlobal)
+        {
+            buf.writeInt(Skill.getIdFromSkill(this.skill));
+        }
+        buf.writeInt(this.tick);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSpellCooldown, IMessage>
     {
         @Override
         public IMessage onMessage(final MessageSpellCooldown message, MessageContext ctx)
         {
-            if(ctx.side == Side.CLIENT)
+            if (ctx.side == Side.CLIENT)
             {
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
                 {
@@ -51,10 +78,26 @@ public class MessageSpellCooldown implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if(player.hasCapability(CapabilityLoader.playerMagic, null))
+                        if (player.hasCapability(CapabilityLoader.playerMagic, null))
                         {
-                            IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
-                            playerCap.getCooldownTracker().setCooldown(message.skill, message.ticks);
+                            IPlayerMagic magic = player.getCapability(CapabilityLoader.playerMagic, null);
+                            if (message.isGlobal)
+                            {
+                                magic.getCooldownTracker().setGlobalCooldown(message.tick);
+                            }
+                            else
+                            {
+                                if (message.tick == 0)
+                                {
+                                    magic.getCooldownTracker().removeCooldown(message.skill);
+                                }
+                                else
+                                {
+                                    magic.getCooldownTracker().setCooldown(message.skill, message.tick);
+                                }
+
+                            }
+
                         }
                     }
                 });

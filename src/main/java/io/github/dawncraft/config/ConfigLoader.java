@@ -23,43 +23,43 @@ import net.minecraftforge.fml.common.ModContainer;
 public class ConfigLoader
 {
     private static Configuration config;
-
+    
     @ConfigItem(ModCategories.ENERGY)
     public static boolean isEnergyEnabled = true;
-
+    
     @ConfigItem(ModCategories.MAGNET)
     public static boolean isMagnetEnabled = true;
-
+    
     @ConfigItem(ModCategories.MACHINE)
     public static boolean isMachineEnabled = true;
-
+    
     @ConfigItem(ModCategories.COMPUTER)
     public static boolean isComputerEnabled = true;
-
+    
     @ConfigItem(ModCategories.SCIENCE)
     public static boolean isScienceEnabled = true;
-
+    
     @ConfigItem(ModCategories.FURNITURE)
     public static boolean isFurnitureEnabled = true;
     @ConfigItem(ModCategories.FURNITURE)
     public static int chairHealAmount = 0;
-
+    
     @ConfigItem(ModCategories.CUISINE)
     public static boolean isCuisineEnabled = true;
     @ConfigItem(ModCategories.CUISINE)
     public static boolean isThirstEnabled = false;
-
+    
     @ConfigItem(ModCategories.WAR)
     public static boolean isWarEnabled = true;
-
+    
     @ConfigItem(ModCategories.MAGIC)
     public static boolean isMagicEnabled = true;
     @ConfigItem(ModCategories.MAGIC)
     public static boolean manaRenderType = true;
     @ConfigItem(ModCategories.MAGIC)
-    public static int publicPrepareTicks = 20;
+    public static int globalPrepareTicks = 20;
     @ConfigItem(ModCategories.MAGIC)
-    public static int publicCooldownTicks = 20;
+    public static int globalCooldownTick = 20;
     @ConfigItem(ModCategories.MAGIC)
     public static int enchantmentEnhancementId = 52;
     public static boolean isColoreggEnabled()
@@ -72,28 +72,28 @@ public class ConfigLoader
     public static double rangeToCheck = 32.0F;
     @ConfigItem(ModCategories.COLOREGG)
     public static int enchantmentFireBurnId = 36;
-    
+
     public static void init(File file)
     {
         config = new Configuration(file);
         config.load();
         reload();
     }
-    
+
     public static void reload()
     {
         LogLoader.logger().info("Started loading configuration.");
-        
+
         loadConfig(config, ConfigLoader.class);
-        
+
         LogLoader.logger().info("Finished loading configuration.");
     }
-    
+
     public static Configuration config()
     {
         return config;
     }
-    
+
     /**
      * Load your configuration and inject value into class' fields automatically.
      *
@@ -104,7 +104,7 @@ public class ConfigLoader
     {
         ModContainer container = Loader.instance().activeModContainer();
         String modid = container != null ? container.getModId().toLowerCase() : "minecraft";
-        
+
         for(Field field : clazz.getDeclaredFields())
         {
             if(field.isAnnotationPresent(ConfigItem.class))
@@ -113,14 +113,15 @@ public class ConfigLoader
                 try
                 {
                     field.setAccessible(true);
-
+                    
                     String name = field.getName();
                     String category = item.value().getName();
                     String langKey = "config." + modid + "." + category + "." + name;
                     String comment = StatCollector.translateToLocal(langKey + ".tooltip");
                     Object defValue = field.get(null);
                     Object value = defValue;
-
+                    
+                    // TODO 修复配置读取
                     if (defValue instanceof Boolean)
                     {
                         value = config.get(category, name, (Boolean) defValue, comment).setLanguageKey(langKey).getBoolean();
@@ -141,7 +142,7 @@ public class ConfigLoader
                     {
                         LogLoader.logger().error("Our config system don't suppot float now.");
                     }
-                    else if (defValue instanceof float[])// 有时间再修,但是不急
+                    else if (defValue instanceof float[])
                     {
                         LogLoader.logger().error("Our config system don't suppot float array now.");
                     }
@@ -161,7 +162,7 @@ public class ConfigLoader
                     {
                         value = config.get(category, name, (String[]) defValue, comment).setLanguageKey(langKey).getString();
                     }
-
+                    
                     field.set(null, value);
                 }
                 catch (Exception e)
@@ -170,17 +171,17 @@ public class ConfigLoader
                 }
             }
         }
-        
+
         for (String category : config.getCategoryNames())
         {
             String langKey = "config." + modid + "." + category;
             config.setCategoryLanguageKey(category, langKey);
             config.setCategoryComment(category, StatCollector.translateToLocal(langKey + ".tooltip"));
         }
-        
+
         config.save();
     }
-    
+
     /**
      * An Annotation for injecting value into field automatically.
      *

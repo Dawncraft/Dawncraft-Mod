@@ -14,33 +14,33 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
     CANCEL;
  *
- * @author Administrator
+ * @author QingChenW
  *
  */
 public class PlayerUtils
 {
     public static void globleCooldown(EntityPlayerMP player)
     {
-        
+
     }
-    
+
     public static void cooldown(EntityPlayerMP player)
     {
-        
-    }
 
-    public static void nomana(EntityPlayerMP player)
-    {
-        
     }
     
-    public static void silent(EntityPlayerMP player)
+    public static void nomana(EntityPlayerMP player)
     {
-        
+
     }
 
+    public static void silent(EntityPlayerMP player)
+    {
+
+    }
+    
     public static void cancel(EntityPlayerMP player)
     {
-        
+
     }
 }

@@ -5,7 +5,7 @@ import java.util.Locale;
 public enum EnumSpellAction
 {
     NONE,
-    PREPAR,
+    PREPARE,
     SPELL;
     
     public String getUnlocalizedName()

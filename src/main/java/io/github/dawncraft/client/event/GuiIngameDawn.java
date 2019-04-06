@@ -14,7 +14,6 @@ import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.skill.EnumSpellAction;
-import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -71,8 +70,6 @@ public class GuiIngameDawn extends Gui
     public SkillStack highlightSkillStack;
     // 当前施法时间
     public int spellingTicks;
-    // 当前全局冷却时间
-    public int cooldownTicks;
     // 施法进度条和选中框或是冷却指示器之类的消逝计时器
     public int remainingTicks;
     // 系统时间缓存
@@ -90,7 +87,7 @@ public class GuiIngameDawn extends Gui
         int width = event.resolution.getScaledWidth();
         int height = event.resolution.getScaledHeight();
         
-        if(event.type == ElementType.ALL)
+        if (event.type == ElementType.ALL)
         {
             if (!this.mc.isGamePaused())
             {
@@ -98,28 +95,28 @@ public class GuiIngameDawn extends Gui
             }
         }
         
-        if(this.mc.getRenderViewEntity() instanceof EntityPlayer)
+        if (this.mc.getRenderViewEntity() instanceof EntityPlayer)
         {
-            if(!this.mc.playerController.isSpectator())
+            if (!this.mc.playerController.isSpectator())
             {
                 this.bind(widgets);
 
-                if(event.type == ElementType.HOTBAR)
+                if (event.type == ElementType.HOTBAR)
                 {
-                    if(renderSkillbar && this.spellMode)
+                    if (renderSkillbar && this.spellMode)
                     {
                         event.setCanceled(true);
                         this.renderSkillbar(width, height);
                     }
                 }
             }
-            if(this.mc.playerController.shouldDrawHUD())
+            if (this.mc.playerController.shouldDrawHUD())
             {
                 this.bind(icons);
 
-                if(event.type == ElementType.FOOD)
+                if (event.type == ElementType.FOOD)
                 {
-                    if(renderMana) this.renderMana(width, height);
+                    if (renderMana) this.renderMana(width, height);
                 }
             }
         }
@@ -165,27 +162,25 @@ public class GuiIngameDawn extends Gui
     protected void updateTick()
     {
         EntityPlayer player = this.mc.thePlayer;
-        IPlayerMagic playerCap = null;
+        IPlayerMagic playerMagic = null;
         if(player.hasCapability(CapabilityLoader.playerMagic, null))
         {
-            playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
+            playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
         }
-        
-        this.cooldownTicks = playerCap.getCooldownTracker().getPublicCooldownCount();
 
-        EnumSpellAction action = playerCap.getSpellAction();
+        EnumSpellAction action = playerMagic.getSpellAction();
 
         if(this.spellAction != action)
         {
-            this.spellAction = playerCap.getSpellAction();
+            this.spellAction = playerMagic.getSpellAction();
             this.remainingTicks = 40;
         }
 
         if(this.spellAction != EnumSpellAction.NONE)
         {
-            this.skillIndex = playerCap.getSpellIndex();
-            this.highlightSkillStack = playerCap.getSkillInSpell();
-            this.spellingTicks = playerCap.getSkillInSpellCount();
+            this.skillIndex = playerMagic.getSpellIndex();
+            this.highlightSkillStack = playerMagic.getSkillInSpell();
+            this.spellingTicks = playerMagic.getSkillInSpellCount();
         }
 
         if(this.spellAction != EnumSpellAction.NONE && this.spellingTicks <= 0)
@@ -194,8 +189,8 @@ public class GuiIngameDawn extends Gui
             
             if(this.remainingTicks <= 0)
             {
-                playerCap.clearSkillInSpell();
-                this.spellAction = playerCap.getSpellAction();
+                playerMagic.clearSkillInSpell();
+                this.spellAction = playerMagic.getSpellAction();
             }
         }
     }
@@ -295,7 +290,7 @@ public class GuiIngameDawn extends Gui
     {
         this.mc.mcProfiler.startSection("skillBar");
 
-        EntityPlayer entityplayer = (EntityPlayer) this.mc.getRenderViewEntity();
+        EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
 
         int left = width / 2 - 91;
         int top = height - 22;
@@ -312,7 +307,7 @@ public class GuiIngameDawn extends Gui
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderHelper.enableGUIStandardItemLighting();
 
-        float cooldown = this.cooldownTicks / Skill.getPublicCooldown();
+        float cooldown = player.getCapability(CapabilityLoader.playerMagic, null).getCooldownTracker().getGlobalCooldownPercent(0);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrender = tessellator.getWorldRenderer();
         
@@ -320,10 +315,17 @@ public class GuiIngameDawn extends Gui
         {
             int x = left + 3 + i * 20;
             int y = top + 3;
-            this.renderHotbarSkill(i, x, y, entityplayer);
+            this.renderHotbarSkill(i, x, y, player);
             if (cooldown > 0.0F)
             {
-                ClientProxy.getSkillRender().draw(worldrender, x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 255, 255, 255, 127);
+                GlStateManager.disableLighting();
+                GlStateManager.disableDepth();
+                GlStateManager.disableTexture2D();
+                ClientProxy.getSkillRender().draw(worldrender, x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 191, 191, 191, 63);
+                GlStateManager.enableTexture2D();
+                GlStateManager.enableLighting();
+                GlStateManager.enableDepth();
+
             }
         }
         
@@ -337,7 +339,7 @@ public class GuiIngameDawn extends Gui
     protected void renderHotbarSkill(int index, int xPos, int yPos, EntityPlayer player)
     {
         SkillInventoryPlayer inventory = null;
-        if(player.hasCapability(CapabilityLoader.playerMagic, null))
+        if (player.hasCapability(CapabilityLoader.playerMagic, null))
         {
             IPlayerMagic inventoryCap = player.getCapability(CapabilityLoader.playerMagic, null);
             inventory = (SkillInventoryPlayer) inventoryCap.getInventory();
@@ -379,7 +381,7 @@ public class GuiIngameDawn extends Gui
                 String text = I18n.format(this.spellAction.getUnlocalizedName(), this.highlightSkillStack.getDisplayName());
                 boolean failed = false;
                 float progress = 1.0F;
-                if(this.spellAction == EnumSpellAction.PREPAR)
+                if(this.spellAction == EnumSpellAction.PREPARE)
                 {
                     if(this.highlightSkillStack.getTotalPrepare() > 0)
                         progress = (this.highlightSkillStack.getTotalPrepare() - this.spellingTicks) / this.highlightSkillStack.getTotalPrepare();

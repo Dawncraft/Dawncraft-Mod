@@ -51,7 +51,7 @@ public class InputEventHandler
                                 SkillStack stack = playerCap.getInventory().getStackInSlot(i);
                                 if(stack != null)
                                 {
-                                    playerCap.setSpellAction(EnumSpellAction.PREPAR);
+                                    playerCap.setSpellAction(EnumSpellAction.PREPARE);
                                     playerCap.setSpellIndex(i);
                                     playerCap.setSkillInSpell(stack);
                                     GuiIngameDawn.getIngameDawnGUI().setSpellIndex(i);

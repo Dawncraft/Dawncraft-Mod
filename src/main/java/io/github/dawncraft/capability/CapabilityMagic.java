@@ -16,6 +16,7 @@ import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSlot;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.NetworkLoader;
+import io.github.dawncraft.server.SpellCooldownTrackerServer;
 import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.stats.AchievementLoader;
@@ -40,7 +41,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 
 /**
- * IMagic 的具体实现
+ * IPlayerMagic 的具体实现
  *
  * @author QingChenW
  */
@@ -64,9 +65,14 @@ public class CapabilityMagic
             this.player = player;
             this.mana = this.getMaxMana();
             this.spellAction = EnumSpellAction.NONE;
-            this.tracker = new SpellCooldownTracker();
+            this.tracker =  this.createCooldownTracker();
             this.inventory = new SkillInventoryPlayer(player);
             this.talents = new HashMap<Talent, Integer>();
+        }
+        
+        protected SpellCooldownTracker createCooldownTracker()
+        {
+            return new SpellCooldownTracker();
         }
 
         @Override
@@ -165,7 +171,7 @@ public class CapabilityMagic
                 this.skillInSpell = skillStack;
                 this.skillInSpellCount = duration;
                 this.canceled = false;
-                this.spellAction = EnumSpellAction.PREPAR;
+                this.spellAction = EnumSpellAction.PREPARE;
             }
         }
 
@@ -188,7 +194,7 @@ public class CapabilityMagic
         @Override
         public int getSkillInSpellDuration()
         {
-            if(this.spellAction == EnumSpellAction.PREPAR)
+            if(this.spellAction == EnumSpellAction.PREPARE)
             {
                 return this.skillInSpell.getTotalPrepare() - this.skillInSpellCount;
             }
@@ -260,7 +266,7 @@ public class CapabilityMagic
             {
                 if (this.skillInSpell != null)
                 {
-                    if(this.spellAction == EnumSpellAction.PREPAR)
+                    if(this.spellAction == EnumSpellAction.PREPARE)
                     {
                         EnumSpellAction result = this.getSkillInSpell().onSkillPreparing(this.player.worldObj, this.player, this.getSkillInSpellDuration());
                         if(result != EnumSpellAction.NONE)
@@ -269,6 +275,7 @@ public class CapabilityMagic
                             {
                                 this.setSpellAction(EnumSpellAction.SPELL);
                                 this.setMana(this.getMana() - this.getSkillInSpell().getSkillConsume());
+                                this.getCooldownTracker().setGlobalCooldown(this.getCooldownTracker().getTotalGlobalCooldown());
                                 this.getCooldownTracker().setCooldown(this.getSkillInSpell().getSkill(), this.getSkillInSpell().getTotalCooldown());
                                 
                                 this.getSkillInSpell().onSkillSpell(this.player.worldObj, this.player);
@@ -333,9 +340,16 @@ public class CapabilityMagic
         {
             super(player);
             this.player = player;
+            super.tracker = new SpellCooldownTrackerServer(player);
             this.prevPosY = player.posX;
             this.prevPosY = player.posY;
             this.prevPosZ = player.posZ;
+        }
+        
+        @Override
+        protected SpellCooldownTracker createCooldownTracker()
+        {
+            return null;
         }
 
         @Override
@@ -482,18 +496,18 @@ public class CapabilityMagic
     
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
-        private IPlayerMagic playerMagic;
+        private IPlayerMagic instance;
         private IStorage<IPlayerMagic> storage;
 
         public Provider(EntityPlayer player)
         {
-            if(player instanceof EntityPlayerMP)
+            if (player instanceof EntityPlayerMP)
             {
-                this.playerMagic = new Server((EntityPlayerMP) player);
+                this.instance = new Server((EntityPlayerMP) player);
             }
             else
             {
-                this.playerMagic = new Common(player);
+                this.instance = new Common(player);
             }
             this.storage = CapabilityLoader.playerMagic.getStorage();
         }
@@ -509,7 +523,7 @@ public class CapabilityMagic
         {
             if (this.hasCapability(capability, facing))
             {
-                T result = (T) this.playerMagic;
+                T result = (T) this.instance;
                 return result;
             }
             return null;
@@ -518,13 +532,13 @@ public class CapabilityMagic
         @Override
         public NBTTagCompound serializeNBT()
         {
-            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerMagic, this.playerMagic, null);
+            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerMagic, this.instance, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound compound)
         {
-            this.storage.readNBT(CapabilityLoader.playerMagic, this.playerMagic, null, compound);
+            this.storage.readNBT(CapabilityLoader.playerMagic, this.instance, null, compound);
         }
     }
 }
