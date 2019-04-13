@@ -15,6 +15,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
@@ -46,23 +48,32 @@ public class CommandLearn extends CommandBase
         {
             EntityPlayerMP serverPlayer = getPlayer(sender, args[0]);
             Skill skill = getSkillByText(sender, args[1]);
-            
-            if(skill != null)
+            int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 1;
+            SkillStack skillStack = new SkillStack(skill, level);
+            if (args.length >= 4)
             {
-                int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 0;
-                SkillStack skillstack = new SkillStack(skill, level);
-                SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getInventory();
-                if (inventory.addSkillStackToInventory(skillstack))
+                String s = getChatComponentFromNthArg(sender, args, 3).getUnformattedText();
+                try
                 {
-                    serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                    List<SkillStack> list = new ArrayList<SkillStack>();
-                    for(int i = 0; i < inventory.getSizeInventory(); i++)
-                        list.add(inventory.getStackInSlot(i));
-                    NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), serverPlayer);
-                    notifyOperators(sender, this, "commands.learn.success", new Object[] {skillstack.getChatComponent(), Integer.valueOf(level), serverPlayer.getName()});
+                    skillStack.setTagCompound(JsonToNBT.getTagFromJson(s));
                 }
-                else throw new CommandException("commands.learn.full", new Object[] {serverPlayer.getName()});
+                catch (NBTException nbtexception)
+                {
+                    throw new CommandException("commands.learn.tagError", nbtexception.getMessage());
+                }
             }
+            
+            SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getInventory();
+            if (inventory.addSkillStackToInventory(skillStack))
+            {
+                serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
+                List<SkillStack> list = new ArrayList<SkillStack>();
+                for(int i = 0; i < inventory.getInventorySize(); i++)
+                    list.add(inventory.getStackInSlot(i));
+                NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), serverPlayer);
+                notifyOperators(sender, this, "commands.learn.success", skillStack.getChatComponent(), Integer.valueOf(level), serverPlayer.getName());
+            }
+            else throw new CommandException("commands.learn.full", serverPlayer.getName());
         }
         else throw new WrongUsageException("commands.learn.usage", new Object[0]);
     }
@@ -84,7 +95,7 @@ public class CommandLearn extends CommandBase
 
         if (skill == null)
         {
-            throw new NumberInvalidException("commands.learn.skill.notFound", new Object[] {new ResourceLocation(id)});
+            throw new NumberInvalidException("commands.learn.skill.notFound", new ResourceLocation(id));
         }
         else
         {

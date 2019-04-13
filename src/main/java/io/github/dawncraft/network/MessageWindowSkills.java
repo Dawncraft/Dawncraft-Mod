@@ -22,39 +22,39 @@ public class MessageWindowSkills implements IMessage
 {
     private int windowId;
     private SkillStack[] skillStacks;
-    
+
     public MessageWindowSkills() {}
-    
+
     public MessageWindowSkills(int windowId, List<SkillStack> stacks)
     {
         this.windowId = windowId;
         this.skillStacks = stacks.toArray(new SkillStack[0]);
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.windowId = buf.readUnsignedByte();
         this.skillStacks = new SkillStack[buf.readShort()];
-
+        
         for (int i = 0; i < this.skillStacks.length; ++i)
         {
             this.skillStacks[i] = DawnByteBufUtils.readSkillStack(buf);
         }
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeByte(this.windowId);
         buf.writeShort(this.skillStacks.length);
-        
+
         for (SkillStack skillstack : this.skillStacks)
         {
             DawnByteBufUtils.writeSkillStack(buf, skillstack);
         }
     }
-
+    
     public static class Handler implements IMessageHandler<MessageWindowSkills, IMessage>
     {
         @Override
@@ -71,13 +71,13 @@ public class MessageWindowSkills implements IMessage
                         if (player.hasCapability(CapabilityLoader.playerMagic, null))
                         {
                             SkillInventoryPlayer inventory = (SkillInventoryPlayer) player.getCapability(CapabilityLoader.playerMagic, null).getInventory();
-                            
+
                             if (message.windowId == 0)
                             {
                                 // inventory.putStacksInSlots(message.skillStacks);// 未实现
                                 for (int i = 0; i < message.skillStacks.length; ++i)
                                 {
-                                    inventory.setInventorySlotContents(i, message.skillStacks[i]);
+                                    inventory.setInventorySlot(i, message.skillStacks[i]);
                                 }
                             }
                             // 未实现

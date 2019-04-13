@@ -1,4 +1,4 @@
-package io.github.dawncraft.client.gui.magic;
+package io.github.dawncraft.client.gui.container;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.capability.CapabilityLoader;
@@ -8,7 +8,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiMagic extends GuiContainer
+public class GuiMagic extends GuiContainerSkill
 {
     private static final ResourceLocation creativeSkillTab = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/magic/tab_skill.png");
     private static int tabPage = 0;
@@ -83,7 +83,7 @@ public class GuiMagic extends GuiContainer
         }
         // 绘制魔法栏
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(magicBackground);
+        this.mc.getTextureManager().bindTexture(skillInventoryBackground);
         this.drawTexturedModalRect(x + offset, y, 0, 0, 176, 166);
         // 绘制玩家
         GuiInventory.drawEntityOnScreen(x + offset + 23, y + 76, 20, x + offset + 23 - this.oldMouseX, y + 76 - 30 - this.oldMouseY, this.mc.thePlayer);

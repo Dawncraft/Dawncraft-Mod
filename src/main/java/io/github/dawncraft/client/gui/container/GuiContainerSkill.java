@@ -1,4 +1,4 @@
-package io.github.dawncraft.client.gui.magic;
+package io.github.dawncraft.client.gui.container;
 
 import java.io.IOException;
 
@@ -7,46 +7,46 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiContainer extends GuiScreen
+public class GuiContainerSkill extends GuiScreen
 {
-    protected static final ResourceLocation magicBackground = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/magic/magic.png");
+    protected static final ResourceLocation skillInventoryBackground = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/inventory/skill.png");
     protected int xSize = 176;
     protected int ySize = 166;
     protected int guiLeft;
     protected int guiTop;
-
-    public GuiContainer()
+    
+    public GuiContainerSkill()
     {
-        // TODO 魔法GUI容器
+        // TODO 魔法GUI容器客户端
     }
-
+    
     @Override
     public void initGui()
     {
         super.initGui();
-        
+
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.drawDefaultBackground();
     }
-
+    
     @Override
     public void updateScreen()
     {
         super.updateScreen();
-
+        
         if (!this.mc.thePlayer.isEntityAlive() || this.mc.thePlayer.isDead)
         {
             this.mc.thePlayer.closeScreen();
         }
     }
-
+    
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
@@ -55,7 +55,7 @@ public class GuiContainer extends GuiScreen
             this.mc.thePlayer.closeScreen();
         }
     }
-    
+
     @Override
     public void onGuiClosed()
     {
@@ -64,7 +64,7 @@ public class GuiContainer extends GuiScreen
             // 未实现
         }
     }
-
+    
     @Override
     public boolean doesGuiPauseGame()
     {

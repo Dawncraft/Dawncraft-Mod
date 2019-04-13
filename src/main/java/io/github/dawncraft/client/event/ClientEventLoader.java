@@ -11,11 +11,10 @@ public class ClientEventLoader
 {
     public static void initClientEvents()
     {
-        registerEvent(new PlayerRenderEventHandler());
         registerEvent(new InputEventHandler());
+        registerEvent(new PlayerRenderEventHandler());
         registerEvent(new TooltipEventHandler());
         registerEvent(new GuiEventHandler());
-        registerEvent(new GuiIngameDawn());
     }
     
     private static void registerEvent(Object target)

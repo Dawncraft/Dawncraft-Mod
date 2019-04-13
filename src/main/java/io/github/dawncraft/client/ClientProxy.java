@@ -1,6 +1,7 @@
 package io.github.dawncraft.client;
 
 import io.github.dawncraft.client.event.ClientEventLoader;
+import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.client.gui.stats.GuiStatLoader;
 import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class ClientProxy extends ServerProxy
 {
     private static RenderSkill skillRender;
+    private static GuiIngameDawn ingameGUIDawn;
     
     @Override
     public void preInit(FMLPreInitializationEvent event)
@@ -50,10 +52,16 @@ public class ClientProxy extends ServerProxy
     public void postInit(FMLPostInitializationEvent event)
     {
         super.postInit(event);
+        ingameGUIDawn = new GuiIngameDawn();
     }
 
     public static RenderSkill getSkillRender()
     {
         return skillRender;
+    }
+
+    public static GuiIngameDawn getIngameGUIDawn()
+    {
+        return ingameGUIDawn;
     }
 }

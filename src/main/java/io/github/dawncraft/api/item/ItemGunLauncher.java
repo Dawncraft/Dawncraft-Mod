@@ -3,7 +3,8 @@
  */
 package io.github.dawncraft.api.item;
 
-import io.github.dawncraft.client.event.GuiIngameDawn;
+import io.github.dawncraft.client.ClientProxy;
+import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.entity.projectile.EntityRocket;
 import io.github.dawncraft.item.ItemLoader;
 import net.minecraft.client.gui.ScaledResolution;
@@ -27,22 +28,22 @@ public class ItemGunLauncher extends ItemGun
     {
         super(maxDamage, clip, reload, interval, velocity, deviation, sway, moifier);
     }
-    
+
     @Override
     public void onPlayerStoppedUsing(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, int timeLeft)
     {
         if (playerIn.capabilities.isCreativeMode || this.getAmmoAmount(itemStackIn) > 0)
         {
             int power = this.getMaxItemUseDuration(itemStackIn) - timeLeft;
-
+            
             if (!playerIn.capabilities.isCreativeMode)
             {
                 itemStackIn.damageItem(1, playerIn);
                 this.reduceAmmo(itemStackIn, 1, playerIn);
             }
-
+            
             worldIn.playSoundAtEntity(playerIn, this.getShootSound(), 1.0F, 1.0F);
-
+            
             if (!worldIn.isRemote)
             {
                 try
@@ -57,21 +58,21 @@ public class ItemGunLauncher extends ItemGun
             }
         }
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void renderSightOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks)
     {
-        GuiIngameDawn.getIngameDawnGUI().bind(GuiIngameDawn.icons);
-        GuiIngameDawn.getIngameDawnGUI().drawTexturedModalRect(resolution.getScaledWidth() / 2 - 20, resolution.getScaledHeight() / 2 - 20, 0, 129, 41, 41);
+        ClientProxy.getIngameGUIDawn().bind(GuiIngameDawn.icons);
+        ClientProxy.getIngameGUIDawn().drawTexturedModalRect(resolution.getScaledWidth() / 2 - 20, resolution.getScaledHeight() / 2 - 20, 0, 129, 41, 41);
     }
-
+    
     @Override
     public Item getAmmo()
     {
         return ItemLoader.gunRocket;
     }
-    
+
     public Class<? extends Entity> getAmmoEntity()
     {
         return EntityRocket.class;

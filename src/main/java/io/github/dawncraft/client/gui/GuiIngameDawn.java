@@ -1,4 +1,4 @@
-package io.github.dawncraft.client.event;
+package io.github.dawncraft.client.gui;
 
 import java.util.Random;
 
@@ -30,6 +30,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
@@ -44,8 +45,6 @@ public class GuiIngameDawn extends Gui
     public static final ResourceLocation icons = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/icons.png");
     public static final ResourceLocation widgets = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/widgets.png");
     
-    public static GuiIngameDawn ingameDawnGUI;
-
     public static boolean renderMana = true;
     public static boolean renderSkillbar = true;
     // If render the sight
@@ -53,7 +52,7 @@ public class GuiIngameDawn extends Gui
 
     protected final Random rand = new Random();
     protected final Minecraft mc;
-    protected GuiIngameForge ingameForgeGUI;
+    protected GuiIngameForge ingameGUIForge;
 
     // 玩家魔法的缓存(用于判断玩家是否消耗了魔法)
     public int playerMana = 0;
@@ -78,7 +77,8 @@ public class GuiIngameDawn extends Gui
     public GuiIngameDawn()
     {
         this.mc = Minecraft.getMinecraft();
-        ingameDawnGUI = this;
+
+        MinecraftForge.EVENT_BUS.register(this);
     }
     
     @SubscribeEvent
@@ -195,12 +195,12 @@ public class GuiIngameDawn extends Gui
         }
     }
     
-    protected void changeMode()
+    public void changeMode()
     {
         this.spellMode = !this.spellMode;
     }
     
-    protected void setSpellIndex(int index)
+    public void setSpellIndex(int index)
     {
         this.skillIndex = index;
     }
@@ -460,8 +460,8 @@ public class GuiIngameDawn extends Gui
 
     public GuiIngameForge getIngameGUI()
     {
-        if(this.ingameForgeGUI == null) this.ingameForgeGUI = (GuiIngameForge) this.mc.ingameGUI;
-        return this.ingameForgeGUI;
+        if (this.ingameGUIForge == null) this.ingameGUIForge = (GuiIngameForge) this.mc.ingameGUI;
+        return this.ingameGUIForge;
     }
 
     public static void addLeftHeight(int height)
@@ -482,10 +482,5 @@ public class GuiIngameDawn extends Gui
     public static int getRightHeight()
     {
         return GuiIngameForge.right_height;
-    }
-
-    public static GuiIngameDawn getIngameDawnGUI()
-    {
-        return ingameDawnGUI;
     }
 }

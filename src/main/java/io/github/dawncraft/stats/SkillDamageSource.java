@@ -35,15 +35,15 @@ public class SkillDamageSource extends DamageSource
     @Override
     public IChatComponent getDeathMessage(EntityLivingBase entityLivingBase)
     {
-        String s = "death.attack." + this.damageType;
-        if(this.getSkillStack() != null)
+        String text = "death.attack." + this.damageType;
+        if (this.getSkillStack() != null)
         {
-            String s1 = s + ".skill";
-            if(StatCollector.canTranslate(s1))
+            String skillName = text + ".skill";
+            if (StatCollector.canTranslate(skillName))
             {
-                return new ChatComponentTranslation(s1, entityLivingBase.getDisplayName(), this.damageSourceEntity.getDisplayName(), this.skillStack.getChatComponent());
+                return new ChatComponentTranslation(skillName, entityLivingBase.getDisplayName(), this.damageSourceEntity.getDisplayName(), this.skillStack.getChatComponent());
             }
         }
-        return new ChatComponentTranslation(s, entityLivingBase.getDisplayName(), this.damageSourceEntity.getDisplayName());
+        return new ChatComponentTranslation(text, entityLivingBase.getDisplayName(), this.damageSourceEntity.getDisplayName());
     }
 }

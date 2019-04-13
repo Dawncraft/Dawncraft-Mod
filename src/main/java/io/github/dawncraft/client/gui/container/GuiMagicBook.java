@@ -1,4 +1,4 @@
-package io.github.dawncraft.client.gui.magic;
+package io.github.dawncraft.client.gui.container;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

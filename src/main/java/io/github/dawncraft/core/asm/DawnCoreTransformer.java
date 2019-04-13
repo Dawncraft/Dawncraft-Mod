@@ -10,14 +10,15 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import io.github.dawncraft.core.DawnCoreSetuper;
+
 import net.minecraft.launchwrapper.IClassTransformer;
 
 public class DawnCoreTransformer implements IClassTransformer
@@ -28,6 +29,7 @@ public class DawnCoreTransformer implements IClassTransformer
                 Arrays.asList("getTexture", "func_178122_a", "a"),
                 Arrays.asList("renderTileItem"),// emmm,Forge没有混淆
                 Arrays.asList("mouseClicked", "func_73864_a", "a"),
+                Arrays.asList("handleComponentHover", "func_175272_a", "a"),
                 Arrays.asList("transferEntityToWorld", "func_82448_a", "a"),
                 Arrays.asList("transferPlayerToDimension", "func_72356_a", "a")
         };
@@ -78,10 +80,10 @@ public class DawnCoreTransformer implements IClassTransformer
                                 // 先加一个标签
                                 LabelNode label = new LabelNode();
                                 methodNode.instructions.add(label);
-                                methodNode.instructions.add(new IntInsnNode(Opcodes.ALOAD, 0));
+                                methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
                                 String fieldName = DawnCoreSetuper.isDeobfEnv ? (String) FIELDNAMES[0].get(1) : (String) FIELDNAMES[0].get(0);
                                 methodNode.instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/renderer/BlockModelShapes", fieldName, "Lnet/minecraft/client/resources/model/ModelManager;"));
-                                methodNode.instructions.add(new IntInsnNode(Opcodes.ALOAD, 2));
+                                methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
                                 methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getBlockParticle", "(Lnet/minecraft/client/resources/model/ModelManager;Lnet/minecraft/block/Block;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", false));
                                 methodNode.instructions.add(new InsnNode(Opcodes.ARETURN));
                                 // 把这个字节码改为跳转到上面加的标签
@@ -105,8 +107,8 @@ public class DawnCoreTransformer implements IClassTransformer
                         // ACONST_NULL
                         if (insnNode.getOpcode() == Opcodes.ACONST_NULL)
                         {
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ALOAD, 0));
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ILOAD, 1));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 0));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 1));
                             methodNode.instructions.set(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getTileentityForItem", "(Lnet/minecraft/item/Item;I)Lnet/minecraft/tileentity/TileEntity;", false));
                         }
                     }
@@ -130,6 +132,32 @@ public class DawnCoreTransformer implements IClassTransformer
                         }
                     }
                 }
+                else if (METHODNAMES[4].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/util/IChatComponent;II)V"))
+                {
+                    changed = true;
+                    // 对GuiScreen.handleComponentHover(IChatComponent, int, int)进行操作
+                    for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
+                    {
+                        // 下面是 INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableLighting()V
+                        if (insnNode.getOpcode() == Opcodes.INVOKESTATIC)
+                        {
+                            MethodInsnNode currentNode = (MethodInsnNode) insnNode;
+                            if (currentNode.owner.equals("net/minecraft/client/renderer/GlStateManager") && currentNode.desc.equals("()V"))
+                            {
+                                methodNode.instructions.insert(insnNode.getPrevious(), new FieldInsnNode(Opcodes.GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;"));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new TypeInsnNode(Opcodes.NEW, "io/github/dawncraft/api/client/event/ChatComponentEvent$Hover"));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new InsnNode(Opcodes.DUP));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ALOAD, 0));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ALOAD, 1));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ILOAD, 2));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ILOAD, 3));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new MethodInsnNode(Opcodes.INVOKESPECIAL, "io/github/dawncraft/api/client/event/ChatComponentEvent$Hover", "<init>", "(Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/util/IChatComponent;II)V", false));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraftforge/fml/common/eventhandler/EventBus", "post", "(Lnet/minecraftforge/fml/common/eventhandler/Event;)Z", false));
+                                methodNode.instructions.insert(insnNode.getPrevious(), new InsnNode(Opcodes.POP));
+                            }
+                        }
+                    }
+                }
             }
         }
         // 服务器
@@ -137,23 +165,23 @@ public class DawnCoreTransformer implements IClassTransformer
         {
             for (MethodNode methodNode : classNode.methods)
             {
-                if (METHODNAMES[4].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
+                if (METHODNAMES[5].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
                 {
                     changed = true;
                     // 对net.minecraft.server.management.ServerConfigurationManager.transferEntityToWorld(Entity, int, WorldServer, WorldServer)进行操作
                     for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
                     {
-                        // 第二个  ALOAD 4
+                        // 第二个 ALOAD 4
                         if (insnNode.getOpcode() == Opcodes.ALOAD && insnNode.getNext().getOpcode() == Opcodes.INVOKEVIRTUAL)
                         {
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ALOAD, 1));
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ILOAD, 2));
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ALOAD, 3));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 1));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 2));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 3));
                             methodNode.instructions.set(insnNode.getNext(), new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/server/DawnServerHooks", "getTeleporter", "(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)Lnet/minecraft/world/Teleporter;", false));
                         }
                     }
                 }
-                else if (METHODNAMES[5].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
+                else if (METHODNAMES[6].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
                 {
                     changed = true;
                     // 对net.minecraft.server.management.ServerConfigurationManager.transferPlayerToDimension(EntityPlayerMP, int)进行操作
@@ -161,8 +189,8 @@ public class DawnCoreTransformer implements IClassTransformer
                     {
                         if (insnNode.getOpcode() == Opcodes.ALOAD && insnNode.getPrevious().getOpcode() == Opcodes.ILOAD)
                         {
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ALOAD, 1));
-                            methodNode.instructions.insertBefore(insnNode, new IntInsnNode(Opcodes.ILOAD, 2));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 1));
+                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 2));
                         }
                         else if (insnNode.getOpcode() == Opcodes.INVOKEVIRTUAL && ((MethodInsnNode) insnNode).desc.equals("()Lnet/minecraft/world/Teleporter;"))
                         {

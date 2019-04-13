@@ -2,9 +2,12 @@ package io.github.dawncraft.network;
 
 import com.google.common.base.Throwables;
 
+import java.io.IOException;
+
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
+
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 
@@ -17,10 +20,10 @@ public class DawnByteBufUtils
 {
     /**
      * Write an {@link SkillStack} using dawncraft compatible encoding.
-     * <br>Write the SkillStack's ID (short), then level (int), then cooldown (int).</br>
+     * <br>Write the SkillStack's ID (short), then level (byte).</br>
      *
      * @param to The buffer to write to
-     * @param stack The skillstack to write
+     * @param stack The skill stack to write
      */
     public static void writeSkillStack(ByteBuf to, SkillStack stack)
     {
@@ -33,7 +36,8 @@ public class DawnByteBufUtils
         else
         {
             pb.writeShort(Skill.getIdFromSkill(stack.getSkill()));
-            pb.writeInt(stack.getSkillLevel());
+            pb.writeByte(stack.getSkillLevel());
+            pb.writeNBTTagCompoundToBuffer(stack.getTagCompound());
         }
     }
 
@@ -41,26 +45,26 @@ public class DawnByteBufUtils
      * Read an {@link SkillStack} from the byte buffer provided. It uses the dawncraft encoding.
      *
      * @param from The buffer to read from
-     * @return The skillstack read
+     * @return The skill stack to read
      */
     public static SkillStack readSkillStack(ByteBuf from)
     {
         PacketBuffer pb = new PacketBuffer(from);
+        
         SkillStack stack = null;
         try
         {
             int id = pb.readShort();
-
             if (id >= 0)
             {
-                int level = pb.readInt();
+                int level = pb.readByte();
                 stack = new SkillStack(Skill.getSkillById(id), level);
+                stack.setTagCompound(pb.readNBTTagCompoundFromBuffer());
             }
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            // Still unpossible?
-            // 好吧,读NBT的时候有可能抛IOException异常,但是目前技能系统还没有NBT...
+            // Still impossible?
             throw Throwables.propagate(e);
         }
         return stack;

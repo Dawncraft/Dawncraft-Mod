@@ -80,12 +80,12 @@ public class GuiStatsDawn extends GuiStats
         else super.actionPerformed(button);
     }
 
-    public void drawStatsScreen(int z, int y, Skill skill)
+    public void drawStatsScreen(int x, int y, Skill skill)
     {
-        this.drawSprite(z + 1, y + 1, 0, 0);
+        this.drawSprite(x + 1, y + 1, 0, 0);
         GlStateManager.enableRescaleNormal();
         RenderHelper.enableGUIStandardItemLighting();
-        this.skillRender.renderSkillIntoGUI(new SkillStack(skill, 1), z + 2, y + 2);
+        this.skillRender.renderSkillIntoGUI(new SkillStack(skill, 1), x + 2, y + 2);
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
     }

@@ -9,7 +9,12 @@ public interface ISkillInventory extends IWorldNameable
     /**
      * Returns the number of slots in the inventory.
      */
-    int getSizeInventory();
+    int getInventorySize();
+
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be learning sections).
+     */
+    void setInventorySlot(int index, SkillStack stack);
     
     /**
      * Returns the stack in the given slot.
@@ -22,16 +27,9 @@ public interface ISkillInventory extends IWorldNameable
     SkillStack removeStackFromSlot(int index);
     
     /**
-     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     * Clear all stacks in the inventory
      */
-    void setInventorySlotContents(int index, SkillStack stack);
-
-    /**
-     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
-     */
-    boolean isSkillValidForSlot(int index, SkillStack stack);
-
-    void clear();
+    void clearStacks();
 
     /**
      * Do not make give this method the name canInteractWith because it clashes with Container

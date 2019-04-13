@@ -2,6 +2,8 @@ package io.github.dawncraft.container;
 
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SlotSkill
 {
@@ -16,41 +18,20 @@ public class SlotSkill
     /** display position of the inventory slot on the screen y axis */
     public int yDisplayPosition;
 
-    public SlotSkill(ISkillInventory inventoryIn, int index, int xPosition, int yPosition)
+    public SlotSkill(ISkillInventory inventory, int index, int xPosition, int yPosition)
     {
-        this.inventory = inventoryIn;
+        this.inventory = inventory;
         this.slotIndex = index;
         this.xDisplayPosition = xPosition;
         this.yDisplayPosition = yPosition;
-    }
-    
-    public boolean isSkillValid(SkillStack stack)
-    {
-        return true;
-    }
-
-    public boolean canTakeStack(EntityPlayer playerIn)
-    {
-        return true;
-    }
-    
-    public void putStack(SkillStack stack)
-    {
-        this.inventory.setInventorySlotContents(this.slotIndex, stack);
-        this.onSlotChanged();
-    }
-    
-    public void onPickupFromSlot(EntityPlayer playerIn, SkillStack stack)
-    {
-        this.onSlotChanged();
     }
     
     public int getSlotIndex()
     {
         return this.slotIndex;
     }
-    
-    public boolean getHasStack()
+
+    public boolean hasStack()
     {
         return this.getStack() != null;
     }
@@ -59,14 +40,45 @@ public class SlotSkill
     {
         return this.inventory.getStackInSlot(this.slotIndex);
     }
-    
-    public boolean isHere(ISkillInventory inv, int slot)
+
+    public boolean isHere(ISkillInventory inventory, int slot)
     {
-        return inv == this.inventory && slot == this.slotIndex;
+        return inventory == this.inventory && slot == this.slotIndex;
     }
 
+    public boolean isSkillValid(SkillStack stack)
+    {
+        return true;
+    }
+    
+    public void putStack(SkillStack stack)
+    {
+        this.inventory.setInventorySlot(this.slotIndex, stack);
+        this.onSlotChanged();
+    }
+    
+    public boolean canTakeStack(EntityPlayer player)
+    {
+        return true;
+    }
+
+    public void onPickupFromSlot(EntityPlayer player, SkillStack stack)
+    {
+        this.onSlotChanged();
+    }
+    
     public void onSlotChanged()
     {
         this.inventory.markDirty();
+    }
+
+    public void onLearning(SkillStack stack)
+    {
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public String getSlotTexture()
+    {
+        return null;
     }
 }

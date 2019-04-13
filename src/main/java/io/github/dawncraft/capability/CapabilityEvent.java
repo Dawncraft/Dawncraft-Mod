@@ -4,6 +4,7 @@ import io.github.dawncraft.network.MessageWindowSkills;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.network.NetworkLoader;
@@ -25,7 +26,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class CapabilityEvent
 {
     public CapabilityEvent() {}
-
+    
     @SubscribeEvent
     public void onAttachCapabilitiesEntity(AttachCapabilitiesEvent.Entity event)
     {
@@ -37,7 +38,7 @@ public class CapabilityEvent
             event.addCapability(IPlayerMagic.domain, new CapabilityMagic.Provider(player));
         }
     }
-    
+
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
@@ -48,18 +49,19 @@ public class CapabilityEvent
             if (player.hasCapability(CapabilityLoader.playerMagic, null))
             {
                 IPlayerMagic magic = player.getCapability(CapabilityLoader.playerMagic, null);
-                
+
                 ISkillInventory inventory = magic.getInventory();
+                
                 List<SkillStack> list = new ArrayList<SkillStack>();
-                for(int i = 0; i < inventory.getSizeInventory(); i++)
+                for(int i = 0; i < inventory.getInventorySize(); i++)
                     list.add(inventory.getStackInSlot(i));
                 NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), player);
-                
+
                 magic.getCooldownTracker().synchronizeAll();
             }
         }
     }
-
+    
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event)
     {
@@ -76,7 +78,7 @@ public class CapabilityEvent
             CapabilityLoader.playerThirst.getStorage().readNBT(CapabilityLoader.playerThirst,
                     event.entityPlayer.getCapability(CapabilityLoader.playerThirst, null), null, nbtThirst);
         }
-
+        
         IPlayerMagic playerMagic = event.original.getCapability(CapabilityLoader.playerMagic, null);
         if (event.wasDeath)
         {

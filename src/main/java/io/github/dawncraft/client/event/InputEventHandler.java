@@ -2,7 +2,8 @@ package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
-import io.github.dawncraft.client.gui.magic.GuiMagic;
+import io.github.dawncraft.client.ClientProxy;
+import io.github.dawncraft.client.gui.container.GuiMagic;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
@@ -29,14 +30,14 @@ public class InputEventHandler
         Minecraft mc = Minecraft.getMinecraft();
         if(mc.getRenderViewEntity() instanceof EntityPlayer)
         {
-            EntityPlayer player = (EntityPlayer) mc.getRenderViewEntity();
+            EntityPlayer player = (EntityPlayer) mc.getRenderViewEntity();;
             // Switch key was pressed
             if (KeyLoader.change.isPressed())
             {
-                GuiIngameDawn.getIngameDawnGUI().changeMode();
+                ClientProxy.getIngameGUIDawn().changeMode();
             }
             // Spell key was pressed
-            if (GuiIngameDawn.getIngameDawnGUI().spellMode)
+            if (ClientProxy.getIngameGUIDawn().spellMode)
             {
                 for(int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++)
                 {
@@ -54,7 +55,7 @@ public class InputEventHandler
                                     playerCap.setSpellAction(EnumSpellAction.PREPARE);
                                     playerCap.setSpellIndex(i);
                                     playerCap.setSkillInSpell(stack);
-                                    GuiIngameDawn.getIngameDawnGUI().setSpellIndex(i);
+                                    ClientProxy.getIngameGUIDawn().setSpellIndex(i);
                                     NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                                 }
 
