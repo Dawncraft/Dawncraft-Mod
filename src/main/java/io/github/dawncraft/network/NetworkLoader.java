@@ -23,7 +23,7 @@ public class NetworkLoader
         registerMessage(MessagePlayerSpelling.Handler.class, MessagePlayerSpelling.class, Side.CLIENT);
         registerMessage(MessageSpellCooldown.Handler.class, MessageSpellCooldown.class, Side.CLIENT);
         
-        registerMessage(MessageSetSlot.Handler.class, MessageSetSlot.class, Side.CLIENT);
+        registerMessage(MessageSetSkillSlot.Handler.class, MessageSetSkillSlot.class, Side.CLIENT);
         registerMessage(MessageWindowSkills.Handler.class, MessageWindowSkills.class, Side.CLIENT);
 
         MinecraftForge.EVENT_BUS.register(new CustomPacketHandler());

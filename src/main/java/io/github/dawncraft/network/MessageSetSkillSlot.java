@@ -17,15 +17,15 @@ import net.minecraftforge.fml.relauncher.Side;
  *
  * @author QingChenW
  */
-public class MessageSetSlot implements IMessage
+public class MessageSetSkillSlot implements IMessage
 {
     private int windowId;
     private int slot;
     private SkillStack skillStack;
 
-    public MessageSetSlot() {}
+    public MessageSetSkillSlot() {}
     
-    public MessageSetSlot(int windowId, int slot, SkillStack skillStack)
+    public MessageSetSkillSlot(int windowId, int slot, SkillStack skillStack)
     {
         this.windowId = windowId;
         this.slot = slot;
@@ -48,10 +48,10 @@ public class MessageSetSlot implements IMessage
         DawnByteBufUtils.writeSkillStack(buf, this.skillStack);
     }
     
-    public static class Handler implements IMessageHandler<MessageSetSlot, IMessage>
+    public static class Handler implements IMessageHandler<MessageSetSkillSlot, IMessage>
     {
         @Override
-        public IMessage onMessage(final MessageSetSlot message, MessageContext ctx)
+        public IMessage onMessage(final MessageSetSkillSlot message, MessageContext ctx)
         {
             if(ctx.side == Side.CLIENT)
             {

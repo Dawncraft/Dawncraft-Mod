@@ -249,7 +249,7 @@ commands.forget.tagError=数据标签分析失败：%s
 commands.forget.testing=%s 有 %d 个匹配条件的技能
 commands.forget.success=清除了 %s 的技能栏, 移除了 %d 个技能
 commands.forget.failure=无法清除 %s 的技能栏, 没有可移除的技能
-commands.talent.usage=/talent gain/take <玩家> <天赋>
+commands.talent.usage=/talent gain/take <玩家> <天赋/*>
 
 key.categories.dawncraft=曙光工艺
 key.dawncraft.switch=切换模式(施法/放置)
