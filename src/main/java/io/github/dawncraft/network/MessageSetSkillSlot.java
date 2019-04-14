@@ -2,7 +2,7 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
-import io.github.dawncraft.entity.player.SkillInventoryPlayer;
+import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * Handles pickin up an SkillStack or dropping one in your inventory or an open (non-creative) container
+ * Handles pick in up a SkillStack or dropping one in your inventory or an open (non-creative) container
  *
  * @author QingChenW
  */
@@ -25,11 +25,11 @@ public class MessageSetSkillSlot implements IMessage
 
     public MessageSetSkillSlot() {}
     
-    public MessageSetSkillSlot(int windowId, int slot, SkillStack skillStack)
+    public MessageSetSkillSlot(int windowId, int slot, SkillStack stack)
     {
         this.windowId = windowId;
         this.slot = slot;
-        this.skillStack = skillStack == null ? null : skillStack.copy();
+        this.skillStack = stack == null ? null : stack.copy();
     }
 
     @Override
@@ -61,44 +61,37 @@ public class MessageSetSkillSlot implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if(player.hasCapability(CapabilityLoader.playerMagic, null))
+                        IPlayerMagic magic = player.getCapability(CapabilityLoader.playerMagic, null);
+
+                        if (message.windowId == -1)
                         {
-                            IPlayerMagic magic = player.getCapability(CapabilityLoader.playerMagic, null);
-
-                            if (message.windowId == -1)
+                            magic.getSkillInventory().setSkillStack(message.skillStack);
+                        }
+                        else
+                        {
+                            boolean flag = false;
+                            /* 判断是不是创造物品栏
+                            if (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative)
                             {
-                                ((SkillInventoryPlayer) magic.getInventory()).setSkillStack(message.skillStack);
+                                GuiContainerCreative guicontainercreative = (GuiContainerCreative) Minecraft.getMinecraft().currentScreen;
+                                flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
                             }
-                            else
+                             */
+
+                            if (message.windowId == 0 && message.slot >= 0 && message.slot < 9)
                             {
-                                if(message.windowId == 0)
+                                SkillStack stack = magic.getSkillInventoryContainer().getSkillSlot(message.slot).getStack();
+                                
+                                if (message.skillStack != null && (stack == null || stack.skillLevel < message.skillStack.skillLevel))
                                 {
-                                    magic.getInventory().setInventorySlot(message.slot, message.skillStack);
+                                    message.skillStack.animationsToGo = 5;
                                 }
-                                // TODO SkillSlot和Container写完后重写这个
-                                /*                                boolean flag = false;
-
-                                if (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative)
-                                {
-                                    GuiContainerCreative guicontainercreative = (GuiContainerCreative)Minecraft.getMinecraft().currentScreen;
-                                    flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
-                                }
-
-                                if (message.windowId == 0 && message.slot >= 36 && message.slot < 45)
-                                {
-                                    ItemStack itemstack = player.inventoryContainer.getSlot(message.slot).getStack();
-
-                                    if (message.skillStack != null && (itemstack == null || itemstack.stackSize < message.skillStack.stackSize))
-                                    {
-                                        message.skillStack.animationsToGo = 5;
-                                    }
-
-                                    player.inventoryContainer.putStackInSlot(message.slot, message.skillStack);
-                                }
-                                else if (message.windowId == player.openContainer.windowId && (message.slot != 0 || !flag))
-                                {
-                                    player.openContainer.putStackInSlot(message.slot, message.skillStack);
-                                }*/
+                                
+                                magic.getSkillInventoryContainer().putSkillStackInSlot(message.slot, message.skillStack);
+                            }
+                            else if (player.openContainer instanceof SkillContainer && message.windowId == player.openContainer.windowId && !flag)
+                            {
+                                ((SkillContainer) player.openContainer).putSkillStackInSlot(message.slot, message.skillStack);
                             }
                         }
                     }

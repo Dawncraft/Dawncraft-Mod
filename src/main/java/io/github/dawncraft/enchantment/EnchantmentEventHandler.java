@@ -9,9 +9,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class EnchantmentEvent
+public class EnchantmentEventHandler
 {
-    public EnchantmentEvent() {}
+    public EnchantmentEventHandler() {}
     
     @SubscribeEvent
     public void onBlockHarvestDrops(BlockEvent.HarvestDropsEvent event)

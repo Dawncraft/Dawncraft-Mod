@@ -16,10 +16,10 @@ import net.minecraftforge.common.util.INBTSerializable;
 
 public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
 {
-    protected int tick;
+    private int tick;
     /** global cooldown's expire tick */
-    protected int globalCooldownTick;
-    protected Map<Skill, Cooldown> cooldowns = new HashMap<Skill, Cooldown>();
+    private int globalCooldownTick;
+    private Map<Skill, Cooldown> cooldowns = new HashMap<Skill, Cooldown>();
     
     public static int getTotalGlobalCooldown()
     {
@@ -34,8 +34,8 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
 
     public float getGlobalCooldownPercent(float partialTick)
     {
-        float current = (float)this.getGlobalCooldown() - partialTick;
-        float total = (float)getTotalGlobalCooldown();
+        float current = (float) this.getGlobalCooldown() - partialTick;
+        float total = (float) getTotalGlobalCooldown();
         return MathHelper.clamp_float(current / total, 0.0F, 1.0F);
     }
     
@@ -66,8 +66,8 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
         Cooldown cooldown = this.cooldowns.get(skill);
         if (cooldown != null)
         {
-            float current = (float)this.getCooldown(skill) - partialTick;
-            float total = (float)(cooldown.expireTick - cooldown.createTick);
+            float current = (float) this.getCooldown(skill) - partialTick;
+            float total = (float) (cooldown.expireTick - cooldown.createTick);
             return MathHelper.clamp_float(current / total, 0.0F, 1.0F);
         }
         return 0.0F;
@@ -88,6 +88,11 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
     {
         this.cooldowns.remove(skill);
         this.notifyOnRemove(skill);
+    }
+
+    public Map<Skill, Cooldown> getCooldowns()
+    {
+        return this.cooldowns;
     }
 
     public void tick()
@@ -116,12 +121,10 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
 
     public void notifyOnRemove(Skill skill) {}
     
-    public void synchronizeAll() {}
-    
     public NBTTagList writeToNBT(NBTTagList tagList)
     {
         NBTTagCompound tagCompound = new NBTTagCompound();
-        tagCompound.setInteger("GlobalCooldown", this.getGlobalCooldown());
+        tagCompound.setInteger("Global", this.getGlobalCooldown());
         tagList.appendTag(tagCompound);
         
         for (Entry<Skill, Cooldown> entry : this.cooldowns.entrySet())
@@ -137,8 +140,10 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
     
     public void readFromNBT(NBTTagList tagList)
     {
+        this.tick = 0;
+        
         NBTTagCompound tagCompound = tagList.getCompoundTagAt(0);
-        this.setGlobalCooldown(tagCompound.getInteger("GlobalCooldown"));
+        this.globalCooldownTick = tagCompound.getInteger("Global");
         
         this.cooldowns.clear();
 
@@ -150,7 +155,7 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
 
             if (skill != null)
             {
-                this.setCooldown(skill, tick);
+                this.cooldowns.put(skill, new Cooldown(0, tick));
             }
         }
     }
@@ -167,7 +172,7 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
         this.readFromNBT(nbt);
     }
     
-    class Cooldown
+    protected class Cooldown
     {
         final int createTick;
         final int expireTick;

@@ -23,7 +23,7 @@ public class DrinkStats
     /** The player's drink timer value. */
     private int drinkTimer;
     private int prevDrinkLevel = 20;
-
+    
     /**
      * Add drink stats.
      */
@@ -35,28 +35,28 @@ public class DrinkStats
             this.drinkSaturationLevel = Math.min(this.drinkSaturationLevel + drinkLevel * drinkSaturationModifier * 2.0F, this.drinkLevel);
         }
     }
-
+    
     public void addStats(ItemDrink item, ItemStack stack)
     {
         this.addStats(item.getWaterAmount(stack), item.getSaturationModifier(stack));
     }
-
+    
     /**
      * Handles the drink game logic.
      */
     public void onUpdate(EntityPlayer player)
     {
-        IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
         EnumDifficulty difficulty = player.worldObj.getDifficulty();
-
-        if(ConfigLoader.isThirstEnabled)
+        
+        if (ConfigLoader.isThirstEnabled)
         {
             this.prevDrinkLevel = this.drinkLevel;
-
+            
             if (this.drinkExhaustionLevel > 4.0F)
             {
                 this.drinkExhaustionLevel -= 4.0F;
-
+                
                 if (this.drinkSaturationLevel > 0.0F)
                 {
                     this.drinkSaturationLevel = Math.max(this.drinkSaturationLevel - 1.0F, 0.0F);
@@ -66,28 +66,28 @@ public class DrinkStats
                     this.drinkLevel = Math.max(this.drinkLevel - 1, 0);
                 }
             }
-
-            if (player.worldObj.getGameRules().getBoolean("naturalRecovery") && this.drinkLevel >= 8 && playerCap.shouldRecover())
+            
+            if (player.worldObj.getGameRules().getBoolean("naturalRecovery") && this.drinkLevel >= 8 && playerMagic.shouldRecover())
             {
                 ++this.drinkTimer;
-
+                
                 if (this.drinkTimer >= 40)
                 {
-                    playerCap.recover(1.0F);
+                    playerMagic.recover(1.0F);
                     this.drinkTimer = 0;
                 }
             }
             else if (this.drinkLevel <= 0)
             {
                 ++this.drinkTimer;
-
+                
                 if (this.drinkTimer >= 80)
                 {
                     if (player.getHealth() > 10.0F || difficulty == EnumDifficulty.HARD || player.getHealth() > 1.0F && difficulty == EnumDifficulty.NORMAL)
                     {
                         player.attackEntityFrom(DamageSourceLoader.thirst, 1.0F);
                     }
-
+                    
                     this.drinkTimer = 0;
                 }
             }
@@ -100,14 +100,14 @@ public class DrinkStats
         {
             if (player.worldObj.getGameRules().getBoolean("naturalRecovery") && player.getFoodStats().getFoodLevel() >= 12)
             {
-                if (playerCap.shouldRecover() && player.ticksExisted % 40 == 0)
+                if (playerMagic.shouldRecover() && player.ticksExisted % 40 == 0)
                 {
-                    playerCap.recover(1.0F);
+                    playerMagic.recover(1.0F);
                 }
             }
         }
     }
-
+    
     /**
      * Reads the drink data for the player.
      */
@@ -121,7 +121,7 @@ public class DrinkStats
             this.drinkExhaustionLevel = nbt.getFloat("drinkExhaustionLevel");
         }
     }
-
+    
     /**
      * Writes the drink data for the player.
      */
@@ -132,7 +132,7 @@ public class DrinkStats
         nbt.setFloat("drinkSaturationLevel", this.drinkSaturationLevel);
         nbt.setFloat("drinkExhaustionLevel", this.drinkExhaustionLevel);
     }
-
+    
     /**
      * Get the player's drink level.
      */
@@ -140,13 +140,13 @@ public class DrinkStats
     {
         return this.drinkLevel;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public int getPrevDrinkLevel()
     {
         return this.prevDrinkLevel;
     }
-
+    
     /**
      * Get whether the player must drink water.
      */
@@ -154,7 +154,7 @@ public class DrinkStats
     {
         return this.drinkLevel < 20;
     }
-
+    
     /**
      * adds input to drinkExhaustionLevel to a max of 40
      */
@@ -162,7 +162,7 @@ public class DrinkStats
     {
         this.drinkExhaustionLevel = Math.min(this.drinkExhaustionLevel + drinkExhaustionLevel, 40.0F);
     }
-
+    
     /**
      * Get the player's drink saturation level.
      */
@@ -170,12 +170,12 @@ public class DrinkStats
     {
         return this.drinkSaturationLevel;
     }
-
+    
     public void setDrinkLevel(int drinkLevel)
     {
         this.drinkLevel = drinkLevel;
     }
-
+    
     public void setDrinkSaturationLevel(float drinkSaturationLevel)
     {
         this.drinkSaturationLevel = drinkSaturationLevel;

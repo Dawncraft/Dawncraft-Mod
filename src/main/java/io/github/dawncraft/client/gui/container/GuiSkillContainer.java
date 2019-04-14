@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiContainerSkill extends GuiScreen
+public class GuiSkillContainer extends GuiScreen
 {
     protected static final ResourceLocation skillInventoryBackground = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/inventory/skill.png");
     protected int xSize = 176;
@@ -15,7 +15,7 @@ public class GuiContainerSkill extends GuiScreen
     protected int guiLeft;
     protected int guiTop;
     
-    public GuiContainerSkill()
+    public GuiSkillContainer()
     {
         // TODO 魔法GUI容器客户端
     }

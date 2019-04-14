@@ -4,19 +4,13 @@ import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
-import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.eventhandler.Event.Result;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -26,36 +20,31 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
  *
  * @author QingChenW
  */
-public class EventHandler
+public class GameEventHandler
 {
-    public EventHandler() {}
-    
+    public GameEventHandler() {}
+
+    @SubscribeEvent
+    public void onEntityJoinWorld(EntityJoinWorldEvent event)
+    {
+        if (!event.world.isRemote && event.entity instanceof EntityPlayer)
+        {
+            EntityPlayerMP player = (EntityPlayerMP) event.entity;
+            player.triggerAchievement(AchievementLoader.basic);
+        }
+    }
+
     @SubscribeEvent
     public void playerTickEvent(PlayerTickEvent event)
     {
-        if(event.phase == Phase.END)
+        if (event.phase == Phase.END)
         {
             EntityPlayer player = event.player;
-            IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
-            playerCap.update();
+            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+            playerMagic.update();
         }
     }
-    
-    @SubscribeEvent
-    public void onFillBucket(FillBucketEvent event)
-    {
-        BlockPos blockpos = event.target.getBlockPos();
-        IBlockState blockState = event.world.getBlockState(blockpos);
-        Fluid fluid = FluidRegistry.lookupFluidForBlock(blockState.getBlock());
-        if (fluid != null && new Integer(0).equals(blockState.getValue(BlockFluidBase.LEVEL)))
-        {
-            FluidStack fluidStack = new FluidStack(fluid, FluidContainerRegistry.BUCKET_VOLUME);
-            event.world.setBlockToAir(blockpos);
-            event.result = FluidContainerRegistry.fillFluidContainer(fluidStack, event.current);
-            event.setResult(Result.ALLOW);
-        }
-    }
-    
+
     @SubscribeEvent
     public void onEntityInteract(EntityInteractEvent event)
     {

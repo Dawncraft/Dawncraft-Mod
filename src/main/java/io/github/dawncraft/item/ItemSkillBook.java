@@ -42,7 +42,7 @@ public class ItemSkillBook extends Item
             SkillStack skillStack = SkillStack.loadSkillStackFromNBT(itemStack.getTagCompound());
             if (skillStack != null)
             {
-                SkillInventoryPlayer inventory = player.getCapability(CapabilityLoader.playerMagic, null).getInventory();
+                SkillInventoryPlayer inventory = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
                 if (inventory.addSkillStackToInventory(skillStack))
                 {
                     world.playSoundAtEntity(player, "random.pop", 0.2F, ((player.getRNG().nextFloat() - player.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);

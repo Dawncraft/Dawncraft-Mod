@@ -1,14 +1,10 @@
 package io.github.dawncraft.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
-import io.github.dawncraft.network.MessageWindowSkills;
-import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.Skill;
-import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -27,19 +23,19 @@ public class CommandForget extends CommandBase
     {
         return "forget";
     }
-    
+
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-    
+
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.forget.usage";
     }
-    
+
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -59,14 +55,11 @@ public class CommandForget extends CommandBase
                 throw new CommandException("commands.forget.tagError", nbtexception.getMessage());
             }
         }
-
-        SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getInventory();
-        int removed = inventory.clearMatchingSkills(skill, level, count, nbt);
-        List<SkillStack> list = new ArrayList<SkillStack>();
-        for (int i = 0; i < inventory.getInventorySize(); i++)
-            list.add(inventory.getStackInSlot(i));
-        NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), serverPlayer);
         
+        SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
+        int removed = inventory.clearMatchingSkills(skill, level, count, nbt);
+        serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventoryContainer().detectAndSendChanges();
+
         if (removed == 0)
         {
             throw new CommandException("commands.forget.failure", serverPlayer.getName());
@@ -83,13 +76,13 @@ public class CommandForget extends CommandBase
             }
         }
     }
-    
+
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Skill.skillRegistry.getKeys()) : null;
     }
-    
+
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();

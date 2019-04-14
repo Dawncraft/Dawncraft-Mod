@@ -2,6 +2,8 @@ package io.github.dawncraft.container;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -12,21 +14,22 @@ import java.util.List;
 import java.util.Set;
 
 import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.SkillStack;
 
-public abstract class ContainerSkill extends Container
+public abstract class SkillContainer extends Container
 {
     public List<SkillStack> inventorySkillStacks = Lists.<SkillStack>newArrayList();
-    public List<SlotSkill> inventorySkillSlots = Lists.<SlotSkill>newArrayList();
-    private final Set<SlotSkill> dragSkillSlots = Sets.<SlotSkill>newHashSet();
+    public List<SkillSlot> inventorySkillSlots = Lists.<SkillSlot>newArrayList();
+    private final Set<SkillSlot> dragSkillSlots = Sets.<SkillSlot>newHashSet();
     protected List<ILearning> learners = Lists.<ILearning>newArrayList();
 
-    public SlotSkill getSkillSlotFromInventory(ISkillInventory inventory, int slotId)
+    public SkillSlot getSkillSlotFromInventory(ISkillInventory inventory, int slotId)
     {
         for (int i = 0; i < this.inventorySkillSlots.size(); ++i)
         {
-            SlotSkill slot = this.inventorySkillSlots.get(i);
+            SkillSlot slot = this.inventorySkillSlots.get(i);
 
             if (slot.isHere(inventory, slotId))
             {
@@ -36,7 +39,7 @@ public abstract class ContainerSkill extends Container
         return null;
     }
     
-    protected SlotSkill addSkillSlotToContainer(SlotSkill slot)
+    protected SkillSlot addSkillSlotToContainer(SkillSlot slot)
     {
         slot.slotNumber = this.inventorySkillSlots.size();
         this.inventorySkillSlots.add(slot);
@@ -44,7 +47,7 @@ public abstract class ContainerSkill extends Container
         return slot;
     }
     
-    public SlotSkill getSkillSlot(int slotId)
+    public SkillSlot getSkillSlot(int slotId)
     {
         return this.inventorySkillSlots.get(slotId);
     }
@@ -82,8 +85,20 @@ public abstract class ContainerSkill extends Container
 
     public SkillStack transferSkillStackInSlot(EntityPlayer player, int index)
     {
-        SlotSkill slot = this.inventorySkillSlots.get(index);
+        SkillSlot slot = this.inventorySkillSlots.get(index);
         return slot != null ? slot.getStack() : null;
+    }
+    
+    @Override
+    public void onCraftGuiOpened(ICrafting listener)
+    {
+        super.onCraftGuiOpened(listener);
+        
+        if (listener instanceof EntityPlayer)
+        {
+            IPlayerMagic magic = ((EntityPlayer) listener).getCapability(CapabilityLoader.playerMagic, null);
+            magic.getSkillInventoryContainer().onLearnGuiOpened(magic);
+        }
     }
 
     public void onLearnGuiOpened(ILearning listener)
@@ -105,7 +120,7 @@ public abstract class ContainerSkill extends Container
     {
         super.onContainerClosed(player);
 
-        SkillInventoryPlayer skillInventoryPlayer = player.getCapability(CapabilityLoader.playerMagic, null).getInventory();
+        SkillInventoryPlayer skillInventoryPlayer = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
         
         if (skillInventoryPlayer.getSkillStack() != null)
         {
@@ -117,6 +132,7 @@ public abstract class ContainerSkill extends Container
     public void detectAndSendChanges()
     {
         super.detectAndSendChanges();
+
         for (int i = 0; i < this.inventorySkillSlots.size(); ++i)
         {
             SkillStack newStack = this.inventorySkillSlots.get(i).getStack();

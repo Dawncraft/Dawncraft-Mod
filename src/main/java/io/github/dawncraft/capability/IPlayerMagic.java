@@ -3,12 +3,14 @@ package io.github.dawncraft.capability;
 import java.util.Set;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.container.ILearning;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
+
 import net.minecraft.util.ResourceLocation;
 
 public interface IPlayerMagic extends IEntityMana, ILearning
@@ -43,7 +45,9 @@ public interface IPlayerMagic extends IEntityMana, ILearning
 
     public SpellCooldownTracker getCooldownTracker();
 
-    public SkillInventoryPlayer getInventory();
+    public SkillInventoryPlayer getSkillInventory();
+    
+    public SkillContainer getSkillInventoryContainer();
     
     public int getTalentLevel(Talent talent);
     
@@ -56,4 +60,6 @@ public interface IPlayerMagic extends IEntityMana, ILearning
     public Set<Talent> getTalents();
     
     public void update();
+    
+    public void cloneCapability(IPlayerMagic oldMagic, boolean wasDeath);
 }

@@ -22,39 +22,39 @@ public class MessageUpdateMana implements IMessage
     private float mana;
     private int drinkLevel;
     private float saturationLevel;
-    
-    public MessageUpdateMana() {}
 
+    public MessageUpdateMana() {}
+    
     public MessageUpdateMana(float mana)
     {
         this(mana, 0, 0.0F);
     }
-
+    
     public MessageUpdateMana(float mana, int drinkLevel, float saturation)
     {
         this.mana = mana;
         this.drinkLevel = drinkLevel;
         this.saturationLevel = saturation;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public float getMana()
     {
         return this.mana;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getDrinkLevel()
     {
         return this.drinkLevel;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public float getSaturationLevel()
     {
         return this.saturationLevel;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -62,7 +62,7 @@ public class MessageUpdateMana implements IMessage
         this.drinkLevel = buf.readInt();
         this.saturationLevel = buf.readFloat();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -70,7 +70,7 @@ public class MessageUpdateMana implements IMessage
         buf.writeInt(this.drinkLevel);
         buf.writeFloat(this.saturationLevel);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageUpdateMana, IMessage>
     {
         @Override
@@ -84,10 +84,10 @@ public class MessageUpdateMana implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        IPlayerMagic playerDawn = player.getCapability(CapabilityLoader.playerMagic, null);
-                        playerDawn.setMana(message.getMana());
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        playerMagic.setMana(message.getMana());
                         IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);
-                        if(playerThirst.getDrinkStats() != null)
+                        if (playerThirst.getDrinkStats() != null)
                         {
                             playerThirst.getDrinkStats().setDrinkLevel(message.getDrinkLevel());
                             playerThirst.getDrinkStats().setDrinkSaturationLevel(message.getSaturationLevel());

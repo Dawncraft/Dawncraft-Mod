@@ -5,7 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SlotSkill
+public class SkillSlot
 {
     /** The index of the slot in the inventory. */
     private final int slotIndex;
@@ -18,7 +18,7 @@ public class SlotSkill
     /** display position of the inventory slot on the screen y axis */
     public int yDisplayPosition;
 
-    public SlotSkill(ISkillInventory inventory, int index, int xPosition, int yPosition)
+    public SkillSlot(ISkillInventory inventory, int index, int xPosition, int yPosition)
     {
         this.inventory = inventory;
         this.slotIndex = index;

@@ -49,7 +49,7 @@ public class InputEventHandler
                             
                             if(playerCap.getSpellAction() == EnumSpellAction.NONE || i != playerCap.getSpellIndex())
                             {
-                                SkillStack stack = playerCap.getInventory().getStackInSlot(i);
+                                SkillStack stack = playerCap.getSkillInventory().getStackInSlot(i);
                                 if(stack != null)
                                 {
                                     playerCap.setSpellAction(EnumSpellAction.PREPARE);

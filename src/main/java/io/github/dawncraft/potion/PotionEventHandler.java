@@ -7,11 +7,11 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class PotionEvent
+public class PotionEventHandler
 {
     private Random rand = new Random();
     
-    public PotionEvent() {}
+    public PotionEventHandler() {}
     
     @SubscribeEvent
     public void onPlayerAttack(AttackEntityEvent event)

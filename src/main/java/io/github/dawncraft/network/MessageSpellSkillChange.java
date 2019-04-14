@@ -60,7 +60,7 @@ public class MessageSpellSkillChange implements IMessage
                         IPlayerMagic playerCap = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
                         {
-                            SkillStack skillStack = playerCap.getInventory().getStackInSlot(message.slot);
+                            SkillStack skillStack = playerCap.getSkillInventory().getStackInSlot(message.slot);
                             if(skillStack != null)
                             {
                                 if (!playerCap.getCooldownTracker().isGlobalCooldown())

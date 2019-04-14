@@ -19,32 +19,18 @@ public class SpellCooldownTrackerServer extends SpellCooldownTracker
     @Override
     public void notifyOnSet(int tick)
     {
-        if (this.player.playerNetServerHandler != null)
-            NetworkLoader.instance.sendTo(new MessageSpellCooldown(tick), this.player);
+        NetworkLoader.instance.sendTo(new MessageSpellCooldown(tick), this.player);
     }
 
     @Override
     public void notifyOnSet(Skill skill, int tick)
     {
-        if (this.player.playerNetServerHandler != null)
-            NetworkLoader.instance.sendTo(new MessageSpellCooldown(skill, tick), this.player);
+        NetworkLoader.instance.sendTo(new MessageSpellCooldown(skill, tick), this.player);
     }
     
     @Override
     public void notifyOnRemove(Skill skill)
     {
-        if (this.player.playerNetServerHandler != null)
-            NetworkLoader.instance.sendTo(new MessageSpellCooldown(skill, 0), this.player);
-    }
-
-    @Override
-    public void synchronizeAll()
-    {
-        this.notifyOnSet(this.getGlobalCooldown());
-
-        for (Skill skill : this.cooldowns.keySet())
-        {
-            this.notifyOnSet(skill, this.getCooldown(skill));
-        }
+        NetworkLoader.instance.sendTo(new MessageSpellCooldown(skill, 0), this.player);
     }
 }

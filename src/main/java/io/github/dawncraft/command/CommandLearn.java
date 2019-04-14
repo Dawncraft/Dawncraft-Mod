@@ -1,12 +1,9 @@
 package io.github.dawncraft.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
-import io.github.dawncraft.network.MessageWindowSkills;
-import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.command.CommandBase;
@@ -28,19 +25,19 @@ public class CommandLearn extends CommandBase
     {
         return "learn";
     }
-    
+
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-
+    
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.learn.usage";
     }
-
+    
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
@@ -62,37 +59,34 @@ public class CommandLearn extends CommandBase
                     throw new CommandException("commands.learn.tagError", nbtexception.getMessage());
                 }
             }
-            
-            SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getInventory();
+
+            SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
             if (inventory.addSkillStackToInventory(skillStack))
             {
                 serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
-                List<SkillStack> list = new ArrayList<SkillStack>();
-                for(int i = 0; i < inventory.getInventorySize(); i++)
-                    list.add(inventory.getStackInSlot(i));
-                NetworkLoader.instance.sendTo(new MessageWindowSkills(0, list), serverPlayer);
+                serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventoryContainer().detectAndSendChanges();
                 notifyOperators(sender, this, "commands.learn.success", skillStack.getChatComponent(), Integer.valueOf(level), serverPlayer.getName());
             }
             else throw new CommandException("commands.learn.full", serverPlayer.getName());
         }
         else throw new WrongUsageException("commands.learn.usage", new Object[0]);
     }
-
+    
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Skill.skillRegistry.getKeys()) : null;
     }
-
+    
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();
     }
-    
+
     public static Skill getSkillByText(ICommandSender sender, String id) throws NumberInvalidException
     {
         Skill skill = Skill.getByNameOrId(id);
-
+        
         if (skill == null)
         {
             throw new NumberInvalidException("commands.learn.skill.notFound", new ResourceLocation(id));

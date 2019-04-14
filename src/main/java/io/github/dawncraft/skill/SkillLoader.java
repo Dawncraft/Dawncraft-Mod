@@ -29,31 +29,30 @@ public class SkillLoader
         @Override
         public int getCooldown(int level)
         {
-            return 60 + 20 * level;
+            return 20 + 10 * (level - 1);
         }
         
         @Override
         public boolean onSkillSpell(SkillStack skillstack, World world, EntityPlayer player)
         {
-            if(!world.isRemote)
+            if (!world.isRemote)
             {
                 player.attackEntityFrom(DamageSourceLoader.causeSkillDamage(skillstack, player), 2.0F + 1.0F * this.getLevel(skillstack));
-                
-                for(int i = 0; i < 4; i++)
-                {
-                    Random rand = new Random();
-                    double d0 = player.getPosition().getX() + rand.nextFloat();
-                    double d1 = player.getPosition().getY() + 0.8F;
-                    double d2 = player.getPosition().getZ() + rand.nextFloat();
-                    double d3 = 0.0D;
-                    double d4 = 0.0D;
-                    double d5 = 0.0D;
-                    world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
-                }
-                
-                return true;
             }
-            return false;
+            
+            for (int i = 0; i < 4; i++)
+            {
+                Random rand = new Random();
+                double d0 = player.getPosition().getX() + rand.nextFloat();
+                double d1 = player.getPosition().getY() + 0.8F;
+                double d2 = player.getPosition().getZ() + rand.nextFloat();
+                double d3 = 0.0D;
+                double d4 = 0.0D;
+                double d5 = 0.0D;
+                world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
+            }
+            
+            return true;
         }
     }.setUnlocalizedName("attack").setCreativeTab(CreativeTabsLoader.tabSkills);
     public static Skill heal = new Skill(3)
@@ -67,14 +66,14 @@ public class SkillLoader
         @Override
         public int getCooldown(int level)
         {
-            return 40 + 20 * level;
+            return 20 + 10 * (level - 1);
         }
 
         @Override
         public String getSkillStackDisplayDesc(SkillStack skillstack)
         {
             return StatCollector.translateToLocalFormatted(this.getUnlocalizedName(skillstack) + ".desc",
-                    skillstack.getSkillConsume(), 4.0F + 2.0F * this.getLevel(skillstack), skillstack.getTotalCooldown());
+                    skillstack.getSkillConsume(), 4.0F + 2.0F * this.getLevel(skillstack), (float) skillstack.getTotalCooldown() / 20);
         }
         
         @Override
@@ -86,25 +85,24 @@ public class SkillLoader
         @Override
         public boolean onSkillSpell(SkillStack skillstack, World world, EntityPlayer player)
         {
-            if(!world.isRemote)
+            if (!world.isRemote)
             {
                 player.heal(4.0F + 2.0F * this.getLevel(skillstack));
-                
-                for(int i = 0; i < 4; i++)
-                {
-                    Random rand = new Random();
-                    double d0 = player.getPosition().getX() + rand.nextFloat();
-                    double d1 = player.getPosition().getY() + 0.8F;
-                    double d2 = player.getPosition().getZ() + rand.nextFloat();
-                    double d3 = 0.0D;
-                    double d4 = 0.0D;
-                    double d5 = 0.0D;
-                    world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
-                }
-                
-                return true;
             }
-            return false;
+
+            for (int i = 0; i < 4; i++)
+            {
+                Random rand = new Random();
+                double d0 = player.getPosition().getX() + rand.nextFloat();
+                double d1 = player.getPosition().getY() + 0.8F;
+                double d2 = player.getPosition().getZ() + rand.nextFloat();
+                double d3 = 0.0D;
+                double d4 = 0.0D;
+                double d5 = 0.0D;
+                world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
+            }
+            
+            return true;
         }
     }.setUnlocalizedName("heal").setCreativeTab(CreativeTabsLoader.tabSkills);
     

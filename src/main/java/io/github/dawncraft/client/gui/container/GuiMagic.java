@@ -8,7 +8,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiMagic extends GuiContainerSkill
+public class GuiMagic extends GuiSkillContainer
 {
     private static final ResourceLocation creativeSkillTab = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/magic/tab_skill.png");
     private static int tabPage = 0;

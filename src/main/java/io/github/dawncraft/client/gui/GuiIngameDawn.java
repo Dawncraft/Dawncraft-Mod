@@ -342,7 +342,7 @@ public class GuiIngameDawn extends Gui
         if (player.hasCapability(CapabilityLoader.playerMagic, null))
         {
             IPlayerMagic inventoryCap = player.getCapability(CapabilityLoader.playerMagic, null);
-            inventory = (SkillInventoryPlayer) inventoryCap.getInventory();
+            inventory = (SkillInventoryPlayer) inventoryCap.getSkillInventory();
         }
         SkillStack skillstack = inventory != null ? inventory.getStackInSlot(index) : null;
 

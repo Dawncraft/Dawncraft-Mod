@@ -35,6 +35,15 @@ public class CapabilityThirst
         {
             return (!ConfigLoader.isThirstEnabled || ignoreThirst || this.drinkStats.needDrink()) && !this.player.capabilities.disableDamage;
         }
+        
+        @Override
+        public void cloneCapability(IPlayerThirst oldThirst, boolean wasDeath)
+        {
+            if (!wasDeath)
+            {
+                this.drinkStats = oldThirst.getDrinkStats();
+            }
+        }
     }
 
     public static class Storage implements Capability.IStorage<IPlayerThirst>
