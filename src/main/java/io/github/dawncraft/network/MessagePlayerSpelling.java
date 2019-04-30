@@ -20,7 +20,6 @@ public class MessagePlayerSpelling implements IMessage
 {
     private EnumSpellAction spellAction;
     private int spellCount;
-    //private int cooldownCount;
 
     public MessagePlayerSpelling() {}
 
@@ -33,14 +32,14 @@ public class MessagePlayerSpelling implements IMessage
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.spellAction = EnumSpellAction.values()[buf.readShort()];
+        this.spellAction = EnumSpellAction.values()[buf.readByte()];
         this.spellCount = buf.readInt();
     }
     
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeShort(this.spellAction.ordinal());
+        buf.writeByte(this.spellAction.ordinal());
         buf.writeInt(this.spellCount);
     }
 
@@ -49,7 +48,7 @@ public class MessagePlayerSpelling implements IMessage
         @Override
         public IMessage onMessage(final MessagePlayerSpelling message, MessageContext ctx)
         {
-            if(ctx.side == Side.CLIENT)
+            if (ctx.side == Side.CLIENT)
             {
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
                 {
@@ -57,9 +56,16 @@ public class MessagePlayerSpelling implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
-                        playerCap.setSpellAction(message.spellAction);
-                        playerCap.setSkillInSpellCount(message.spellCount);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        if (message.spellAction != EnumSpellAction.NONE)
+                        {
+                            playerMagic.setSpellAction(message.spellAction);
+                            playerMagic.setSkillInSpellCount(message.spellCount);
+                        }
+                        else
+                        {
+                            playerMagic.clearSkillInSpell();
+                        }
                     }
                 });
             }

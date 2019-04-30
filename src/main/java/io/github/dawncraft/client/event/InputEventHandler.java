@@ -23,14 +23,14 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputEventHandler
 {
     public InputEventHandler() {}
-    
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
         Minecraft mc = Minecraft.getMinecraft();
-        if(mc.getRenderViewEntity() instanceof EntityPlayer)
+        if (mc.getRenderViewEntity() instanceof EntityPlayer)
         {
-            EntityPlayer player = (EntityPlayer) mc.getRenderViewEntity();;
+            EntityPlayer player = (EntityPlayer) mc.getRenderViewEntity();
             // Switch key was pressed
             if (KeyLoader.change.isPressed())
             {
@@ -39,27 +39,16 @@ public class InputEventHandler
             // Spell key was pressed
             if (ClientProxy.getIngameGUIDawn().spellMode)
             {
-                for(int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++)
+                for (int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++)
                 {
-                    if(mc.gameSettings.keyBindsHotbar[i].isPressed())
+                    if (mc.gameSettings.keyBindsHotbar[i].isPressed())
                     {
-                        if(player.hasCapability(CapabilityLoader.playerMagic, null))
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(i);
+                        if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || playerMagic.getSkillInventory().getStackInSlot(i) != playerMagic.getSkillInSpell()))
                         {
-                            IPlayerMagic playerCap = player.getCapability(CapabilityLoader.playerMagic, null);
-                            
-                            if(playerCap.getSpellAction() == EnumSpellAction.NONE || i != playerCap.getSpellIndex())
-                            {
-                                SkillStack stack = playerCap.getSkillInventory().getStackInSlot(i);
-                                if(stack != null)
-                                {
-                                    playerCap.setSpellAction(EnumSpellAction.PREPARE);
-                                    playerCap.setSpellIndex(i);
-                                    playerCap.setSkillInSpell(stack);
-                                    ClientProxy.getIngameGUIDawn().setSpellIndex(i);
-                                    NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
-                                }
-
-                            }
+                            ClientProxy.getIngameGUIDawn().setSpellIndex(i);
+                            NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
                         }
                     }
                 }
@@ -72,7 +61,7 @@ public class InputEventHandler
             // Use key was pressed
             if (KeyLoader.use.isPressed())
             {
-
+                
             }
         }
         // Wiki key was pressed

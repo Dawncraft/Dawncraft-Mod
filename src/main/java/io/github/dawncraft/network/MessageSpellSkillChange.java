@@ -2,10 +2,9 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
+import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.config.LogLoader;
-import io.github.dawncraft.entity.player.PlayerUtils;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
-import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
@@ -17,39 +16,39 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * 用于玩家释放魔法
+ * When a player press a skill hotbar key, the message will be sent.
  *
  * @author QingChenW
  */
 public class MessageSpellSkillChange implements IMessage
 {
-    public int slot;
-    
-    public MessageSpellSkillChange() {}
+    public int slotId;
 
+    public MessageSpellSkillChange() {}
+    
     public MessageSpellSkillChange(int slot)
     {
-        this.slot = slot;
+        this.slotId = slot;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        this.slot = buf.readByte();
+        this.slotId = buf.readShort();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
-        buf.writeByte(this.slot);
+        buf.writeShort(this.slotId);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageSpellSkillChange, IMessage>
     {
         @Override
         public IMessage onMessage(final MessageSpellSkillChange message, MessageContext ctx)
         {
-            if(ctx.side == Side.SERVER)
+            if (ctx.side == Side.SERVER)
             {
                 final EntityPlayerMP serverPlayer = ctx.getServerHandler().playerEntity;
                 serverPlayer.getServerForPlayer().addScheduledTask(new Runnable()
@@ -57,38 +56,28 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerCap = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
-                        if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                        if (message.slotId < 0)
                         {
-                            SkillStack skillStack = playerCap.getSkillInventory().getStackInSlot(message.slot);
-                            if(skillStack != null)
+                            playerMagic.clearSkillInSpell();
+                        }
+                        else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
+                        {
+                            SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
+                            if (skillStack != null)
                             {
-                                if (!playerCap.getCooldownTracker().isGlobalCooldown())
-                                {
-                                    playerCap.setSpellIndex(message.slot);
-                                    playerCap.setSkillInSpell(skillStack);
-                                    serverPlayer.markPlayerActive();
-                                }
-                                else
-                                {
-                                    playerCap.clearSkillInSpell();
-                                    PlayerUtils.globleCooldown(serverPlayer);
-                                }
-                            }
-                            else if(playerCap.getSpellAction() != EnumSpellAction.NONE)
-                            {
-                                playerCap.clearSkillInSpell();
-                                PlayerUtils.cancel(serverPlayer);
+                                playerMagic.setSkillInSpell(skillStack);
+                                serverPlayer.markPlayerActive();
                             }
                         }
                         else
                         {
-                            LogLoader.logger().warn(serverPlayer.getName() + " tried to set an invalid spelled skill");
+                            LogLoader.logger().warn(serverPlayer.getName() + " tried to set an invalid spelled skill.");
                         }
                     }
                 });
             }
-            else if(ctx.side == Side.CLIENT)
+            else if (ctx.side == Side.CLIENT)
             {
                 final EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
@@ -96,14 +85,20 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerCap = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
-                        if (message.slot >= 0 && message.slot < SkillInventoryPlayer.getHotbarSize())
+                        IPlayerMagic playerMagic = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                        if (message.slotId < 0)
                         {
-                            playerCap.setSpellIndex(message.slot);
+                            playerMagic.clearSkillInSpell();
+                            ClientProxy.getIngameGUIDawn().setSpellIndex(-1);
                         }
-                        else
+                        else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
                         {
-                            LogLoader.logger().warn(clientPlayer.getName() + " tried to set an invalid spelled skill");
+                            SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
+                            if (skillStack != null)
+                            {
+                                playerMagic.setSkillInSpell(skillStack);
+                                ClientProxy.getIngameGUIDawn().setSpellIndex(message.slotId);
+                            }
                         }
                     }
                 });

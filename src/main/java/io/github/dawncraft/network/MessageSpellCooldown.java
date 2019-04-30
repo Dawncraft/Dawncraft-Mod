@@ -16,9 +16,9 @@ public class MessageSpellCooldown implements IMessage
     private boolean isGlobal;
     private Skill skill;
     private int tick;
-    
-    public MessageSpellCooldown() {}
 
+    public MessageSpellCooldown() {}
+    
     /**
      * Send a global cooldown message
      *
@@ -29,7 +29,7 @@ public class MessageSpellCooldown implements IMessage
         this.isGlobal = true;
         this.tick = tick;
     }
-    
+
     /**
      * Send a skill cooldown message
      *
@@ -42,7 +42,7 @@ public class MessageSpellCooldown implements IMessage
         this.skill = skill;
         this.tick = tick;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -53,7 +53,7 @@ public class MessageSpellCooldown implements IMessage
         }
         this.tick = buf.readInt();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -64,7 +64,7 @@ public class MessageSpellCooldown implements IMessage
         }
         buf.writeInt(this.tick);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageSpellCooldown, IMessage>
     {
         @Override
@@ -78,26 +78,21 @@ public class MessageSpellCooldown implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        if (player.hasCapability(CapabilityLoader.playerMagic, null))
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        if (message.isGlobal)
                         {
-                            IPlayerMagic magic = player.getCapability(CapabilityLoader.playerMagic, null);
-                            if (message.isGlobal)
+                            playerMagic.getCooldownTracker().setGlobalCooldown(message.tick);
+                        }
+                        else
+                        {
+                            if (message.tick > 0)
                             {
-                                magic.getCooldownTracker().setGlobalCooldown(message.tick);
+                                playerMagic.getCooldownTracker().setCooldown(message.skill, message.tick);
                             }
                             else
                             {
-                                if (message.tick == 0)
-                                {
-                                    magic.getCooldownTracker().removeCooldown(message.skill);
-                                }
-                                else
-                                {
-                                    magic.getCooldownTracker().setCooldown(message.skill, message.tick);
-                                }
-
+                                playerMagic.getCooldownTracker().removeCooldown(message.skill);
                             }
-
                         }
                     }
                 });

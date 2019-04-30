@@ -16,26 +16,26 @@ public class CapabilityThirst
     {
         private EntityPlayer player;
         private DrinkStats drinkStats;
-
+        
         public Implementation(EntityPlayer player)
         {
             super();
             this.player = player;
             this.drinkStats = new DrinkStats();
         }
-        
+
         @Override
         public DrinkStats getDrinkStats()
         {
             return this.drinkStats;
         }
-        
+
         @Override
         public boolean canDrink(boolean ignoreThirst)
         {
             return (!ConfigLoader.isThirstEnabled || ignoreThirst || this.drinkStats.needDrink()) && !this.player.capabilities.disableDamage;
         }
-        
+
         @Override
         public void cloneCapability(IPlayerThirst oldThirst, boolean wasDeath)
         {
@@ -45,42 +45,42 @@ public class CapabilityThirst
             }
         }
     }
-
+    
     public static class Storage implements Capability.IStorage<IPlayerThirst>
     {
         @Override
-        public NBTBase writeNBT(Capability<IPlayerThirst> capability, IPlayerThirst instance, EnumFacing side)
+        public NBTBase writeNBT(Capability<IPlayerThirst> capability, IPlayerThirst instance, EnumFacing facing)
         {
-            NBTTagCompound compound = new NBTTagCompound();
-            instance.getDrinkStats().writeNBT(compound);
-            return compound;
+            NBTTagCompound tagCompound = new NBTTagCompound();
+            instance.getDrinkStats().writeNBT(tagCompound);
+            return tagCompound;
         }
-        
+
         @Override
-        public void readNBT(Capability<IPlayerThirst> capability, IPlayerThirst instance, EnumFacing side, NBTBase nbt)
+        public void readNBT(Capability<IPlayerThirst> capability, IPlayerThirst instance, EnumFacing facing, NBTBase nbtBase)
         {
-            NBTTagCompound compound = (NBTTagCompound) nbt;
-            instance.getDrinkStats().readNBT(compound);
+            NBTTagCompound tagCompound = (NBTTagCompound) nbtBase;
+            instance.getDrinkStats().readNBT(tagCompound);
         }
     }
-
+    
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
         private IPlayerThirst playerThirst;
         private IStorage<IPlayerThirst> storage;
-        
+
         public Provider(EntityPlayer player)
         {
             this.playerThirst = new Implementation(player);
             this.storage = CapabilityLoader.playerThirst.getStorage();
         }
-        
+
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
             return CapabilityLoader.playerThirst.equals(capability);
         }
-        
+
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
@@ -91,17 +91,17 @@ public class CapabilityThirst
             }
             return null;
         }
-        
+
         @Override
         public NBTTagCompound serializeNBT()
         {
             return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerThirst, this.playerThirst, null);
         }
-        
+
         @Override
-        public void deserializeNBT(NBTTagCompound compound)
+        public void deserializeNBT(NBTTagCompound tagCompound)
         {
-            this.storage.readNBT(CapabilityLoader.playerThirst, this.playerThirst, null, compound);
+            this.storage.readNBT(CapabilityLoader.playerThirst, this.playerThirst, null, tagCompound);
         }
     }
 }

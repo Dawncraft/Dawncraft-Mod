@@ -12,44 +12,42 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
 
-import net.minecraftforge.common.util.INBTSerializable;
-
-public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
+public class SpellCooldownTracker
 {
     private int tick;
     /** global cooldown's expire tick */
     private int globalCooldownTick;
-    private Map<Skill, Cooldown> cooldowns = new HashMap<Skill, Cooldown>();
-    
+    protected Map<Skill, Cooldown> cooldowns = new HashMap<Skill, Cooldown>();
+
     public static int getTotalGlobalCooldown()
     {
         return ConfigLoader.globalCooldownTick;
     }
-    
+
     public int getGlobalCooldown()
     {
         int tick = this.globalCooldownTick - this.tick;
         return Math.max(tick, 0);
     }
-
+    
     public float getGlobalCooldownPercent(float partialTick)
     {
         float current = (float) this.getGlobalCooldown() - partialTick;
         float total = (float) getTotalGlobalCooldown();
         return MathHelper.clamp_float(current / total, 0.0F, 1.0F);
     }
-    
+
     public boolean isGlobalCooldown()
     {
         return this.getGlobalCooldown() > 0;
     }
-
+    
     public void setGlobalCooldown(int tick)
     {
         this.globalCooldownTick = this.tick + tick;
         this.notifyOnSet(tick);
     }
-
+    
     public int getCooldown(Skill skill)
     {
         Cooldown cooldown = this.cooldowns.get(skill);
@@ -60,7 +58,7 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
         }
         return 0;
     }
-
+    
     public float getCooldownPercent(Skill skill, float partialTick)
     {
         Cooldown cooldown = this.cooldowns.get(skill);
@@ -72,41 +70,36 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
         }
         return 0.0F;
     }
-
+    
     public boolean hasCooldown(Skill skill)
     {
         return this.getCooldown(skill) > 0;
     }
-
+    
     public void setCooldown(Skill skill, int tick)
     {
         this.cooldowns.put(skill, new Cooldown(this.tick, this.tick + tick));
         this.notifyOnSet(skill, tick);
     }
-
+    
     public void removeCooldown(Skill skill)
     {
         this.cooldowns.remove(skill);
         this.notifyOnRemove(skill);
     }
-
-    public Map<Skill, Cooldown> getCooldowns()
-    {
-        return this.cooldowns;
-    }
-
+    
     public void tick()
     {
         ++this.tick;
-        
+
         if (!this.cooldowns.isEmpty())
         {
             Iterator<Entry<Skill, Cooldown>> iterator = this.cooldowns.entrySet().iterator();
-
+            
             while (iterator.hasNext())
             {
                 Entry<Skill, Cooldown> entry = (Entry) iterator.next();
-
+                
                 if (entry.getValue().expireTick <= this.tick)
                 {
                     iterator.remove();
@@ -114,19 +107,21 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
             }
         }
     }
-    
-    public void notifyOnSet(int tick) {}
-    
-    public void notifyOnSet(Skill skill, int tick) {}
 
+    public void notifyOnSet(int tick) {}
+
+    public void notifyOnSet(Skill skill, int tick) {}
+    
     public void notifyOnRemove(Skill skill) {}
     
+    public void sendAll() {}
+
     public NBTTagList writeToNBT(NBTTagList tagList)
     {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setInteger("Global", this.getGlobalCooldown());
         tagList.appendTag(tagCompound);
-        
+
         for (Entry<Skill, Cooldown> entry : this.cooldowns.entrySet())
         {
             NBTTagCompound tagCompound2 = new NBTTagCompound();
@@ -134,25 +129,25 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
             tagCompound2.setInteger("Tick", this.getCooldown(entry.getKey()));
             tagList.appendTag(tagCompound2);
         }
-
+        
         return tagList;
     }
-    
+
     public void readFromNBT(NBTTagList tagList)
     {
         this.tick = 0;
-        
+
         NBTTagCompound tagCompound = tagList.getCompoundTagAt(0);
         this.globalCooldownTick = tagCompound.getInteger("Global");
-        
-        this.cooldowns.clear();
 
+        this.cooldowns.clear();
+        
         for (int i = 1; i < tagList.tagCount(); i++)
         {
             NBTTagCompound tagCompound2 = tagList.getCompoundTagAt(i);
             Skill skill = Skill.getByNameOrId(tagCompound2.getString("Id"));
             int tick = tagCompound2.getInteger("Tick");
-
+            
             if (skill != null)
             {
                 this.cooldowns.put(skill, new Cooldown(0, tick));
@@ -160,23 +155,11 @@ public class SpellCooldownTracker implements INBTSerializable<NBTTagList>
         }
     }
 
-    @Override
-    public NBTTagList serializeNBT()
-    {
-        return this.writeToNBT(new NBTTagList());
-    }
-    
-    @Override
-    public void deserializeNBT(NBTTagList nbt)
-    {
-        this.readFromNBT(nbt);
-    }
-    
     protected class Cooldown
     {
         final int createTick;
         final int expireTick;
-
+        
         Cooldown(int createTick, int expireTick)
         {
             this.createTick = createTick;

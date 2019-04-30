@@ -11,55 +11,55 @@ import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
 
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 
 public interface IPlayerMagic extends IEntityMana, ILearning
 {
     public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
-
-    public EnumSpellAction getSpellAction();
-
-    void setSpellAction(EnumSpellAction action);
-
-    boolean isCanceled();
-
-    void cancelSpelling();
-
-    void setCanceled(boolean isCanceled);
     
-    public int getSpellIndex();
-
-    public void setSpellIndex(int index);
-
+    public EnumSpellAction getSpellAction();
+    
+    void setSpellAction(EnumSpellAction action);
+    
     public SkillStack getSkillInSpell();
-
+    
     public void setSkillInSpell(SkillStack stack);
-
+    
     public void clearSkillInSpell();
 
+    public void stopSpellingSkill();
+    
+    public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar);
+    
     public int getSkillInSpellCount();
-    
+
     public int getSkillInSpellDuration();
-    
+
     public void setSkillInSpellCount(int count);
-
+    
     public SpellCooldownTracker getCooldownTracker();
-
+    
     public SkillInventoryPlayer getSkillInventory();
-    
+
     public SkillContainer getSkillInventoryContainer();
-    
+
     public int getTalentLevel(Talent talent);
-    
+
     public void setTalent(Talent talent, int level);
-    
+
     /**
      * 现在先这么凑合着,天赋栏啥的以后再说
      */
     @Deprecated
     public Set<Talent> getTalents();
-    
+
+    public void sendOverlayMessage(IChatComponent chatComponent);
+
+    public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting backgroundColor);
+
     public void update();
-    
+
     public void cloneCapability(IPlayerMagic oldMagic, boolean wasDeath);
 }

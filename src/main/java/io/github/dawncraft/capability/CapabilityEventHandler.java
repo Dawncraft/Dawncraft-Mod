@@ -1,8 +1,6 @@
 package io.github.dawncraft.capability;
 
 import io.github.dawncraft.entity.AttributesLoader;
-import io.github.dawncraft.entity.player.SpellCooldownTracker;
-import io.github.dawncraft.skill.Skill;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -25,6 +23,7 @@ public class CapabilityEventHandler
         {
             EntityPlayer player = (EntityPlayer) event.getEntity();
             event.addCapability(IPlayerThirst.domain, new CapabilityThirst.Provider(player));
+
             player.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
             event.addCapability(IPlayerMagic.domain, new CapabilityMagic.Provider(player));
         }
@@ -34,14 +33,7 @@ public class CapabilityEventHandler
     public void onPlayerLoggedIn(PlayerLoggedInEvent event)
     {
         IPlayerMagic playerMagic = event.player.getCapability(CapabilityLoader.playerMagic, null);
-        
-        SpellCooldownTracker cooldownTracker = playerMagic.getCooldownTracker();
-        cooldownTracker.notifyOnSet(cooldownTracker.getGlobalCooldown());
-        for (Skill skill : cooldownTracker.getCooldowns().keySet())
-        {
-            cooldownTracker.notifyOnSet(skill, cooldownTracker.getCooldown(skill));
-        }
-        
+        playerMagic.getCooldownTracker().sendAll();
         playerMagic.getSkillInventoryContainer().onLearnGuiOpened(playerMagic);
     }
 
@@ -57,10 +49,7 @@ public class CapabilityEventHandler
     {
         IPlayerThirst oldThirst = event.original.getCapability(CapabilityLoader.playerThirst, null);
         IPlayerThirst newThirst = event.entityPlayer.getCapability(CapabilityLoader.playerThirst, null);
-        if (oldThirst.getDrinkStats() != null && newThirst.getDrinkStats() != null)
-        {
-            newThirst.cloneCapability(oldThirst, event.wasDeath);
-        }
+        newThirst.cloneCapability(oldThirst, event.wasDeath);
 
         IPlayerMagic oldMagic = event.original.getCapability(CapabilityLoader.playerMagic, null);
         IPlayerMagic newMagic = event.entityPlayer.getCapability(CapabilityLoader.playerMagic, null);

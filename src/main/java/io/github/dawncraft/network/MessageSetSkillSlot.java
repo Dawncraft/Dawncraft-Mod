@@ -22,16 +22,16 @@ public class MessageSetSkillSlot implements IMessage
     private int windowId;
     private int slot;
     private SkillStack skillStack;
-
-    public MessageSetSkillSlot() {}
     
+    public MessageSetSkillSlot() {}
+
     public MessageSetSkillSlot(int windowId, int slot, SkillStack stack)
     {
         this.windowId = windowId;
         this.slot = slot;
         this.skillStack = stack == null ? null : stack.copy();
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -39,7 +39,7 @@ public class MessageSetSkillSlot implements IMessage
         this.slot = buf.readShort();
         this.skillStack = DawnByteBufUtils.readSkillStack(buf);
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -47,13 +47,13 @@ public class MessageSetSkillSlot implements IMessage
         buf.writeShort(this.slot);
         DawnByteBufUtils.writeSkillStack(buf, this.skillStack);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSetSkillSlot, IMessage>
     {
         @Override
         public IMessage onMessage(final MessageSetSkillSlot message, MessageContext ctx)
         {
-            if(ctx.side == Side.CLIENT)
+            if (ctx.side == Side.CLIENT)
             {
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
                 {
@@ -61,11 +61,11 @@ public class MessageSetSkillSlot implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-                        IPlayerMagic magic = player.getCapability(CapabilityLoader.playerMagic, null);
-
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        
                         if (message.windowId == -1)
                         {
-                            magic.getSkillInventory().setSkillStack(message.skillStack);
+                            playerMagic.getSkillInventory().setSkillStack(message.skillStack);
                         }
                         else
                         {
@@ -77,17 +77,17 @@ public class MessageSetSkillSlot implements IMessage
                                 flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
                             }
                              */
-
+                            
                             if (message.windowId == 0 && message.slot >= 0 && message.slot < 9)
                             {
-                                SkillStack stack = magic.getSkillInventoryContainer().getSkillSlot(message.slot).getStack();
-                                
+                                SkillStack stack = playerMagic.getSkillInventoryContainer().getSkillSlot(message.slot).getStack();
+
                                 if (message.skillStack != null && (stack == null || stack.skillLevel < message.skillStack.skillLevel))
                                 {
                                     message.skillStack.animationsToGo = 5;
                                 }
-                                
-                                magic.getSkillInventoryContainer().putSkillStackInSlot(message.slot, message.skillStack);
+
+                                playerMagic.getSkillInventoryContainer().putSkillStackInSlot(message.slot, message.skillStack);
                             }
                             else if (player.openContainer instanceof SkillContainer && message.windowId == player.openContainer.windowId && !flag)
                             {
