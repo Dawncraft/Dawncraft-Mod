@@ -162,6 +162,10 @@ container.magic.more=更多信息...
 
 gui.moreinfo=按 %s 显示详细信息
 gui.gun.ammo=弹药: %1$d / %2$d
+gui.item.eat=吃 %s
+gui.item.drink=喝 %s
+gui.item.bow=拉 %s
+gui.item.gun=射 %s
 gui.skill.prepare=准备施放 %1$s
 gui.skill.spell=正在施放 %1$s
 gui.skill.globalcool=您的脸滚得太快了:)
@@ -218,7 +222,10 @@ achievement.dawncraft.dawnPortal.desc=用巨Ger之心建造通往曙光世界的
 achievement.dawncraft.dawnArrival=天空之城
 achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
 
+stat.overallButton=总览
+stat.jobButton=职业
 stat.skillsButton=技能
+stat.talentsButton=天赋
 stat.skill.test=技能统计测试
 
 death.attack.skill=%1$s 被 %2$s 用技能杀死了

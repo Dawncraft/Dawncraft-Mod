@@ -63,7 +63,7 @@ public class ItemGunLauncher extends ItemGun
     @SideOnly(Side.CLIENT)
     public void renderSightOverlay(ItemStack stack, EntityPlayer player, ScaledResolution resolution, float partialTicks)
     {
-        ClientProxy.getIngameGUIDawn().bind(GuiIngameDawn.icons);
+        ClientProxy.getIngameGUIDawn().bind(GuiIngameDawn.ICONS);
         ClientProxy.getIngameGUIDawn().drawTexturedModalRect(resolution.getScaledWidth() / 2 - 20, resolution.getScaledHeight() / 2 - 20, 0, 129, 41, 41);
     }
     

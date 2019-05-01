@@ -25,7 +25,7 @@ public interface IPlayerMagic extends IEntityMana, ILearning
     
     public SkillStack getSkillInSpell();
     
-    public void setSkillInSpell(SkillStack stack);
+    public boolean setSkillInSpell(SkillStack stack);
     
     public void clearSkillInSpell();
 
@@ -57,7 +57,7 @@ public interface IPlayerMagic extends IEntityMana, ILearning
 
     public void sendOverlayMessage(IChatComponent chatComponent);
 
-    public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting backgroundColor);
+    public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor);
 
     public void update();
 

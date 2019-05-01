@@ -199,6 +199,12 @@ public class Skill
     {
         return 0xFFFFFF;
     }
+    
+    @SideOnly(Side.CLIENT)
+    public boolean canSpell(SkillStack skillStack, EntityPlayer player)
+    {
+        return true;
+    }
 
     @SideOnly(Side.CLIENT)
     public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, boolean advanced) {}
@@ -231,9 +237,19 @@ public class Skill
             playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.globalcool"), false);
             return false;
         }
+        if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
+        {
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cool"), false);
+            return false;
+        }
         if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
         {
             playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), false);
+            return false;
+        }
+        if (playerMagic.getMana() < this.getConsume(skillStack))
+        {
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.nomana"), false);
             return false;
         }
         return true;
@@ -251,9 +267,9 @@ public class Skill
     public EnumSpellAction onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
+        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
         {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cool"), true);
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), true);
             return EnumSpellAction.NONE;
         }
         if (playerMagic.getMana() < this.getConsume(skillStack))
@@ -288,6 +304,12 @@ public class Skill
      */
     public EnumSpellAction onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+        {
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), true);
+            return EnumSpellAction.NONE;
+        }
         return EnumSpellAction.SPELL;
     }
 

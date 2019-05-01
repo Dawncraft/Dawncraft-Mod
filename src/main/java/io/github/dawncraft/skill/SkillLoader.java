@@ -113,19 +113,6 @@ public class SkillLoader
         {
             return 80;
         }
-
-        @Override
-        public EnumSpellAction onSkillPreparing(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
-        {
-            return EnumSpellAction.PREPARE;
-        }
-        
-        @Override
-        public boolean onSkillSpell(SkillStack skillstack, World worldIn, EntityPlayer playerIn)
-        {
-            return true;
-        }
-        
     }.setUnlocalizedName("prepare").setCreativeTab(CreativeTabsLoader.tabSkills);
 
     public static Skill longSpell = new Skill()
@@ -136,31 +123,6 @@ public class SkillLoader
             return 400;
         }
         
-        @Override
-        public boolean onSkillSpell(SkillStack skillstack, World worldIn, EntityPlayer playerIn)
-        {
-            return super.onSkillSpell(skillstack, worldIn, playerIn);
-        }
-
-        @Override
-        public EnumSpellAction onSkillSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn,
-                int duration)
-        {
-            return super.onSkillSpelling(skillStack, worldIn, playerIn, duration);
-        }
-        
-        @Override
-        public void onPlayerStoppedSpelling(SkillStack skillStack, World worldIn, EntityPlayer playerIn, int duration)
-        {
-            super.onPlayerStoppedSpelling(skillStack, worldIn, playerIn, duration);
-        }
-        
-        @Override
-        public SkillStack onSkillSpellFinish(SkillStack skillStack, World world, EntityPlayer player)
-        {
-            return super.onSkillSpellFinish(skillStack, world, player);
-        }
-        
     }.setUnlocalizedName("spell").setCreativeTab(CreativeTabsLoader.tabSkills);
 
     public static Skill longCooldown = new Skill()
@@ -169,12 +131,6 @@ public class SkillLoader
         public int getCooldown(int level)
         {
             return 160;
-        }
-        
-        @Override
-        public boolean onSkillSpell(SkillStack skillstack, World worldIn, EntityPlayer playerIn)
-        {
-            return true;
         }
     }.setUnlocalizedName("cooldown").setCreativeTab(CreativeTabsLoader.tabSkills);
     

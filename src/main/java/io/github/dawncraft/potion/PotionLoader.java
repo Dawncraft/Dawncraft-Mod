@@ -5,17 +5,12 @@ import java.util.Map;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IEntityMana;
-import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.entity.immortal.EntityImmortal;
-import io.github.dawncraft.skill.EnumSpellAction;
-
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionHelper;
-import net.minecraft.util.ChatComponentTranslation;
-
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -55,29 +50,7 @@ public class PotionLoader
             }
         };
     }.setPotionName("potion.recover");
-    public static Potion potionSilent = new PotionBase("silent", true, 0x585858)
-    {
-        @Override
-        public boolean isReady(int duration, int amplifier)
-        {
-            return true;
-        }
-        
-        @Override
-        public void performEffect(EntityLivingBase entity, int amplifier)
-        {
-            if (entity instanceof EntityPlayer)
-            {
-                EntityPlayer player = (EntityPlayer) entity;
-                IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-                if (playerMagic.getSpellAction() != EnumSpellAction.NONE)
-                {
-                    playerMagic.stopSpellingSkill();
-                    playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), false);
-                }
-            }
-        }
-    }.setPotionName("potion.silent");
+    public static Potion potionSilent = new PotionBase("silent", true, 0x585858).setPotionName("potion.silent");
     public static Potion potionParalysis = new PotionBase("paralysis", true, 0x3C64C8).setPotionName("potion.paralysis");
     public static Potion potionConfusion = new PotionBase("confusion", true, 0x649664).setPotionName("potion.confusion");
 

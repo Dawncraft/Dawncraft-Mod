@@ -5,12 +5,12 @@ import java.util.concurrent.Callable;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
+import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.SkillModelMesher;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -26,6 +26,7 @@ import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -141,21 +142,18 @@ public class RenderSkill implements IResourceManagerReloadListener
     
     public void renderSkillIntoGUI(SkillStack stack, int x, int y)
     {
-        //IBakedModel ibakedmodel = this.skillModelMesher.getSkillModel(stack);
         ResourceLocation res = getActualLocation(new ResourceLocation(stack.getSkill().getRegistryName()));
         TextureAtlasSprite sprite = TextureLoader.getTextureLoader().getTextureMapSkills().getAtlasSprite(res.toString());
         GlStateManager.pushMatrix();
         this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
         this.textureManager.getTexture(TextureLoader.locationSkillsTexture).setBlurMipmap(false, false);
+        GlStateManager.enableLighting();
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableAlpha();
         GlStateManager.alphaFunc(516, 0.1F);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(770, 771);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        /*        this.setupGuiTransform(x, y, ibakedmodel.isGui3d());
-        ibakedmodel = ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.GUI);
-        this.renderSkill(stack, ibakedmodel);*/
         this.renderSkill(stack, sprite, x, y);
         GlStateManager.disableAlpha();
         GlStateManager.disableRescaleNormal();
@@ -254,54 +252,26 @@ public class RenderSkill implements IResourceManagerReloadListener
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
             GlStateManager.disableBlend();
-            fr.drawStringWithShadow(s, (float)(xPosition + 19 - 2 - fr.getStringWidth(s)), (float)(yPosition + 6 + 3), 16777215);
+            fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float)(yPosition + 6 + 3), 16777215);
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
             
             float cooldown = 0.0F;
-            EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
-            if (clientPlayer.hasCapability(CapabilityLoader.playerMagic, null))
-            {
-                IPlayerMagic playerMagic = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
-                cooldown = playerMagic.getCooldownTracker().getCooldownPercent(stack.getSkill(), 0);
-            }
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+            cooldown = playerMagic.getCooldownTracker().getCooldownPercent(stack.getSkill(), 0);
 
             if (cooldown > 0.0F)
             {
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
                 GlStateManager.disableTexture2D();
-                Tessellator tessellator = Tessellator.getInstance();
-                WorldRenderer worldrender = tessellator.getWorldRenderer();
-                this.draw(worldrender, xPosition, yPosition + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 223, 223, 223, 63);
+                GuiUtils.drawRect(xPosition, yPosition + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 223, 223, 223, 63);
                 GlStateManager.enableTexture2D();
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
             }
         }
-    }
-    
-    /**
-     * Draw with the WorldRenderer
-     *
-     * @param renderer The WorldRenderer's instance
-     * @param x X position where the render begin
-     * @param y Y position where the render begin
-     * @param width The width of the render
-     * @param height The height of the render
-     * @param red Red component of the color
-     * @param green Green component of the color
-     * @param blue Blue component of the color
-     * @param alpha Alpha component of the color
-     */
-    public void draw(WorldRenderer renderer, int x, int y, int width, int height, int red, int green, int blue, int alpha)
-    {
-        renderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        renderer.pos((double)(x + 0), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos((double)(x + 0), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos((double)(x + width), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        renderer.pos((double)(x + width), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
-        Tessellator.getInstance().draw();
     }
     
     /**

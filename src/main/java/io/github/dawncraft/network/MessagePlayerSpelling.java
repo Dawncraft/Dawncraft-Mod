@@ -2,9 +2,13 @@ package io.github.dawncraft.network;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
+import io.github.dawncraft.client.ClientProxy;
+import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.EnumSpellAction;
+import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -12,7 +16,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
 /**
- * 处理玩家施法动作
+ * Will be sent when player change his spell action.
  *
  * @author QingChenW
  */
@@ -59,8 +63,22 @@ public class MessagePlayerSpelling implements IMessage
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.spellAction != EnumSpellAction.NONE)
                         {
-                            playerMagic.setSpellAction(message.spellAction);
-                            playerMagic.setSkillInSpellCount(message.spellCount);
+                            int slotId = ClientProxy.getIngameGUIDawn().skillIndex;
+                            if (slotId >= 0 && slotId <= SkillInventoryPlayer.getHotbarSize())
+                            {
+                                SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(ClientProxy.getIngameGUIDawn().skillIndex);
+                                if (skillStack != null)
+                                {
+                                    playerMagic.setSkillInSpell(skillStack);
+                                    playerMagic.setSpellAction(message.spellAction);
+                                    playerMagic.setSkillInSpellCount(message.spellCount);
+                                    
+                                    String action = I18n.format(message.spellAction.getUnlocalizedName(), skillStack.getDisplayName());
+                                    int count = message.spellAction == EnumSpellAction.PREPARE ? skillStack.getTotalPrepare() : skillStack.getMaxDuration();
+                                    int color = Minecraft.getMinecraft().fontRendererObj.getColorCode('a');
+                                    ClientProxy.getIngameGUIDawn().setAction(action, count, color);
+                                }
+                            }
                         }
                         else
                         {

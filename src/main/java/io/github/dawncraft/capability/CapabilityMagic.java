@@ -15,8 +15,10 @@ import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.network.MessageActionMessage;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSkillSlot;
+import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.MessageWindowSkills;
 import io.github.dawncraft.network.NetworkLoader;
@@ -37,6 +39,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
@@ -93,7 +96,7 @@ public class CapabilityMagic
         @Override
         public void setMana(float mana)
         {
-            this.mana = MathHelper.clamp_float(mana, 0.0F, this.getMaxMana());;
+            this.mana = MathHelper.clamp_float(mana, 0.0F, this.getMaxMana());
         }
 
         @Override
@@ -103,7 +106,7 @@ public class CapabilityMagic
             if (recoverAmount <= 0) return;
             float mana = this.getMana();
             
-            if (mana > 0.0F)
+            if (mana >= 0.0F)
             {
                 this.setMana(mana + recoverAmount);
             }
@@ -134,20 +137,15 @@ public class CapabilityMagic
         }
 
         @Override
-        public void setSkillInSpell(SkillStack skillStack)
+        public boolean setSkillInSpell(SkillStack skillStack)
         {
-            if (skillStack != this.skillInSpell)
+            if (skillStack != this.getSkillInSpell())
             {
-                if (skillStack.onSkillInit(this.player.getEntityWorld(), this.player))
-                {
-                    int duration = skillStack.getTotalPrepare();
-                    duration = DawnEventFactory.onSkillPrepareStart(this.player, skillStack, duration);
-                    if (duration <= 0) return;
-                    this.spellAction = EnumSpellAction.PREPARE;
-                    this.skillInSpell = skillStack;
-                    this.skillInSpellCount = duration;
-                }
+                this.spellAction = EnumSpellAction.PREPARE;
+                this.skillInSpell = skillStack;
+                this.skillInSpellCount = skillStack.getTotalPrepare();
             }
+            return true;
         }
 
         @Override
@@ -265,12 +263,14 @@ public class CapabilityMagic
         {
             return this.talents.keySet();
         }
+        
+        public void updateSpellingProgress() {}
 
         @Override
         public void sendOverlayMessage(IChatComponent chatComponent) {}
         
         @Override
-        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting backgroundColor) {}
+        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor) {}
 
         @Override
         public void update()
@@ -292,7 +292,7 @@ public class CapabilityMagic
 
             if (this.skillInSpellCount > 0) this.skillInSpellCount--;
             
-            if (this.player.isServerWorld() && this.spellAction != EnumSpellAction.NONE)
+            if (!this.player.getEntityWorld().isRemote && this.spellAction != EnumSpellAction.NONE)
             {
                 if (this.skillInSpell != null)
                 {
@@ -314,7 +314,11 @@ public class CapabilityMagic
                                 DawnEventFactory.onSkillSpellStart(this.player, this.skillInSpell, this.getSkillInSpellDuration());
                                 this.skillInSpell.onSkillSpell(this.player.getEntityWorld(), this.player);
 
-                                if (this.skillInSpellCount <= 0)
+                                if (this.skillInSpellCount > 0)
+                                {
+                                    this.updateSpellingProgress();
+                                }
+                                else
                                 {
                                     this.finishSkillSpell();
                                 }
@@ -381,7 +385,6 @@ public class CapabilityMagic
         private float lastMana;
         private int lastDrinkLevel;
         private boolean wasThirst;
-        private EnumSpellAction lastAction;
 
         public Server(EntityPlayerMP player)
         {
@@ -391,6 +394,33 @@ public class CapabilityMagic
             this.prevPosY = player.posX;
             this.prevPosY = player.posY;
             this.prevPosZ = player.posZ;
+        }
+        
+        @Override
+        public boolean setSkillInSpell(SkillStack skillStack)
+        {
+            if (skillStack != this.getSkillInSpell())
+            {
+                if (skillStack.onSkillInit(this.player.getEntityWorld(), this.player))
+                {
+                    int duration = skillStack.getTotalPrepare();
+                    duration = DawnEventFactory.onSkillPrepareStart(this.player, skillStack, duration);
+                    if (duration <= 0) return false;
+                    super.setSkillInSpell(skillStack);
+                    this.setSkillInSpellCount(duration);
+                    this.updateSpellingProgress();
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        @Override
+        public void clearSkillInSpell()
+        {
+            super.clearSkillInSpell();
+            this.updateSpellingProgress();
+            NetworkLoader.instance.sendTo(new MessageSpellSkillChange(-1), this.player);
         }
 
         @Override
@@ -407,15 +437,21 @@ public class CapabilityMagic
         }
 
         @Override
+        public void updateSpellingProgress()
+        {
+            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(this.getSpellAction(), this.getSkillInSpellCount()), this.player);
+        }
+
+        @Override
         public void sendOverlayMessage(IChatComponent chatComponent)
         {
             this.player.playerNetServerHandler.sendPacket(new S02PacketChat(chatComponent, (byte) 2));
         }
         
         @Override
-        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting backgroundColor)
+        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor)
         {
-
+            NetworkLoader.instance.sendTo(new MessageActionMessage(chatComponent, foregroundColor), this.player);
         }
 
         @Override
@@ -429,9 +465,10 @@ public class CapabilityMagic
             double x = this.player.posX - this.prevPosX;
             double y = this.player.posY - this.prevPosY;
             double z = this.player.posZ - this.prevPosZ;
-            if (x * x + y * y + z * z > 0.1)
+            if (this.getSpellAction() != EnumSpellAction.NONE && x * x + y * y + z * z > 0.01F)
             {
                 this.stopSpellingSkill();
+                this.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cancle"), true);
             }
 
             IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
@@ -443,11 +480,6 @@ public class CapabilityMagic
                 this.lastMana = this.getMana();
                 this.lastDrinkLevel = playerThirst.getDrinkStats().getDrinkLevel();
                 this.wasThirst = playerThirst.getDrinkStats().getSaturationLevel() == 0.0F;
-            }
-
-            if (this.getSpellAction() != this.lastAction)
-            {
-                NetworkLoader.instance.sendTo(new MessagePlayerSpelling(this.getSpellAction(), this.getSkillInSpellCount()), this.player);
             }
             
             this.prevPosX = this.player.posX;
@@ -496,7 +528,6 @@ public class CapabilityMagic
             super.cloneCapability(oldMagic, wasDeath);
             this.lastMana = -1.0F;
             this.lastDrinkLevel = -1;
-            this.lastAction = EnumSpellAction.NONE;
         }
 
         @Override

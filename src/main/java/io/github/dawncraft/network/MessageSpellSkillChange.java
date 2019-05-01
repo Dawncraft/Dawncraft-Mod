@@ -64,10 +64,14 @@ public class MessageSpellSkillChange implements IMessage
                         else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
                         {
                             SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
-                            if (skillStack != null)
+                            if (skillStack != null && playerMagic.setSkillInSpell(skillStack))
                             {
-                                playerMagic.setSkillInSpell(skillStack);
+                                NetworkLoader.instance.sendTo(new MessageSpellSkillChange(message.slotId), serverPlayer);
                                 serverPlayer.markPlayerActive();
+                            }
+                            else
+                            {
+                                NetworkLoader.instance.sendTo(new MessageSpellSkillChange(-1), serverPlayer);
                             }
                         }
                         else
@@ -88,7 +92,6 @@ public class MessageSpellSkillChange implements IMessage
                         IPlayerMagic playerMagic = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.slotId < 0)
                         {
-                            playerMagic.clearSkillInSpell();
                             ClientProxy.getIngameGUIDawn().setSpellIndex(-1);
                         }
                         else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
@@ -96,7 +99,6 @@ public class MessageSpellSkillChange implements IMessage
                             SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
                             if (skillStack != null)
                             {
-                                playerMagic.setSkillInSpell(skillStack);
                                 ClientProxy.getIngameGUIDawn().setSpellIndex(message.slotId);
                             }
                         }

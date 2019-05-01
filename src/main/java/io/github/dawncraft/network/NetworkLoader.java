@@ -11,25 +11,26 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class NetworkLoader
 {
-    public static SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(Dawncraft.MODID);
+    public static final SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(Dawncraft.MODID);
     private static int nextID = 0;
     
     public static void initNetwork()
     {
-        registerMessage(MessageUpdateMana.Handler.class, MessageUpdateMana.class, Side.CLIENT);
-        registerMessage(MessageSetSkillSlot.Handler.class, MessageSetSkillSlot.class, Side.CLIENT);
-        registerMessage(MessageWindowSkills.Handler.class, MessageWindowSkills.class, Side.CLIENT);
-        registerMessage(MessageSpellCooldown.Handler.class, MessageSpellCooldown.class, Side.CLIENT);
-        registerMessage(MessageSpellSkillChange.Handler.class, MessageSpellSkillChange.class, Side.CLIENT);
-        registerMessage(MessageSpellSkillChange.Handler.class, MessageSpellSkillChange.class, Side.SERVER);
-        registerMessage(MessagePlayerSpelling.Handler.class, MessagePlayerSpelling.class, Side.CLIENT);
+        registerMessage(MessageUpdateMana.class, MessageUpdateMana.Handler.class, Side.CLIENT);
+        registerMessage(MessageSetSkillSlot.class, MessageSetSkillSlot.Handler.class, Side.CLIENT);
+        registerMessage(MessageWindowSkills.class, MessageWindowSkills.Handler.class, Side.CLIENT);
+        registerMessage(MessageSpellCooldown.class, MessageSpellCooldown.Handler.class, Side.CLIENT);
+        registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.CLIENT);
+        registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.SERVER);
+        registerMessage(MessagePlayerSpelling.class, MessagePlayerSpelling.Handler.class, Side.CLIENT);
+        registerMessage(MessageActionMessage.class, MessageActionMessage.Handler.class, Side.CLIENT);
         
         MinecraftForge.EVENT_BUS.register(new CustomPacketHandler());
     }
     
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(
-            Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Class<REQ> requestMessageType, Side handlerSide)
+            Class<REQ> requestMessage, Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Side handlerSide)
     {
-        instance.registerMessage(messageHandler, requestMessageType, nextID++, handlerSide);
+        instance.registerMessage(messageHandler, requestMessage, nextID++, handlerSide);
     }
 }

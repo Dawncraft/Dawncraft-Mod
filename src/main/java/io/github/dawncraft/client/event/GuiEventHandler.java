@@ -1,7 +1,6 @@
 package io.github.dawncraft.client.event;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.event.HoverEvent;
 import net.minecraft.nbt.JsonToNBT;
@@ -13,9 +12,8 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.List;
-
 import io.github.dawncraft.api.client.event.ChatComponentEvent;
+import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.gui.stats.GuiStatsDawn;
 import io.github.dawncraft.event.EventLoader;
 import io.github.dawncraft.skill.SkillStack;
@@ -76,7 +74,7 @@ public class GuiEventHandler
                 
                 if (skillStack != null)
                 {
-                    renderSkillToolTip(event.gui, skillStack, event.x, event.y);
+                    GuiUtils.renderSkillToolTip(event.gui, skillStack, event.x, event.y);
                 }
                 else
                 {
@@ -84,17 +82,5 @@ public class GuiEventHandler
                 }
             }
         }
-    }
-
-    public static void renderSkillToolTip(GuiScreen gui, SkillStack stack, int x, int y)
-    {
-        List<String> list = stack.getTooltip(gui.mc.thePlayer, gui.mc.gameSettings.advancedItemTooltips);
-        
-        for (int i = 1; i < list.size(); ++i)
-        {
-            list.set(i, EnumChatFormatting.GRAY + (String)list.get(i));
-        }
-        
-        gui.drawHoveringText(list, x, y);
     }
 }

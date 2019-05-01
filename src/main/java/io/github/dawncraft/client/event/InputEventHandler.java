@@ -37,7 +37,7 @@ public class InputEventHandler
                 ClientProxy.getIngameGUIDawn().changeMode();
             }
             // Spell key was pressed
-            if (ClientProxy.getIngameGUIDawn().spellMode)
+            if (!mc.playerController.isSpectator() && ClientProxy.getIngameGUIDawn().spellMode)
             {
                 for (int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++)
                 {
@@ -45,7 +45,7 @@ public class InputEventHandler
                     {
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
                         SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(i);
-                        if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || playerMagic.getSkillInventory().getStackInSlot(i) != playerMagic.getSkillInSpell()))
+                        if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || !playerMagic.getSkillInventory().getStackInSlot(i).isSkillStackEqual(playerMagic.getSkillInSpell())))
                         {
                             ClientProxy.getIngameGUIDawn().setSpellIndex(i);
                             NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
