@@ -27,6 +27,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * Magnet door
+ *
+ * @author QingChenW
+ */
 public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
 {
     public BlockMagnetDoor()
@@ -37,7 +42,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         this.setResistance(10.0f);
         this.setHarvestLevel("pickaxe", 1);
     }
-    
+
     @Override
     public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
     {
@@ -70,7 +75,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         }
         return false;
     }
-    
+
     @Override
     public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock)
     {
@@ -78,7 +83,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         {
             BlockPos blockpos = pos.down();
             IBlockState iblockstate = world.getBlockState(blockpos);
-
+            
             if (iblockstate.getBlock() != this)
             {
                 world.setBlockToAir(pos);
@@ -93,31 +98,31 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
             boolean flag1 = false;
             BlockPos blockpos1 = pos.up();
             IBlockState iblockstate1 = world.getBlockState(blockpos1);
-
+            
             if (iblockstate1.getBlock() != this)
             {
                 world.setBlockToAir(pos);
                 flag1 = true;
             }
-
+            
             if (!World.doesBlockHaveSolidTopSurface(world, pos.down()))
             {
                 world.setBlockToAir(pos);
                 flag1 = true;
-
+                
                 if (iblockstate1.getBlock() == this)
                 {
                     world.setBlockToAir(blockpos1);
                 }
             }
-
+            
             if (!world.isRemote && flag1)
             {
                 this.dropBlockAsItem(world, pos, state, 0);
             }
         }
     }
-
+    
     @Override
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam)
     {
@@ -125,25 +130,25 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
     }
-    
+
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
         return new TileEntityMagnetDoor();
     }
-    
+
     @Override
     public boolean hasTileEntity(IBlockState state)
     {
         return state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER;
     }
-
+    
     @Override
     public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos, EntityPlayer player)
     {
         return null;
     }
-
+    
     @Override
     public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
@@ -168,13 +173,13 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
         }
         return ret;
     }
-
+    
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? null : ItemLoader.magnetDoor;
     }
-
+    
     @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World worldIn, BlockPos pos)

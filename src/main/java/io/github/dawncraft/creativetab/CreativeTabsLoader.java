@@ -1,9 +1,10 @@
 package io.github.dawncraft.creativetab;
 
 import com.google.common.collect.ObjectArrays;
+
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.client.renderer.entity.RenderSkill;
+import io.github.dawncraft.client.renderer.skill.RenderSkill;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.enchantment.EnchantmentLoader;
 import io.github.dawncraft.item.ItemLoader;
@@ -33,14 +34,14 @@ public class CreativeTabsLoader
     public static CreativeTabs tabWar;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-    
+
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-
+    
     public static void initCreativeTabs()
     {
-        EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat(CreativeTabs.tabCombat.getRelevantEnchantmentTypes(), EnchantmentLoader.WAND);
+        EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat(CreativeTabs.tabCombat.getRelevantEnchantmentTypes(), EnchantmentLoader.WAND);// FIXME Only client
         CreativeTabs.tabCombat.setRelevantEnchantmentTypes(newEnchantmentTypes);
         tabEnergy = new CreativeTabs("Energy")
         {
@@ -122,7 +123,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-
+        
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
@@ -138,7 +139,7 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-            
+
             @Override
             public TextureAtlasSprite getTabIcon()
             {
@@ -153,7 +154,7 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-            
+
             @Override
             public TextureAtlasSprite getTabIcon()
             {

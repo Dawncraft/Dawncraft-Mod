@@ -18,7 +18,6 @@ import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.network.MessageActionMessage;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSkillSlot;
-import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.MessageUpdateMana;
 import io.github.dawncraft.network.MessageWindowSkills;
 import io.github.dawncraft.network.NetworkLoader;
@@ -137,15 +136,12 @@ public class CapabilityMagic
         }
 
         @Override
-        public boolean setSkillInSpell(SkillStack skillStack)
+        public void setSkillInSpell(EnumSpellAction action, SkillStack skillStack, int duration)
         {
-            if (skillStack != this.getSkillInSpell())
-            {
-                this.spellAction = EnumSpellAction.PREPARE;
-                this.skillInSpell = skillStack;
-                this.skillInSpellCount = skillStack.getTotalPrepare();
-            }
-            return true;
+            this.spellAction = action;
+            this.skillInSpell = skillStack;
+            this.skillInSpellCount = duration;
+            this.updateSpellingProgress();
         }
 
         @Override
@@ -154,52 +150,30 @@ public class CapabilityMagic
             this.spellAction = EnumSpellAction.NONE;
             this.skillInSpell = null;
             this.skillInSpellCount = 0;
-        }
-        
-        @Override
-        public void stopSpellingSkill()
-        {
-            if (this.skillInSpell != null)
-            {
-                boolean flag = true;
-                if (this.spellAction == EnumSpellAction.PREPARE)
-                {
-                    flag = !DawnEventFactory.onSkillPrepareStop(this.player, this.skillInSpell, this.skillInSpellCount);
-
-                }
-                else if (this.spellAction == EnumSpellAction.SPELL)
-                {
-                    flag = !DawnEventFactory.onSkillSpellStop(this.player, this.skillInSpell, this.skillInSpellCount);
-                }
-                if (flag) this.skillInSpell.onPlayerStoppedSpelling(this.player.getEntityWorld(), this.player, this.skillInSpellCount);
-            }
-            this.clearSkillInSpell();
-        }
-        
-        public void finishSkillSpell()
-        {
-            if (this.skillInSpell != null)
-            {
-                int level = this.skillInSpell.getSkillLevel();
-                SkillStack stack = this.skillInSpell.onSkillSpellFinish(this.player.getEntityWorld(), this.player);
-                stack = DawnEventFactory.onSkillSpellFinish(this.player, this.skillInSpell, this.skillInSpellCount, stack);
-                if (stack != this.skillInSpell || stack != null && stack.getSkillLevel() != level)
-                {
-                    for (int i = 0; i < this.skillInventory.getInventorySize(); i++)
-                    {
-                        if (this.skillInventory.getStackInSlot(i) == this.skillInSpell)
-                        {
-                            this.skillInventory.setInventorySlot(i, stack);
-                            break;
-                        }
-                    }
-                }
-                this.clearSkillInSpell();
-            }
+            this.updateSpellingProgress();
         }
 
         @Override
-        public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar) {}
+        public boolean initSkillInSpell(SkillStack skillStack)
+        {
+            if (skillStack != this.getSkillInSpell())
+            {
+                if (skillStack.onSkillPreparing(this.player.getEntityWorld(), this.player, 0) != EnumSpellAction.NONE)
+                {
+                    int duration = skillStack.getTotalPrepare();
+                    duration = DawnEventFactory.onSkillPrepareStart(this.player, skillStack, duration);
+                    if (duration <= 0) return false;
+                    this.setSkillInSpell(EnumSpellAction.PREPARE, skillStack, duration);
+                    return true;
+                }
+                else
+                {
+                    this.clearSkillInSpell();
+                    return false;
+                }
+            }
+            return false;
+        }
 
         @Override
         public int getSkillInSpellCount()
@@ -227,6 +201,57 @@ public class CapabilityMagic
             this.skillInSpellCount = count;
         }
 
+        public void stopSpellingSkill()
+        {
+            if (this.skillInSpell != null)
+            {
+                boolean flag = true;
+                if (this.spellAction == EnumSpellAction.PREPARE)
+                {
+                    flag = !DawnEventFactory.onSkillPrepareStop(this.player, this.skillInSpell, this.skillInSpellCount);
+
+                }
+                else if (this.spellAction == EnumSpellAction.SPELL)
+                {
+                    flag = !DawnEventFactory.onSkillSpellStop(this.player, this.skillInSpell, this.skillInSpellCount);
+                }
+                if (flag) this.skillInSpell.onPlayerStoppedSpelling(this.player.getEntityWorld(), this.player, this.skillInSpellCount);
+            }
+            this.clearSkillInSpell();
+        }
+
+        public void onSkillSpellFinish()
+        {
+            if (this.skillInSpell != null)
+            {
+                int level = this.skillInSpell.getSkillLevel();
+                SkillStack skillStack = this.skillInSpell.onSkillSpellFinish(this.player.getEntityWorld(), this.player);
+
+                skillStack = DawnEventFactory.onSkillSpellFinish(this.player, this.skillInSpell, this.skillInSpellCount, skillStack);
+                if (skillStack != this.skillInSpell || skillStack != null && skillStack.getSkillLevel() != level)
+                {
+                    for (int i = 0; i < this.skillInventory.getInventorySize(); i++)
+                    {
+                        if (this.skillInventory.getStackInSlot(i) == this.skillInSpell)
+                        {
+                            this.skillInventory.setInventorySlot(i, skillStack);
+                            break;
+                        }
+                    }
+                }
+
+                this.sendActionBarMessage(new ChatComponentTranslation(this.spellAction.getUnlocalizedName(), skillStack.getDisplayName()), EnumChatFormatting.GREEN);
+                this.clearSkillInSpell();
+            }
+        }
+        
+        @Override
+        public void cancelSpellingSkill()
+        {
+            this.stopSpellingSkill();
+            this.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cancel"), true);
+        }
+        
         @Override
         public SpellCooldownTracker getCooldownTracker()
         {
@@ -264,14 +289,6 @@ public class CapabilityMagic
             return this.talents.keySet();
         }
         
-        public void updateSpellingProgress() {}
-
-        @Override
-        public void sendOverlayMessage(IChatComponent chatComponent) {}
-        
-        @Override
-        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor) {}
-
         @Override
         public void update()
         {
@@ -290,7 +307,7 @@ public class CapabilityMagic
                 }
             }
 
-            if (this.skillInSpellCount > 0) this.skillInSpellCount--;
+            if (this.skillInSpellCount > 0) --this.skillInSpellCount;
             
             if (!this.player.getEntityWorld().isRemote && this.spellAction != EnumSpellAction.NONE)
             {
@@ -320,7 +337,7 @@ public class CapabilityMagic
                                 }
                                 else
                                 {
-                                    this.finishSkillSpell();
+                                    this.onSkillSpellFinish();
                                 }
                             }
                         }
@@ -337,7 +354,7 @@ public class CapabilityMagic
                             this.skillInSpellCount = DawnEventFactory.onSkillSpellTick(this.player, this.skillInSpell, this.skillInSpellCount);
                             if (this.getSkillInSpellCount() <= 0)
                             {
-                                this.finishSkillSpell();
+                                this.onSkillSpellFinish();
                             }
                         }
                         else
@@ -358,15 +375,27 @@ public class CapabilityMagic
         }
         
         @Override
-        public void cloneCapability(IPlayerMagic oldMagic, boolean wasDeath)
+        public IPlayerMagic cloneCapability(IPlayerMagic oldMagic, boolean wasDeath)
         {
             if (!wasDeath)
             {
                 this.setMana(oldMagic.getMana());
             }
             this.getSkillInventory().copyInventory(oldMagic.getSkillInventory());
+            return this;
         }
         
+        public void updateSpellingProgress() {}
+        
+        @Override
+        public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar) {}
+        
+        @Override
+        public void sendOverlayMessage(IChatComponent chatComponent) {}
+        
+        @Override
+        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor) {}
+
         @Override
         public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList) {}
         
@@ -395,64 +424,6 @@ public class CapabilityMagic
             this.prevPosY = player.posY;
             this.prevPosZ = player.posZ;
         }
-        
-        @Override
-        public boolean setSkillInSpell(SkillStack skillStack)
-        {
-            if (skillStack != this.getSkillInSpell())
-            {
-                if (skillStack.onSkillInit(this.player.getEntityWorld(), this.player))
-                {
-                    int duration = skillStack.getTotalPrepare();
-                    duration = DawnEventFactory.onSkillPrepareStart(this.player, skillStack, duration);
-                    if (duration <= 0) return false;
-                    super.setSkillInSpell(skillStack);
-                    this.setSkillInSpellCount(duration);
-                    this.updateSpellingProgress();
-                    return true;
-                }
-            }
-            return false;
-        }
-        
-        @Override
-        public void clearSkillInSpell()
-        {
-            super.clearSkillInSpell();
-            this.updateSpellingProgress();
-            NetworkLoader.instance.sendTo(new MessageSpellSkillChange(-1), this.player);
-        }
-
-        @Override
-        public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar)
-        {
-            if (!useActionBar)
-            {
-                this.sendOverlayMessage(reason);
-            }
-            else
-            {
-                this.sendActionBarMessage(reason, EnumChatFormatting.RED);
-            }
-        }
-
-        @Override
-        public void updateSpellingProgress()
-        {
-            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(this.getSpellAction(), this.getSkillInSpellCount()), this.player);
-        }
-
-        @Override
-        public void sendOverlayMessage(IChatComponent chatComponent)
-        {
-            this.player.playerNetServerHandler.sendPacket(new S02PacketChat(chatComponent, (byte) 2));
-        }
-        
-        @Override
-        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor)
-        {
-            NetworkLoader.instance.sendTo(new MessageActionMessage(chatComponent, foregroundColor), this.player);
-        }
 
         @Override
         public void update()
@@ -465,10 +436,9 @@ public class CapabilityMagic
             double x = this.player.posX - this.prevPosX;
             double y = this.player.posY - this.prevPosY;
             double z = this.player.posZ - this.prevPosZ;
-            if (this.getSpellAction() != EnumSpellAction.NONE && x * x + y * y + z * z > 0.01F)
+            if (this.getSpellAction() != EnumSpellAction.NONE && x * x + y * y + z * z > 0.001F)
             {
-                this.stopSpellingSkill();
-                this.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cancle"), true);
+                this.cancelSpellingSkill();
             }
 
             IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
@@ -523,11 +493,43 @@ public class CapabilityMagic
         }
 
         @Override
-        public void cloneCapability(IPlayerMagic oldMagic, boolean wasDeath)
+        public IPlayerMagic cloneCapability(IPlayerMagic oldMagic, boolean wasDeath)
         {
             super.cloneCapability(oldMagic, wasDeath);
             this.lastMana = -1.0F;
             this.lastDrinkLevel = -1;
+            return this;
+        }
+        
+        @Override
+        public void updateSpellingProgress()
+        {
+            NetworkLoader.instance.sendTo(new MessagePlayerSpelling(this.getSpellAction(), this.getSkillInSpellCount()), this.player);
+        }
+        
+        @Override
+        public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar)
+        {
+            if (!useActionBar)
+            {
+                this.sendOverlayMessage(reason);
+            }
+            else
+            {
+                this.sendActionBarMessage(reason, EnumChatFormatting.RED);
+            }
+        }
+
+        @Override
+        public void sendOverlayMessage(IChatComponent chatComponent)
+        {
+            this.player.playerNetServerHandler.sendPacket(new S02PacketChat(chatComponent, (byte) 2));
+        }
+        
+        @Override
+        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor)
+        {
+            NetworkLoader.instance.sendTo(new MessageActionMessage(chatComponent, foregroundColor), this.player);
         }
 
         @Override

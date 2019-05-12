@@ -5,6 +5,7 @@ import java.util.List;
 import io.github.dawncraft.api.event.entity.LivingRecoverEvent;
 import io.github.dawncraft.api.event.player.PlayerSkillEvent;
 import io.github.dawncraft.api.event.player.SkillTooltipEvent;
+import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -23,48 +24,48 @@ public class DawnEventFactory
         LivingRecoverEvent event = new LivingRecoverEvent(entity, amount);
         return MinecraftForge.EVENT_BUS.post(event) ? 0 : event.amount;
     }
-
+    
     public static int onSkillPrepareStart(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        PlayerSkillEvent event = new PlayerSkillEvent.Prepare.Start(player, skillstack, duration);
+        PlayerSkillEvent event = new PlayerSkillEvent.Start(player, EnumSpellAction.PREPARE, skillstack, duration);
         return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
     }
-
+    
     public static int onSkillPrepareTick(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        PlayerSkillEvent event = new PlayerSkillEvent.Prepare.Tick(player, skillstack, duration);
+        PlayerSkillEvent event = new PlayerSkillEvent.Tick(player, EnumSpellAction.PREPARE, skillstack, duration);
         return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
     }
-
+    
     public static boolean onSkillPrepareStop(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        return MinecraftForge.EVENT_BUS.post(new PlayerSkillEvent.Prepare.Stop(player, skillstack, duration));
+        return MinecraftForge.EVENT_BUS.post(new PlayerSkillEvent.Stop(player, EnumSpellAction.PREPARE, skillstack, duration));
     }
-    
+
     public static int onSkillSpellStart(EntityPlayer player, SkillStack skillstack, int duration)
     {
-        PlayerSkillEvent event = new PlayerSkillEvent.Spell.Start(player, skillstack, duration);
+        PlayerSkillEvent event = new PlayerSkillEvent.Start(player, EnumSpellAction.SPELL, skillstack, duration);
         return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
-    }
-
-    public static int onSkillSpellTick(EntityPlayer player, SkillStack skillstack, int duration)
-    {
-        PlayerSkillEvent event = new PlayerSkillEvent.Spell.Tick(player, skillstack, duration);
-        return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
-    }
-
-    public static boolean onSkillSpellStop(EntityPlayer player, SkillStack skillstack, int duration)
-    {
-        return MinecraftForge.EVENT_BUS.post(new PlayerSkillEvent.Spell.Stop(player, skillstack, duration));
     }
     
+    public static int onSkillSpellTick(EntityPlayer player, SkillStack skillstack, int duration)
+    {
+        PlayerSkillEvent event = new PlayerSkillEvent.Tick(player, EnumSpellAction.SPELL, skillstack, duration);
+        return MinecraftForge.EVENT_BUS.post(event) ? -1 : event.duration;
+    }
+    
+    public static boolean onSkillSpellStop(EntityPlayer player, SkillStack skillstack, int duration)
+    {
+        return MinecraftForge.EVENT_BUS.post(new PlayerSkillEvent.Stop(player, EnumSpellAction.SPELL, skillstack, duration));
+    }
+
     public static SkillStack onSkillSpellFinish(EntityPlayer player, SkillStack skillstack, int duration, SkillStack result)
     {
-        PlayerSkillEvent event = new PlayerSkillEvent.Spell.Finish(player, skillstack, duration, result);
+        PlayerSkillEvent event = new PlayerSkillEvent.Finish(player, EnumSpellAction.SPELL, skillstack, duration, result);
         MinecraftForge.EVENT_BUS.post(event);
         return result;
     }
-    
+
     public static SkillTooltipEvent onSkillTooltip(SkillStack skillStack, EntityPlayer entityPlayer, List<String> toolTip, boolean showAdvancedSkillTooltips)
     {
         SkillTooltipEvent event = new SkillTooltipEvent(skillStack, entityPlayer, toolTip, showAdvancedSkillTooltips);

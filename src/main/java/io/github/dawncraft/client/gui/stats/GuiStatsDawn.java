@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.ClientProxy;
-import io.github.dawncraft.client.renderer.entity.RenderSkill;
+import io.github.dawncraft.client.renderer.skill.RenderSkill;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 

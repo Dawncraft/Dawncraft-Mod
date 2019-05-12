@@ -23,26 +23,26 @@ import net.minecraftforge.fml.relauncher.Side;
 public class MessageSpellSkillChange implements IMessage
 {
     public int slotId;
-
-    public MessageSpellSkillChange() {}
     
+    public MessageSpellSkillChange() {}
+
     public MessageSpellSkillChange(int slot)
     {
         this.slotId = slot;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.slotId = buf.readShort();
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeShort(this.slotId);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSpellSkillChange, IMessage>
     {
         @Override
@@ -59,14 +59,14 @@ public class MessageSpellSkillChange implements IMessage
                         IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.slotId < 0)
                         {
-                            playerMagic.clearSkillInSpell();
+                            playerMagic.cancelSpellingSkill();
                         }
                         else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
                         {
                             SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
-                            if (skillStack != null && playerMagic.setSkillInSpell(skillStack))
+                            if (skillStack != null)
                             {
-                                NetworkLoader.instance.sendTo(new MessageSpellSkillChange(message.slotId), serverPlayer);
+                                playerMagic.initSkillInSpell(skillStack);
                                 serverPlayer.markPlayerActive();
                             }
                             else

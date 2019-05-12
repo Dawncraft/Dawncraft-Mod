@@ -15,7 +15,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 
-public interface IPlayerMagic extends IEntityMana, ILearning
+public interface IPlayerMagic extends IEntityMana, ILearning, ICapabilityClonable<IPlayerMagic>
 {
     public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
     
@@ -24,14 +24,14 @@ public interface IPlayerMagic extends IEntityMana, ILearning
     void setSpellAction(EnumSpellAction action);
     
     public SkillStack getSkillInSpell();
-    
-    public boolean setSkillInSpell(SkillStack stack);
+
+    public void setSkillInSpell(EnumSpellAction action, SkillStack stack, int duration);
     
     public void clearSkillInSpell();
 
-    public void stopSpellingSkill();
-    
-    public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar);
+    public boolean initSkillInSpell(SkillStack stack);
+
+    public void cancelSpellingSkill();
     
     public int getSkillInSpellCount();
 
@@ -55,11 +55,11 @@ public interface IPlayerMagic extends IEntityMana, ILearning
     @Deprecated
     public Set<Talent> getTalents();
 
+    public void update();
+    
+    public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar);
+
     public void sendOverlayMessage(IChatComponent chatComponent);
 
     public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor);
-
-    public void update();
-
-    public void cloneCapability(IPlayerMagic oldMagic, boolean wasDeath);
 }

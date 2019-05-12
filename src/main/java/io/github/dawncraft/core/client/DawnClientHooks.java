@@ -12,10 +12,12 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.item.Item;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 
 /**
@@ -28,7 +30,7 @@ public class DawnClientHooks
     public static Set<Block> BuiltInBlocks = new HashSet<Block>();
     public static Map<Block, String> BlockParticles = new HashMap<Block, String>();
     public static Map<Pair<Item, Integer>, TileEntity> TileentityItemMap = Maps.newHashMap();
-    
+
     /**
      * Register builtin blocks.
      *
@@ -38,7 +40,7 @@ public class DawnClientHooks
     {
         BuiltInBlocks.addAll(Lists.newArrayList(blocks));
     }
-    
+
     /**
      * Register builtin block's texture.
      *
@@ -49,7 +51,7 @@ public class DawnClientHooks
     {
         BlockParticles.put(block, iconName);
     }
-    
+
     /**
      * Register item with a specific tileentity for TEISR.
      *
@@ -62,7 +64,7 @@ public class DawnClientHooks
     {
         TileentityItemMap.put(Pair.of(item, meta), tileentity);
     }
-    
+
     /**
      * {@link net.minecraft.client.renderer.BlockModelShapes#registerAllBlocks()}
      */
@@ -70,7 +72,7 @@ public class DawnClientHooks
     {
         shapes.registerBuiltInBlocks(BuiltInBlocks.toArray(new Block[0]));
     }
-
+    
     /**
      * {@link net.minecraft.client.renderer.BlockModelShapes#getTexture(IBlockState)}
      */
@@ -82,7 +84,7 @@ public class DawnClientHooks
         }
         return modelManager.getMissingModel().getParticleTexture();
     }
-    
+
     /**
      * {@link net.minecraftforge.client.ForgeHooksClient#renderTileItem(Item, int)}
      */
@@ -92,6 +94,11 @@ public class DawnClientHooks
         TileEntity tileentity = TileentityItemMap.get(Pair.of(item, meta));
         return tileentity != null ? tileentity : null;
     }
-    
+
     // {@link net.minecraft.client.renderer.entity.layers.LayerCustomHead#doRenderLayer(EntityLivingBase, float, float, float, float, float, float, float)}
+
+    public static void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
+    {
+
+    }
 }

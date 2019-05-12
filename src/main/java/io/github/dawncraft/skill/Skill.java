@@ -220,40 +220,6 @@ public class Skill
     public void onUpdate(SkillStack stack, World world, Entity entity, int skillSlot)
     {
     }
-
-    /**
-     * 在刚选择技能发包到服务端准备施放之前会调用一次
-     *
-     * @param skillStack 要准备施放的技能
-     * @param world 施放者所在世界
-     * @param player 施放玩家
-     * @return 是否可以施放
-     */
-    public boolean onSkillInit(SkillStack skillStack, World world, EntityPlayer player)
-    {
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        if (playerMagic.getCooldownTracker().isGlobalCooldown())
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.globalcool"), false);
-            return false;
-        }
-        if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cool"), false);
-            return false;
-        }
-        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), false);
-            return false;
-        }
-        if (playerMagic.getMana() < this.getConsume(skillStack))
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.nomana"), false);
-            return false;
-        }
-        return true;
-    }
     
     /**
      * 技能准备阶段每刻调用一次
@@ -266,15 +232,26 @@ public class Skill
      */
     public EnumSpellAction onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
+        boolean isInit = duration == 0;
         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+        if (playerMagic.getCooldownTracker().isGlobalCooldown())
         {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), true);
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.globalcool"), !isInit);
+            return EnumSpellAction.NONE;
+        }
+        if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
+        {
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cool"), !isInit);
             return EnumSpellAction.NONE;
         }
         if (playerMagic.getMana() < this.getConsume(skillStack))
         {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.nomana"), true);
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.nomana"), !isInit);
+            return EnumSpellAction.NONE;
+        }
+        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+        {
+            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), !isInit);
             return EnumSpellAction.NONE;
         }
         return EnumSpellAction.PREPARE;

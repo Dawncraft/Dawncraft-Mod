@@ -1,4 +1,4 @@
-package io.github.dawncraft.client.renderer.entity;
+package io.github.dawncraft.client.renderer.skill;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -7,7 +7,6 @@ import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
-import io.github.dawncraft.client.renderer.skill.SkillModelMesher;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;

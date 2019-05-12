@@ -16,36 +16,37 @@ public class CapabilityThirst
     {
         private EntityPlayer player;
         private DrinkStats drinkStats;
-        
+
         public Implementation(EntityPlayer player)
         {
             super();
             this.player = player;
             this.drinkStats = new DrinkStats();
         }
-
+        
         @Override
         public DrinkStats getDrinkStats()
         {
             return this.drinkStats;
         }
-
+        
         @Override
         public boolean canDrink(boolean ignoreThirst)
         {
             return (!ConfigLoader.isThirstEnabled || ignoreThirst || this.drinkStats.needDrink()) && !this.player.capabilities.disableDamage;
         }
-
+        
         @Override
-        public void cloneCapability(IPlayerThirst oldThirst, boolean wasDeath)
+        public IPlayerThirst cloneCapability(IPlayerThirst oldThirst, boolean wasDeath)
         {
             if (!wasDeath)
             {
                 this.drinkStats = oldThirst.getDrinkStats();
             }
+            return this;
         }
     }
-    
+
     public static class Storage implements Capability.IStorage<IPlayerThirst>
     {
         @Override
@@ -55,7 +56,7 @@ public class CapabilityThirst
             instance.getDrinkStats().writeNBT(tagCompound);
             return tagCompound;
         }
-
+        
         @Override
         public void readNBT(Capability<IPlayerThirst> capability, IPlayerThirst instance, EnumFacing facing, NBTBase nbtBase)
         {
@@ -63,24 +64,24 @@ public class CapabilityThirst
             instance.getDrinkStats().readNBT(tagCompound);
         }
     }
-    
+
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
         private IPlayerThirst playerThirst;
         private IStorage<IPlayerThirst> storage;
-
+        
         public Provider(EntityPlayer player)
         {
             this.playerThirst = new Implementation(player);
             this.storage = CapabilityLoader.playerThirst.getStorage();
         }
-
+        
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
             return CapabilityLoader.playerThirst.equals(capability);
         }
-
+        
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
@@ -91,13 +92,13 @@ public class CapabilityThirst
             }
             return null;
         }
-
+        
         @Override
         public NBTTagCompound serializeNBT()
         {
             return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerThirst, this.playerThirst, null);
         }
-
+        
         @Override
         public void deserializeNBT(NBTTagCompound tagCompound)
         {

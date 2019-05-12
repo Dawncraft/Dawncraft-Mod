@@ -69,9 +69,7 @@ public class MessagePlayerSpelling implements IMessage
                                 SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(ClientProxy.getIngameGUIDawn().skillIndex);
                                 if (skillStack != null)
                                 {
-                                    playerMagic.setSkillInSpell(skillStack);
-                                    playerMagic.setSpellAction(message.spellAction);
-                                    playerMagic.setSkillInSpellCount(message.spellCount);
+                                    playerMagic.setSkillInSpell(message.spellAction, skillStack, message.spellCount);
                                     
                                     String action = I18n.format(message.spellAction.getUnlocalizedName(), skillStack.getDisplayName());
                                     int count = message.spellAction == EnumSpellAction.PREPARE ? skillStack.getTotalPrepare() : skillStack.getMaxDuration();
@@ -83,6 +81,7 @@ public class MessagePlayerSpelling implements IMessage
                         else
                         {
                             playerMagic.clearSkillInSpell();
+                            ClientProxy.getIngameGUIDawn().setSpellIndex(-1);
                         }
                     }
                 });

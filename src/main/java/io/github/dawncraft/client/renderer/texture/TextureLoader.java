@@ -12,6 +12,8 @@ import net.minecraft.util.ResourceLocation;
 public class TextureLoader
 {
     public static TextureLoader textureLoader;
+    public static final ResourceLocation locationPotionsTexture = new ResourceLocation("textures/atlas/potions.png");
+    private TextureMap textureMapPotions;
     public static final ResourceLocation locationSkillsTexture = new ResourceLocation("textures/atlas/skills.png");
     private TextureMap textureMapSkills;
 
@@ -19,6 +21,11 @@ public class TextureLoader
     {
         Minecraft mc = Minecraft.getMinecraft();
         
+        this.textureMapPotions = new TextureMap("textures", true);
+        this.textureMapPotions.setMipmapLevels(mc.gameSettings.mipmapLevels);
+        mc.getTextureManager().loadTickableTexture(locationPotionsTexture, this.textureMapPotions);
+        this.textureMapPotions.setBlurMipmapDirect(false, mc.gameSettings.mipmapLevels > 0);
+
         this.textureMapSkills = new TextureMap("textures", true);
         this.textureMapSkills.setMipmapLevels(mc.gameSettings.mipmapLevels);
         mc.getTextureManager().loadTickableTexture(locationSkillsTexture, this.textureMapSkills);

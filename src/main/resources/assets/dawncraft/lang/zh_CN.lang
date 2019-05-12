@@ -161,21 +161,22 @@ container.magic.mana=魔法: %1$s/%2$s
 container.magic.more=更多信息...
 
 gui.moreinfo=按 %s 显示详细信息
-gui.gun.ammo=弹药: %1$d / %2$d
 gui.item.eat=吃 %s
 gui.item.drink=喝 %s
 gui.item.bow=拉 %s
-gui.item.gun=射 %s
-gui.skill.prepare=准备施放 %1$s
-gui.skill.spell=正在施放 %1$s
+gui.item.reload=为 %s 换弹
+gui.item.shoot=用 %s 射击
+gui.skill.prepare=准备施放 %s
+gui.skill.spell=正在施放 %s
 gui.skill.globalcool=您的脸滚得太快了:)
 gui.skill.cool=%1$s 冷却中
-gui.skill.silent=您已被沉默
 gui.skill.nomana=您的魔法值不足
+gui.skill.silent=您已被沉默
 gui.skill.notarget=无目标
 gui.skill.missed=目标已丢失
 gui.skill.broken=被打断
 gui.skill.cancel=取消施放
+gui.gun.ammo=弹药: %1$d / %2$d
 
 achievement.dawncraft.basic=曙光工艺已安装
 achievement.dawncraft.basic.desc=感谢您对曙光工艺Mod的支持
@@ -225,6 +226,9 @@ achievement.dawncraft.dawnArrival.desc=进入曙光世界并发现天空之城
 stat.overallButton=总览
 stat.jobButton=职业
 stat.skillsButton=技能
+stat.skill.learn=学习的次数
+stat.skill.spell=施放的次数
+stat.skill.level=最高等级
 stat.talentsButton=天赋
 stat.skill.test=技能统计测试
 
@@ -235,7 +239,6 @@ death.attack.byGer=%s Ger死了
 
 chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
 chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
-chat.dawncraft.zoom=[§6曙光工艺§r] §c警告：§r放大目前为测试功能，可能存在Bug，并且请在退出存档前关闭放大模式。
 chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下无Ger
 chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
