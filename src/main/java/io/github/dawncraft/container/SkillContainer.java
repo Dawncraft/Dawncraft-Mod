@@ -3,7 +3,6 @@ package io.github.dawncraft.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,6 +15,7 @@ import java.util.Set;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
+import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 
 public abstract class SkillContainer extends Container
@@ -80,9 +80,154 @@ public abstract class SkillContainer extends Container
 
     public SkillStack skillSlotClick(int slotId, int clickedButton, int mode, EntityPlayer player)
     {
-        return null;
-    }
+        SkillStack skillStack = null;
+        SkillInventoryPlayer inventoryplayer = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
 
+        if ((mode == 0 || mode == 1) && (clickedButton == 0 || clickedButton == 1))
+        {
+            if (slotId == -999)
+            {
+                if (inventoryplayer.getSkillStack() != null)
+                {
+                    inventoryplayer.addSkillStackToInventory(skillStack);
+                    inventoryplayer.setSkillStack(null);
+                }
+            }
+            else if (mode == 1)
+            {
+                if (slotId < 0)
+                {
+                    return null;
+                }
+
+                SkillSlot slot = this.inventorySkillSlots.get(slotId);
+
+                if (slot != null && slot.canTakeStack(player))
+                {
+                    SkillStack skillStack2 = this.transferSkillStackInSlot(player, slotId);
+
+                    if (skillStack2 != null)
+                    {
+                        Skill skill = skillStack2.getSkill();
+                        skillStack = skillStack2.copy();
+                    }
+                }
+            }
+            else
+            {
+                if (slotId < 0)
+                {
+                    return null;
+                }
+
+                SkillSlot slot = this.inventorySkillSlots.get(slotId);
+
+                if (slot != null)
+                {
+                    SkillStack skillStack2 = slot.getStack();
+                    SkillStack skillStack3 = inventoryplayer.getSkillStack();
+
+                    if (skillStack2 != null)
+                    {
+                        skillStack = skillStack2.copy();
+                    }
+
+                    if (skillStack2 == null)
+                    {
+                        if (skillStack3 != null && slot.isSkillValid(skillStack3))
+                        {
+                            slot.putStack(skillStack3);
+                            inventoryplayer.setSkillStack(null);
+                        }
+                    }
+                    else if (slot.canTakeStack(player))
+                    {
+                        if (skillStack3 == null)
+                        {
+                            inventoryplayer.setSkillStack(slot.removeStack());
+                            slot.onPickupFromSlot(player, inventoryplayer.getSkillStack());
+                        }
+                        else if (slot.isSkillValid(skillStack3))
+                        {
+                            slot.putStack(skillStack3);
+                            inventoryplayer.setSkillStack(skillStack2);
+                        }
+                    }
+
+                    slot.onSlotChanged();
+                }
+            }
+        }
+        else if (mode == 2 && clickedButton >= 0 && clickedButton < 9)
+        {
+            SkillSlot slot = this.inventorySkillSlots.get(slotId);
+
+            if (slot.canTakeStack(player))
+            {
+                SkillStack skillStack2 = inventoryplayer.getStackInSlot(clickedButton);
+                boolean flag = skillStack2 == null || slot.inventory == inventoryplayer && slot.isSkillValid(skillStack2);
+                int k1 = -1;
+
+                if (!flag)
+                {
+                    k1 = inventoryplayer.getFirstEmptyStack();
+                    flag |= k1 > -1;
+                }
+
+                if (slot.hasStack() && flag)
+                {
+                    SkillStack itemstack3 = slot.getStack();
+                    inventoryplayer.setInventorySlot(clickedButton, itemstack3.copy());
+
+                    if ((slot.inventory != inventoryplayer || !slot.isSkillValid(skillStack2)) && skillStack2 != null)
+                    {
+                        if (k1 > -1)
+                        {
+                            inventoryplayer.addSkillStackToInventory(skillStack2);
+                            slot.removeStack();
+                            slot.putStack(null);
+                            slot.onPickupFromSlot(player, itemstack3);
+                        }
+                    }
+                    else
+                    {
+                        slot.removeStack();
+                        slot.putStack(skillStack2);
+                        slot.onPickupFromSlot(player, itemstack3);
+                    }
+                }
+                else if (!slot.hasStack() && skillStack2 != null && slot.isSkillValid(skillStack2))
+                {
+                    inventoryplayer.setInventorySlot(clickedButton, null);
+                    slot.putStack(skillStack2);
+                }
+            }
+        }
+        else if (mode == 3 && player.capabilities.isCreativeMode && inventoryplayer.getSkillStack() == null && slotId >= 0)
+        {
+            SkillSlot slot = this.inventorySkillSlots.get(slotId);
+
+            if (slot != null && slot.hasStack())
+            {
+                inventoryplayer.setSkillStack(slot.getStack().copy());
+            }
+        }
+        else if (mode == 4 && inventoryplayer.getSkillStack() == null && slotId >= 0)
+        {
+            SkillSlot slot = this.inventorySkillSlots.get(slotId);
+
+            if (slot != null && slot.hasStack() && slot.canTakeStack(player))
+            {
+                SkillStack skillStack2 = slot.removeStack();
+                slot.onPickupFromSlot(player, skillStack2);
+                inventoryplayer.addSkillStackToInventory(skillStack2);
+            }
+        }
+
+        this.detectAndSendChanges();
+        return skillStack;
+    }
+    
     public SkillStack transferSkillStackInSlot(EntityPlayer player, int index)
     {
         SkillSlot slot = this.inventorySkillSlots.get(index);
@@ -100,7 +245,7 @@ public abstract class SkillContainer extends Container
             magic.getSkillInventoryContainer().onLearnGuiOpened(magic);
         }
     }
-
+    
     public void onLearnGuiOpened(ILearning listener)
     {
         if (this.learners.contains(listener))
@@ -114,7 +259,7 @@ public abstract class SkillContainer extends Container
             this.detectAndSendChanges();
         }
     }
-
+    
     @Override
     public void onContainerClosed(EntityPlayer player)
     {
@@ -127,7 +272,7 @@ public abstract class SkillContainer extends Container
             skillInventoryPlayer.setSkillStack(null);
         }
     }
-
+    
     @Override
     public void detectAndSendChanges()
     {
@@ -150,7 +295,7 @@ public abstract class SkillContainer extends Container
             }
         }
     }
-
+    
     public void onLearnMatrixChanged(ISkillInventory inventory)
     {
         this.detectAndSendChanges();

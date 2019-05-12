@@ -149,7 +149,7 @@ ustc-zzzz的Mod教程和szszss的CoreMod教程.
 
 NeoTech的管道模型文件.
 
-KevinWalker的[Gun-Domain](https://coding.net/u/KevinWalker/p/Gun-Domain/)项目
+KevinWalker的[Gun-Domain](https://coding.net/u/KevinWalker/p/Gun-Domain/git)项目
 
 luaj,markdown4j,bliki和mediawiki
 
