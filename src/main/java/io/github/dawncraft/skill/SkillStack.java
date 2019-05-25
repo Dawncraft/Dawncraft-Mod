@@ -12,6 +12,7 @@ import io.github.dawncraft.stats.StatLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.HoverEvent;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -25,6 +26,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * It is based on flyweight pattern, like {@link ItemStack}.
+ * Every {@link SkillStack} contains a type of skill.
+ *
+ * @author QingChenW
+ */
 public class SkillStack
 {
     private Skill skill;
@@ -70,7 +77,7 @@ public class SkillStack
 
     public int getTotalPrepare()
     {
-        return this.getSkill().getPrepare(this) + Skill.getPublicPrepare();
+        return this.getSkill().getPrepare(this) + Skill.getGlobalPrepare();
     }
 
     public int getMaxDuration()

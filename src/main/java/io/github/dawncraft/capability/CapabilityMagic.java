@@ -292,7 +292,7 @@ public class CapabilityMagic
         @Override
         public void update()
         {
-            if (this.player.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL && this.player.worldObj.getGameRules().getBoolean("naturalRecovery"))
+            if (this.player.getEntityWorld().getDifficulty() == EnumDifficulty.PEACEFUL && this.player.getEntityWorld().getGameRules().getBoolean("naturalRecovery"))
             {
                 if (this.shouldRecover() && this.player.ticksExisted % 15 == 0)
                 {
@@ -321,7 +321,8 @@ public class CapabilityMagic
                             this.skillInSpellCount = DawnEventFactory.onSkillPrepareTick(this.player, this.skillInSpell, this.skillInSpellCount);
                             if (result == EnumSpellAction.SPELL || this.skillInSpellCount <= 0)
                             {
-                                this.setMana(this.getMana() - this.skillInSpell.getSkillConsume());
+                                if (!this.player.capabilities.isCreativeMode)
+                                    this.setMana(this.getMana() - this.skillInSpell.getSkillConsume());
                                 this.getCooldownTracker().setGlobalCooldown(this.getCooldownTracker().getTotalGlobalCooldown());
                                 this.getCooldownTracker().setCooldown(this.skillInSpell.getSkill(), this.skillInSpell.getTotalCooldown());
 
@@ -471,7 +472,7 @@ public class CapabilityMagic
          */
         private void checkPortalCreation()
         {
-            World world = this.player.worldObj;
+            World world = this.player.getEntityWorld();
             if(world != null && this.player != null && world.provider.getDimensionId() == 0)
             {
                 List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, this.player.getEntityBoundingBox().expand(ConfigLoader.rangeToCheck, ConfigLoader.rangeToCheck, ConfigLoader.rangeToCheck));

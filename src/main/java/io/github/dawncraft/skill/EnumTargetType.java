@@ -2,5 +2,9 @@ package io.github.dawncraft.skill;
 
 public enum EnumTargetType
 {
-    POINT
+    SELF,
+    ENTITY,
+    POINT,
+    LINE,
+    AREA;
 }

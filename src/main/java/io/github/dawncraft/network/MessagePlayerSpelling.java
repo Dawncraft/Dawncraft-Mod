@@ -24,29 +24,29 @@ public class MessagePlayerSpelling implements IMessage
 {
     private EnumSpellAction spellAction;
     private int spellCount;
-
+    
     public MessagePlayerSpelling() {}
-
+    
     public MessagePlayerSpelling(EnumSpellAction type, int count)
     {
         this.spellAction = type;
         this.spellCount = count;
     }
-
+    
     @Override
     public void fromBytes(ByteBuf buf)
     {
         this.spellAction = EnumSpellAction.values()[buf.readByte()];
         this.spellCount = buf.readInt();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
         buf.writeByte(this.spellAction.ordinal());
         buf.writeInt(this.spellCount);
     }
-
+    
     public static class Handler implements IMessageHandler<MessagePlayerSpelling, IMessage>
     {
         @Override
@@ -63,25 +63,25 @@ public class MessagePlayerSpelling implements IMessage
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.spellAction != EnumSpellAction.NONE)
                         {
-                            int slotId = ClientProxy.getIngameGUIDawn().skillIndex;
+                            int slotId = ClientProxy.getInstance().getIngameGUIDawn().skillIndex;
                             if (slotId >= 0 && slotId <= SkillInventoryPlayer.getHotbarSize())
                             {
-                                SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(ClientProxy.getIngameGUIDawn().skillIndex);
+                                SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(ClientProxy.getInstance().getIngameGUIDawn().skillIndex);
                                 if (skillStack != null)
                                 {
                                     playerMagic.setSkillInSpell(message.spellAction, skillStack, message.spellCount);
-                                    
+
                                     String action = I18n.format(message.spellAction.getUnlocalizedName(), skillStack.getDisplayName());
                                     int count = message.spellAction == EnumSpellAction.PREPARE ? skillStack.getTotalPrepare() : skillStack.getMaxDuration();
                                     int color = Minecraft.getMinecraft().fontRendererObj.getColorCode('a');
-                                    ClientProxy.getIngameGUIDawn().setAction(action, count, color);
+                                    ClientProxy.getInstance().getIngameGUIDawn().setAction(action, count, color);
                                 }
                             }
                         }
                         else
                         {
                             playerMagic.clearSkillInSpell();
-                            ClientProxy.getIngameGUIDawn().setSpellIndex(-1);
+                            ClientProxy.getInstance().getIngameGUIDawn().setSpellIndex(-1);
                         }
                     }
                 });

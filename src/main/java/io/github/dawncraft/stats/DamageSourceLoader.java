@@ -15,26 +15,26 @@ public class DamageSourceLoader
 {
     public static DamageSource thirst = new DamageSource("thirst").setDamageBypassesArmor().setDamageIsAbsolute();
     public static DamageSource ger = new DamageSource("byGer").setDifficultyScaled().setExplosion();
-    
+
     public static void initDamageSources() {}
-    
+
     /**
      * returns EntityDamageSourceIndirect of a Magic Skill
      *
      * @param indirectEntityIn The entity that shoot the bullet
      */
-    public static DamageSource causeSkillDamage(SkillStack skillStack, Entity indirectEntityIn)
+    public static DamageSource causeSkillDamage(SkillStack skillStack, Entity indirectEntity)
     {
-        return new SkillDamageSource(skillStack, indirectEntityIn);
+        return new SkillDamageSource(skillStack, indirectEntity);
     }
-    
+
     /**
      * returns EntityDamageSourceIndirect of a bullet
      *
      * @param indirectEntityIn The entity that shoot the bullet
      */
-    public static DamageSource causeBulletDamage(EntityBullet bullet, Entity indirectEntityIn)
+    public static DamageSource causeBulletDamage(EntityBullet bullet, Entity indirectEntity)
     {
-        return new EntityDamageSourceIndirect("bullet", bullet, indirectEntityIn).setProjectile();
+        return new EntityDamageSourceIndirect("bullet", bullet, indirectEntity).setProjectile();
     }
 }

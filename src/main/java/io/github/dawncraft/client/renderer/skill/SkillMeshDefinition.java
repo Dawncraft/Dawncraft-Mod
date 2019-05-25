@@ -1,12 +1,13 @@
-package io.github.dawncraft.client.renderer.model;
+package io.github.dawncraft.client.renderer.skill;
 
 import io.github.dawncraft.skill.SkillStack;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public interface SkillMeshDefinition
 {
-    ModelResourceLocation getModelLocation(SkillStack stack);
+    ResourceLocation getTextureLocation(SkillStack stack);
 }

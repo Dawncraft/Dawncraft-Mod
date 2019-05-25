@@ -1,6 +1,5 @@
 package io.github.dawncraft.client.renderer.skill;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import io.github.dawncraft.capability.CapabilityLoader;
@@ -9,171 +8,59 @@ import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.SkillStack;
+import io.github.dawncraft.util.StringUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
-import net.minecraft.util.ResourceLocation;
 
 public class RenderSkill implements IResourceManagerReloadListener
 {
-    public float zLevel;
-    private final SkillModelMesher skillModelMesher;
-    private final TextureManager textureManager;
+    private TextureManager textureManager;
+    private ModelLoader modelLoader;
 
-    public RenderSkill()
-    {
-        super();
-        this.textureManager = Minecraft.getMinecraft().getTextureManager();
-        this.skillModelMesher = new SkillModelMesher();
-        ModelLoader.onRegisterSkills(this.skillModelMesher);
-    }
+    public float zLevel;
     
+    public RenderSkill(TextureManager textureManager, ModelLoader modelLoader)
+    {
+        this.textureManager = textureManager;
+        this.modelLoader = modelLoader;
+    }
+
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager)
-    {
-        this.skillModelMesher.rebuildCache();
-    }
-    
-    private void renderModel(IBakedModel model, SkillStack stack)
-    {
-        this.renderModel(model, -1, stack);
-    }
-    
-    private void renderModel(IBakedModel model, int color)
-    {
-        this.renderModel(model, color, (SkillStack) null);
-    }
-    
-    private void renderModel(IBakedModel model, int color, SkillStack stack)
-    {
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        worldrenderer.begin(7, DefaultVertexFormats.ITEM);
-        
-        for (EnumFacing enumfacing : EnumFacing.values())
-        {
-            this.renderQuads(worldrenderer, model.getFaceQuads(enumfacing), color, stack);
-        }
-        
-        this.renderQuads(worldrenderer, model.getGeneralQuads(), color, stack);
-        tessellator.draw();
-    }
-    
-    private void renderQuads(WorldRenderer renderer, List<BakedQuad> quads, int color, SkillStack stack)
-    {
-        boolean flag = color == -1 && stack != null;
-        int i = 0;
-        
-        for (int j = quads.size(); i < j; ++i)
-        {
-            BakedQuad bakedquad = (BakedQuad)quads.get(i);
-            int k = color;
-            
-            if (flag && bakedquad.hasTintIndex())
-            {
-                k = stack.getSkill().getColorFromSkillStack(stack, bakedquad.getTintIndex());
-                
-                if (EntityRenderer.anaglyphEnable)
-                {
-                    k = TextureUtil.anaglyphColor(k);
-                }
-                
-                k = k | -16777216;
-            }
-            
-            net.minecraftforge.client.model.pipeline.LightUtil.renderQuadColor(renderer, bakedquad, k);
-        }
-    }
-    
-    public void renderSkill(SkillStack stack, IBakedModel model)
-    {
-        if (stack != null)
-        {
-            GlStateManager.pushMatrix();
-            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            
-            if (model.isBuiltInRenderer())
-            {
-                GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-                GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                GlStateManager.enableRescaleNormal();
-                // TileEntityItemStackRenderer.instance.renderByItem(stack);
-            }
-            else
-            {
-                GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-                this.renderModel(model, stack);
-            }
-            
-            GlStateManager.popMatrix();
-        }
-    }
-    
-    public void renderSkill(SkillStack stack, TextureAtlasSprite sprite, int x, int y)
+    public void onResourceManagerReload(IResourceManager resourceManager) {}
+
+    public void renderSkill(SkillStack stack, int x, int y)
     {
         if (stack != null)
         {
             GlStateManager.pushMatrix();
             GlStateManager.scale(1.0F, 1.0F, 1.0F);
-            this.drawSprite(x, y, sprite, 16, 16);
+            this.drawSprite(x, y, this.modelLoader.getSkillSprite(stack), 16, 16);
             GlStateManager.popMatrix();
         }
     }
-    
-    public void renderSkillIntoGUI(SkillStack stack, int x, int y)
+
+    private void setupGuiTransform(int x, int y, boolean isGui3d)
     {
-        ResourceLocation res = getActualLocation(new ResourceLocation(stack.getSkill().getRegistryName()));
-        TextureAtlasSprite sprite = TextureLoader.getTextureLoader().getTextureMapSkills().getAtlasSprite(res.toString());
-        GlStateManager.pushMatrix();
-        this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
-        this.textureManager.getTexture(TextureLoader.locationSkillsTexture).setBlurMipmap(false, false);
-        GlStateManager.enableLighting();
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc(516, 0.1F);
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(770, 771);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.renderSkill(stack, sprite, x, y);
-        GlStateManager.disableAlpha();
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableLighting();
-        GlStateManager.popMatrix();
-        this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
-        this.textureManager.getTexture(TextureLoader.locationSkillsTexture).restoreLastBlurMipmap();
-    }
-    
-    public static ResourceLocation getActualLocation(ResourceLocation location)
-    {
-        return new ResourceLocation(location.getResourceDomain(), "skills/" + location.getResourcePath());
-    }
-    
-    private void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d)
-    {
-        GlStateManager.translate((float)xPosition, (float)yPosition, 100.0F + this.zLevel);
+        GlStateManager.translate((float)x, (float)y, 100.0F + this.zLevel);
         GlStateManager.translate(8.0F, 8.0F, 0.0F);
         GlStateManager.scale(1.0F, 1.0F, -1.0F);
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
-        
+
         if (isGui3d)
         {
             GlStateManager.scale(40.0F, 40.0F, 40.0F);
@@ -188,16 +75,37 @@ public class RenderSkill implements IResourceManagerReloadListener
             GlStateManager.disableLighting();
         }
     }
-    
-    public void renderSkillAndEffectIntoGUI(final SkillStack stack, int xPosition, int yPosition)
+
+    public void renderSkillIntoGUI(SkillStack stack, int x, int y)
+    {
+        GlStateManager.pushMatrix();
+        this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
+        this.textureManager.getTexture(TextureLoader.locationSkillsTexture).setBlurMipmap(false, false);
+        GlStateManager.enableLighting();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.enableAlpha();
+        GlStateManager.alphaFunc(516, 0.1F);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(770, 771);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        this.renderSkill(stack, x, y);
+        GlStateManager.disableAlpha();
+        GlStateManager.disableRescaleNormal();
+        GlStateManager.disableLighting();
+        GlStateManager.popMatrix();
+        this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
+        this.textureManager.getTexture(TextureLoader.locationSkillsTexture).restoreLastBlurMipmap();
+    }
+
+    public void renderSkillAndEffectIntoGUI(final SkillStack stack, int x, int y)
     {
         if (stack != null && stack.getSkill() != null)
         {
             this.zLevel += 50.0F;
-            
+
             try
             {
-                this.renderSkillIntoGUI(stack, xPosition, yPosition);
+                this.renderSkillIntoGUI(stack, x, y);
             }
             catch (Throwable throwable)
             {
@@ -208,10 +116,10 @@ public class RenderSkill implements IResourceManagerReloadListener
                     @Override
                     public String call() throws Exception
                     {
-                        return String.valueOf((Object)stack.getSkill());
+                        return String.valueOf(stack.getSkill());
                     }
                 });
-                crashreportcategory.addCrashSectionCallable("Stem Aux", new Callable<String>()
+                crashreportcategory.addCrashSectionCallable("Skill Level", new Callable<String>()
                 {
                     @Override
                     public String call() throws Exception
@@ -219,60 +127,63 @@ public class RenderSkill implements IResourceManagerReloadListener
                         return String.valueOf(stack.getSkillLevel());
                     }
                 });
-                crashreportcategory.addCrashSectionCallable("Item NBT", new Callable<String>()
+                crashreportcategory.addCrashSectionCallable("Skill NBT", new Callable<String>()
                 {
                     @Override
                     public String call() throws Exception
                     {
-                        return String.valueOf((Object)stack.hasTagCompound());
+                        return String.valueOf(stack.getTagCompound());
                     }
                 });
                 throw new ReportedException(crashreport);
             }
-            
+
             this.zLevel -= 50.0F;
         }
     }
-    
+
     /**
      * Renders the stack level for the given SkillStack.
      */
-    public void renderSkillOverlayIntoGUI(FontRenderer fr, SkillStack stack, int xPosition, int yPosition)
+    public void renderSkillOverlayIntoGUI(FontRenderer fontRenderer, SkillStack stack, int x, int y)
     {
         if (stack != null)
         {
-            String s = String.valueOf(stack.skillLevel);
-            
-            if (stack.skillLevel < 1)
+            String level;
+            if (stack.skillLevel >= 1)
             {
-                s = EnumChatFormatting.RED + String.valueOf(stack.skillLevel);
+                level = StringUtils.toRome(stack.skillLevel);
             }
-            
+            else
+            {
+                level = EnumChatFormatting.RED + String.valueOf(stack.skillLevel);
+            }
+
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
             GlStateManager.disableBlend();
-            fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float)(yPosition + 6 + 3), 16777215);
+            fontRenderer.drawStringWithShadow(level, (float) (x + 19 - 2 - fontRenderer.getStringWidth(level)), (float)(y + 6 + 3), 0xffffff);
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
-            
+
             float cooldown = 0.0F;
             EntityPlayer player = Minecraft.getMinecraft().thePlayer;
             IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
             cooldown = playerMagic.getCooldownTracker().getCooldownPercent(stack.getSkill(), 0);
-
+            
             if (cooldown > 0.0F)
             {
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
                 GlStateManager.disableTexture2D();
-                GuiUtils.drawRect(xPosition, yPosition + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 223, 223, 223, 63);
+                GuiUtils.drawRect(x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 223, 223, 223, 63);
                 GlStateManager.enableTexture2D();
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
             }
         }
     }
-    
+
     /**
      * Draws a texture rectangle using the texture currently bound to the TextureManager
      */
@@ -286,10 +197,5 @@ public class RenderSkill implements IResourceManagerReloadListener
         worldrenderer.pos(xCoord + widthIn, yCoord + 0, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMinV()).endVertex();
         worldrenderer.pos(xCoord + 0, yCoord + 0, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMinV()).endVertex();
         tessellator.draw();
-    }
-
-    public SkillModelMesher getSkillModelMesher()
-    {
-        return this.skillModelMesher;
     }
 }

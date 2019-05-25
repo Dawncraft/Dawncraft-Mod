@@ -9,9 +9,13 @@ import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.RenderSkill;
 import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
+import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.server.ServerProxy;
+
+import net.minecraft.client.Minecraft;
+
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -23,45 +27,66 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  */
 public class ClientProxy extends ServerProxy
 {
-    private static RenderSkill skillRender;
-    private static GuiIngameDawn ingameGUIDawn;
+    private static ClientProxy instance;
+    
+    private TextureLoader textureLoader;
+    private ModelLoader modelLoader;
+    private RenderSkill skillRender;
+    private GuiIngameDawn ingameGUIDawn;
     
     @Override
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
-        ModelLoader.initModelLoader();
+        instance = this;
+        this.textureLoader = new TextureLoader();
+        this.modelLoader = new ModelLoader(this.textureLoader);
         ItemRenderLoader.initItemRender();
         BlockRenderLoader.initBlockRender();
         SkillRenderLoader.initSkillRender();
         EntityRenderLoader.initEntityRender();
         TileEntityRenderLoader.initTileEntityRender();
     }
-    
+
     @Override
     public void init(FMLInitializationEvent event)
     {
         super.init(event);
-        skillRender = new RenderSkill();
+        this.skillRender = new RenderSkill(Minecraft.getMinecraft().getTextureManager(), this.modelLoader);
         KeyLoader.initKeys();
         GuiStatLoader.initStatSlots();
         ClientEventLoader.initClientEvents();
     }
-    
+
     @Override
     public void postInit(FMLPostInitializationEvent event)
     {
         super.postInit(event);
-        ingameGUIDawn = new GuiIngameDawn();
+        this.ingameGUIDawn = new GuiIngameDawn();
     }
 
-    public static RenderSkill getSkillRender()
+    public TextureLoader getTextureLoader()
     {
-        return skillRender;
+        return this.textureLoader;
     }
-
-    public static GuiIngameDawn getIngameGUIDawn()
+    
+    public ModelLoader getModelLoader()
     {
-        return ingameGUIDawn;
+        return this.modelLoader;
+    }
+    
+    public RenderSkill getSkillRender()
+    {
+        return this.skillRender;
+    }
+    
+    public GuiIngameDawn getIngameGUIDawn()
+    {
+        return this.ingameGUIDawn;
+    }
+    
+    public static ClientProxy getInstance()
+    {
+        return instance;
     }
 }

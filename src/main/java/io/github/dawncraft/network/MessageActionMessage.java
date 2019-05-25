@@ -19,16 +19,16 @@ public class MessageActionMessage implements IMessage
 {
     public IChatComponent chatComponent;
     public EnumChatFormatting foregroundColor;
-    
-    public MessageActionMessage() {}
 
+    public MessageActionMessage() {}
+    
     public MessageActionMessage(IChatComponent component, EnumChatFormatting color)
     {
         super();
         this.chatComponent = component;
         this.foregroundColor = color;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -43,7 +43,7 @@ public class MessageActionMessage implements IMessage
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -58,7 +58,7 @@ public class MessageActionMessage implements IMessage
             e.printStackTrace();
         }
     }
-    
+
     public static class Handler implements IMessageHandler<MessageActionMessage, IMessage>
     {
         @Override
@@ -71,7 +71,7 @@ public class MessageActionMessage implements IMessage
                     @Override
                     public void run()
                     {
-                        ClientProxy.getIngameGUIDawn().setActionMessage(message.chatComponent.getFormattedText(), Minecraft.getMinecraft().fontRendererObj.getColorCode(message.foregroundColor.toString().charAt(1)));
+                        ClientProxy.getInstance().getIngameGUIDawn().setActionMessage(message.chatComponent.getFormattedText(), Minecraft.getMinecraft().fontRendererObj.getColorCode(message.foregroundColor.toString().charAt(1)));
                     }
                 });
             }

@@ -34,26 +34,26 @@ public abstract class GuiSkillContainer extends GuiContainer
     public SkillContainer skillContainer;
     /** holds the slot currently hovered */
     private SkillSlot theSlot;
-
+    
     public GuiSkillContainer(SkillContainer container)
     {
         super(container);
         this.skillContainer = container;
-
-        this.skillRender = ClientProxy.getSkillRender();
+        
+        this.skillRender = ClientProxy.getInstance().getSkillRender();
     }
-
+    
     @Override
     public void initGui()
     {
         super.initGui();
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
-
+        
         int left = this.guiLeft;
         int top = this.guiTop;
         GlStateManager.pushMatrix();
@@ -63,12 +63,12 @@ public abstract class GuiSkillContainer extends GuiContainer
         this.theSlot = null;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float) 240 / 1.0F, (float) 240 / 1.0F);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-
+        
         for (int i1 = 0; i1 < this.skillContainer.inventorySkillSlots.size(); ++i1)
         {
             SkillSlot slot = this.skillContainer.inventorySkillSlots.get(i1);
             this.drawSlot(slot);
-            
+
             if (this.isMouseOverSkillSlot(slot, mouseX, mouseY) && slot.canBeHovered())
             {
                 this.theSlot = slot;
@@ -83,46 +83,46 @@ public abstract class GuiSkillContainer extends GuiContainer
                 GlStateManager.enableDepth();
             }
         }
-
+        
         SkillInventoryPlayer inventoryplayer = this.mc.thePlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
         SkillStack skillStack = inventoryplayer.getSkillStack();
-        
+
         if (skillStack != null)
         {
             this.drawSkillStack(skillStack, mouseX - left - 8, mouseY - top - 8);
         }
-        
-        GlStateManager.popMatrix();
 
+        GlStateManager.popMatrix();
+        
         if (skillStack == null && this.theSlot != null && this.theSlot.hasStack())
         {
             SkillStack skillStack2 = this.theSlot.getStack();
             GuiUtils.renderSkillToolTip(this, skillStack2, mouseX, mouseY);
         }
-
+        
         GlStateManager.enableLighting();
         GlStateManager.enableDepth();
         RenderHelper.enableStandardItemLighting();
     }
-
+    
     private boolean isMouseOverSkillSlot(SkillSlot slot, int mouseX, int mouseY)
     {
         return this.isPointInRegion(slot.xDisplayPosition, slot.yDisplayPosition, 16, 16, mouseX, mouseY);
     }
-
+    
     private void drawSlot(SkillSlot slot)
     {
         int x = slot.xDisplayPosition;
         int y = slot.yDisplayPosition;
         SkillStack skillStack = slot.getStack();
-        
+
         this.zLevel = 100.0F;
         this.skillRender.zLevel = 100.0F;
-        
+
         if (skillStack == null)
         {
             TextureAtlasSprite textureatlassprite = slot.getBackgroundSprite();
-            
+
             if (textureatlassprite != null)
             {
                 GlStateManager.disableLighting();
@@ -137,11 +137,11 @@ public abstract class GuiSkillContainer extends GuiContainer
             this.skillRender.renderSkillAndEffectIntoGUI(skillStack, x, y);
             this.skillRender.renderSkillOverlayIntoGUI(this.fontRendererObj, skillStack, x, y);
         }
-        
+
         this.skillRender.zLevel = 0.0F;
         this.zLevel = 0.0F;
     }
-
+    
     private void drawSkillStack(SkillStack stack, int x, int y)
     {
         GlStateManager.translate(0.0F, 0.0F, 32.0F);
@@ -152,33 +152,33 @@ public abstract class GuiSkillContainer extends GuiContainer
         this.zLevel = 0.0F;
         this.skillRender.zLevel = 0.0F;
     }
-    
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         SkillInventoryPlayer inventoryplayer = this.mc.thePlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
         SkillSlot slot = this.getSkillSlotAtPosition(mouseX, mouseY);
-        
+
         if (mouseButton == 0 || mouseButton == 1 || mouseButton == this.mc.gameSettings.keyBindPickBlock.getKeyCode() + 100)
         {
             int j = this.guiLeft;
             int k = this.guiTop;
             boolean drop = mouseX < j || mouseY < k || mouseX >= j + this.xSize || mouseY >= k + this.ySize;
             if (slot != null) drop = false;
-            
+
             int slotId = -1;
-            
+
             if (slot != null)
             {
                 slotId = slot.slotNumber;
             }
-            
+
             if (drop)
             {
                 slotId = -999;
             }
-            
+
             if (slotId != -1)
             {
                 if (inventoryplayer.getSkillStack() == null)
@@ -191,7 +191,7 @@ public abstract class GuiSkillContainer extends GuiContainer
                     {
                         boolean move = slotId != -999 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54));
                         int type = 0;
-                        
+
                         if (move)
                         {
                             type = 1;
@@ -200,24 +200,24 @@ public abstract class GuiSkillContainer extends GuiContainer
                         {
                             type = 4;
                         }
-                        
+
                         this.handleMouseClick(slot, slotId, mouseButton, type);
                     }
                 }
             }
         }
     }
-
+    
     protected void handleMouseClick(SkillSlot slot, int slotId, int clickedButton, int clickType)
     {
         if (slot != null)
         {
             slotId = slot.slotNumber;
         }
-
+        
         this.windowClick(this.inventorySlots.windowId, slotId, clickedButton, clickType, this.mc.thePlayer);
     }
-
+    
     public SkillStack windowClick(int windowId, int slotId, int mouseButtonClicked, int mode, EntityPlayer player)
     {
         short uid = player.openContainer.getNextTransactionID(player.inventory);
@@ -225,7 +225,7 @@ public abstract class GuiSkillContainer extends GuiContainer
         NetworkLoader.instance.sendToServer(new MessageClickSkillWindow(windowId, slotId, mouseButtonClicked, mode, skillStack, uid));
         return skillStack;
     }
-
+    
     private SkillSlot getSkillSlotAtPosition(int x, int y)
     {
         for (int i = 0; i < this.skillContainer.inventorySkillSlots.size(); ++i)
@@ -238,17 +238,17 @@ public abstract class GuiSkillContainer extends GuiContainer
         }
         return null;
     }
-
+    
     public SkillSlot getSkillSlotUnderMouse()
     {
         return this.theSlot;
     }
-
+    
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
         super.keyTyped(typedChar, keyCode);
-        
+
         if (this.theSlot != null && this.theSlot.hasStack())
         {
             if (keyCode == this.mc.gameSettings.keyBindPickBlock.getKeyCode())
@@ -257,14 +257,14 @@ public abstract class GuiSkillContainer extends GuiContainer
             }
         }
     }
-
+    
     @Override
     protected boolean checkHotbarKeys(int keyCode)
     {
         boolean flag = super.checkHotbarKeys(keyCode);
-        
+
         SkillInventoryPlayer inventoryplayer = this.mc.thePlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
-        
+
         if (inventoryplayer.getSkillStack() == null && this.theSlot != null)
         {
             for (int i = 0; i < 9; ++i)
@@ -276,22 +276,22 @@ public abstract class GuiSkillContainer extends GuiContainer
                 }
             }
         }
-        
+
         return flag;
     }
-    
+
     @Override
     public void updateScreen()
     {
         super.updateScreen();
     }
-    
+
     @Override
     public void onGuiClosed()
     {
         super.onGuiClosed();
     }
-
+    
     @Override
     public boolean doesGuiPauseGame()
     {

@@ -2,41 +2,21 @@ package io.github.dawncraft.client.renderer.skill;
 
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.skill.Skill;
-import io.github.dawncraft.skill.SkillLoader;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 
 public class SkillRenderLoader
 {
     public static void initSkillRender()
     {
-        registerSkill(SkillLoader.attack);
-        registerSkill(SkillLoader.heal);
-        registerSkill(SkillLoader.longPrepare);
-        registerSkill(SkillLoader.longSpell);
-        registerSkill(SkillLoader.longCooldown);
+        // 技能物品栏模型现已自动注册
     }
-    
+
     /**
-     * Register a skill's inventory model.
+     * Register a skill's inventory model with a custom SkillMeshDefinition.
      *
      * @param skill skill's string id
      */
-    private static void registerSkill(Skill skill)
+    private static void registerSkill(Skill skill, SkillMeshDefinition meshDefinition)
     {
-        for (int i = 0; i <= skill.getMaxLevel(); i++)
-            registerSkill(skill, i, skill.getRegistryName());
-    }
-    
-    /**
-     * Register a skill's inventory model with level and name.
-     *
-     * @param skill skill to register
-     * @param level skill's level
-     * @param name skill's model suffix
-     */
-    private static void registerSkill(Skill skill, int level, String name)
-    {
-        ModelResourceLocation model = new ModelResourceLocation(name, "inventory");
-        ModelLoader.setCustomModelResourceLocation(skill, level, model);
+        ModelLoader.setCustomMeshDefinition(skill, meshDefinition);
     }
 }

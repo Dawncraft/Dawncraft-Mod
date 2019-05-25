@@ -13,12 +13,12 @@ import net.minecraftforge.fml.client.registry.IRenderFactory;
 public class EntityRenderFactory<E extends Entity> implements IRenderFactory<E>
 {
     private final Class<? extends Render<E>> renderClass;
-
+    
     public EntityRenderFactory(Class<? extends Render<E>> renderClass)
     {
         this.renderClass = renderClass;
     }
-
+    
     @Override
     public Render<E> createRenderFor(RenderManager manager)
     {

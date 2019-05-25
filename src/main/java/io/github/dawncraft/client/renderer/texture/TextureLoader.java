@@ -5,42 +5,47 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
 
 /**
- * 注册技能材质
+ * Register some textures
  *
  * @author QingChenW
  */
 public class TextureLoader
 {
-    public static TextureLoader textureLoader;
     public static final ResourceLocation locationPotionsTexture = new ResourceLocation("textures/atlas/potions.png");
-    private TextureMap textureMapPotions;
     public static final ResourceLocation locationSkillsTexture = new ResourceLocation("textures/atlas/skills.png");
+    
+    private static boolean hasInited = false;
+
+    private Minecraft mc;
+    private TextureMap textureMapPotions;
     private TextureMap textureMapSkills;
-
-    public TextureLoader()
+    
+    public void initTextures()
     {
-        Minecraft mc = Minecraft.getMinecraft();
-        
-        this.textureMapPotions = new TextureMap("textures", true);
-        this.textureMapPotions.setMipmapLevels(mc.gameSettings.mipmapLevels);
-        mc.getTextureManager().loadTickableTexture(locationPotionsTexture, this.textureMapPotions);
-        this.textureMapPotions.setBlurMipmapDirect(false, mc.gameSettings.mipmapLevels > 0);
+        if (hasInited) return;
 
-        this.textureMapSkills = new TextureMap("textures", true);
-        this.textureMapSkills.setMipmapLevels(mc.gameSettings.mipmapLevels);
-        mc.getTextureManager().loadTickableTexture(locationSkillsTexture, this.textureMapSkills);
-        this.textureMapSkills.setBlurMipmapDirect(false, mc.gameSettings.mipmapLevels > 0);
+        this.mc = Minecraft.getMinecraft();
+
+        this.textureMapPotions = new TextureMap("textures", true);
+        this.textureMapPotions.setMipmapLevels(this.mc.gameSettings.mipmapLevels);
+        this.mc.getTextureManager().loadTickableTexture(locationPotionsTexture, this.textureMapPotions);
+        this.textureMapPotions.setBlurMipmapDirect(false, this.mc.gameSettings.mipmapLevels > 0);
         
-        textureLoader = this;
+        this.textureMapSkills = new TextureMap("textures", true);
+        this.textureMapSkills.setMipmapLevels(this.mc.gameSettings.mipmapLevels);
+        this.mc.getTextureManager().loadTickableTexture(locationSkillsTexture, this.textureMapSkills);
+        this.textureMapSkills.setBlurMipmapDirect(false, this.mc.gameSettings.mipmapLevels > 0);
+        
+        hasInited = true;
+    }
+
+    public TextureMap getTextureMapPotions()
+    {
+        return this.textureMapPotions;
     }
     
     public TextureMap getTextureMapSkills()
     {
         return this.textureMapSkills;
-    }
-    
-    public static TextureLoader getTextureLoader()
-    {
-        return textureLoader;
     }
 }

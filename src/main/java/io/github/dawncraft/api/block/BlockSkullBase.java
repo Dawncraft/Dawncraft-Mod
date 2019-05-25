@@ -35,21 +35,21 @@ public abstract class BlockSkullBase extends BlockContainer
 {
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
     public static final PropertyBool NODROP = PropertyBool.create("nodrop");
-
+    
     public BlockSkullBase()
     {
         super(Material.circuits);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(NODROP, Boolean.valueOf(false)));
         this.setBlockBounds(0.25F, 0.0F, 0.25F, 0.75F, 0.5F, 0.75F);
     }
-
+    
     /**
      * getSkullItem 返回头颅物品
      *
      * @return ItemSkullBase
      */
     public abstract ItemSkullBase getSkullItem();
-
+    
     /**
      * checkSpecialSpawn 用于检测boss的生成，像凋零一样，如果你需要就像矿石一样请重写这个方法
      *
@@ -58,19 +58,19 @@ public abstract class BlockSkullBase extends BlockContainer
      * @param tileentityskull
      */
     public void checkSpecialSpawn(World world, BlockPos pos, TileEntitySkull tileentityskull) {}
-    
+
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
         return new TileEntitySkull();
     }
-
+    
     @Override
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing()).withProperty(NODROP, Boolean.valueOf(false));
     }
-    
+
     @Override
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
     {
@@ -80,48 +80,48 @@ public abstract class BlockSkullBase extends BlockContainer
             worldIn.setBlockState(pos, state, 4);
         }
         this.dropBlockAsItem(worldIn, pos, state, 0);
-        
+
         super.onBlockHarvested(worldIn, pos, state, player);
     }
-    
+
     @Override
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
         super.breakBlock(worldIn, pos, state);
     }
-
+    
     @Override
     public java.util.List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune)
     {
         java.util.List<ItemStack> ret = new java.util.ArrayList<ItemStack>();
-        
+
         if (!state.getValue(NODROP).booleanValue())
         {
             TileEntity tileentity = world.getTileEntity(pos);
-            
+
             if (tileentity instanceof TileEntitySkull)
             {
                 TileEntitySkull tileentityskull = (TileEntitySkull)tileentity;
                 ret.add(new ItemStack(this.getSkullItem(), 1, tileentityskull.getSkullType()));
             }
         }
-        
+
         return ret;
     }
-    
+
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return this.getSkullItem();
     }
-    
+
     @Override
     public int getDamageValue(World worldIn, BlockPos pos)
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity instanceof TileEntitySkull ? ((TileEntitySkull) tileentity).getSkullType() : super.getDamageValue(worldIn, pos);
     }
-
+    
     @Override
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
@@ -144,58 +144,58 @@ public abstract class BlockSkullBase extends BlockContainer
                 this.setBlockBounds(0.0F, 0.25F, 0.25F, 0.5F, 0.75F, 0.75F);
         }
     }
-    
+
     @Override
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
         this.setBlockBoundsBasedOnState(worldIn, pos);
         return super.getCollisionBoundingBox(worldIn, pos, state);
     }
-    
+
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7)).withProperty(NODROP, Boolean.valueOf((meta & 8) > 0));
     }
-
+    
     @Override
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
         i = i | state.getValue(FACING).getIndex();
-
+        
         if (state.getValue(NODROP).booleanValue())
         {
             i |= 8;
         }
-
+        
         return i;
     }
-
+    
     @Override
     protected BlockState createBlockState()
     {
         return new BlockState(this, new IProperty[] {FACING, NODROP});
     }
-    
+
     @Override
     public boolean isOpaqueCube()
     {
         return false;
     }
-
+    
     @Override
     public boolean isFullCube()
     {
         return false;
     }
-
+    
     @Override
     public String getLocalizedName()
     {
         return StatCollector.translateToLocal("tile.skull.skeleton.name");
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World worldIn, BlockPos pos)

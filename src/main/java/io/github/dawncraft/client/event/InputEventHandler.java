@@ -5,6 +5,7 @@ import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.gui.GuiEncyclopedia;
 import io.github.dawncraft.client.gui.container.GuiMagic;
+import io.github.dawncraft.client.sound.SoundLoader;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
@@ -12,6 +13,8 @@ import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 
@@ -23,7 +26,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputEventHandler
 {
     public InputEventHandler() {}
-    
+
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -34,10 +37,10 @@ public class InputEventHandler
             // Switch key was pressed
             if (KeyLoader.change.isPressed())
             {
-                ClientProxy.getIngameGUIDawn().changeMode();
+                ClientProxy.getInstance().getIngameGUIDawn().switchMode();
             }
             // Spell key was pressed
-            if (!mc.playerController.isSpectator() && ClientProxy.getIngameGUIDawn().spellMode)
+            if (!mc.playerController.isSpectator() && ClientProxy.getInstance().getIngameGUIDawn().spellMode)
             {
                 for (int i = 0; i < mc.gameSettings.keyBindsHotbar.length; i++)
                 {
@@ -47,13 +50,14 @@ public class InputEventHandler
                         SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(i);
                         if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || playerMagic.getSkillInventory().getStackInSlot(i) != playerMagic.getSkillInSpell()))
                         {
-                            ClientProxy.getIngameGUIDawn().setSpellIndex(i);
+                            ClientProxy.getInstance().getIngameGUIDawn().setSpellIndex(i);
                             NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
+                            mc.getSoundHandler().playSound(SoundLoader.createSound(new ResourceLocation("gui.button.press")));
                         }
                     }
                 }
             }
-            // Magic key was pressed
+            // Reload key was pressed
             if (KeyLoader.reload.isPressed())
             {
                 mc.displayGuiScreen(new GuiMagic(player));
@@ -61,7 +65,7 @@ public class InputEventHandler
             // Use key was pressed
             if (KeyLoader.use.isPressed())
             {
-
+                
             }
         }
         // Wiki key was pressed

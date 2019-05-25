@@ -25,21 +25,21 @@ import net.minecraft.util.ResourceLocation;
 public class GuiStatsDawn extends GuiStats
 {
     public static final ResourceLocation statIconsDawn = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/stats_icons.png");
-
+    
     /** Holds a instance of RenderSkill, used to draw the achievement icons on screen (is based on SkillStack) */
     protected RenderSkill skillRender;
     private List<GuiSlot> statSlots;
     private GuiButton buttonDone;
     private GuiButton buttonPage;
     private int currentPage = -1;
-    
+
     public GuiStatsDawn(GuiScreen parentScreen, StatFileWriter statFile)
     {
         super(parentScreen, statFile);
-        this.skillRender = ClientProxy.getSkillRender();
+        this.skillRender = ClientProxy.getInstance().getSkillRender();
         this.statSlots = new ArrayList<GuiSlot>();
     }
-
+    
     @Override
     public void createButtons()
     {
@@ -48,7 +48,7 @@ public class GuiStatsDawn extends GuiStats
         this.buttonPage = new GuiButton(5, this.width / 2 - 160, this.height - 28, 125, 20, StatPage.getTitle(this.currentPage));
         this.buttonList.add(this.buttonPage);
     }
-
+    
     @Override
     public void actionPerformed(GuiButton button) throws IOException
     {
@@ -71,7 +71,7 @@ public class GuiStatsDawn extends GuiStats
                 this.statSlots.clear();
                 StatPage.getStatPage(this.currentPage).initStatSlots(this, this.statSlots);
             }
-
+            
         }
         else if (button.id > 5)
         {
@@ -79,7 +79,7 @@ public class GuiStatsDawn extends GuiStats
         }
         else super.actionPerformed(button);
     }
-
+    
     public void drawStatsScreen(int x, int y, Skill skill)
     {
         this.drawSprite(x + 1, y + 1, 0, 0);
@@ -89,7 +89,7 @@ public class GuiStatsDawn extends GuiStats
         RenderHelper.disableStandardItemLighting();
         GlStateManager.disableRescaleNormal();
     }
-
+    
     @Override
     public void drawSprite(int p_146527_1_, int p_146527_2_, int p_146527_3_, int p_146527_4_)
     {

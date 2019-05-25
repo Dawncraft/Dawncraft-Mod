@@ -1,8 +1,9 @@
 package io.github.dawncraft.item;
 
-import io.github.dawncraft.Dawncraft;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.util.ResourceLocation;
+
+import io.github.dawncraft.Dawncraft;
 
 public class ItemRecordDawn extends ItemRecord
 {

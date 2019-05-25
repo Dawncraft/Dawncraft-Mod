@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * 技能基类
+ * The skill class
  *
  * @author QingChenW
  */
@@ -77,7 +77,7 @@ public class Skill
      *
      * @return 时间刻
      */
-    public static int getPublicPrepare()
+    public static int getGlobalPrepare()
     {
         return ConfigLoader.globalPrepareTicks;
     }
@@ -217,7 +217,7 @@ public class Skill
      * @param entity 技能携带者
      * @param skillSlot 技能槽位
      */
-    public void onUpdate(SkillStack stack, World world, Entity entity, int skillSlot)
+    public void onUpdate(SkillStack skillStack, World world, Entity entity, int skillSlot)
     {
     }
     
@@ -244,7 +244,7 @@ public class Skill
             playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cool"), !isInit);
             return EnumSpellAction.NONE;
         }
-        if (playerMagic.getMana() < this.getConsume(skillStack))
+        if (!player.capabilities.isCreativeMode && playerMagic.getMana() < this.getConsume(skillStack))
         {
             playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.nomana"), !isInit);
             return EnumSpellAction.NONE;

@@ -19,10 +19,12 @@ item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒
 item.magnetBall.name=磁珠
 item.magnetCard.name=磁卡
-item.magnetCard.desc=持有者: %s
 item.magnetCard.null=空白的磁卡
+item.magnetCard.id=卡号: %s
+item.magnetCard.desc=额外信息: %s
+item.magnetCard.owner=持卡人: %s
 item.magnetDoor.name=磁铁门
-item.magnetDoor.desc=所有者: %s
+item.magnetDoor.desc=所有者卡号: %s
 
 item.magnetAxe.name=磁铁斧
 item.magnetPickaxe.name=磁铁镐
@@ -86,6 +88,9 @@ skill.attack.name=死亡缠绕
 skill.heal.name=治疗术
 skill.heal.desc=消耗 %1$f 点魔法为自己恢复 %2$f 点生命值，冷却时间 %3$f 秒
 skill.heal.desc2=十分传统的治疗手段，通过简单的包扎为自身回复血量
+skill.fireball.name=火球术
+skill.fireball.desc=消耗 %1$f 点魔法发射一枚能造成 %2$f 点伤害的大火球，冷却时间 %3$f 秒
+skill.fireball.desc2=十分简朴的火球，仅仅比恶魂的小一号而已
 
 skill.level=等级：%1$d/%2$d
 skill.maxLevel=已达到最大等级
@@ -147,6 +152,7 @@ potion.brainDead=脑残
 potion.gerPower=巨Ger之力
 potion.badGer=Ger化
 
+container.locked=已为 %s 上锁
 container.heatGenerator=热能发电机
 container.magnetChest=磁力箱
 container.machineFurnace=电炉
@@ -228,7 +234,7 @@ stat.jobButton=职业
 stat.skillsButton=技能
 stat.skill.learn=学习的次数
 stat.skill.spell=施放的次数
-stat.skill.level=最高等级
+stat.skill.level=达到的最高等级
 stat.talentsButton=天赋
 stat.skill.test=技能统计测试
 
@@ -239,7 +245,6 @@ death.attack.byGer=%s Ger死了
 
 chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
 chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
-chat.dawncraft.time=[§6曙光工艺§r] 现在时间为：%s
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下无Ger
 chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
 chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!

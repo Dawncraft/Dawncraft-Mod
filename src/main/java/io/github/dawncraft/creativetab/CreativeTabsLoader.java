@@ -2,20 +2,24 @@ package io.github.dawncraft.creativetab;
 
 import com.google.common.collect.ObjectArrays;
 
+import java.lang.reflect.Field;
+
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.client.renderer.skill.RenderSkill;
-import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.enchantment.EnchantmentLoader;
 import io.github.dawncraft.item.ItemLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillLoader;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
  * Register CreativeTabs in the class.
@@ -34,15 +38,15 @@ public class CreativeTabsLoader
     public static CreativeTabs tabWar;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-
+    
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-    
+
     public static void initCreativeTabs()
     {
-        EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat(CreativeTabs.tabCombat.getRelevantEnchantmentTypes(), EnchantmentLoader.WAND);// FIXME Only client
-        CreativeTabs.tabCombat.setRelevantEnchantmentTypes(newEnchantmentTypes);
+        addEnchantmentTypes(CreativeTabs.tabCombat, EnchantmentLoader.WAND);
+
         tabEnergy = new CreativeTabs("Energy")
         {
             @Override
@@ -123,7 +127,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-        
+
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
@@ -139,12 +143,11 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-
+            
             @Override
             public TextureAtlasSprite getTabIcon()
             {
-                ResourceLocation res = RenderSkill.getActualLocation(new ResourceLocation(SkillLoader.heal.getRegistryName()));
-                return TextureLoader.getTextureLoader().getTextureMapSkills().getAtlasSprite(res.toString());
+                return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(Dawncraft.MODID + ":" + "items/magic/skill_book");
             }
         };
         tabInventory = new CreativeSkillTabs(11, "inventory")
@@ -154,13 +157,26 @@ public class CreativeTabsLoader
             {
                 return null;
             };
-
+            
             @Override
             public TextureAtlasSprite getTabIcon()
             {
-                ResourceLocation res = RenderSkill.getActualLocation(new ResourceLocation(SkillLoader.heal.getRegistryName()));
-                return TextureLoader.getTextureLoader().getTextureMapSkills().getAtlasSprite(res.toString());
+                return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(Dawncraft.MODID + ":" + "items/magic/skill_book");
             }
         }.setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
+    }
+    
+    public static void addEnchantmentTypes(CreativeTabs tab, EnumEnchantmentType... types)
+    {
+        try
+        {
+            Field field = ReflectionHelper.findField(CreativeTabs.class, "enchantmentTypes", "field_111230_s");
+            EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat((EnumEnchantmentType[]) field.get(tab), types, EnumEnchantmentType.class);
+            tab.setRelevantEnchantmentTypes(newEnchantmentTypes);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

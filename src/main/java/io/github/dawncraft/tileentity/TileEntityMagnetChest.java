@@ -18,9 +18,8 @@ import net.minecraft.util.MathHelper;
  **/
 public class TileEntityMagnetChest extends TileEntityChest
 {
-    // @SideOnly(Side.CLIENT)
     public TileEntityMagnetChest() {}
-
+    
     public boolean insertStackFromEntity(EntityItem entityItem)
     {
         if (entityItem == null || entityItem.isDead || entityItem.getEntityItem() == null) return false;
@@ -28,7 +27,7 @@ public class TileEntityMagnetChest extends TileEntityChest
         {
             ItemStack itemStack = entityItem.getEntityItem().copy();
             ItemStack newItemStack = this.insertStack(itemStack);
-
+            
             if (newItemStack != null && newItemStack.stackSize > 0)
                 entityItem.setEntityItemStack(newItemStack);
             else
@@ -36,32 +35,32 @@ public class TileEntityMagnetChest extends TileEntityChest
                 entityItem.setDead();
                 return true;
             }
-
+            
             return false;
         }
     }
-
+    
     public ItemStack insertStack(ItemStack itemStack)
     {
         int j = this.getSizeInventory();
-
+        
         for (int k = 0; k < j && itemStack != null && itemStack.stackSize > 0; ++k)
             itemStack = this.tryInsertStackToSlot(itemStack, k);
-
+        
         if (itemStack != null && itemStack.stackSize <= 0)
             itemStack = null;
-
+        
         return itemStack;
     }
-    
+
     public ItemStack tryInsertStackToSlot(ItemStack itemStack, int slot)
     {
         ItemStack slotStack = this.getStackInSlot(slot);
-        
+
         if (this.isItemValidForSlot(slot, itemStack))
         {
             boolean changed = false;
-            
+
             if (slotStack == null || slotStack.stackSize <= 0)
             {
                 int max = Math.min(itemStack.getMaxStackSize(), this.getInventoryStackLimit());
@@ -85,34 +84,34 @@ public class TileEntityMagnetChest extends TileEntityChest
                     changed = l > 0;
                 }
             }
-            
+
             if (changed) this.markDirty();
         }
         return itemStack;
     }
-
+    
     @Override
     public void update()
     {
         super.update();
-        
+
         this.pullItemsIn();
     }
-    
+
     /**
      * @author ProPercivalalb
      */
     public void pullItemsIn()
     {
         List entity = this.worldObj.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(this.pos, this.pos).expand(2D, 1.0D, 2D));
-
+        
         if (!entity.isEmpty())
         {
             for (int i = 0; i < entity.size(); i++)
             {
                 Entity target = (Entity) entity.get(i);
                 if (!(target instanceof EntityItem)) continue;
-
+                
                 EntityItem entityItem = (EntityItem) target;
                 double centreX = (double) this.pos.getX() + 0.5D;
                 double centreY = (double) this.pos.getY() + 0.5D;
@@ -128,25 +127,25 @@ public class TileEntityMagnetChest extends TileEntityChest
                 double d15 = (double) MathHelper.sin((float)d14) * speedMultiper;
                 double d16 = (double) MathHelper.cos((float)d14) * speedMultiper;
                 d16 = d9 <= 0.0D ? -d16 : d16;
-
+                
                 if ((double) MathHelper.abs((float) (entityItem.motionX + entityItem.motionY + entityItem.motionZ)) >= 0.1D)
                     continue;
-
+                
                 if (d7 != 0.0D && (double) MathHelper.abs((float)entityItem.motionZ) < 0.1D)
                     entityItem.motionX = d15;
-
+                
                 if (d9 != 0.0D && (double) MathHelper.abs((float)entityItem.motionZ) < 0.1D)
                     entityItem.motionZ = d16;
             }
         }
     }
-    
+
     @Override
     public String getName()
     {
         return this.hasCustomName() ? this.getName() : "container.magnetChest";
     }
-
+    
     @Override
     public String getGuiID()
     {
