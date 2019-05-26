@@ -31,6 +31,11 @@ import org.lwjgl.input.Keyboard;
 public class TooltipEventHandler
 {
     // 政治家、永垂不朽、烧铝、酵母菌的食用方式、血绿蛋白、大眼激光、略施魔法
+    // 无名花-纯白如雪,红艳如血、云南白药-桥边红药
+    // 儿童疾走追黄蜂,飞入菜花无处寻
+    // orange chicken
+    // 金刚经、龙裔之书
+    // 喝彩
     private static Map<Item, IItemTooltipHandler> tooltipMap = new HashMap<Item, IItemTooltipHandler>();
     // EnumChatFormatting.GRAY
     public static IItemTooltipHandler defaultItemHandler = new IItemTooltipHandler()
@@ -63,7 +68,7 @@ public class TooltipEventHandler
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event)
     {
-        if(tooltipMap.containsKey(event.itemStack.getItem()))
+        if (tooltipMap.containsKey(event.itemStack.getItem()))
         {
             int index = event.showAdvancedItemTooltips ? event.toolTip.size() - 1 : event.toolTip.size();
             List<String> toolTip = tooltipMap.get(event.itemStack.getItem()).addItemTooltip(event.itemStack, event.entityPlayer, event.showAdvancedItemTooltips);

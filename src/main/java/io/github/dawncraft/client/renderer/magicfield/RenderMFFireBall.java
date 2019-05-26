@@ -1,4 +1,4 @@
-package io.github.dawncraft.client.renderer.entity;
+package io.github.dawncraft.client.renderer.magicfield;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

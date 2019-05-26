@@ -38,6 +38,7 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.ProgressManager.ProgressBar;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.RegistryDelegate;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
  * Load skill's models.
@@ -48,24 +49,25 @@ public class ModelLoader
 {
     private Minecraft mc;
     private TextureLoader textureLoader;
-
+    
     private final Map<ResourceLocation, ModelSkill> models = Maps.newHashMap();
     private final Set<ResourceLocation> textures = Sets.newHashSet();
     private final Set<ResourceLocation> loadingModels = Sets.newHashSet();
-    
+    private Map<ResourceLocation, Exception> loadingExceptions;
+
     private ProgressBar skillBar;
-    
+
     public ModelLoader(TextureLoader textureLoader)
     {
         this.mc = Minecraft.getMinecraft();
         this.textureLoader = textureLoader;
-        
+
         OBJLoader.instance.addDomain(Dawncraft.MODID);
         B3DLoader.instance.addDomain(Dawncraft.MODID);
-
+        
         MinecraftForge.EVENT_BUS.register(this);
     }
-    
+
     /**
      * After {@link net.minecraftforge.client.model.ModelLoader#setupModelRegistry()}
      *
@@ -74,25 +76,29 @@ public class ModelLoader
     @SubscribeEvent
     public void onModelBake(ModelBakeEvent event)
     {
+        // 获得ModelLoader的loadingExceptions字段
+        this.loadingExceptions = ReflectionHelper.getPrivateValue(net.minecraftforge.client.model.ModelLoader.class,
+                event.modelLoader, "loadingExceptions");
+        
         // FIXME TextureLoader需要的TextureManager在Init阶段进行初始化
         this.textureLoader.initTextures();
-        
+
         List<String> skills = Lists.newArrayList();
         for (Skill skill : ModData.getSkillRegistry().typeSafeIterable())
         {
             skills.add(((ResourceLocation) Skill.skillRegistry.getNameForObject(skill)).toString());
         }
         Collections.sort(skills);
-
-        this.skillBar = ProgressManager.push("DawncraftModelLoader: skills", skills.size());
         
+        this.skillBar = ProgressManager.push("DawncraftModelLoader: skills", skills.size());
+
         for (String skill : skills)
         {
             ModelResourceLocation location = new ModelResourceLocation(skill);
             ResourceLocation file = this.getSkillLocation(skill);
-
-            this.skillBar.step(location.toString());
             
+            this.skillBar.step(location.toString());
+
             try
             {
                 if (!this.models.containsKey(file))
@@ -101,16 +107,16 @@ public class ModelLoader
             }
             catch (FileNotFoundException exception)
             {
-                new Exception("Could not load skill model from the normal location " + file + ": " + exception).printStackTrace();
+                this.storeException(location, new Exception("Could not load skill model from the normal location " + file + ": " + exception));
             }
             catch (Exception exception)
             {
-                exception.printStackTrace();
+                this.storeException(location, exception);
             }
         }
-        
-        ProgressManager.pop(this.skillBar);
 
+        ProgressManager.pop(this.skillBar);
+        
         this.textureLoader.getTextureMapSkills().loadSprites(this.mc.getResourceManager(), new IIconCreator()
         {
             @Override
@@ -123,13 +129,18 @@ public class ModelLoader
             }
         });
     }
-    
+
+    protected void storeException(ResourceLocation location, Exception exception)
+    {
+        this.loadingExceptions.put(location, exception);
+    }
+
     protected ResourceLocation getSkillLocation(String location)
     {
         ResourceLocation res = new ResourceLocation(location.replaceAll("#.*", ""));
         return new ResourceLocation(res.getResourceDomain(), "skill/" + res.getResourcePath());
     }
-
+    
     public void loadAnyModel(ResourceLocation location) throws IOException
     {
         if (this.loadingModels.contains(location))
@@ -154,13 +165,13 @@ public class ModelLoader
             this.loadingModels.remove(location);
         }
     }
-
+    
     public ModelSkill loadModel(ResourceLocation location) throws IOException
     {
         ResourceLocation modelLocation = new ResourceLocation(ModelLoaderRegistry.getActualLocation(location) + ".json");
         IResource resource = this.mc.getResourceManager().getResource(modelLocation);
         Reader reader = new InputStreamReader(resource.getInputStream(), Charsets.UTF_8);
-        
+
         ModelSkill modelSkill;
         try
         {
@@ -171,10 +182,10 @@ public class ModelLoader
         {
             reader.close();
         }
-
+        
         return modelSkill;
     }
-
+    
     public ModelSkill getSkillModel(Skill skill)
     {
         ResourceLocation location = this.getSkillLocation(Skill.skillRegistry.getNameForObject(skill).toString());
@@ -182,16 +193,16 @@ public class ModelLoader
         return modelSkill != null ? modelSkill : null;
         // 增加默认技能模型
     }
-
+    
     public ResourceLocation getSkillTexture(SkillStack skillStack)
     {
         ResourceLocation location = null;
-
+        
         if (customMeshDefinitions.containsKey(skillStack.getSkill().delegate))
         {
             location = customMeshDefinitions.get(skillStack.getSkill().delegate).getTextureLocation(skillStack);
         }
-        
+
         if (location == null)
         {
             ModelSkill modelSkill = this.getSkillModel(skillStack.getSkill());
@@ -201,10 +212,10 @@ public class ModelLoader
                 location = !StringUtils.isNullOrEmpty(s) ? new ResourceLocation(s) : null;
             }
         }
-        
+
         return location != null ? location : TextureMap.LOCATION_MISSING_TEXTURE;
     }
-    
+
     public TextureAtlasSprite getSkillSprite(SkillStack skillStack)
     {
         ResourceLocation location = this.getSkillTexture(skillStack);
@@ -213,7 +224,7 @@ public class ModelLoader
 
     // API
     private static final Map<RegistryDelegate<Skill>, SkillMeshDefinition> customMeshDefinitions = Maps.newHashMap();
-
+    
     /**
      * Adds generic SkillStack -> model variant logic.
      * You still need to manually call registerSkillVariants with all values that meshDefinition can return.

@@ -1,5 +1,6 @@
 package io.github.dawncraft.client.renderer.entity;
 
+import io.github.dawncraft.client.renderer.magicfield.RenderMFFireBall;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.entity.passive.EntityMouse;
 import io.github.dawncraft.entity.passive.EntitySavage;
