@@ -2,10 +2,9 @@ package io.github.dawncraft.block;
 
 import com.google.common.base.Predicate;
 
-import io.github.dawncraft.api.block.BlockSkullBase;
-import io.github.dawncraft.api.item.ItemSkullBase;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemSkullDawn;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockPattern;
@@ -20,94 +19,96 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
-public class BlockDawnSkull extends BlockSkullBase
+public class BlockDawnSkull extends BlockSkullDawn
 {
-    private final static Predicate<BlockWorldState> IS_GER_SKULL = new Predicate<BlockWorldState>()
+    private final static Predicate<BlockWorldState> IS_KING_SKULL = new Predicate<BlockWorldState>()
     {
         @Override
         public boolean apply(BlockWorldState blockworldstate)
         {
-            return blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getBlock() == BlockLoader.skull && blockworldstate.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockworldstate.getTileEntity()).getSkullType() == 2;
+            return blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getBlock() == BlockLoader.skull && blockworldstate.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockworldstate.getTileEntity()).getSkullType() == 1;
         }
     };
-    private BlockPattern gerBasePattern;
-    private BlockPattern gerPattern;
-
+    private BlockPattern kingBasePattern;
+    private BlockPattern kingPattern;
+    
     @Override
-    public ItemSkullBase getSkullItem()
+    public ItemSkullDawn getSkullItem()
     {
-        return (ItemSkullBase) ItemLoader.skull;
+        return (ItemSkullDawn) ItemLoader.skull;
     }
-
+    
     @Override
-    public void checkSpecialSpawn(World worldIn, BlockPos pos, TileEntitySkull tileentity)
+    public void checkEntitySpawn(World world, BlockPos pos, TileEntitySkull tileentity)
     {
-        if (tileentity.getSkullType() == 2 && pos.getY() >= 2 && worldIn.getDifficulty() != EnumDifficulty.PEACEFUL && !worldIn.isRemote)
+        if (tileentity.getSkullType() == 1 && pos.getY() >= 2 && world.getDifficulty() != EnumDifficulty.PEACEFUL && !world.isRemote)
         {
-            BlockPattern blockpattern = this.getWitherPattern();
-            BlockPattern.PatternHelper patternhelper = blockpattern.match(worldIn, pos);
-            
+            BlockPattern blockpattern = this.getEntityPattern();
+            BlockPattern.PatternHelper patternhelper = blockpattern.match(world, pos);
+
             if (patternhelper != null)
             {
-                worldIn.setBlockState(pos, worldIn.getBlockState(pos).withProperty(NODROP, Boolean.valueOf(true)), 2);
+                world.setBlockState(pos, world.getBlockState(pos).withProperty(NODROP, Boolean.valueOf(true)), 2);
                 for (int i = 0; i < blockpattern.getThumbLength(); ++i)
                 {
                     BlockWorldState blockworldstate1 = patternhelper.translateOffset(0, i, 0);
-                    worldIn.setBlockState(blockworldstate1.getPos(), Blocks.air.getDefaultState(), 2);
+                    world.setBlockState(blockworldstate1.getPos(), Blocks.air.getDefaultState(), 2);
                 }
-                
-                EntityGerKing entitygerking = new EntityGerKing(worldIn);
+
+                EntityGerKing entitygerking = new EntityGerKing(world);
                 BlockPos blockpos = patternhelper.translateOffset(0, 2, 0).getPos();
                 entitygerking.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.55D, (double)blockpos.getZ() + 0.5D, patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F, 0.0F);
                 entitygerking.renderYawOffset = patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F;
                 // 可在此来个ger王的开场动画
-                
+
                 /*                    for (EntityPlayer entityplayer : worldIn.getEntitiesWithinAABB(EntityPlayer.class, entitygerking.getEntityBoundingBox().expand(50.0D, 50.0D, 50.0D)))
                 {
                     entityplayer.triggerAchievement(AchievementLoader.ger);
                 }*/
-
-                worldIn.spawnEntityInWorld(entitygerking);
                 
+                world.spawnEntityInWorld(entitygerking);
+
                 for (int l = 0; l < 120; ++l)
                 {
-                    worldIn.spawnParticle(EnumParticleTypes.SNOWBALL, (double)pos.getX() + worldIn.rand.nextDouble(), (double)(pos.getY() - 2.0D) + worldIn.rand.nextDouble() * 4.0D, (double)pos.getZ() + worldIn.rand.nextDouble(), 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.spawnParticle(EnumParticleTypes.SNOWBALL, (double)pos.getX() + world.rand.nextDouble(), (double)(pos.getY() - 2.0D) + world.rand.nextDouble() * 4.0D, (double)pos.getZ() + world.rand.nextDouble(), 0.0D, 0.0D, 0.0D, new int[0]);
                 }
-
+                
                 for (int count = 0; count < 6; count++)
                 {
-                    EntityLightningBolt lightningBolt = new EntityLightningBolt(worldIn, pos.getX(), pos.getY(), pos.getX());
-                    worldIn.spawnEntityInWorld(lightningBolt);
+                    EntityLightningBolt lightningBolt = new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getX());
+                    world.spawnEntityInWorld(lightningBolt);
                 }
-
-                worldIn.setLightFor(EnumSkyBlock.SKY, pos, 15);
                 
+                world.setLightFor(EnumSkyBlock.SKY, pos, 15);
+
                 for (int j = 0; j < blockpattern.getThumbLength(); ++j)
                 {
                     BlockWorldState blockworldstate2 = patternhelper.translateOffset(0, j, 0);
-                    worldIn.notifyNeighborsRespectDebug(blockworldstate2.getPos(), Blocks.air);
+                    world.notifyNeighborsRespectDebug(blockworldstate2.getPos(), Blocks.air);
                 }
             }
         }
     }
-    
-    protected BlockPattern getWitherBasePattern()
-    {
-        if (this.gerBasePattern == null)
-        {
-            this.gerBasePattern = FactoryBlockPattern.start().aisle(new String[] {" ", "#", "*"}).where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).build();
-        }
 
-        return this.gerBasePattern;
+    @Override
+    protected BlockPattern getEntityBasePattern()
+    {
+        if (this.kingBasePattern == null)
+        {
+            this.kingBasePattern = FactoryBlockPattern.start().aisle(" ", "#", "*").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).build();
+        }
+        
+        return this.kingBasePattern;
     }
-    
-    protected BlockPattern getWitherPattern()
-    {
-        if (this.gerPattern == null)
-        {
-            this.gerPattern = FactoryBlockPattern.start().aisle(new String[] {"^", "#", "*"}).where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).where('^', this.IS_GER_SKULL).build();
-        }
 
-        return this.gerPattern;
+    @Override
+    protected BlockPattern getEntityPattern()
+    {
+        if (this.kingPattern == null)
+        {
+            this.kingPattern = FactoryBlockPattern.start().aisle("^", "#", "*").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).where('^', this.IS_KING_SKULL).build();
+        }
+        
+        return this.kingPattern;
     }
 }

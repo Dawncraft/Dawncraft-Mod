@@ -3,12 +3,18 @@ package io.github.dawncraft.entity;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityUtils
 {
+    public static String getEntityStringFromClass(Class<? extends Entity> entity)
+    {
+        return EntityList.classToStringMapping.get(entity);
+    }
+
     public static boolean hasSittable(World world, BlockPos pos)
     {
         List<EntitySittable> list = world.getEntitiesWithinAABB(EntitySittable.class, new AxisAlignedBB(pos, pos.add(1, 1, 1)).expand(1D, 1D, 1D));
@@ -21,7 +27,7 @@ public class EntityUtils
         }
         return false;
     }
-
+    
     // TODO 坐下有bug
     public static boolean sitAtPosition(World world, BlockPos pos, Entity entity, double yOffset)
     {

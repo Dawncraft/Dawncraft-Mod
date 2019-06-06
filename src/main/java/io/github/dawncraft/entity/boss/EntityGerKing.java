@@ -31,9 +31,9 @@ import net.minecraft.world.World;
  */
 public class EntityGerKing extends EntityCreature implements IBossDisplayData, IMob
 {
-    public EntityGerKing(World worldIn)
+    public EntityGerKing(World world)
     {
-        super(worldIn);
+        super(world);
         this.setSize(0.6F, 1.8F);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));

@@ -23,13 +23,13 @@ public class ItemSkillBook extends Item
         super();
         this.setMaxStackSize(16);
     }
-    
+
     @Override
     public int getItemStackLimit(ItemStack itemStack)
     {
         return itemStack.hasTagCompound() ? 1 : super.getItemStackLimit(itemStack);
     }
-
+    
     @Override
     public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
     {
@@ -48,14 +48,14 @@ public class ItemSkillBook extends Item
         }
         return itemStack;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
         if (stack.hasTagCompound())
         {
-            SkillStack skillStack = SkillStack.loadSkillStackFromNBT(stack.getTagCompound());
+            SkillStack skillStack = SkillStack.loadSkillStackFromNBT(stack.getTagCompound());// TODO 技能书的读写
             if (skillStack != null)
             {
                 tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.skillBook.desc", skillStack.getDisplayName()));

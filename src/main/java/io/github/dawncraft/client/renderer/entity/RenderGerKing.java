@@ -12,29 +12,29 @@ import net.minecraft.util.ResourceLocation;
  * render of ger king
  *
  * @author QingChenW
- *         Skin from 王辛宇
+ * @author Skin from 王辛宇
  */
 public class RenderGerKing extends RenderLiving<EntityGerKing>
 {
     private static final ResourceLocation GERKING_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/entity/ger_king.png");
-
+    
     public RenderGerKing(RenderManager renderManager)
     {
         super(renderManager, new ModelPlayer(0.0F, false), 0.5F);
     }
-
+    
     @Override
     protected void preRenderCallback(EntityGerKing entity, float partialTickTime)
     {
         //      GlStateManager.scale(1.0F, 1.0F, 1.0F);
     }
-
+    
     @Override
     protected ResourceLocation getEntityTexture(EntityGerKing entity)
     {
         return RenderGerKing.GERKING_TEXTURE;
     }
-
+    
     @Override
     public void doRender(EntityGerKing entity, double x, double y, double z, float entityYaw, float partialTicks)
     {

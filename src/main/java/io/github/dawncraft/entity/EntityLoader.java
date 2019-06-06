@@ -1,6 +1,7 @@
 package io.github.dawncraft.entity;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.entity.boss.EntityBarbarianKing;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.entity.passive.EntityMouse;
 import io.github.dawncraft.entity.passive.EntitySavage;
@@ -21,11 +22,12 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 public class EntityLoader
 {
     private static int nextID = 0;
-    
+
     public static void initEntities()
     {
         registerEntity(EntityMouse.class, "Mouse", 64, 3, true);
         registerEntity(EntitySavage.class, "Savage", 64, 3, true);
+        registerEntity(EntityBarbarianKing.class, "BarbarianKing", 64, 3, true);
         registerEntity(EntityGerKing.class, "GerKing", 64, 3, true);
         registerEntity(EntityMagnetBall.class, "MagnetBall", 64, 10, true);
         registerEntity(EntityRocket.class, "SmallRocket", 64, 10, true);
@@ -34,19 +36,19 @@ public class EntityLoader
         registerEntityEgg(EntitySavage.class, 0x795949, 0x513830);
         registerEntitySpawn(EntitySavage.class, 40, 2, 6, EnumCreatureType.CREATURE, BiomeGenBase.plains);
     }
-    
+
     private static void registerEntity(Class<? extends Entity> entityClass, String name, int trackingRange,
             int updateFrequency, boolean sendsVelocityUpdates)
     {
         EntityRegistry.registerModEntity(entityClass, name, nextID++, Dawncraft.instance, trackingRange, updateFrequency,
                 sendsVelocityUpdates);
     }
-
+    
     private static void registerEntityEgg(Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary)
     {
         EntityRegistry.registerEgg(entityClass, eggPrimary, eggSecondary);
     }
-
+    
     private static void registerEntitySpawn(Class<? extends Entity> entityClass, int spawnWeight, int min, int max,
             EnumCreatureType typeOfCreature, BiomeGenBase... biomes)
     {

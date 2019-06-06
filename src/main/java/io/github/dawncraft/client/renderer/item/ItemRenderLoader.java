@@ -1,9 +1,13 @@
 package io.github.dawncraft.client.renderer.item;
 
 import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemSkullDawn;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 
@@ -101,9 +105,11 @@ public class ItemRenderLoader
         // ColourEgg
         registerBlock(BlockLoader.superChest);
         String suffix = ItemLoader.skull.getRegistryName() + "_";
-        registerItem(ItemLoader.skull, 0, suffix + "savage");
-        registerItem(ItemLoader.skull, 1, suffix + "barbarianking");
-        registerItem(ItemLoader.skull, 2, suffix + "gerking");
+        for (int i = 0; i < ItemSkullDawn.skullTypes.length; i++)
+        {
+            Class<? extends Entity> entity = ItemSkullDawn.skullTypes[i];
+            registerItem(ItemLoader.skull, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
+        }
         registerItem(ItemLoader.gerHeart);
         registerItem(ItemLoader.brainDead);
         registerItem(ItemLoader.funny);

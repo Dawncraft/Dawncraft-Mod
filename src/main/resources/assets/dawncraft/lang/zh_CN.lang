@@ -69,9 +69,9 @@ item.skillBook.name=技能书
 item.skillBook.desc=学习 %s
 item.skillBook.null=空白技能书
 
-item.skull.savage.name=野蛮人的头
-item.skull.barbarianking.name=野蛮人之王的头
-item.skull.gerking.name=§7ger王的头
+item.skull.dawncraft.savage.name=野蛮人的头
+item.skull.dawncraft.barbarianking.name=野蛮人之王的头
+item.skull.dawncraft.gerking.name=§7ger王的头
 item.gerHeart.name=§7巨Ger之心
 item.brainDead.name=脑残片
 item.record.dj.desc=Usher - dj got us fallin in love
@@ -138,6 +138,7 @@ attribute.name.generic.spellSpeed=施法速度
 
 entity.dawncraft.Mouse.name=老鼠
 entity.dawncraft.Savage.name=野蛮人
+entity.dawncraft.BarbarianKing.name=野蛮人之王
 entity.dawncraft.GerKing.name=Ger王
 
 enchantment.enhancement=魔力增强

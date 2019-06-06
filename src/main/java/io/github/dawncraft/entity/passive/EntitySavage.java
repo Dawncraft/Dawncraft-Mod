@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 
 public class EntitySavage extends EntityAnimal
 {
-    public EntitySavage(World worldIn)
+    public EntitySavage(World world)
     {
-        super(worldIn);
+        super(world);
         this.setSize(0.6F, 1.8F);
         this.tasks.addTask(0, new EntityAISwimming(this));
         //        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityZombie.class, 1.0D, false));

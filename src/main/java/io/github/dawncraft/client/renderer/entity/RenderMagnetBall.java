@@ -8,9 +8,9 @@ import net.minecraft.client.renderer.entity.RenderSnowball;
 
 public class RenderMagnetBall extends RenderSnowball<EntityMagnetBall>
 {
-    public RenderMagnetBall(RenderManager renderManagerIn)
+    public RenderMagnetBall(RenderManager renderManager)
     {
-        super(renderManagerIn, ItemLoader.magnetBall, Minecraft.getMinecraft().getRenderItem());
+        super(renderManager, ItemLoader.magnetBall, Minecraft.getMinecraft().getRenderItem());
     }
-    
+
 }

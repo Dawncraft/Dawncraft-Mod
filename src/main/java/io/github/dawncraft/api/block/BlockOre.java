@@ -28,22 +28,22 @@ public class BlockOre extends Block
     private int droppedRange;
     private int droppedExpMin;
     private int droppedExpMax;
-
+    
     public BlockOre()
     {
         this(Material.rock.getMaterialMapColor());
     }
-    
+
     public BlockOre(MapColor color)
     {
         this(color, 1, 0);
     }
-    
+
     public BlockOre(int count, int range)
     {
         this(Material.rock.getMaterialMapColor(), count, range);
     }
-    
+
     public BlockOre(MapColor color, int count, int range)
     {
         super(Material.rock, color);
@@ -55,43 +55,42 @@ public class BlockOre extends Block
         this.setResistance(5.0f);
         this.setHarvestLevel(1);
     }
-
+    
     public BlockOre setDroppedExp(int expMin, int expMax)
     {
         this.droppedExpMin = expMin;
         this.droppedExpMax = expMax;
         return this;
     }
-    
+
     public BlockOre setHarvestLevel(int level)
     {
         this.setHarvestLevel("pickaxe", level);
         return this;
     }
-
-
+    
     public Item getMineral()
     {
         return Item.getItemFromBlock(this);
     }
-    
+
     public boolean dropItself(IBlockState state, Random rand, int fortune)
     {
         return this.getMineral() == Item.getItemFromBlock(this);
     }
-
+    
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
         return this.dropItself(state, rand, fortune) ? Item.getItemFromBlock(this) : this.getMineral();
     }
-    
+
     @Override
     public int damageDropped(IBlockState state)
     {
         return 0;
     }
-
+    
     @Override
     public int quantityDropped(IBlockState state, int fortune, Random rand)
     {
@@ -111,7 +110,7 @@ public class BlockOre extends Block
             return this.quantityDropped(rand);
         }
     }
-
+    
     @Override
     public int quantityDroppedWithBonus(int fortune, Random random)
     {
@@ -119,13 +118,13 @@ public class BlockOre extends Block
         if (count < 0) count = 0;
         return this.quantityDropped(random) + count;
     }
-    
+
     @Override
     public int quantityDropped(Random random)
     {
         return this.droppedCount;
     }
-
+    
     @Override
     public int getExpDrop(IBlockAccess world, BlockPos pos, int fortune)
     {

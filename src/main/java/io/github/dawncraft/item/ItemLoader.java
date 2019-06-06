@@ -1,7 +1,6 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.api.block.BlockSkullBase;
 import io.github.dawncraft.api.item.*;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
@@ -114,14 +113,7 @@ public class ItemLoader
     public static Item skillBook = new ItemSkillBook().setUnlocalizedName("skillBook").setCreativeTab(CreativeTabsLoader.tabMagic);
 
     // ColourEgg
-    public static Item skull = new ItemSkullBase(new String[] {"savage", "barbarianking", "gerking"})
-    {
-        @Override
-        public BlockSkullBase getSkullBlock()
-        {
-            return (BlockSkullBase) BlockLoader.skull;
-        }
-    }.setUnlocalizedName("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg);
+    public static Item skull = new ItemSkullDawn().setUnlocalizedName("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg);
     public static Item gerHeart = new ItemFood(2, 1.0F, false)
     {
         @Override
