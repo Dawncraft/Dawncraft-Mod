@@ -19,6 +19,19 @@ public interface IPlayerMagic extends IEntityMana, ILearning, ICapabilityClonabl
 {
     public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
     
+    public SkillInventoryPlayer getSkillInventory();
+
+    public SkillContainer getSkillInventoryContainer();
+
+    public int getTalentLevel(Talent talent);
+
+    public void setTalent(Talent talent, int level);
+    
+    @Deprecated
+    public Set<Talent> getTalents();
+    
+    public SpellCooldownTracker getCooldownTracker();
+    
     public EnumSpellAction getSpellAction();
     
     void setSpellAction(EnumSpellAction action);
@@ -39,24 +52,10 @@ public interface IPlayerMagic extends IEntityMana, ILearning, ICapabilityClonabl
 
     public void setSkillInSpellCount(int count);
     
-    public SpellCooldownTracker getCooldownTracker();
-    
-    public SkillInventoryPlayer getSkillInventory();
-
-    public SkillContainer getSkillInventoryContainer();
-
-    public int getTalentLevel(Talent talent);
-
-    public void setTalent(Talent talent, int level);
-
-    /**
-     * 现在先这么凑合着,天赋栏啥的以后再说
-     */
-    @Deprecated
-    public Set<Talent> getTalents();
-
     public void update();
     
+    public void updateHeldSkill();
+
     public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar);
 
     public void sendOverlayMessage(IChatComponent chatComponent);

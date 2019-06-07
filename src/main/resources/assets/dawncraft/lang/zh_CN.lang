@@ -159,6 +159,7 @@ container.magnetChest=磁力箱
 container.machineFurnace=电炉
 
 container.skillInventory=技能栏
+container.learning=学习
 container.talent=天赋栏
 container.talent.desc=剩余天赋点: %d
 container.magic.name=%s

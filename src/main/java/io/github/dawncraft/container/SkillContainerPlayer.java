@@ -45,6 +45,33 @@ public class SkillContainerPlayer extends SkillContainer
     @Override
     public SkillStack transferSkillStackInSlot(EntityPlayer player, int index)
     {
-        return super.transferSkillStackInSlot(player, index);
+        SkillStack skillStack = null;
+        SkillSlot slot = this.inventorySkillSlots.get(index);
+
+        if (slot != null && slot.hasStack())
+        {
+            SkillStack skillStack2 = slot.getStack();
+            skillStack = skillStack2.copy();
+            
+            if (index >= 0 && index < 9)
+            {
+                if (!this.mergeSkillStack(skillStack2, 9, 36, false))
+                {
+                    return null;
+                }
+            }
+            else if (index >= 9 && index < 36)
+            {
+                if (!this.mergeSkillStack(skillStack2, 0, 9, false))
+                {
+                    return null;
+                }
+            }
+            
+            slot.removeStack();
+            slot.onPickupFromSlot(player, skillStack2);
+        }
+        
+        return skillStack;
     }
 }

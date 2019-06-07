@@ -56,6 +56,7 @@ public class ServerProxy
     {
         LogLoader.init(event.getModLog());
         ConfigLoader.init(event.getSuggestedConfigurationFile());
+        CommandLoader.initReflections();
         CapabilityLoader.initCapabilities();
         CreativeTabsLoader.initCreativeTabs();
         FluidLoader.initFluids();

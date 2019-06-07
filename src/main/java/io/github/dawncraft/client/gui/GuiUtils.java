@@ -1,6 +1,7 @@
 package io.github.dawncraft.client.gui;
 
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -44,14 +45,23 @@ public class GuiUtils
      */
     public static void drawRect(int x, int y, int width, int height, int red, int green, int blue, int alpha)
     {
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos((double)(x + 0), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
-        worldrenderer.pos((double)(x + 0), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos((double)x, (double)y, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos((double)x, (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
         worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        worldrenderer.pos((double)(x + width), (double)(y + 0), 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos((double)(x + width), (double)y, 0.0D).color(red, green, blue, alpha).endVertex();
         tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
     }
     
     public static void renderSkillToolTip(GuiScreen gui, SkillStack stack, int x, int y)

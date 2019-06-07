@@ -322,10 +322,12 @@ public class GuiIngameDawn extends Gui
             this.renderHotbarSkill(i, x, y, partialTicks, player);
             if (cooldown > 0.0F)
             {
+                GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
-                GlStateManager.disableTexture2D();
-                GuiUtils.drawRect(x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 191, 191, 191, 63);
-                GlStateManager.enableTexture2D();
+                GlStateManager.colorMask(true, true, true, false);
+                GuiUtils.drawRect(x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 255, 255, 255, 191);
+                GlStateManager.colorMask(true, true, true, true);
+                GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
             }
         }

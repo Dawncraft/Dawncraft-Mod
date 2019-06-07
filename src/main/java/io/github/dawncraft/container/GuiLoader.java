@@ -20,19 +20,19 @@ public class GuiLoader implements IGuiHandler
     // Computer
     public static final int GUI_COMPUTER_CASE = 3;
     // Furniture
-    
+
     // Cuisine
-
-    // War
     
+    // War
+
     // Magic
-
-
+    public static final int GUI_SKILL_INVENTORY = 100;
+    
     public static void initGuiHandler()
     {
         registerGuiHandler(new GuiLoader());
     }
-    
+
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
@@ -45,7 +45,7 @@ public class GuiLoader implements IGuiHandler
         }
         return null;
     }
-    
+
     @Override
     @SideOnly(Side.CLIENT)
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
@@ -59,7 +59,7 @@ public class GuiLoader implements IGuiHandler
         }
         return null;
     }
-    
+
     private static void registerGuiHandler(IGuiHandler handler)
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(Dawncraft.instance, handler);

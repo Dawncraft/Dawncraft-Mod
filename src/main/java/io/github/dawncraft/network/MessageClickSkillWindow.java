@@ -36,9 +36,9 @@ public class MessageClickSkillWindow implements IMessage
     private SkillStack clickedSkill;
     /** Inventory operation mode */
     private int mode;
-    
-    public MessageClickSkillWindow() {}
 
+    public MessageClickSkillWindow() {}
+    
     public MessageClickSkillWindow(int windowId, int slotId, int usedButton, int mode, SkillStack clickedSkill, short actionNumber)
     {
         this.windowId = windowId;
@@ -48,7 +48,7 @@ public class MessageClickSkillWindow implements IMessage
         this.actionNumber = actionNumber;
         this.mode = mode;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -59,7 +59,7 @@ public class MessageClickSkillWindow implements IMessage
         this.mode = buf.readByte();
         this.clickedSkill = DawnByteBufUtils.readSkillStack(buf);
     }
-
+    
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -70,7 +70,7 @@ public class MessageClickSkillWindow implements IMessage
         buf.writeByte(this.mode);
         DawnByteBufUtils.writeSkillStack(buf, this.clickedSkill);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageClickSkillWindow, IMessage>
     {
         @Override
@@ -86,10 +86,10 @@ public class MessageClickSkillWindow implements IMessage
                     {
                         IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
                         serverPlayer.markPlayerActive();
-                        
+
                         if (!(serverPlayer.openContainer instanceof SkillContainer)) return;
                         SkillContainer container = (SkillContainer) serverPlayer.openContainer;
-                        
+
                         if (container.windowId == message.windowId && container.getCanCraft(serverPlayer))
                         {
                             if (serverPlayer.isSpectator())
@@ -104,16 +104,18 @@ public class MessageClickSkillWindow implements IMessage
                             else
                             {
                                 SkillStack skillStack = container.skillSlotClick(message.slotId, message.usedButton, message.mode, serverPlayer);
-                                
+
                                 if (SkillStack.areSkillStacksEqual(message.clickedSkill, skillStack))
                                 {
                                     serverPlayer.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(message.windowId, message.actionNumber, true));
                                     container.detectAndSendChanges();
+                                    playerMagic.updateHeldSkill();
                                 }
                                 else
                                 {
                                     try
                                     {
+                                        // TODO 改为AT
                                         Field field = ReflectionHelper.findField(NetHandlerPlayServer.class, "field_147372_n", "field_147372_n");
                                         field.setAccessible(true);
                                         IntHashMap<Short> uidMap = (IntHashMap<Short>) field.get(serverPlayer.playerNetServerHandler);
@@ -127,12 +129,10 @@ public class MessageClickSkillWindow implements IMessage
                                     serverPlayer.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(message.windowId, message.actionNumber, false));
                                     serverPlayer.openContainer.setCanCraft(serverPlayer, false);
                                     List<SkillStack> list = Lists.<SkillStack>newArrayList();
-                                    
                                     for (int j = 0; j < container.inventorySkillSlots.size(); ++j)
                                     {
                                         list.add(container.inventorySkillSlots.get(j).getStack());
                                     }
-                                    
                                     playerMagic.updateLearningInventory(container, list);
                                 }
                             }

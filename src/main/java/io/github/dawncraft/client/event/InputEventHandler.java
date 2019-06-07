@@ -4,9 +4,10 @@ import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.gui.GuiEncyclopedia;
-import io.github.dawncraft.client.gui.container.GuiMagic;
+import io.github.dawncraft.client.gui.container.GuiSkillInventory;
 import io.github.dawncraft.client.sound.SoundLoader;
 import io.github.dawncraft.config.KeyLoader;
+import io.github.dawncraft.network.MessageOpenSkillInventory;
 import io.github.dawncraft.network.MessageSpellSkillChange;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.skill.EnumSpellAction;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 public class InputEventHandler
 {
     public InputEventHandler() {}
-
+    
     @SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event)
     {
@@ -60,12 +61,13 @@ public class InputEventHandler
             // Reload key was pressed
             if (KeyLoader.reload.isPressed())
             {
-                mc.displayGuiScreen(new GuiMagic(player));
+                NetworkLoader.instance.sendToServer(new MessageOpenSkillInventory());
+                mc.displayGuiScreen(new GuiSkillInventory(player));
             }
             // Use key was pressed
             if (KeyLoader.use.isPressed())
             {
-                
+
             }
         }
         // Wiki key was pressed

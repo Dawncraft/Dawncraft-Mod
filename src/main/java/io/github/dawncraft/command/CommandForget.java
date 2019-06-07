@@ -3,6 +3,7 @@ package io.github.dawncraft.command;
 import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.Skill;
 import net.minecraft.command.CommandBase;
@@ -23,23 +24,24 @@ public class CommandForget extends CommandBase
     {
         return "forget";
     }
-
+    
     @Override
     public int getRequiredPermissionLevel()
     {
         return 2;
     }
-
+    
     @Override
     public String getCommandUsage(ICommandSender sender)
     {
         return "commands.forget.usage";
     }
-
+    
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
         EntityPlayerMP serverPlayer = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
+        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
         Skill skill = args.length >= 2 ? CommandLearn.getSkillByText(sender, args[1]) : null;
         int level = args.length >= 3 ? parseInt(args[2], 0, skill.getMaxLevel()) : 0;
         int count = args.length >= 4 ? parseInt(args[3], -1) : -1;
@@ -55,10 +57,17 @@ public class CommandForget extends CommandBase
                 throw new CommandException("commands.forget.tagError", nbtexception.getMessage());
             }
         }
-        
-        SkillInventoryPlayer inventory = serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
+
+        SkillInventoryPlayer inventory = playerMagic.getSkillInventory();
         int removed = inventory.clearMatchingSkills(skill, level, count, nbt);
-        serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventoryContainer().detectAndSendChanges();
+        playerMagic.getSkillInventoryContainer().detectAndSendChanges();
+        
+        if (!serverPlayer.capabilities.isCreativeMode)
+        {
+            playerMagic.updateHeldSkill();
+        }
+        
+        sender.setCommandStat(CommandLoader.AFFECTED_SKILLS, removed);
 
         if (removed == 0)
         {
@@ -76,13 +85,13 @@ public class CommandForget extends CommandBase
             }
         }
     }
-
+    
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : args.length == 2 ? getListOfStringsMatchingLastWord(args, Skill.skillRegistry.getKeys()) : null;
     }
-
+    
     protected String[] getPlayers()
     {
         return MinecraftServer.getServer().getAllUsernames();

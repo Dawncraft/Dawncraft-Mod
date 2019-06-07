@@ -6,6 +6,7 @@ import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -22,16 +23,16 @@ public class MessageSetSkillSlot implements IMessage
     private int windowId;
     private int slot;
     private SkillStack skillStack;
-    
-    public MessageSetSkillSlot() {}
 
+    public MessageSetSkillSlot() {}
+    
     public MessageSetSkillSlot(int windowId, int slot, SkillStack stack)
     {
         this.windowId = windowId;
         this.slot = slot;
         this.skillStack = stack == null ? null : stack.copy();
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -39,7 +40,7 @@ public class MessageSetSkillSlot implements IMessage
         this.slot = buf.readShort();
         this.skillStack = DawnByteBufUtils.readSkillStack(buf);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -47,7 +48,7 @@ public class MessageSetSkillSlot implements IMessage
         buf.writeShort(this.slot);
         DawnByteBufUtils.writeSkillStack(buf, this.skillStack);
     }
-
+    
     public static class Handler implements IMessageHandler<MessageSetSkillSlot, IMessage>
     {
         @Override
@@ -62,7 +63,7 @@ public class MessageSetSkillSlot implements IMessage
                     {
                         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-                        
+
                         if (message.windowId == -1)
                         {
                             playerMagic.getSkillInventory().setSkillStack(message.skillStack);
@@ -70,23 +71,27 @@ public class MessageSetSkillSlot implements IMessage
                         else
                         {
                             boolean flag = false;
-                            /* 判断是不是创造物品栏
+
                             if (Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative)
                             {
+                                /* 判断是不是创造物品栏
                                 GuiContainerCreative guicontainercreative = (GuiContainerCreative) Minecraft.getMinecraft().currentScreen;
                                 flag = guicontainercreative.getSelectedTabIndex() != CreativeTabs.tabInventory.getTabIndex();
+                                 */
                             }
-                             */
-                            
-                            if (message.windowId == 0 && message.slot >= 0 && message.slot < 9)
+
+                            if (message.windowId == 0)
                             {
                                 SkillStack stack = playerMagic.getSkillInventoryContainer().getSkillSlot(message.slot).getStack();
-
-                                if (message.skillStack != null && (stack == null || stack.skillLevel < message.skillStack.skillLevel))
+                                
+                                if (message.slot >= 0 && message.slot < 9)
                                 {
-                                    message.skillStack.animationsToGo = 5;
+                                    if (message.skillStack != null && (stack == null || stack.skillLevel < message.skillStack.skillLevel))
+                                    {
+                                        message.skillStack.animationsToGo = 5;
+                                    }
                                 }
-
+                                
                                 playerMagic.getSkillInventoryContainer().putSkillStackInSlot(message.slot, message.skillStack);
                             }
                             else if (player.openContainer instanceof SkillContainer && message.windowId == player.openContainer.windowId && !flag)

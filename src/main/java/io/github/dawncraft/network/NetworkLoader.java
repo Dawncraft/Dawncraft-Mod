@@ -17,8 +17,10 @@ public class NetworkLoader
     public static void initNetwork()
     {
         registerMessage(MessageUpdateMana.class, MessageUpdateMana.Handler.class, Side.CLIENT);
-        registerMessage(MessageSetSkillSlot.class, MessageSetSkillSlot.Handler.class, Side.CLIENT);
         registerMessage(MessageWindowSkills.class, MessageWindowSkills.Handler.class, Side.CLIENT);
+        registerMessage(MessageSetSkillSlot.class, MessageSetSkillSlot.Handler.class, Side.CLIENT);
+        registerMessage(MessageClickSkillWindow.class, MessageClickSkillWindow.Handler.class, Side.SERVER);
+        registerMessage(MessageOpenSkillInventory.class, MessageOpenSkillInventory.Handler.class, Side.SERVER);
         registerMessage(MessageSpellCooldown.class, MessageSpellCooldown.Handler.class, Side.CLIENT);
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.CLIENT);
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.SERVER);

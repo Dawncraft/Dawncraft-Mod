@@ -59,25 +59,62 @@ public class CapabilityMagic
     public static class Common implements IPlayerMagic
     {
         private EntityPlayer player;
+        private SkillInventoryPlayer skillInventory;
+        private SkillContainer skillInventoryContainer;
+        private Map<Talent, Integer> talents;
+        private SpellCooldownTracker tracker;
         private float mana;
         private EnumSpellAction spellAction;
         private SkillStack skillInSpell;
         private int skillInSpellCount;
-        private SpellCooldownTracker tracker;
-        private SkillInventoryPlayer skillInventory;
-        private SkillContainer skillInventoryContainer;
-        private Map<Talent, Integer> talents;
 
         public Common(EntityPlayer player)
         {
             this.player = player;
-            this.mana = this.getMaxMana();
-            this.spellAction = EnumSpellAction.NONE;
-            this.tracker = player.getEntityWorld().isRemote ? new SpellCooldownTracker() : null;
             // FIXME EntityPlayerSP的isServerWorld()返回true?
             this.skillInventory = new SkillInventoryPlayer(player);
             this.skillInventoryContainer = new SkillContainerPlayer(this.skillInventory, player.isServerWorld(), player);
             this.talents = new HashMap<Talent, Integer>();
+            this.tracker = player.getEntityWorld().isRemote ? new SpellCooldownTracker() : null;
+            this.mana = this.getMaxMana();
+            this.spellAction = EnumSpellAction.NONE;
+        }
+        
+        @Override
+        public SkillInventoryPlayer getSkillInventory()
+        {
+            return this.skillInventory;
+        }
+        
+        @Override
+        public SkillContainer getSkillInventoryContainer()
+        {
+            return this.skillInventoryContainer;
+        }
+
+        @Override
+        public int getTalentLevel(Talent talent)
+        {
+            return this.talents.get(talent);
+        }
+
+        @Override
+        public void setTalent(Talent talent, int level)
+        {
+            this.talents.put(talent, level);
+        }
+
+        @Deprecated
+        @Override
+        public Set<Talent> getTalents()
+        {
+            return this.talents.keySet();
+        }
+
+        @Override
+        public SpellCooldownTracker getCooldownTracker()
+        {
+            return this.tracker;
         }
 
         @Override
@@ -253,43 +290,6 @@ public class CapabilityMagic
         }
         
         @Override
-        public SpellCooldownTracker getCooldownTracker()
-        {
-            return this.tracker;
-        }
-        
-        @Override
-        public SkillInventoryPlayer getSkillInventory()
-        {
-            return this.skillInventory;
-        }
-        
-        @Override
-        public SkillContainer getSkillInventoryContainer()
-        {
-            return this.skillInventoryContainer;
-        }
-
-        @Override
-        public int getTalentLevel(Talent talent)
-        {
-            return this.talents.get(talent);
-        }
-
-        @Override
-        public void setTalent(Talent talent, int level)
-        {
-            this.talents.put(talent, level);
-        }
-
-        @Deprecated
-        @Override
-        public Set<Talent> getTalents()
-        {
-            return this.talents.keySet();
-        }
-        
-        @Override
         public void update()
         {
             if (this.player.getEntityWorld().getDifficulty() == EnumDifficulty.PEACEFUL && this.player.getEntityWorld().getGameRules().getBoolean("naturalRecovery"))
@@ -386,6 +386,15 @@ public class CapabilityMagic
             return this;
         }
         
+        @Override
+        public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList) {}
+        
+        @Override
+        public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack) {}
+
+        @Override
+        public void updateHeldSkill() {}
+        
         public void updateSpellingProgress() {}
         
         @Override
@@ -396,12 +405,6 @@ public class CapabilityMagic
         
         @Override
         public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor) {}
-
-        @Override
-        public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList) {}
-        
-        @Override
-        public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack) {}
     }
     
     public static class Server extends Common
@@ -501,6 +504,28 @@ public class CapabilityMagic
             this.lastDrinkLevel = -1;
             return this;
         }
+
+        @Override
+        public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList)
+        {
+            NetworkLoader.instance.sendTo(new MessageWindowSkills(containerToSend.windowId, skillsList), this.player);
+            NetworkLoader.instance.sendTo(new MessageSetSkillSlot(-1, -1, this.getSkillInventory().getSkillStack()), this.player);
+        }
+        
+        @Override
+        public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack)
+        {
+            if (!(containerToSend.getSkillSlot(slotId) instanceof SkillSlotLearning))
+            {
+                NetworkLoader.instance.sendTo(new MessageSetSkillSlot(containerToSend.windowId, slotId, stack), this.player);
+            }
+        }
+
+        @Override
+        public void updateHeldSkill()
+        {
+            NetworkLoader.instance.sendTo(new MessageSetSkillSlot(-1, -1, this.getSkillInventory().getSkillStack()), this.player);
+        }
         
         @Override
         public void updateSpellingProgress()
@@ -531,22 +556,6 @@ public class CapabilityMagic
         public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor)
         {
             NetworkLoader.instance.sendTo(new MessageActionMessage(chatComponent, foregroundColor), this.player);
-        }
-
-        @Override
-        public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList)
-        {
-            NetworkLoader.instance.sendTo(new MessageWindowSkills(containerToSend.windowId, skillsList), this.player);
-            NetworkLoader.instance.sendTo(new MessageSetSkillSlot(-1, -1, this.getSkillInventory().getSkillStack()), this.player);
-        }
-        
-        @Override
-        public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack)
-        {
-            if (!(containerToSend.getSkillSlot(slotId) instanceof SkillSlotLearning))
-            {
-                NetworkLoader.instance.sendTo(new MessageSetSkillSlot(containerToSend.windowId, slotId, stack), this.player);
-            }
         }
     }
     

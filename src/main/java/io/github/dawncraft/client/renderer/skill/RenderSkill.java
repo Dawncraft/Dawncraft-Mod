@@ -54,28 +54,6 @@ public class RenderSkill implements IResourceManagerReloadListener
         }
     }
 
-    private void setupGuiTransform(int x, int y, boolean isGui3d)
-    {
-        GlStateManager.translate((float)x, (float)y, 100.0F + this.zLevel);
-        GlStateManager.translate(8.0F, 8.0F, 0.0F);
-        GlStateManager.scale(1.0F, 1.0F, -1.0F);
-        GlStateManager.scale(0.5F, 0.5F, 0.5F);
-
-        if (isGui3d)
-        {
-            GlStateManager.scale(40.0F, 40.0F, 40.0F);
-            GlStateManager.rotate(210.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-            GlStateManager.enableLighting();
-        }
-        else
-        {
-            GlStateManager.scale(64.0F, 64.0F, 64.0F);
-            GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
-            GlStateManager.disableLighting();
-        }
-    }
-
     public void renderSkillIntoGUI(SkillStack stack, int x, int y)
     {
         GlStateManager.pushMatrix();
@@ -175,9 +153,9 @@ public class RenderSkill implements IResourceManagerReloadListener
             {
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
-                GlStateManager.disableTexture2D();
-                GuiUtils.drawRect(x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 223, 223, 223, 63);
-                GlStateManager.enableTexture2D();
+                GlStateManager.colorMask(true, true, true, false);
+                GuiUtils.drawRect(x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 255, 255, 255, 127);
+                GlStateManager.colorMask(true, true, true, true);
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
             }
