@@ -63,7 +63,7 @@ public class MessageSpellSkillChange implements IMessage
                         }
                         else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
                         {
-                            SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
+                            SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(message.slotId);
                             if (skillStack != null)
                             {
                                 playerMagic.initSkillInSpell(skillStack);
@@ -96,7 +96,7 @@ public class MessageSpellSkillChange implements IMessage
                         }
                         else if (message.slotId < SkillInventoryPlayer.getHotbarSize())
                         {
-                            SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(message.slotId);
+                            SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(message.slotId);
                             if (skillStack != null)
                             {
                                 ClientProxy.getInstance().getIngameGUIDawn().setSpellIndex(message.slotId);

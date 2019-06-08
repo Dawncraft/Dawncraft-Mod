@@ -21,6 +21,7 @@ public class NetworkLoader
         registerMessage(MessageSetSkillSlot.class, MessageSetSkillSlot.Handler.class, Side.CLIENT);
         registerMessage(MessageClickSkillWindow.class, MessageClickSkillWindow.Handler.class, Side.SERVER);
         registerMessage(MessageOpenSkillInventory.class, MessageOpenSkillInventory.Handler.class, Side.SERVER);
+        registerMessage(MessageCreativeSkillInventoryAction.class, MessageCreativeSkillInventoryAction.Handler.class, Side.SERVER);
         registerMessage(MessageSpellCooldown.class, MessageSpellCooldown.Handler.class, Side.CLIENT);
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.CLIENT);
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.SERVER);

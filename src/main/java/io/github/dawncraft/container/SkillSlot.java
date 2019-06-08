@@ -44,7 +44,7 @@ public class SkillSlot
     
     public SkillStack getStack()
     {
-        return this.inventory.getStackInSlot(this.slotIndex);
+        return this.inventory.getSkillStackInSlot(this.slotIndex);
     }
 
     public boolean isHere(ISkillInventory inventory, int slot)
@@ -59,13 +59,13 @@ public class SkillSlot
     
     public void putStack(SkillStack stack)
     {
-        this.inventory.setInventorySlot(this.slotIndex, stack);
+        this.inventory.setSkillInventorySlot(this.slotIndex, stack);
         this.onSlotChanged();
     }
     
     public SkillStack removeStack()
     {
-        return this.inventory.removeStackFromSlot(this.slotIndex);
+        return this.inventory.removeSkillStackFromSlot(this.slotIndex);
     }
     
     public boolean canTakeStack(EntityPlayer player)

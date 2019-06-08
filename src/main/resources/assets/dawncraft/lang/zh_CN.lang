@@ -82,7 +82,8 @@ item.mjolnir.name=§b雷神之锤
 item.mjolnir.desc=巨ger之王的小锤锤
 
 skillGroup.Skills=基础法术
-skillGroup.Search=搜索
+skillGroup.Search=搜索技能
+skillGroup.skillInventory=技能栏
 
 skill.attack.name=死亡缠绕
 skill.heal.name=治疗术
@@ -158,15 +159,11 @@ container.heatGenerator=热能发电机
 container.magnetChest=磁力箱
 container.machineFurnace=电炉
 
-container.skillInventory=技能栏
 container.learning=学习
 container.talent=天赋栏
 container.talent.desc=剩余天赋点: %d
-container.magic.name=%s
-container.magic.exp=等级: %s
-container.magic.health=血量: %1$s/%2$s
-container.magic.mana=魔法: %1$s/%2$s
-container.magic.more=更多信息...
+
+skillInventory.binSlot=遗忘技能
 
 gui.moreinfo=按 %s 显示详细信息
 gui.item.eat=吃 %s

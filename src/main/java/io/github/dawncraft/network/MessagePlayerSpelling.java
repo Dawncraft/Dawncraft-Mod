@@ -66,7 +66,7 @@ public class MessagePlayerSpelling implements IMessage
                             int slotId = ClientProxy.getInstance().getIngameGUIDawn().skillIndex;
                             if (slotId >= 0 && slotId <= SkillInventoryPlayer.getHotbarSize())
                             {
-                                SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(ClientProxy.getInstance().getIngameGUIDawn().skillIndex);
+                                SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(ClientProxy.getInstance().getIngameGUIDawn().skillIndex);
                                 if (skillStack != null)
                                 {
                                     playerMagic.setSkillInSpell(message.spellAction, skillStack, message.spellCount);

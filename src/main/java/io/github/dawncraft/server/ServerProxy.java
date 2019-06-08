@@ -24,6 +24,7 @@ import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.recipe.BrewingLoader;
 import io.github.dawncraft.recipe.CraftingLoader;
 import io.github.dawncraft.recipe.FishingLoader;
+import io.github.dawncraft.recipe.LearningLoader;
 import io.github.dawncraft.recipe.OreDictionaryLoader;
 import io.github.dawncraft.recipe.SmeltingLoader;
 import io.github.dawncraft.skill.SkillLoader;
@@ -70,12 +71,13 @@ public class ServerProxy
         PotionLoader.initPotions();
         OreDictionaryLoader.initOreDictionary();
     }
-    
+
     public void init(FMLInitializationEvent event)
     {
         CraftingLoader.initCrafting();
         SmeltingLoader.initSmelting();
         BrewingLoader.initBrewing();
+        LearningLoader.initLearning();
         FishingLoader.initFishing();
         StatLoader.initStats();
         AchievementLoader.initAchievements();
@@ -88,7 +90,7 @@ public class ServerProxy
         NetworkLoader.initNetwork();
         GuiLoader.initGuiHandler();
     }
-    
+
     public void postInit(FMLPostInitializationEvent event)
     {
         ScriptHelper.runScripts();
@@ -102,7 +104,7 @@ public class ServerProxy
             LogLoader.logger().error("Can't load metrics:", e);
         }
     }
-    
+
     public void serverStarting(FMLServerStartingEvent event)
     {
         List<CommandBase> commands = new ArrayList<CommandBase>();
@@ -112,9 +114,9 @@ public class ServerProxy
             event.registerServerCommand(command);
         }
     }
-    
+
     public void interModComms(IMCEvent event)
     {
-        
+
     }
 }

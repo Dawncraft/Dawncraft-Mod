@@ -4,7 +4,9 @@ import java.util.List;
 
 import io.github.dawncraft.api.event.entity.LivingRecoverEvent;
 import io.github.dawncraft.api.event.player.PlayerSkillEvent;
+import io.github.dawncraft.api.event.player.SkillLearnedEvent;
 import io.github.dawncraft.api.event.player.SkillTooltipEvent;
+import io.github.dawncraft.container.ISkillInventory;
 import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 
@@ -23,6 +25,19 @@ public class DawnEventFactory
     {
         LivingRecoverEvent event = new LivingRecoverEvent(entity, amount);
         return MinecraftForge.EVENT_BUS.post(event) ? 0 : event.amount;
+    }
+    
+    public static void firePlayerCraftingEvent(EntityPlayer player, SkillStack learned, ISkillInventory learnMatrix)
+    {
+        SkillLearnedEvent event = new SkillLearnedEvent(player, learned, learnMatrix);
+        MinecraftForge.EVENT_BUS.post(event);
+    }
+    
+    public static SkillTooltipEvent onSkillTooltip(SkillStack skillStack, EntityPlayer entityPlayer, List<String> toolTip, boolean showAdvancedSkillTooltips)
+    {
+        SkillTooltipEvent event = new SkillTooltipEvent(skillStack, entityPlayer, toolTip, showAdvancedSkillTooltips);
+        MinecraftForge.EVENT_BUS.post(event);
+        return event;
     }
     
     public static int onSkillPrepareStart(EntityPlayer player, SkillStack skillstack, int duration)
@@ -64,12 +79,5 @@ public class DawnEventFactory
         PlayerSkillEvent event = new PlayerSkillEvent.Finish(player, EnumSpellAction.SPELL, skillstack, duration, result);
         MinecraftForge.EVENT_BUS.post(event);
         return result;
-    }
-
-    public static SkillTooltipEvent onSkillTooltip(SkillStack skillStack, EntityPlayer entityPlayer, List<String> toolTip, boolean showAdvancedSkillTooltips)
-    {
-        SkillTooltipEvent event = new SkillTooltipEvent(skillStack, entityPlayer, toolTip, showAdvancedSkillTooltips);
-        MinecraftForge.EVENT_BUS.post(event);
-        return event;
     }
 }

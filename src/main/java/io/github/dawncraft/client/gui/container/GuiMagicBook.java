@@ -85,7 +85,7 @@ public class GuiMagicBook extends GuiScreen
         int k = (this.width - this.bookImageWidth) / 2;
         byte b0 = 2;
         this.drawTexturedModalRect(k, b0, 0, 0, this.bookImageWidth, this.bookImageHeight);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("gui.magic.future"), this.width / 2, this.height / 2, 4210752);
+        this.drawCenteredString(this.fontRendererObj, I18n.format("gui.magic.future"), this.width / 2, this.height / 2, 0x404040);
         
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

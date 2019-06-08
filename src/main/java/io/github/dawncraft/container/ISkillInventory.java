@@ -9,37 +9,37 @@ public interface ISkillInventory extends IWorldNameable
     /**
      * Returns the number of slots in the inventory.
      */
-    int getInventorySize();
-    
+    int getSkillInventorySize();
+
     /**
      * Sets the given skill stack to the specified slot in the inventory (can be learning sections).
      */
-    void setInventorySlot(int index, SkillStack stack);
-
+    void setSkillInventorySlot(int index, SkillStack skillStack);
+    
     /**
      * Returns the stack in the given slot.
      */
-    SkillStack getStackInSlot(int index);
-    
+    SkillStack getSkillStackInSlot(int index);
+
     /**
      * Removes a stack from the given slot and returns it.
      */
-    SkillStack removeStackFromSlot(int index);
-
+    SkillStack removeSkillStackFromSlot(int index);
+    
     /**
      * Clear all stacks in the inventory
      */
-    void clearStacks();
-    
+    void clearSkillStacks();
+
     /**
      * Do not make give this method the name canInteractWith because it clashes with Container
      */
     boolean isUseableByPlayer(EntityPlayer player);
-
-    void openInventory(EntityPlayer player);
-
-    void closeInventory(EntityPlayer player);
     
+    void openInventory(EntityPlayer player);
+    
+    void closeInventory(EntityPlayer player);
+
     /**
      * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
      * hasn't changed and skip it.

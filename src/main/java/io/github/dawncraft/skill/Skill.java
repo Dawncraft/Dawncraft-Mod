@@ -210,9 +210,20 @@ public class Skill
     public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, boolean advanced) {}
 
     /**
+     * 当技能被学习时出发
+     *
+     * @param skillStack 技能
+     * @param world 携带者所在世界
+     * @param player 技能携带者
+     */
+    public void onCreated(SkillStack skillStack, World world, EntityPlayer player)
+    {
+    }
+    
+    /**
      * 和地图的类似,冷却移到了{@link SpellCooldownTracker}里,我也不知道这能干啥了
      *
-     * @param stack 技能
+     * @param skillStack 技能
      * @param world 携带者所在世界
      * @param entity 技能携带者
      * @param skillSlot 技能槽位

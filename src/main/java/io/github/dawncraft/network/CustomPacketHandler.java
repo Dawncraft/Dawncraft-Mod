@@ -5,23 +5,37 @@ import net.minecraftforge.fml.common.network.FMLEventChannel;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientCustomPacketEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerCustomPacketEvent;
 
+import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.config.LogLoader;
+
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+
+/**
+byte[] array = ...;
+ByteBuf buf = Unpooled.wrappedBuffer(array);
+FMLProxyPacket packet = new FMLProxyPacket(new PacketBuffer(buf), "dawncraft");
+channel.sendToServer(packet);
+
+ * @author QingChenW
+ */
 public class CustomPacketHandler
 {
-    @EventHandler
-    public void onChannelEvent(FMLEventChannel event)
+    public static final FMLEventChannel channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(Dawncraft.MODID + "_custom");
+
+    public CustomPacketHandler()
     {
-        event.register(this);
+        channel.register(this);
+    }
+
+    @EventHandler
+    public void onClientPacket(ClientCustomPacketEvent event)
+    {
+        LogLoader.logger().info(new String(event.packet.payload().array()));
     }
     
     @EventHandler
-    public void onClientCustomPacketReceived(ClientCustomPacketEvent event)
+    public void onServerPacket(ServerCustomPacketEvent event)
     {
-
-    }
-
-    @EventHandler
-    public void onServerCustomPacketReceived(ServerCustomPacketEvent event)
-    {
-
+        
     }
 }

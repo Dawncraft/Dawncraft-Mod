@@ -48,8 +48,8 @@ public class InputEventHandler
                     if (mc.gameSettings.keyBindsHotbar[i].isPressed())
                     {
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-                        SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(i);
-                        if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || playerMagic.getSkillInventory().getStackInSlot(i) != playerMagic.getSkillInSpell()))
+                        SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(i);
+                        if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || playerMagic.getSkillInventory().getSkillStackInSlot(i) != playerMagic.getSkillInSpell()))
                         {
                             ClientProxy.getInstance().getIngameGUIDawn().setSpellIndex(i);
                             NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));

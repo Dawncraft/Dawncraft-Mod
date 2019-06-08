@@ -67,111 +67,111 @@ public class CapabilityMagic
         private EnumSpellAction spellAction;
         private SkillStack skillInSpell;
         private int skillInSpellCount;
-
+        
         public Common(EntityPlayer player)
         {
             this.player = player;
             // FIXME EntityPlayerSP的isServerWorld()返回true?
             this.skillInventory = new SkillInventoryPlayer(player);
-            this.skillInventoryContainer = new SkillContainerPlayer(this.skillInventory, player.isServerWorld(), player);
+            this.skillInventoryContainer = new SkillContainerPlayer(this.skillInventory, player.isServerWorld());
             this.talents = new HashMap<Talent, Integer>();
             this.tracker = player.getEntityWorld().isRemote ? new SpellCooldownTracker() : null;
             this.mana = this.getMaxMana();
             this.spellAction = EnumSpellAction.NONE;
         }
-        
+
         @Override
         public SkillInventoryPlayer getSkillInventory()
         {
             return this.skillInventory;
         }
-        
+
         @Override
         public SkillContainer getSkillInventoryContainer()
         {
             return this.skillInventoryContainer;
         }
-
+        
         @Override
         public int getTalentLevel(Talent talent)
         {
             return this.talents.get(talent);
         }
-
+        
         @Override
         public void setTalent(Talent talent, int level)
         {
             this.talents.put(talent, level);
         }
-
+        
         @Deprecated
         @Override
         public Set<Talent> getTalents()
         {
             return this.talents.keySet();
         }
-
+        
         @Override
         public SpellCooldownTracker getCooldownTracker()
         {
             return this.tracker;
         }
-
+        
         @Override
         public float getMana()
         {
             return this.mana;
         }
-
+        
         @Override
         public float getMaxMana()
         {
             return (float) this.player.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue();
         }
-
+        
         @Override
         public void setMana(float mana)
         {
             this.mana = MathHelper.clamp_float(mana, 0.0F, this.getMaxMana());
         }
-
+        
         @Override
         public void recover(float recoverAmount)
         {
             recoverAmount = DawnEventFactory.onLivingRecover(this.player, recoverAmount);
             if (recoverAmount <= 0) return;
             float mana = this.getMana();
-            
+
             if (mana >= 0.0F)
             {
                 this.setMana(mana + recoverAmount);
             }
         }
-
+        
         @Override
         public boolean shouldRecover()
         {
             return this.getMana() < this.getMaxMana();
         }
-
+        
         @Override
         public EnumSpellAction getSpellAction()
         {
             return this.spellAction;
         }
-
+        
         @Override
         public void setSpellAction(EnumSpellAction action)
         {
             this.spellAction = action;
         }
-
+        
         @Override
         public SkillStack getSkillInSpell()
         {
             return this.skillInSpell;
         }
-
+        
         @Override
         public void setSkillInSpell(EnumSpellAction action, SkillStack skillStack, int duration)
         {
@@ -180,7 +180,7 @@ public class CapabilityMagic
             this.skillInSpellCount = duration;
             this.updateSpellingProgress();
         }
-
+        
         @Override
         public void clearSkillInSpell()
         {
@@ -189,7 +189,7 @@ public class CapabilityMagic
             this.skillInSpellCount = 0;
             this.updateSpellingProgress();
         }
-
+        
         @Override
         public boolean initSkillInSpell(SkillStack skillStack)
         {
@@ -211,13 +211,13 @@ public class CapabilityMagic
             }
             return false;
         }
-
+        
         @Override
         public int getSkillInSpellCount()
         {
             return this.skillInSpellCount;
         }
-
+        
         @Override
         public int getSkillInSpellDuration()
         {
@@ -231,13 +231,13 @@ public class CapabilityMagic
             }
             return 0;
         }
-
+        
         @Override
         public void setSkillInSpellCount(int count)
         {
             this.skillInSpellCount = count;
         }
-
+        
         public void stopSpellingSkill()
         {
             if (this.skillInSpell != null)
@@ -246,7 +246,7 @@ public class CapabilityMagic
                 if (this.spellAction == EnumSpellAction.PREPARE)
                 {
                     flag = !DawnEventFactory.onSkillPrepareStop(this.player, this.skillInSpell, this.skillInSpellCount);
-
+                    
                 }
                 else if (this.spellAction == EnumSpellAction.SPELL)
                 {
@@ -256,39 +256,39 @@ public class CapabilityMagic
             }
             this.clearSkillInSpell();
         }
-
+        
         public void onSkillSpellFinish()
         {
             if (this.skillInSpell != null)
             {
                 int level = this.skillInSpell.getSkillLevel();
                 SkillStack skillStack = this.skillInSpell.onSkillSpellFinish(this.player.getEntityWorld(), this.player);
-
+                
                 skillStack = DawnEventFactory.onSkillSpellFinish(this.player, this.skillInSpell, this.skillInSpellCount, skillStack);
                 if (skillStack != this.skillInSpell || skillStack != null && skillStack.getSkillLevel() != level)
                 {
-                    for (int i = 0; i < this.skillInventory.getInventorySize(); i++)
+                    for (int i = 0; i < this.skillInventory.getSkillInventorySize(); i++)
                     {
-                        if (this.skillInventory.getStackInSlot(i) == this.skillInSpell)
+                        if (this.skillInventory.getSkillStackInSlot(i) == this.skillInSpell)
                         {
-                            this.skillInventory.setInventorySlot(i, skillStack);
+                            this.skillInventory.setSkillInventorySlot(i, skillStack);
                             break;
                         }
                     }
                 }
-
+                
                 this.sendActionBarMessage(new ChatComponentTranslation(this.spellAction.getUnlocalizedName(), skillStack.getDisplayName()), EnumChatFormatting.GREEN);
                 this.clearSkillInSpell();
             }
         }
-        
+
         @Override
         public void cancelSpellingSkill()
         {
             this.stopSpellingSkill();
             this.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cancel"), true);
         }
-        
+
         @Override
         public void update()
         {
@@ -298,17 +298,17 @@ public class CapabilityMagic
                 {
                     this.recover(1.0F);
                 }
-                
+
                 IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
-                
+
                 if (ConfigLoader.isThirstEnabled && playerThirst.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
                 {
                     playerThirst.getDrinkStats().setDrinkLevel(playerThirst.getDrinkStats().getDrinkLevel() + 1);
                 }
             }
-
-            if (this.skillInSpellCount > 0) --this.skillInSpellCount;
             
+            if (this.skillInSpellCount > 0) --this.skillInSpellCount;
+
             if (!this.player.getEntityWorld().isRemote && this.spellAction != EnumSpellAction.NONE)
             {
                 if (this.skillInSpell != null)
@@ -325,13 +325,13 @@ public class CapabilityMagic
                                     this.setMana(this.getMana() - this.skillInSpell.getSkillConsume());
                                 this.getCooldownTracker().setGlobalCooldown(this.getCooldownTracker().getTotalGlobalCooldown());
                                 this.getCooldownTracker().setCooldown(this.skillInSpell.getSkill(), this.skillInSpell.getTotalCooldown());
-
+                                
                                 this.setSpellAction(EnumSpellAction.SPELL);
                                 this.setSkillInSpellCount(this.skillInSpell.getMaxDuration());
-                                
+
                                 DawnEventFactory.onSkillSpellStart(this.player, this.skillInSpell, this.getSkillInSpellDuration());
                                 this.skillInSpell.onSkillSpell(this.player.getEntityWorld(), this.player);
-
+                                
                                 if (this.skillInSpellCount > 0)
                                 {
                                     this.updateSpellingProgress();
@@ -369,12 +369,12 @@ public class CapabilityMagic
                     this.clearSkillInSpell();
                 }
             }
-
+            
             this.getSkillInventory().decrementAnimations();
-
+            
             this.getCooldownTracker().tick();
         }
-        
+
         @Override
         public IPlayerMagic cloneCapability(IPlayerMagic oldMagic, boolean wasDeath)
         {
@@ -385,40 +385,40 @@ public class CapabilityMagic
             this.getSkillInventory().copyInventory(oldMagic.getSkillInventory());
             return this;
         }
-        
-        @Override
-        public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList) {}
-        
-        @Override
-        public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack) {}
 
         @Override
+        public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList) {}
+
+        @Override
+        public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack) {}
+        
+        @Override
         public void updateHeldSkill() {}
-        
+
         public void updateSpellingProgress() {}
-        
+
         @Override
         public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar) {}
-        
+
         @Override
         public void sendOverlayMessage(IChatComponent chatComponent) {}
-        
+
         @Override
         public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor) {}
     }
-    
+
     public static class Server extends Common
     {
         private EntityPlayerMP player;
-        
+
         private double prevPosX;
         private double prevPosY;
         private double prevPosZ;
-
+        
         private float lastMana;
         private int lastDrinkLevel;
         private boolean wasThirst;
-
+        
         public Server(EntityPlayerMP player)
         {
             super(player);
@@ -428,15 +428,15 @@ public class CapabilityMagic
             this.prevPosY = player.posY;
             this.prevPosZ = player.posZ;
         }
-
+        
         @Override
         public void update()
         {
             super.update();
-            
+
             if (this.player.openContainer != this.getSkillInventoryContainer())
                 this.getSkillInventoryContainer().detectAndSendChanges();
-            
+
             double x = this.player.posX - this.prevPosX;
             double y = this.player.posY - this.prevPosY;
             double z = this.player.posZ - this.prevPosZ;
@@ -444,10 +444,10 @@ public class CapabilityMagic
             {
                 this.cancelSpellingSkill();
             }
-
+            
             IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
             playerThirst.getDrinkStats().onUpdate(this.player);
-            
+
             if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != playerThirst.getDrinkStats().getDrinkLevel() || playerThirst.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
             {
                 NetworkLoader.instance.sendTo(new MessageUpdateMana(this.getMana(), playerThirst.getDrinkStats().getDrinkLevel(), playerThirst.getDrinkStats().getSaturationLevel()), this.player);
@@ -455,17 +455,17 @@ public class CapabilityMagic
                 this.lastDrinkLevel = playerThirst.getDrinkStats().getDrinkLevel();
                 this.wasThirst = playerThirst.getDrinkStats().getSaturationLevel() == 0.0F;
             }
-            
+
             this.prevPosX = this.player.posX;
             this.prevPosY = this.player.posY;
             this.prevPosZ = this.player.posZ;
-            
+
             if (this.player.ticksExisted % 20 * 5 == 0)
             {
                 this.checkPortalCreation();
             }
         }
-        
+
         /**
          * Check for can portal create in world.
          * From Benimatic's twilight forest Mod.Thanks.
@@ -479,7 +479,7 @@ public class CapabilityMagic
             if(world != null && this.player != null && world.provider.getDimensionId() == 0)
             {
                 List<EntityItem> itemList = world.getEntitiesWithinAABB(EntityItem.class, this.player.getEntityBoundingBox().expand(ConfigLoader.rangeToCheck, ConfigLoader.rangeToCheck, ConfigLoader.rangeToCheck));
-
+                
                 for(EntityItem entityItem : itemList)
                 {
                     if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
@@ -495,7 +495,7 @@ public class CapabilityMagic
                 }
             }
         }
-
+        
         @Override
         public IPlayerMagic cloneCapability(IPlayerMagic oldMagic, boolean wasDeath)
         {
@@ -504,14 +504,14 @@ public class CapabilityMagic
             this.lastDrinkLevel = -1;
             return this;
         }
-
+        
         @Override
         public void updateLearningInventory(SkillContainer containerToSend, List<SkillStack> skillsList)
         {
             NetworkLoader.instance.sendTo(new MessageWindowSkills(containerToSend.windowId, skillsList), this.player);
             NetworkLoader.instance.sendTo(new MessageSetSkillSlot(-1, -1, this.getSkillInventory().getSkillStack()), this.player);
         }
-        
+
         @Override
         public void sendSlotContents(SkillContainer containerToSend, int slotId, SkillStack stack)
         {
@@ -520,19 +520,19 @@ public class CapabilityMagic
                 NetworkLoader.instance.sendTo(new MessageSetSkillSlot(containerToSend.windowId, slotId, stack), this.player);
             }
         }
-
+        
         @Override
         public void updateHeldSkill()
         {
             NetworkLoader.instance.sendTo(new MessageSetSkillSlot(-1, -1, this.getSkillInventory().getSkillStack()), this.player);
         }
-        
+
         @Override
         public void updateSpellingProgress()
         {
             NetworkLoader.instance.sendTo(new MessagePlayerSpelling(this.getSpellAction(), this.getSkillInSpellCount()), this.player);
         }
-        
+
         @Override
         public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar)
         {
@@ -545,20 +545,20 @@ public class CapabilityMagic
                 this.sendActionBarMessage(reason, EnumChatFormatting.RED);
             }
         }
-
+        
         @Override
         public void sendOverlayMessage(IChatComponent chatComponent)
         {
             this.player.playerNetServerHandler.sendPacket(new S02PacketChat(chatComponent, (byte) 2));
         }
-        
+
         @Override
         public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor)
         {
             NetworkLoader.instance.sendTo(new MessageActionMessage(chatComponent, foregroundColor), this.player);
         }
     }
-    
+
     public static class Storage implements Capability.IStorage<IPlayerMagic>
     {
         @Override
@@ -568,15 +568,15 @@ public class CapabilityMagic
             float mana = instance.getMana();
             tagCompound.setFloat("ManaF", mana);
             tagCompound.setShort("Mana", (short) Math.ceil(mana));
-
+            
             NBTTagList skills = new NBTTagList();
             ((SkillInventoryPlayer) instance.getSkillInventory()).writeToNBT(skills);
             tagCompound.setTag("Inventory", skills);
-            
+
             NBTTagList cooldowns = new NBTTagList();
             instance.getCooldownTracker().writeToNBT(cooldowns);
             tagCompound.setTag("Cooldowns", cooldowns);
-
+            
             NBTTagList talents = new NBTTagList();
             for (Talent talent : instance.getTalents())
             {
@@ -585,15 +585,15 @@ public class CapabilityMagic
                 talents.appendTag(nbt);
             }
             tagCompound.setTag("Talents", talents);
-
+            
             return tagCompound;
         }
-
+        
         @Override
         public void readNBT(Capability<IPlayerMagic> capability, IPlayerMagic instance, EnumFacing facing, NBTBase nbtBase)
         {
             NBTTagCompound tagCompound = (NBTTagCompound) nbtBase;
-
+            
             if (tagCompound.hasKey("ManaF", 99))
             {
                 instance.setMana(tagCompound.getFloat("ManaF"));
@@ -601,7 +601,7 @@ public class CapabilityMagic
             else
             {
                 NBTBase mana = tagCompound.getTag("Mana");
-
+                
                 if (mana == null)
                 {
                     instance.setMana(instance.getMaxMana());
@@ -615,13 +615,13 @@ public class CapabilityMagic
                     instance.setMana(((NBTTagShort) mana).getShort());
                 }
             }
-
+            
             NBTTagList cooldowns = tagCompound.getTagList("Cooldowns", 10);
             instance.getCooldownTracker().readFromNBT(cooldowns);
-
+            
             NBTTagList skills = tagCompound.getTagList("Inventory", 10);
             instance.getSkillInventory().readFromNBT(skills);
-
+            
             NBTTagList talents = tagCompound.getTagList("Talents", 10);
             for (int i = 0; i < talents.tagCount(); ++i)
             {
@@ -630,12 +630,12 @@ public class CapabilityMagic
             }
         }
     }
-    
+
     public static class Provider implements ICapabilitySerializable<NBTTagCompound>
     {
         private IPlayerMagic instance;
         private IStorage<IPlayerMagic> storage;
-
+        
         public Provider(EntityPlayer player)
         {
             if (player instanceof EntityPlayerMP)
@@ -648,13 +648,13 @@ public class CapabilityMagic
             }
             this.storage = CapabilityLoader.playerMagic.getStorage();
         }
-
+        
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
             return CapabilityLoader.playerMagic.equals(capability);
         }
-
+        
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
@@ -665,13 +665,13 @@ public class CapabilityMagic
             }
             return null;
         }
-
+        
         @Override
         public NBTTagCompound serializeNBT()
         {
             return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerMagic, this.instance, null);
         }
-
+        
         @Override
         public void deserializeNBT(NBTTagCompound tagCompound)
         {

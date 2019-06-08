@@ -345,7 +345,7 @@ public class GuiIngameDawn extends Gui
     protected void renderHotbarSkill(int index, int xPos, int yPos, float partialTicks, EntityPlayer player)
     {
         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        SkillStack skillStack = playerMagic.getSkillInventory().getStackInSlot(index);
+        SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(index);
         
         if (skillStack != null)
         {

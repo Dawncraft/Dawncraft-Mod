@@ -52,25 +52,25 @@ public class SkillInventoryPlayer implements ISkillInventory
     }
     
     @Override
-    public int getInventorySize()
+    public int getSkillInventorySize()
     {
         return this.inventory.length;
     }
 
     @Override
-    public SkillStack getStackInSlot(int index)
+    public SkillStack getSkillStackInSlot(int index)
     {
         return this.inventory[index];
     }
 
     @Override
-    public void setInventorySlot(int index, SkillStack stack)
+    public void setSkillInventorySlot(int index, SkillStack stack)
     {
         this.inventory[index] = stack;
     }
 
     @Override
-    public SkillStack removeStackFromSlot(int index)
+    public SkillStack removeSkillStackFromSlot(int index)
     {
         if (this.inventory[index] != null)
         {
@@ -82,7 +82,7 @@ public class SkillInventoryPlayer implements ISkillInventory
     }
 
     @Override
-    public void clearStacks()
+    public void clearSkillStacks()
     {
         for (int i = 0; i < this.inventory.length; ++i)
         {
@@ -246,7 +246,7 @@ public class SkillInventoryPlayer implements ISkillInventory
     
     public void readFromNBT(NBTTagList nbtTagListIn)
     {
-        this.clearStacks();
+        this.clearSkillStacks();
         
         for (int i = 0; i < nbtTagListIn.tagCount(); ++i)
         {

@@ -1,5 +1,6 @@
 package io.github.dawncraft.api.creativetab;
 
+import java.util.Arrays;
 import java.util.List;
 
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
@@ -24,117 +25,115 @@ public abstract class CreativeSkillTabs
     private boolean drawTitle = true;
     @SideOnly(Side.CLIENT)
     private SkillStack iconSkillStack;
-    
+
     public CreativeSkillTabs(String label)
     {
         this(getNextID(), label);
     }
-    
+
     public CreativeSkillTabs(int index, String label)
     {
         if (index >= creativeTabArray.length)
         {
-            CreativeSkillTabs[] tmp = new CreativeSkillTabs[index + 1];
-            System.arraycopy(creativeTabArray, 0, tmp, 0, creativeTabArray.length);
-            creativeTabArray = tmp;
+            creativeTabArray = Arrays.copyOf(creativeTabArray, index + 1);
         }
         this.tabIndex = index;
         this.tabLabel = label;
         creativeTabArray[index] = this;
     }
-    
+
     @SideOnly(Side.CLIENT)
-    public int getTabIndex()
+    public int getIndex()
     {
         return this.tabIndex;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public SkillStack getIconSkillStack()
     {
         if (this.iconSkillStack == null)
         {
-            this.iconSkillStack = new SkillStack(this.getTabIconSkill(), this.getIconSkillLevel());
+            this.iconSkillStack = new SkillStack(this.getIconSkill(), this.getIconSkillLevel());
         }
-        
+
         return this.iconSkillStack;
     }
-    
+
     @SideOnly(Side.CLIENT)
-    public abstract Skill getTabIconSkill();
-    
+    public abstract Skill getIconSkill();
+
     @SideOnly(Side.CLIENT)
     public int getIconSkillLevel()
     {
         return 0;
     }
-
+    
     @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getTabIcon()
+    public TextureAtlasSprite getIcon()
     {
         return null;
     }
-
+    
     @SideOnly(Side.CLIENT)
-    public String getTabLabel()
+    public String getLabel()
     {
         return this.tabLabel;
     }
-
-    @SideOnly(Side.CLIENT)
-    public String getTranslatedTabLabel()
-    {
-        return "skillGroup." + this.getTabLabel();
-    }
     
+    @SideOnly(Side.CLIENT)
+    public String getTranslatedLabel()
+    {
+        return "skillGroup." + this.getLabel();
+    }
+
     public CreativeSkillTabs setNoTitle()
     {
         this.drawTitle = false;
         return this;
     }
-
+    
     @SideOnly(Side.CLIENT)
-    public boolean drawInForegroundOfTab()
+    public boolean shouldDrawTitle()
     {
         return this.drawTitle;
     }
-
+    
     public CreativeSkillTabs setNoScrollbar()
     {
         this.hasScrollbar = false;
         return this;
     }
-    
+
     @SideOnly(Side.CLIENT)
-    public boolean shouldHidePlayerInventory()
+    public boolean shouldHideInventory()
     {
         return this.hasScrollbar;
     }
-
+    
     public boolean hasSearchBar()
     {
         return this.tabIndex == CreativeTabsLoader.tabSearch.tabIndex;
     }
-    
+
     public int getSearchbarWidth()
     {
         return 89;
     }
-
+    
     public CreativeSkillTabs setBackgroundImageName(String texture)
     {
         this.theTexture = texture;
         return this;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public String getBackgroundImageName()
     {
         return this.theTexture;
     }
-    
+
     @SideOnly(Side.CLIENT)
-    public int getTabPage()
+    public int getPage()
     {
         if (this.tabIndex > 11)
         {
@@ -142,9 +141,9 @@ public abstract class CreativeSkillTabs
         }
         return 0;
     }
-
+    
     @SideOnly(Side.CLIENT)
-    public int getTabColumn()
+    public int getColumn()
     {
         if (this.tabIndex > 11)
         {
@@ -152,9 +151,9 @@ public abstract class CreativeSkillTabs
         }
         return this.tabIndex % 6;
     }
-
+    
     @SideOnly(Side.CLIENT)
-    public boolean isTabInFirstColumn()
+    public boolean isOnTopRow()
     {
         if (this.tabIndex > 11)
         {
@@ -162,7 +161,7 @@ public abstract class CreativeSkillTabs
         }
         return this.tabIndex < 6;
     }
-
+    
     @SideOnly(Side.CLIENT)
     public void displayAllSkills(List<Skill> skillList)
     {
@@ -178,7 +177,7 @@ public abstract class CreativeSkillTabs
             }
         }
     }
-
+    
     public static int getNextID()
     {
         int max = creativeTabArray.length;

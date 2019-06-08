@@ -1,5 +1,6 @@
 package io.github.dawncraft.client.gui;
 
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -13,6 +14,11 @@ import io.github.dawncraft.skill.SkillStack;
 
 public class GuiUtils
 {
+    public static int drawCentreString(FontRenderer fontRenderer, String text, int x, int y, int color)
+    {
+        return fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text) / 2, y, color);
+    }
+    
     public static void drawRectWithRGB(int x, int y, int width, int height, int color)
     {
         int alpha = 255;
@@ -53,10 +59,10 @@ public class GuiUtils
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        worldrenderer.pos((double)x, (double)y, 0.0D).color(red, green, blue, alpha).endVertex();
-        worldrenderer.pos((double)x, (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        worldrenderer.pos((double)(x + width), (double)(y + height), 0.0D).color(red, green, blue, alpha).endVertex();
-        worldrenderer.pos((double)(x + width), (double)y, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x, y, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x + width, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x + width, y, 0.0D).color(red, green, blue, alpha).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -70,7 +76,7 @@ public class GuiUtils
         
         for (int i = 1; i < list.size(); ++i)
         {
-            list.set(i, EnumChatFormatting.GRAY + (String)list.get(i));
+            list.set(i, EnumChatFormatting.GRAY + list.get(i));
         }
         
         gui.drawHoveringText(list, x, y);
