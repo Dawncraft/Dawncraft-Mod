@@ -1,5 +1,5 @@
 {
-	"mob.gerking.death": {
+    "mob.gerking.death": {
         "category": "hostile",
         "sounds": [
             "mob/gerking/death"
@@ -35,26 +35,32 @@
             "random/gun_shoot"
         ]
     },
-	"records.dj": {
+    "gui.error": {
+        "category": "master",
+        "sounds": [
+            "random/error"
+        ]
+    },
+    "records.dj": {
         "category": "record", 
         "sounds": [ 
-			{
+            {
                 "name": "dawncraft:records/dj",
                 "stream": true
-			}
+            }
         ] 
     },
     "records.wzsongs": {
         "category": "record", 
         "sounds": [ 
-			{
+            {
                 "name": "dawncraft:records/wzsongs/haikuotiankong",
                 "stream": true
-			},
-			{
+            },
+            {
                 "name": "dawncraft:records/wzsongs/gulou",
                 "stream": true
-			}
+            }
         ] 
     }
 }

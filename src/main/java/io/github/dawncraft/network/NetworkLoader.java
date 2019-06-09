@@ -26,7 +26,7 @@ public class NetworkLoader
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.CLIENT);
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.SERVER);
         registerMessage(MessagePlayerSpelling.class, MessagePlayerSpelling.Handler.class, Side.CLIENT);
-        registerMessage(MessageActionMessage.class, MessageActionMessage.Handler.class, Side.CLIENT);
+        registerMessage(MessageSpellFeedback.class, MessageSpellFeedback.Handler.class, Side.CLIENT);
         
         MinecraftForge.EVENT_BUS.register(new CustomPacketHandler());
     }

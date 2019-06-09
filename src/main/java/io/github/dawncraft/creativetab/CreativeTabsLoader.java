@@ -38,15 +38,15 @@ public class CreativeTabsLoader
     public static CreativeTabs tabWar;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
-
+    
     public static CreativeSkillTabs tabSkills;
     public static CreativeSkillTabs tabSearch;
     public static CreativeSkillTabs tabInventory;
-    
+
     public static void initCreativeTabs()
     {
         addEnchantmentTypes(CreativeTabs.tabCombat, EnchantmentLoader.WAND);
-        
+
         tabEnergy = new CreativeTabs("Energy")
         {
             @Override
@@ -127,7 +127,7 @@ public class CreativeTabsLoader
                 return ItemLoader.goldiamondSword;
             }
         };
-        
+
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
@@ -143,11 +143,11 @@ public class CreativeTabsLoader
             {
                 return null;
             }
-
+            
             @Override
             public TextureAtlasSprite getIcon()
             {
-                return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("items/paper");
+                return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:items/paper");
             }
         }.setBackgroundImageName("skill_search.png");
         tabInventory = new CreativeSkillTabs(11, "skillInventory")
@@ -157,7 +157,7 @@ public class CreativeTabsLoader
             {
                 return null;
             }
-
+            
             @Override
             public TextureAtlasSprite getIcon()
             {
@@ -165,7 +165,7 @@ public class CreativeTabsLoader
             }
         }.setBackgroundImageName("skill_inventory.png").setNoScrollbar().setNoTitle();
     }
-
+    
     public static void addEnchantmentTypes(CreativeTabs tab, EnumEnchantmentType... types)
     {
         try

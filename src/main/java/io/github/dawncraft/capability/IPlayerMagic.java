@@ -11,54 +11,52 @@ import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.talent.Talent;
 
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
 
 public interface IPlayerMagic extends IEntityMana, ILearning, ICapabilityClonable<IPlayerMagic>
 {
-    public ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
-    
-    public SkillInventoryPlayer getSkillInventory();
+    ResourceLocation domain = new ResourceLocation(Dawncraft.MODID + ":" + "magic");
 
-    public SkillContainer getSkillInventoryContainer();
+    SkillInventoryPlayer getSkillInventory();
+    
+    SkillContainer getSkillInventoryContainer();
+    
+    int getTalentLevel(Talent talent);
+    
+    void setTalent(Talent talent, int level);
 
-    public int getTalentLevel(Talent talent);
+    @Deprecated Set<Talent> getTalents();
 
-    public void setTalent(Talent talent, int level);
-    
-    @Deprecated
-    public Set<Talent> getTalents();
-    
-    public SpellCooldownTracker getCooldownTracker();
-    
-    public EnumSpellAction getSpellAction();
-    
+    SpellCooldownTracker getCooldownTracker();
+
+    EnumSpellAction getSpellAction();
+
     void setSpellAction(EnumSpellAction action);
+
+    SkillStack getSkillInSpell();
     
-    public SkillStack getSkillInSpell();
+    void setSkillInSpell(EnumSpellAction action, SkillStack skillStack, int duration);
 
-    public void setSkillInSpell(EnumSpellAction action, SkillStack stack, int duration);
+    void clearSkillInSpell();
     
-    public void clearSkillInSpell();
-
-    public boolean initSkillInSpell(SkillStack stack);
-
-    public void cancelSpellingSkill();
+    boolean initSkillInSpell(SkillStack skillStack);
     
-    public int getSkillInSpellCount();
+    void cancelSpellingSkill();
 
-    public int getSkillInSpellDuration();
-
-    public void setSkillInSpellCount(int count);
+    int getSkillInSpellCount();
     
-    public void update();
+    int getSkillInSpellDuration();
     
-    public void updateHeldSkill();
+    void setSkillInSpellCount(int count);
 
-    public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar);
+    void update();
 
-    public void sendOverlayMessage(IChatComponent chatComponent);
-
-    public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor);
+    void updateHeldSkill();
+    
+    void sendCancelSpellReason(IChatComponent reason, boolean useActionbar);
+    
+    void sendOverlayMessage(IChatComponent chatComponent);
+    
+    void sendActionBarMessage(IChatComponent chatComponent);
 }

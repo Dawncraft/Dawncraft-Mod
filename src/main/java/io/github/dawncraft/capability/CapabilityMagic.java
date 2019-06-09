@@ -15,7 +15,7 @@ import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.item.ItemLoader;
-import io.github.dawncraft.network.MessageActionMessage;
+import io.github.dawncraft.network.MessageSpellFeedback;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSkillSlot;
 import io.github.dawncraft.network.MessageUpdateMana;
@@ -39,7 +39,6 @@ import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
@@ -277,7 +276,7 @@ public class CapabilityMagic
                     }
                 }
                 
-                this.sendActionBarMessage(new ChatComponentTranslation(this.spellAction.getUnlocalizedName(), skillStack.getDisplayName()), EnumChatFormatting.GREEN);
+                this.sendActionBarMessage(new ChatComponentTranslation(this.spellAction.getUnlocalizedName(), skillStack.getDisplayName()));
                 this.clearSkillInSpell();
             }
         }
@@ -323,7 +322,8 @@ public class CapabilityMagic
                             {
                                 if (!this.player.capabilities.isCreativeMode)
                                     this.setMana(this.getMana() - this.skillInSpell.getSkillConsume());
-                                this.getCooldownTracker().setGlobalCooldown(this.getCooldownTracker().getTotalGlobalCooldown());
+                                this.getCooldownTracker();
+                                this.getCooldownTracker().setGlobalCooldown(SpellCooldownTracker.getTotalGlobalCooldown());
                                 this.getCooldownTracker().setCooldown(this.skillInSpell.getSkill(), this.skillInSpell.getTotalCooldown());
                                 
                                 this.setSpellAction(EnumSpellAction.SPELL);
@@ -398,13 +398,13 @@ public class CapabilityMagic
         public void updateSpellingProgress() {}
 
         @Override
-        public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar) {}
+        public void sendCancelSpellReason(IChatComponent reason, boolean useActionbar) {}
 
         @Override
         public void sendOverlayMessage(IChatComponent chatComponent) {}
 
         @Override
-        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor) {}
+        public void sendActionBarMessage(IChatComponent chatComponent) {}
     }
 
     public static class Server extends Common
@@ -534,16 +534,9 @@ public class CapabilityMagic
         }
 
         @Override
-        public void sendCancelSpellReason(IChatComponent reason, boolean useActionBar)
+        public void sendCancelSpellReason(IChatComponent reason, boolean useActionbar)
         {
-            if (!useActionBar)
-            {
-                this.sendOverlayMessage(reason);
-            }
-            else
-            {
-                this.sendActionBarMessage(reason, EnumChatFormatting.RED);
-            }
+            NetworkLoader.instance.sendTo(new MessageSpellFeedback(useActionbar, reason, true), this.player);
         }
         
         @Override
@@ -553,9 +546,9 @@ public class CapabilityMagic
         }
 
         @Override
-        public void sendActionBarMessage(IChatComponent chatComponent, EnumChatFormatting foregroundColor)
+        public void sendActionBarMessage(IChatComponent chatComponent)
         {
-            NetworkLoader.instance.sendTo(new MessageActionMessage(chatComponent, foregroundColor), this.player);
+            NetworkLoader.instance.sendTo(new MessageSpellFeedback(true, chatComponent, false), this.player);
         }
     }
 
@@ -570,7 +563,7 @@ public class CapabilityMagic
             tagCompound.setShort("Mana", (short) Math.ceil(mana));
             
             NBTTagList skills = new NBTTagList();
-            ((SkillInventoryPlayer) instance.getSkillInventory()).writeToNBT(skills);
+            instance.getSkillInventory().writeToNBT(skills);
             tagCompound.setTag("Inventory", skills);
 
             NBTTagList cooldowns = new NBTTagList();
