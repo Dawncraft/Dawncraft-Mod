@@ -94,7 +94,10 @@ public class GuiStatsDawn extends GuiStats
     public void drawSprite(int p_146527_1_, int p_146527_2_, int p_146527_3_, int p_146527_4_)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(statIconsDawn);
+        if (this.currentPage == -1)
+            this.mc.getTextureManager().bindTexture(statIcons);
+        else
+            this.mc.getTextureManager().bindTexture(statIconsDawn);
         float f = 0.0078125F;
         float f1 = 0.0078125F;
         int i = 18;

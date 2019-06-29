@@ -190,9 +190,9 @@ public class ItemLoader
         registerItem(copperIngot, "copper_ingot");
 
         // Computer
-        registerItem(simpleCPU, "simple_CPU");
-        registerItem(advancedCPU, "advanced_CPU");
-        registerItem(superCPU, "super_CPU");
+        registerItem(simpleCPU, "simple_cpu");
+        registerItem(advancedCPU, "advanced_cpu");
+        registerItem(superCPU, "super_cpu");
 
         // Science
 

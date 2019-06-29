@@ -1,8 +1,5 @@
 package io.github.dawncraft.core.asm;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
@@ -14,31 +11,16 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import io.github.dawncraft.core.DawnCoreSetuper;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 
+import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
+
 public class DawnCoreTransformer implements IClassTransformer
 {
-    private static final List[] METHODNAMES =
-        {
-                Arrays.asList("registerAllBlocks", "func_178119_d", "d"),
-                Arrays.asList("getTexture", "func_178122_a", "a"),
-                Arrays.asList("renderTileItem"),// emmm,Forge没有混淆
-                Arrays.asList("mouseClicked", "func_73864_a", "a"),
-                Arrays.asList("handleComponentHover", "func_175272_a", "a"),
-                Arrays.asList("transferEntityToWorld", "func_82448_a", "a"),
-                Arrays.asList("transferPlayerToDimension", "func_72356_a", "a")
-        };
-    private static final List[] FIELDNAMES =
-        {
-                Arrays.asList("modelManager", "field_178128_c", "c"),
-                Arrays.asList("barrier", "field_180401_cv", "cv")
-        };
-    
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass)
     {
@@ -50,7 +32,9 @@ public class DawnCoreTransformer implements IClassTransformer
         {
             for (MethodNode methodNode : classNode.methods)
             {
-                if (METHODNAMES[0].contains(methodNode.name) && methodNode.desc.equals("()V"))
+                String methodName = FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(name, methodNode.name, methodNode.desc);
+                String methodDesc = FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
+                if ((methodName.equals("registerAllBlocks") || methodName.equals("func_178119_d")) && methodDesc.equals("()V"))
                 {
                     changed = true;
                     // 对BlockModelShapes.registerAllBlocks()进行操作
@@ -59,12 +43,18 @@ public class DawnCoreTransformer implements IClassTransformer
                         // RETURN
                         if (insnNode.getOpcode() == Opcodes.RETURN)
                         {
+                            System.out.println("=================================");
+                            System.out.println("Modifing " + transformedName + "( " + name + " )");
+                            System.out.println("The class name is: " + classNode.name);
+                            System.out.println("The method name is: " + methodName + "( " + methodNode.name + " )");
+                            System.out.println("The method desc is: " + methodDesc + "( " + methodNode.desc + " )");
+                            System.out.println("=================================");
                             methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 0));
                             methodNode.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "onRegisterAllBlocks", "(Lnet/minecraft/client/renderer/BlockModelShapes;)V", false));
                         }
                     }
                 }
-                else if (METHODNAMES[1].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;"))
+                else if ((methodName.equals("getTexture") || methodName.equals("func_178122_a")) && methodDesc.equals("(Lnet/minecraft/block/state/IBlockState;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;"))
                 {
                     changed = true;
                     // 对BlockModelShapes.getTexture(IBlockState)进行操作
@@ -74,15 +64,28 @@ public class DawnCoreTransformer implements IClassTransformer
                         if (insnNode.getOpcode() == Opcodes.IF_ACMPNE && insnNode.getPrevious().getOpcode() == Opcodes.GETSTATIC)
                         {
                             FieldInsnNode prevNode = (FieldInsnNode) insnNode.getPrevious();
+                            String fieldInsnName = FMLDeobfuscatingRemapper.INSTANCE.mapFieldName(prevNode.owner, prevNode.name, prevNode.desc);
+                            String fieldInsnDesc = FMLDeobfuscatingRemapper.INSTANCE.mapDesc(prevNode.desc);
+                            String fieldInsnOwner = FMLDeobfuscatingRemapper.INSTANCE.map(prevNode.owner);
                             // 上面是GETSTATIC net/minecraft/init/Blocks.barrier : Lnet/minecraft/block/Block;
-                            if (prevNode.owner.equals("net/minecraft/init/Blocks") && FIELDNAMES[1].contains(prevNode.name))
+                            if ((fieldInsnName.equals("barrier") || fieldInsnName.equals("field_180401_cv")) && fieldInsnOwner.equals("net/minecraft/init/Blocks"))
                             {
+                                System.out.println("=================================");
+                                System.out.println("Modifing " + transformedName + "( " + name + " )");
+                                System.out.println("The class name is: " + classNode.name);
+                                System.out.println("The method name is: " + methodName + "( " + methodNode.name + " )");
+                                System.out.println("The method desc is: " + methodDesc + "( " + methodNode.desc + " )");
+                                System.out.println("=================================");
+                                System.out.println("The field name is: " + fieldInsnName + "( " + prevNode.name + " )");
+                                System.out.println("The field desc is: " + fieldInsnDesc + "( " + prevNode.desc + " )");
+                                System.out.println("The field owner is: " + fieldInsnOwner + "( " + prevNode.owner + " )");
+                                System.out.println("=================================");
                                 // 先加一个标签
                                 LabelNode label = new LabelNode();
                                 methodNode.instructions.add(label);
                                 methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                                String fieldName = DawnCoreSetuper.isDeobfEnv ? (String) FIELDNAMES[0].get(1) : (String) FIELDNAMES[0].get(0);
-                                methodNode.instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/renderer/BlockModelShapes", fieldName, "Lnet/minecraft/client/resources/model/ModelManager;"));
+                                String fieldName2 = DawnCoreSetuper.isDeobfEnv ? "field_178128_c" : "modelManager";
+                                methodNode.instructions.add(new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/renderer/BlockModelShapes", fieldName2, "Lnet/minecraft/client/resources/model/ModelManager;"));
                                 methodNode.instructions.add(new VarInsnNode(Opcodes.ALOAD, 2));
                                 methodNode.instructions.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getBlockParticle", "(Lnet/minecraft/client/resources/model/ModelManager;Lnet/minecraft/block/Block;)Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;", false));
                                 methodNode.instructions.add(new InsnNode(Opcodes.ARETURN));
@@ -94,11 +97,13 @@ public class DawnCoreTransformer implements IClassTransformer
                 }
             }
         }
-        if (transformedName.equals("net.minecraftforge.client.ForgeHooksClient"))
+        else if (transformedName.equals("net.minecraftforge.client.ForgeHooksClient"))
         {
             for (MethodNode methodNode : classNode.methods)
             {
-                if (METHODNAMES[2].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/item/Item;I)V"))
+                String methodName = FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(name, methodNode.name, methodNode.desc);
+                String methodDesc = FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
+                if (methodName.equals("renderTileItem") && methodDesc.equals("(Lnet/minecraft/item/Item;I)V"))
                 {
                     changed = true;
                     // 对ForgeHooksClient.renderTileItem(Item, int)进行操作
@@ -107,6 +112,12 @@ public class DawnCoreTransformer implements IClassTransformer
                         // ACONST_NULL
                         if (insnNode.getOpcode() == Opcodes.ACONST_NULL)
                         {
+                            System.out.println("=================================");
+                            System.out.println("Modifing " + transformedName + "( " + name + " )");
+                            System.out.println("The class name is: " + classNode.name);
+                            System.out.println("The method name is: " + methodName + "( " + methodNode.name + " )");
+                            System.out.println("The method desc is: " + methodDesc + "( " + methodNode.desc + " )");
+                            System.out.println("=================================");
                             methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 0));
                             methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 1));
                             methodNode.instructions.set(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getTileentityForItem", "(Lnet/minecraft/item/Item;I)Lnet/minecraft/tileentity/TileEntity;", false));
@@ -115,11 +126,13 @@ public class DawnCoreTransformer implements IClassTransformer
                 }
             }
         }
-        if (transformedName.equals("net.minecraft.client.gui.GuiScreen"))
+        else if (transformedName.equals("net.minecraft.client.gui.GuiScreen"))
         {
             for (MethodNode methodNode : classNode.methods)
             {
-                if (METHODNAMES[3].contains(methodNode.name) && methodNode.desc.equals("(III)V"))
+                String methodName = FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(name, methodNode.name, methodNode.desc);
+                String methodDesc = FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
+                if ((methodName.equals("mouseClicked") || methodName.equals("func_73864_a")) && methodDesc.equals("(III)V"))
                 {
                     changed = true;
                     // 对GuiScreen.mouseClicked(int, int, int)进行操作
@@ -128,11 +141,17 @@ public class DawnCoreTransformer implements IClassTransformer
                         // POP
                         if (insnNode.getOpcode() == Opcodes.POP && insnNode.getPrevious().getOpcode() == Opcodes.INVOKEVIRTUAL)
                         {
+                            System.out.println("=================================");
+                            System.out.println("Modifing " + transformedName + "( " + name + " )");
+                            System.out.println("The class name is: " + classNode.name);
+                            System.out.println("The method name is: " + methodName + "( " + methodNode.name + " )");
+                            System.out.println("The method desc is: " + methodDesc + "( " + methodNode.desc + " )");
+                            System.out.println("=================================");
                             methodNode.instructions.insert(insnNode, new InsnNode(Opcodes.RETURN));
                         }
                     }
                 }
-                else if (METHODNAMES[4].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/util/IChatComponent;II)V"))
+                else if ((methodName.equals("handleComponentHover") || methodName.equals("func_175272_a")) && methodDesc.equals("(Lnet/minecraft/util/IChatComponent;II)V"))
                 {
                     changed = true;
                     // 对GuiScreen.handleComponentHover(IChatComponent, int, int)进行操作
@@ -142,18 +161,26 @@ public class DawnCoreTransformer implements IClassTransformer
                         if (insnNode.getOpcode() == Opcodes.INVOKESTATIC)
                         {
                             MethodInsnNode currentNode = (MethodInsnNode) insnNode;
-                            if (currentNode.owner.equals("net/minecraft/client/renderer/GlStateManager") && currentNode.desc.equals("()V"))
+                            String methodInsnName = FMLDeobfuscatingRemapper.INSTANCE.mapFieldName(currentNode.owner, currentNode.name, currentNode.desc);
+                            String methodInsnDesc = FMLDeobfuscatingRemapper.INSTANCE.mapDesc(currentNode.desc);
+                            String methodInsnOwner = FMLDeobfuscatingRemapper.INSTANCE.map(currentNode.owner);
+                            if (methodInsnDesc.equals("()V") && methodInsnOwner.equals("net/minecraft/client/renderer/GlStateManager"))
                             {
-                                methodNode.instructions.insert(insnNode.getPrevious(), new FieldInsnNode(Opcodes.GETSTATIC, "net/minecraftforge/common/MinecraftForge", "EVENT_BUS", "Lnet/minecraftforge/fml/common/eventhandler/EventBus;"));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new TypeInsnNode(Opcodes.NEW, "io/github/dawncraft/api/client/event/ChatComponentEvent$Hover"));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new InsnNode(Opcodes.DUP));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ALOAD, 0));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ALOAD, 1));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ILOAD, 2));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new VarInsnNode(Opcodes.ILOAD, 3));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new MethodInsnNode(Opcodes.INVOKESPECIAL, "io/github/dawncraft/api/client/event/ChatComponentEvent$Hover", "<init>", "(Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/util/IChatComponent;II)V", false));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "net/minecraftforge/fml/common/eventhandler/EventBus", "post", "(Lnet/minecraftforge/fml/common/eventhandler/Event;)Z", false));
-                                methodNode.instructions.insert(insnNode.getPrevious(), new InsnNode(Opcodes.POP));
+                                System.out.println("=================================");
+                                System.out.println("Modifing " + transformedName + "( " + name + " )");
+                                System.out.println("The class name is: " + classNode.name);
+                                System.out.println("The method name is: " + methodName + "( " + methodNode.name + " )");
+                                System.out.println("The method desc is: " + methodDesc + "( " + methodNode.desc + " )");
+                                System.out.println("=================================");
+                                System.out.println("The currentNode name is: " + methodInsnName + "( " + currentNode.name + " )");
+                                System.out.println("The currentNode desc is: " + methodInsnDesc + "( " + currentNode.desc + " )");
+                                System.out.println("The currentNode owner is: " + methodInsnOwner + "( " + currentNode.owner + " )");
+                                System.out.println("=================================");
+                                methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 0));
+                                methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 1));
+                                methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 2));
+                                methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 3));
+                                methodNode.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "onChatComponentHovered", "(Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/util/IChatComponent;II)V", false));
                             }
                         }
                     }
@@ -161,11 +188,14 @@ public class DawnCoreTransformer implements IClassTransformer
             }
         }
         // 服务器
+        /*
         if (transformedName.equals("net.minecraft.server.management.ServerConfigurationManager"))
         {
             for (MethodNode methodNode : classNode.methods)
             {
-                if (METHODNAMES[5].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
+                String methodName = FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(name, methodNode.name, methodNode.desc);
+                String methodDesc = FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
+                if ((methodName.equals("transferEntityToWorld") || methodName.equals("func_82448_a")) && methodDesc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
                 {
                     changed = true;
                     // 对net.minecraft.server.management.ServerConfigurationManager.transferEntityToWorld(Entity, int, WorldServer, WorldServer)进行操作
@@ -181,7 +211,7 @@ public class DawnCoreTransformer implements IClassTransformer
                         }
                     }
                 }
-                else if (METHODNAMES[6].contains(methodNode.name) && methodNode.desc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
+                else if ((methodName.equals("transferPlayerToDimension") || methodName.equals("func_72356_a")) && methodDesc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
                 {
                     changed = true;
                     // 对net.minecraft.server.management.ServerConfigurationManager.transferPlayerToDimension(EntityPlayerMP, int)进行操作
@@ -200,6 +230,7 @@ public class DawnCoreTransformer implements IClassTransformer
                 }
             }
         }
+         */
         // 改了就快覆盖回去,切记一定要返回字节码,哪怕是原封不动
         if (changed) return getBytecode(classNode);
         return basicClass;
@@ -210,14 +241,14 @@ public class DawnCoreTransformer implements IClassTransformer
     {
         ClassNode classNode = new ClassNode();
         ClassReader classReader = new ClassReader(bytes);
-        classReader.accept(classNode, ClassReader.EXPAND_FRAMES);
+        classReader.accept(classNode, 0);
         return classNode;
     }
     
     static public byte[] getBytecode(ClassNode classNode)
     {
         // 让ClassWriter自行计算最大栈深度和栈映射帧等信息
-        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
         classNode.accept(classWriter);
         return classWriter.toByteArray();
     }

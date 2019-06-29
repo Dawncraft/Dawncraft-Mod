@@ -118,8 +118,8 @@ goto start
 echo +=====================+
 echo.执行 4.快速构建Mod
 echo +=====================+
-if %INFO% EQU 0 call ./gradlew.bat build --offine
-if %INFO% EQU 1 call ./gradlew.bat build --offine --info
+if %INFO% EQU 0 call ./gradlew.bat build
+if %INFO% EQU 1 call ./gradlew.bat build --info
 echo +=====================+
 echo 构建Mod完毕
 echo +=====================+

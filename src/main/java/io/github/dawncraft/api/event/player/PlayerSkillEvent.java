@@ -12,14 +12,15 @@ public abstract class PlayerSkillEvent extends PlayerEvent
     public EnumSpellAction action;
     public final SkillStack skill;
     public int duration;
-
+    
     private PlayerSkillEvent(EntityPlayer player, EnumSpellAction action, SkillStack skill, int duration)
     {
         super(player);
+        this.action = action;
         this.skill = skill;
         this.duration = duration;
     }
-
+    
     /**
      * Fired when a player starts 'spelling' a skill, typically when they finish their preparations.
      *
@@ -33,7 +34,7 @@ public abstract class PlayerSkillEvent extends PlayerEvent
             super(player, action, skill, duration);
         }
     }
-
+    
     /**
      * Fired every tick that a player is 'spelling' a skill, see {@link Spell.Start} for info.
      *
@@ -48,7 +49,7 @@ public abstract class PlayerSkillEvent extends PlayerEvent
             super(player, action, skill, duration);
         }
     }
-
+    
     /**
      * Fired when a player stops spelling a skill without the spell duration timing out.
      * Example:
@@ -68,7 +69,7 @@ public abstract class PlayerSkillEvent extends PlayerEvent
             super(player, action, skill, duration);
         }
     }
-
+    
     /**
      * Fired after a skill has fully finished being spelled.
      * The skill has been notified that it was spelled, and the skill/result stacks reflect after that state.

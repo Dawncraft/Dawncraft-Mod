@@ -54,7 +54,7 @@ public class GuiEventHandler
             InventoryEffectRenderer gui = (InventoryEffectRenderer) event.gui;
             try
             {
-                Field field = ReflectionHelper.findField(GuiContainer.class, "guiLeft", "");
+                Field field = ReflectionHelper.findField(GuiContainer.class, "guiLeft", "field_147003_i");
                 int guiLeft = field.getInt(gui) - 34 / 2;
                 field.setAccessible(true);
                 field.setInt(gui, guiLeft);

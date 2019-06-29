@@ -5,9 +5,9 @@ import java.util.Map;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.*;
 
-@TransformerExclusions("io.github.dawncraft.core.")
-@MCVersion("1.8.9")
 @Name("DawnCore")
+@MCVersion("1.8.9")
+@TransformerExclusions("io.github.dawncraft.core")
 public class DawnCorePlugin implements IFMLLoadingPlugin
 {
     @Override

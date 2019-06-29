@@ -53,9 +53,9 @@ public class ItemSkillBook extends Item
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
-        if (stack.hasTagCompound())
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Skill", 10))
         {
-            SkillStack skillStack = SkillStack.loadSkillStackFromNBT(stack.getTagCompound());// TODO 技能书的读写
+            SkillStack skillStack = SkillStack.loadSkillStackFromNBT(stack.getTagCompound().getCompoundTag("Skill"));
             if (skillStack != null)
             {
                 tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("item.skillBook.desc", skillStack.getDisplayName()));

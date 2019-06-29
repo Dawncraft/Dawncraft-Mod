@@ -26,7 +26,7 @@ public class TileEntityRenderLoader
     {
         registerTileentityRenderer(TileEntityMagnetChest.class, new TileEntityRenderChest());
         registerTileentityRenderer(TileEntitySkull.class, new TileEntityRenderSkull());
-
+        
         registerTEISRWithTE(BlockLoader.magnetChest, 0, new TileEntityMagnetChest());
         registerTEISRWithTE(BlockLoader.superChest, 0, new TileEntityChest(0));
         for (int i = 0; i < ItemSkullDawn.skullTypes.length; i++)
@@ -34,7 +34,7 @@ public class TileEntityRenderLoader
             registerTEISRWithTE(ItemLoader.skull, i, new TileEntitySkull(i));
         }
     }
-    
+
     /**
      * Register a tileentity's renderer.
      *
@@ -46,7 +46,7 @@ public class TileEntityRenderLoader
     {
         ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, renderer);
     }
-
+    
     /**
      * Register tileentity itemstack render for item in inventory.
      * <br>It don't supports tileentity with custom data like skulls.</br>
@@ -60,7 +60,20 @@ public class TileEntityRenderLoader
     {
         ForgeHooksClient.registerTESRItemStack(item, metadata, tileEntityClass);
     }
-    
+
+    /**
+     * See {@link registerTEISRenderer(Item item, int metadata, Class<? extends TileEntity> tileEntityClass)}
+     *
+     * @param block block to register
+     * @param metadata metadata to register
+     * @param tileEntityClass tileentity's class to register
+     */
+    @Deprecated
+    private static void registerTEISRenderer(Block block, int metadata, Class<? extends TileEntity> tileEntityClass)
+    {
+        registerTEISRenderer(Item.getItemFromBlock(block), metadata, tileEntityClass);
+    }
+
     /**
      * Register tileentity itemstack render for item with a specific tileentity in inventory.
      * <br>You should new a tileentity instance for renderer.</br>
@@ -74,7 +87,7 @@ public class TileEntityRenderLoader
         registerTEISRenderer(item, metadata, tileentity.getClass());
         DawnClientHooks.registerItemTileentity(item, metadata, tileentity);
     }
-    
+
     /**
      * See {@link registerTEISRWithTE(Item item, int metadata, TileEntity tileentity)}
      *
