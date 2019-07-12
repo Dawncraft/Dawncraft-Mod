@@ -8,6 +8,7 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin.*;
 @Name("DawnCore")
 @MCVersion("1.8.9")
 @TransformerExclusions("io.github.dawncraft.core")
+//@SortingIndex(1001)
 public class DawnCorePlugin implements IFMLLoadingPlugin
 {
     @Override
@@ -15,25 +16,25 @@ public class DawnCorePlugin implements IFMLLoadingPlugin
     {
         return "io.github.dawncraft.core.DawnCoreModContainer";
     }
-
+    
     @Override
     public String getSetupClass()
     {
         return "io.github.dawncraft.core.DawnCoreSetuper";
     }
-
+    
     @Override
     public String getAccessTransformerClass()
     {
         return null;
     }
-
+    
     @Override
     public String[] getASMTransformerClass()
     {
         return new String[] {"io.github.dawncraft.core.asm.DawnCoreTransformer"};
     }
-
+    
     /**
      * {@link DawnCoreSetuper#injectData(Map)}
      */

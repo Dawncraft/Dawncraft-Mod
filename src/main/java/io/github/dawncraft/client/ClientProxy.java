@@ -3,6 +3,7 @@ package io.github.dawncraft.client;
 import io.github.dawncraft.client.event.ClientEventLoader;
 import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.client.gui.stats.GuiStatLoader;
+import io.github.dawncraft.client.particle.ParticleLoader;
 import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
 import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
 import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
@@ -53,6 +54,7 @@ public class ClientProxy extends ServerProxy
     {
         super.init(event);
         this.skillRender = new RenderSkill(Minecraft.getMinecraft().getTextureManager(), this.modelLoader);
+        ParticleLoader.initParticles();
         KeyLoader.initKeys();
         GuiStatLoader.initStatSlots();
         ClientEventLoader.initClientEvents();

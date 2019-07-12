@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Random;
 
+import io.github.dawncraft.client.particle.ParticleLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 
 public class SkillInstant extends Skill
@@ -72,14 +73,13 @@ public class SkillInstant extends Skill
         for (int i = 0; i < 4; i++)
         {
             Random rand = new Random();
-            double d0 = player.getPosition().getX() + rand.nextFloat();
-            double d1 = player.getPosition().getY() + 0.8F;
-            double d2 = player.getPosition().getZ() + rand.nextFloat();
-            double d3 = 0.0D;
-            double d4 = 0.0D;
-            double d5 = 0.0D;
-            world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, d0, d1, d2, d3, d4, d5, new int[0]);
+            double x = player.getPosition().getX() + rand.nextFloat();
+            double y = player.getPosition().getY() + 0.8F;
+            double z = player.getPosition().getZ() + rand.nextFloat();
+            world.spawnParticle(EnumParticleTypes.SPELL_INSTANT, x, y, z, 0.0D, 0.0D, 0.0D, new int[0]);
         }
+
+        world.spawnParticle(ParticleLoader.LIGHTING, player.getPosition().getX(), player.getPosition().getY(), player.getPosition().getZ(), 0.0D, 0.0D, 0.0D, new int[0]);
         
         return true;
     }

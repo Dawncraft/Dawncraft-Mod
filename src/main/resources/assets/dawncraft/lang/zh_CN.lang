@@ -63,6 +63,7 @@ item.gunAK47.name=AK47
 item.gunBullet.name=子弹
 item.gunRPG.name=火箭筒
 item.gunRocket.name=导弹
+item.throwableTorch.name=投掷火把
 
 item.magicDust.name=魔力粉
 item.skillBook.name=技能书
