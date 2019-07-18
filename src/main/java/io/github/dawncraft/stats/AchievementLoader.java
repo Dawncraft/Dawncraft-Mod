@@ -2,7 +2,7 @@ package io.github.dawncraft.stats;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -20,13 +20,13 @@ public class AchievementLoader
     /** A new achievement page for Dawncraft Mod. */
     public static AchievementPage pageDawncraft = new AchievementPage(Dawncraft.NAME);
     
-    public static Achievement basic = new Achievement("achievement.dawncraft.basic", "dawncraft.basic", -2, -1, ItemLoader.funny, AchievementList.openInventory).initIndependentStat();
+    public static Achievement basic = new Achievement("achievement.dawncraft.basic", "dawncraft.basic", -2, -1, ItemInitializer.funny, AchievementList.openInventory).initIndependentStat();
     // Energy
-    public static Achievement energy = new Achievement("achievement.dawncraft.energy", "dawncraft.energy", 0, -5, ItemLoader.bucketPetroleum, basic);
+    public static Achievement energy = new Achievement("achievement.dawncraft.energy", "dawncraft.energy", 0, -5, ItemInitializer.bucketPetroleum, basic);
     public static Achievement electricity = new Achievement("achievement.dawncraft.electricity", "dawncraft.electricity", 2, -5, BlockLoader.energyGeneratorHeat, energy);
     // Magnetism
-    public static Achievement magnetism = new Achievement("achievement.dawncraft.magnetism", "dawncraft.magnetism", 0, -3, ItemLoader.magnetIngot, basic);
-    public static Achievement magnetCard = new Achievement("achievement.dawncraft.magnetCard", "dawncraft.magnetCard", 2, -3, ItemLoader.magnetCard, magnetism);
+    public static Achievement magnetism = new Achievement("achievement.dawncraft.magnetism", "dawncraft.magnetism", 0, -3, ItemInitializer.magnetIngot, basic);
+    public static Achievement magnetCard = new Achievement("achievement.dawncraft.magnetCard", "dawncraft.magnetCard", 2, -3, ItemInitializer.magnetCard, magnetism);
     // Machine
     public static Achievement machine = new Achievement("achievement.dawncraft.machine", "dawncraft.machine", 0, -1, BlockLoader.electricCable, basic);
     public static Achievement machineStarted = new Achievement("achievement.dawncraft.machineStarted", "dawncraft.machineStarted", 2, -1, BlockLoader.machineFurnace, machine);
@@ -39,18 +39,18 @@ public class AchievementLoader
     // Furniture
     public static Achievement furniture = new Achievement("achievement.dawncraft.furniture", "dawncraft.furniture", 0, 5, BlockLoader.woodTable, basic);
     // Food
-    public static Achievement food = new Achievement("achievement.dawncraft.food", "dawncraft.food", 0, 7, ItemLoader.cookedEgg, basic);
-    public static Achievement foodFaeces = new Achievement("achievement.dawncraft.foodFaeces", "dawncraft.foodFaeces", 2, 7, ItemLoader.faeces, food);
+    public static Achievement food = new Achievement("achievement.dawncraft.food", "dawncraft.food", 0, 7, ItemInitializer.cookedEgg, basic);
+    public static Achievement foodFaeces = new Achievement("achievement.dawncraft.foodFaeces", "dawncraft.foodFaeces", 2, 7, ItemInitializer.faeces, food);
     // Guns
-    public static Achievement guns = new Achievement("achievement.dawncraft.guns", "dawncraft.guns", 0, 9, ItemLoader.gunAK47, basic);
-    public static Achievement gunsRPG = new Achievement("achievement.dawncraft.gunsRpg", "dawncraft.gunsRpg", 2, 9, ItemLoader.gunRPG, guns);
-    public static Achievement explodeSkeleton = new Achievement("achievement.dawncraft.explodeSkeleton", "dawncraft.explodeSkeleton", 2, 10, ItemLoader.gunRPG, gunsRPG).setSpecial();
+    public static Achievement guns = new Achievement("achievement.dawncraft.guns", "dawncraft.guns", 0, 9, ItemInitializer.gunAK47, basic);
+    public static Achievement gunsRPG = new Achievement("achievement.dawncraft.gunsRpg", "dawncraft.gunsRpg", 2, 9, ItemInitializer.gunRPG, guns);
+    public static Achievement explodeSkeleton = new Achievement("achievement.dawncraft.explodeSkeleton", "dawncraft.explodeSkeleton", 2, 10, ItemInitializer.gunRPG, gunsRPG).setSpecial();
     // Magic
-    public static Achievement magic = new Achievement("achievement.dawncraft.magic", "dawncraft.magic", -3, 1, ItemLoader.skillBook, basic);
+    public static Achievement magic = new Achievement("achievement.dawncraft.magic", "dawncraft.magic", -3, 1, ItemInitializer.skillBook, basic);
     // ColourEgg
-    public static Achievement arrive = new Achievement("achievement.dawncraft.arrive", "dawncraft.arrive", -3, -3, new ItemStack(ItemLoader.skull, 1, 0), basic);
-    public static Achievement kill = new Achievement("achievement.dawncraft.kill", "dawncraft.kill", -3, -5, new ItemStack(ItemLoader.skull, 1, 1), arrive);
-    public static Achievement ger = new Achievement("achievement.dawncraft.ger", "dawncraft.ger", -5, -5, ItemLoader.gerHeart, kill).setSpecial();
+    public static Achievement arrive = new Achievement("achievement.dawncraft.arrive", "dawncraft.arrive", -3, -3, new ItemStack(ItemInitializer.skull, 1, 0), basic);
+    public static Achievement kill = new Achievement("achievement.dawncraft.kill", "dawncraft.kill", -3, -5, new ItemStack(ItemInitializer.skull, 1, 1), arrive);
+    public static Achievement ger = new Achievement("achievement.dawncraft.ger", "dawncraft.ger", -5, -5, ItemInitializer.gerHeart, kill).setSpecial();
     public static Achievement dawnPortal = new Achievement("achievement.dawncraft.dawnPortal", "dawncraft.dawnPortal", -5, -3, Blocks.obsidian, ger);
     public static Achievement dawnArrival = new Achievement("achievement.dawncraft.dawnArrival", "dawncraft.dawnArrival", -5, -1, Items.apple, dawnPortal);
     

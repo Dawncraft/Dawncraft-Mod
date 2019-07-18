@@ -1,7 +1,5 @@
 package io.github.dawncraft;
 
-import io.github.dawncraft.server.ServerProxy;
-
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -36,7 +34,7 @@ public class Dawncraft
     public static Dawncraft instance;
     /** The instance of server proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
-    public static ServerProxy proxy;
+    public static CommonProxy proxy;
     
     /** {@link FMLPreInitializationEvent} */
     @EventHandler

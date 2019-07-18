@@ -13,7 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.api.ModData;
+import io.github.dawncraft.api.registry.ModData;
 import io.github.dawncraft.client.renderer.skill.ModelSkill;
 import io.github.dawncraft.client.renderer.skill.SkillMeshDefinition;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;

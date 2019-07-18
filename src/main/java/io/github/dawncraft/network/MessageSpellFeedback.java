@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.ClientProxy;
-import io.github.dawncraft.client.sound.SoundLoader;
+import io.github.dawncraft.client.sound.SoundInitializer;
 import io.netty.buffer.ByteBuf;
 
 public class MessageSpellFeedback implements IMessage
@@ -86,7 +86,7 @@ public class MessageSpellFeedback implements IMessage
                             Minecraft.getMinecraft().ingameGUI.setRecordPlaying(message.chatComponent, false);
                             if (message.isFailed)
                             {
-                                Minecraft.getMinecraft().getSoundHandler().playSound(SoundLoader.createSound(new ResourceLocation(Dawncraft.MODID, "gui.error")));
+                                Minecraft.getMinecraft().getSoundHandler().playSound(SoundInitializer.createSound(new ResourceLocation(Dawncraft.MODID, "gui.error")));
                             }
                         }
                     }

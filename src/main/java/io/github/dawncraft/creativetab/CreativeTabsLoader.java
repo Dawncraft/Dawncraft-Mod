@@ -8,7 +8,7 @@ import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.enchantment.EnchantmentLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillLoader;
 
@@ -18,7 +18,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
@@ -28,14 +28,13 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
  */
 public class CreativeTabsLoader
 {
+    public static CreativeTabs tabScience;
     public static CreativeTabs tabEnergy;
-    public static CreativeTabs tabMagnet;
     public static CreativeTabs tabMachine;
     public static CreativeTabs tabComputer;
-    public static CreativeTabs tabScience;
     public static CreativeTabs tabFurniture;
     public static CreativeTabs tabCuisine;
-    public static CreativeTabs tabWar;
+    public static CreativeTabs tabWeapons;
     public static CreativeTabs tabMagic;
     public static CreativeTabs tabColourEgg;
     
@@ -45,87 +44,80 @@ public class CreativeTabsLoader
 
     public static void initCreativeTabs()
     {
-        addEnchantmentTypes(CreativeTabs.tabCombat, EnchantmentLoader.WAND);
+        addEnchantmentTypes(CreativeTabs.COMBAT, EnchantmentLoader.WAND);
 
+        tabScience = new CreativeTabs("Science")
+        {
+			@Override
+			public ItemStack createIcon()
+			{
+				return null;
+			}
+        };
         tabEnergy = new CreativeTabs("Energy")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.bucketPetroleum;
-            }
-        };
-        tabMagnet = new CreativeTabs("Magnet")
-        {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.magnetIngot;
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return null;
+			}
         };
         tabMachine = new CreativeTabs("Machine")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return Item.getItemFromBlock(BlockLoader.machineFurnace);
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return new ItemStack(BlockLoader.machineFurnace);
+			}
         };
         tabComputer = new CreativeTabs("Computer")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return Item.getItemFromBlock(BlockLoader.simpleComputer);
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return new ItemStack(BlockLoader.simpleComputer);
+			}
         };
-        tabScience = new CreativeTabs("Science")
-        {
-            @Override
-            public Item getTabIconItem()
-            {
-                return Items.stick;
-            }
-        };
+
         tabFurniture = new CreativeTabs("Furniture")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return Item.getItemFromBlock(BlockLoader.woodTable);
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return  new ItemStack(BlockLoader.woodTable);
+			}
         };
         tabCuisine = new CreativeTabs("Cuisine")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.cookedEgg;
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return new ItemStack(ItemInitializer.cookedEgg);
+			}
         };
-        tabWar = new CreativeTabs("War")
+        tabWeapons = new CreativeTabs("Weapons")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.gunRPG;
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return new ItemStack(ItemInitializer.gunRPG);
+			}
         };
         tabMagic = new CreativeTabs("Magic")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.magicDust;
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return new ItemStack(ItemInitializer.magicDust);
+			}
         };
         tabColourEgg = new CreativeTabs("ColourEgg")
         {
-            @Override
-            public Item getTabIconItem()
-            {
-                return ItemLoader.goldiamondSword;
-            }
+			@Override
+			public ItemStack createIcon()
+			{
+				return new ItemStack(ItemInitializer.goldiamondSword);
+			}
         };
 
         tabSkills = new CreativeSkillTabs("Skills")
@@ -168,15 +160,7 @@ public class CreativeTabsLoader
     
     public static void addEnchantmentTypes(CreativeTabs tab, EnumEnchantmentType... types)
     {
-        try
-        {
-            Field field = ReflectionHelper.findField(CreativeTabs.class, "enchantmentTypes", "field_111230_s");
-            EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat((EnumEnchantmentType[]) field.get(tab), types, EnumEnchantmentType.class);
-            tab.setRelevantEnchantmentTypes(newEnchantmentTypes);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+    	EnumEnchantmentType[] newEnchantmentTypes = ObjectArrays.concat(tab.getRelevantEnchantmentTypes(), types, EnumEnchantmentType.class);
+    	tab.setRelevantEnchantmentTypes(newEnchantmentTypes);
     }
 }

@@ -14,7 +14,7 @@ import io.github.dawncraft.container.SkillSlotLearning;
 import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.network.MessageSpellFeedback;
 import io.github.dawncraft.network.MessagePlayerSpelling;
 import io.github.dawncraft.network.MessageSetSkillSlot;
@@ -482,7 +482,7 @@ public class CapabilityMagic
                 
                 for(EntityItem entityItem : itemList)
                 {
-                    if (entityItem.getEntityItem().getItem() == ItemLoader.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
+                    if (entityItem.getEntityItem().getItem() == ItemInitializer.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.water))
                     {
                         int dx = MathHelper.floor_double(entityItem.posX);
                         int dy = MathHelper.floor_double(entityItem.posY);

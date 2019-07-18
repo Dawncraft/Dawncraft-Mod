@@ -1,7 +1,7 @@
 package io.github.dawncraft.util;
 
 import net.minecraft.command.CommandResultStats;
-import net.minecraft.event.HoverEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 

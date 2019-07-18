@@ -1,17 +1,20 @@
 [
-{
-  "modid": "dawncraft",
-  "name": "Dawncraft Mod",
-  "description": "A Minecraft mod by Dawncraft Studio.",
-  "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "https://github.com/Dawncraft/Dawncraft-Mod",
-  "updateUrl": "https://github.com/Dawncraft/Dawncraft-Mod/releases",
-  "updateJSON": "https://raw.githubusercontent.com/Dawncraft/Dawncraft-Mod/gh-pages/version.json",
-  "authorList": ["QingChenW(Wc)"],
-  "credits": "Thank Mojang,MCP,Forge and NeoTech's pipe Blockstate JSON.",
-  "logoFile": "assets/dawncraft/textures/dawncraft_logo.png",
-  "screenshots": [],
-  "dependencies": []
-}
+    {
+        "modid": "dawncraft",
+        "name": "Dawncraft Mod",
+        "description": "A Minecraft mod by Dawncraft Studio.",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "https://github.com/Dawncraft/Dawncraft-Mod",
+        "updateUrl": "https://github.com/Dawncraft/Dawncraft-Mod/releases",
+        "updateJSON": "https://raw.githubusercontent.com/Dawncraft/Dawncraft-Mod/gh-pages/version.json",
+        "authorList": ["QingChenW(Wc)"],
+        "credits": "Thank Mojang,MCP,Forge and NeoTech's pipe Blockstate JSON.",
+        "logoFile": "assets/dawncraft/textures/dawncraft_logo.png",
+        "screenshots": [],
+        "useDependencyInformation": true,
+        "requiredMods": [],
+        "dependencies": [],
+        "dependants": []
+    }
 ]

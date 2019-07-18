@@ -1,10 +1,9 @@
-package io.github.dawncraft.server;
+package io.github.dawncraft;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.command.CommandLoader;
@@ -18,7 +17,7 @@ import io.github.dawncraft.entity.EntityLoader;
 import io.github.dawncraft.entity.FakePlayerLoader;
 import io.github.dawncraft.event.EventLoader;
 import io.github.dawncraft.fluid.FluidLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.network.NetworkLoader;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.recipe.BrewingLoader;
@@ -51,7 +50,7 @@ import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
  *
  * @author QingChenW
  */
-public class ServerProxy
+public class CommonProxy
 {
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -61,7 +60,6 @@ public class ServerProxy
         CapabilityLoader.initCapabilities();
         CreativeTabsLoader.initCreativeTabs();
         FluidLoader.initFluids();
-        ItemLoader.initItems();
         BlockLoader.initBlocks();
         SkillLoader.initSkills();
         AttributesLoader.initAttributes();

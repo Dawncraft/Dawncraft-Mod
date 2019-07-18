@@ -4,19 +4,22 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,37 +36,37 @@ public abstract class BlockMachine extends BlockContainer
 
     public BlockMachine()
     {
-        this(Material.iron.getMaterialMapColor());
+        this(Material.IRON.getMaterialMapColor());
     }
 
     public BlockMachine(MapColor color)
     {
-        super(Material.iron, color);
+        super(Material.IRON, color);
         this.setHardness(5.0F);
         this.setResistance(10.0f);
         this.setHarvestLevel("hammer", 1);
-        this.setStepSound(Block.soundTypeMetal);
+        this.setSoundType(SoundType.METAL);
     }
 
     @Override
-    public int getRenderType()
+    public EnumBlockRenderType getRenderType(IBlockState state)
     {
-        return 3;
+        return EnumBlockRenderType.MODEL;
     }
-    
+
     @Override
     public abstract TileEntity createNewTileEntity(World world, int meta);
-    
+
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, FACING, WORKING);
+        return new BlockStateContainer(this, FACING, WORKING);
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        EnumFacing facing = EnumFacing.getHorizontal(meta & 3);
+        EnumFacing facing = EnumFacing.byHorizontalIndex(meta & 3);
         Boolean working = Boolean.valueOf((meta & 4) != 0);
         return this.getDefaultState().withProperty(FACING, facing).withProperty(WORKING, working);
     }
@@ -77,19 +80,11 @@ public abstract class BlockMachine extends BlockContainer
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public IBlockState getStateForEntityRender(IBlockState state)
-    {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH).withProperty(WORKING, false);
-    }
-
-    @Override
-    public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ,
-            int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(WORKING, false);
     }
-    
+
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
@@ -113,43 +108,43 @@ public abstract class BlockMachine extends BlockContainer
             Block south = world.getBlockState(pos.south()).getBlock();
             Block west = world.getBlockState(pos.west()).getBlock();
             Block east = world.getBlockState(pos.east()).getBlock();
-            EnumFacing facing = (EnumFacing) state.getValue(FACING);
-            
-            if (facing == EnumFacing.NORTH && north.isFullBlock() && !south.isFullBlock())
+            EnumFacing facing = state.getValue(FACING);
+
+            if (facing == EnumFacing.NORTH && north.isFullBlock(state) && !south.isFullBlock(state))
             {
                 facing = EnumFacing.SOUTH;
             }
-            else if (facing == EnumFacing.SOUTH && south.isFullBlock() && !north.isFullBlock())
+            else if (facing == EnumFacing.SOUTH && south.isFullBlock(state) && !north.isFullBlock(state))
             {
                 facing = EnumFacing.NORTH;
             }
-            else if (facing == EnumFacing.WEST && west.isFullBlock() && !east.isFullBlock())
+            else if (facing == EnumFacing.WEST && west.isFullBlock(state) && !east.isFullBlock(state))
             {
                 facing = EnumFacing.EAST;
             }
-            else if (facing == EnumFacing.EAST && east.isFullBlock() && !west.isFullBlock())
+            else if (facing == EnumFacing.EAST && east.isFullBlock(state) && !west.isFullBlock(state))
             {
                 facing = EnumFacing.WEST;
             }
-            
+
             world.setBlockState(pos, state.withProperty(FACING, facing), 2);
         }
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    {
+        return false;
+    }
+
+    @Override
+    public boolean hasComparatorInputOverride(IBlockState state)
     {
         return true;
     }
 
     @Override
-    public boolean hasComparatorInputOverride()
-    {
-        return true;
-    }
-    
-    @Override
-    public int getComparatorInputOverride(World world, BlockPos pos)
+    public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos)
     {
         return Container.calcRedstone(world.getTileEntity(pos));
     }
@@ -163,7 +158,7 @@ public abstract class BlockMachine extends BlockContainer
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand)
+    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand)
     {
     }
 

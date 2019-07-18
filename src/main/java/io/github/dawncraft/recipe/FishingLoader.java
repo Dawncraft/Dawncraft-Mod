@@ -6,7 +6,7 @@ import net.minecraft.util.WeightedRandomFishable;
 import net.minecraftforge.common.FishingHooks;
 import net.minecraftforge.common.FishingHooks.FishableCategory;
 
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 
 /**
  * Register fishing.
@@ -17,7 +17,7 @@ public class FishingLoader
 {
     public static void initFishing()
     {
-        registerFish(FishableCategory.FISH, new ItemStack(ItemLoader.frog), 10);
+        registerFish(FishableCategory.FISH, new ItemStack(ItemInitializer.frog), 10);
     }
     
     private static void registerFish(FishableCategory category, ItemStack itemstack, int weight)

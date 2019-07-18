@@ -1,6 +1,6 @@
 package io.github.dawncraft.api.item;
 
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -65,7 +65,7 @@ public class ItemGunRifle extends ItemGun
     @Override
     public Item getAmmo()
     {
-        return ItemLoader.gunBullet;
+        return ItemInitializer.gunBullet;
     }
 
     public float getDamage()

@@ -43,16 +43,16 @@
     },
     "records.dj": {
         "category": "record", 
-        "sounds": [ 
+        "sounds": [
             {
                 "name": "dawncraft:records/dj",
                 "stream": true
             }
-        ] 
+        ]
     },
     "records.wzsongs": {
         "category": "record", 
-        "sounds": [ 
+        "sounds": [
             {
                 "name": "dawncraft:records/wzsongs/haikuotiankong",
                 "stream": true
@@ -61,6 +61,6 @@
                 "name": "dawncraft:records/wzsongs/gulou",
                 "stream": true
             }
-        ] 
+        ]
     }
 }

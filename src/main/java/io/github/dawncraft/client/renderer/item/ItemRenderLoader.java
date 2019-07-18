@@ -2,7 +2,7 @@ package io.github.dawncraft.client.renderer.item;
 
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.entity.EntityUtils;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.item.ItemSkullDawn;
 
 import net.minecraft.block.Block;
@@ -21,7 +21,7 @@ public class ItemRenderLoader
     public static void initItemRender()
     {
         // Energy
-        registerItem(ItemLoader.bucketPetroleum);
+        registerItem(ItemInitializer.bucketPetroleum);
         
         registerBlock(BlockLoader.electricCable);
         registerBlock(BlockLoader.energyGeneratorHeat);
@@ -32,24 +32,24 @@ public class ItemRenderLoader
         //        register(BlockLoader.energyGeneratorMagic);
 
         // Magnet
-        registerItem(ItemLoader.magnet);
-        registerItem(ItemLoader.magnetIngot);
-        registerItem(ItemLoader.magnetStick);
-        registerItem(ItemLoader.magnetBall);
-        registerItem(ItemLoader.magnetCard);
-        registerItem(ItemLoader.magnetDoor);
+        registerItem(ItemInitializer.magnet);
+        registerItem(ItemInitializer.magnetIngot);
+        registerItem(ItemInitializer.magnetStick);
+        registerItem(ItemInitializer.magnetBall);
+        registerItem(ItemInitializer.magnetCard);
+        registerItem(ItemInitializer.magnetDoor);
 
-        registerItem(ItemLoader.magnetAxe);
-        registerItem(ItemLoader.magnetPickaxe);
-        registerItem(ItemLoader.magnetHammer);
-        registerItem(ItemLoader.magnetSpade);
-        registerItem(ItemLoader.magnetHoe);
-        registerItem(ItemLoader.magnetSword);
-        registerItem(ItemLoader.magnetWand);
-        registerItem(ItemLoader.magnetHelmet);
-        registerItem(ItemLoader.magnetChestplate);
-        registerItem(ItemLoader.magnetLeggings);
-        registerItem(ItemLoader.magnetBoots);
+        registerItem(ItemInitializer.magnetAxe);
+        registerItem(ItemInitializer.magnetPickaxe);
+        registerItem(ItemInitializer.magnetHammer);
+        registerItem(ItemInitializer.magnetSpade);
+        registerItem(ItemInitializer.magnetHoe);
+        registerItem(ItemInitializer.magnetSword);
+        registerItem(ItemInitializer.magnetWand);
+        registerItem(ItemInitializer.magnetHelmet);
+        registerItem(ItemInitializer.magnetChestplate);
+        registerItem(ItemInitializer.magnetLeggings);
+        registerItem(ItemInitializer.magnetBoots);
 
         registerBlock(BlockLoader.magnetOre);
         registerBlock(BlockLoader.magnetBlock);
@@ -57,16 +57,16 @@ public class ItemRenderLoader
         registerBlock(BlockLoader.magnetChest);
 
         // Machine
-        registerItem(ItemLoader.copperIngot);
+        registerItem(ItemInitializer.copperIngot);
         
         registerBlock(BlockLoader.copperOre);
         registerBlock(BlockLoader.copperBlock);
         registerBlock(BlockLoader.machineFurnace);
 
         // Computer
-        registerItem(ItemLoader.simpleCPU);
-        registerItem(ItemLoader.advancedCPU);
-        registerItem(ItemLoader.superCPU);
+        registerItem(ItemInitializer.simpleCPU);
+        registerItem(ItemInitializer.advancedCPU);
+        registerItem(ItemInitializer.superCPU);
 
         registerBlock(BlockLoader.simpleComputer);
         registerBlock(BlockLoader.advancedComputer);
@@ -82,44 +82,44 @@ public class ItemRenderLoader
         registerBlock(BlockLoader.alarmClock);
 
         // Cuisine
-        registerItem(ItemLoader.tumbler);
-        registerItem(ItemLoader.faeces);
-        registerItem(ItemLoader.cookedEgg);
-        registerItem(ItemLoader.honeyChicken);
-        registerItem(ItemLoader.honeyStew);
-        registerItem(ItemLoader.frogStew);
-        registerItem(ItemLoader.honey);
-        registerItem(ItemLoader.frog);
+        registerItem(ItemInitializer.tumbler);
+        registerItem(ItemInitializer.faeces);
+        registerItem(ItemInitializer.cookedEgg);
+        registerItem(ItemInitializer.honeyChicken);
+        registerItem(ItemInitializer.honeyStew);
+        registerItem(ItemInitializer.frogStew);
+        registerItem(ItemInitializer.honey);
+        registerItem(ItemInitializer.frog);
 
         // Magic
         registerBlock(BlockLoader.magicOre);
-        registerItem(ItemLoader.magicDust);
-        registerItem(ItemLoader.skillBook);
+        registerItem(ItemInitializer.magicDust);
+        registerItem(ItemInitializer.skillBook);
 
         // War
-        registerItem(ItemLoader.gunAK47);
-        registerItem(ItemLoader.gunBullet);
-        registerItem(ItemLoader.gunRPG);
-        registerItem(ItemLoader.gunRocket);
-        registerItem(ItemLoader.throwableTorch);
+        registerItem(ItemInitializer.gunAK47);
+        registerItem(ItemInitializer.gunBullet);
+        registerItem(ItemInitializer.gunRPG);
+        registerItem(ItemInitializer.gunRocket);
+        registerItem(ItemInitializer.throwableTorch);
 
         // ColourEgg
         registerBlock(BlockLoader.superChest);
-        String suffix = ItemLoader.skull.getRegistryName() + "_";
+        String suffix = ItemInitializer.skull.getRegistryName() + "_";
         for (int i = 0; i < ItemSkullDawn.skullTypes.length; i++)
         {
             Class<? extends Entity> entity = ItemSkullDawn.skullTypes[i];
-            registerItem(ItemLoader.skull, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
+            registerItem(ItemInitializer.skull, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
         }
-        registerItem(ItemLoader.gerHeart);
-        registerItem(ItemLoader.brainDead);
-        registerItem(ItemLoader.funny);
+        registerItem(ItemInitializer.gerHeart);
+        registerItem(ItemInitializer.brainDead);
+        registerItem(ItemInitializer.funny);
 
-        registerItem(ItemLoader.dj);
-        registerItem(ItemLoader.wz);
+        registerItem(ItemInitializer.dj);
+        registerItem(ItemInitializer.wz);
 
-        registerItem(ItemLoader.goldiamondSword);
-        registerItem(ItemLoader.mjolnir);
+        registerItem(ItemInitializer.goldiamondSword);
+        registerItem(ItemInitializer.mjolnir);
     }
 
     /**

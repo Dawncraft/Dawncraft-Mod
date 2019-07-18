@@ -1,5 +1,5 @@
-# Dawncraft Mod For Minecraft 1.8.9
-## 魔法更新即将抵达
+# Dawncraft Mod For Minecraft 1.12.2
+## 正在移植到1.12.2
 
 ----------
 
@@ -7,7 +7,7 @@
 
 ![dawncraft](/docs/title.png)
 
-这里是曙光工艺Mod,适用于我的世界1.8.9
+这里是曙光工艺Mod,适用于我的世界1.12.2
 
 本Mod采用[GPLv3协议](https://github.com/Dawncraft/Dawncraft-Mod/blob/master/LICENSE)开源
 
@@ -93,6 +93,7 @@
 * [**Forge官方文档**](http://mcforge-cn.readthedocs.io/zh/latest/)
 * [**manageryzy的MC开发wiki**](https://mcdev-wiki.org/)
 *(wiki似乎已经挂掉了)*
+* [**Harbinger**](https://harbinger.covertdragon.team/)
 * [**ustc-zzzz的教程**](https://ustc-zzzz.gitbooks.io/fmltutor/content/)
 * [**szszss的教程**](http://blog.hakugyokurou.net/?page_id=126)
 *(并没有被墙，但是需要刷新个二三十次和一张好脸，不知道为啥，建议挂vpn)*
@@ -133,6 +134,8 @@
 
 2018/8/14注:可以使用[Textcraft](https://textcraft.net/)制作Minecraft风格的文字
 
+2019/7/18注:请到[MCPBot](http://export.mcpbot.bspk.rs/)查看最新版本的MCP快照
+
 ## 未来展望
 
 等待更新。
@@ -145,12 +148,10 @@
 
 Mojang为我们带来的Minecraft，MCP和Forge团队的Forge/FML.
 
-ustc-zzzz的Mod教程和szszss的CoreMod教程.
-
-NeoTech的管道模型文件.
+CovertDragon的Mod教程，ustc-zzzz的Mod教程和szszss的CoreMod教程.
 
 KevinWalker的[Gun-Domain](https://coding.net/u/KevinWalker/p/Gun-Domain/git)项目
 
 luaj,markdown4j,bliki和mediawiki
 
-#### &copy; 2016-2018 Dawncraft Studio ####
+#### &copy; 2016-2019 Dawncraft Studio ####

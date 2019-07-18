@@ -6,7 +6,7 @@ import java.util.Random;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.tileentity.TileEntityMagnetDoor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -72,7 +72,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                     TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
                     boolean canUnlock = !tileentityMagnetDoor.isLocked();
                     ItemStack itemStack = player.getHeldItem();
-                    if (itemStack != null && itemStack.getItem() == ItemLoader.magnetCard && itemStack.hasTagCompound())
+                    if (itemStack != null && itemStack.getItem() == ItemInitializer.magnetCard && itemStack.hasTagCompound())
                     {
                         NBTTagCompound nbt = itemStack.getTagCompound();
                         String UUID = nbt.getString("UUID");
@@ -192,13 +192,13 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     @Override
     public Item getItemDropped(IBlockState blockState, Random rand, int fortune)
     {
-        return blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? ItemLoader.magnetDoor : null;
+        return blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? ItemInitializer.magnetDoor : null;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World world, BlockPos pos)
     {
-        return ItemLoader.magnetDoor;
+        return ItemInitializer.magnetDoor;
     }
 }

@@ -1,5 +1,6 @@
 package io.github.dawncraft.client;
 
+import io.github.dawncraft.CommonProxy;
 import io.github.dawncraft.client.event.ClientEventLoader;
 import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.client.gui.stats.GuiStatLoader;
@@ -13,8 +14,6 @@ import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
 import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.server.ServerProxy;
-
 import net.minecraft.client.Minecraft;
 
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -26,7 +25,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  *
  * @author QingChenW
  */
-public class ClientProxy extends ServerProxy
+public class ClientProxy extends CommonProxy
 {
     private static ClientProxy instance;
     

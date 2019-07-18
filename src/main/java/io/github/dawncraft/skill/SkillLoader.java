@@ -1,6 +1,6 @@
 package io.github.dawncraft.skill;
 
-import io.github.dawncraft.api.ModRegistry;
+import io.github.dawncraft.api.registry.ModRegistry;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 
 /**

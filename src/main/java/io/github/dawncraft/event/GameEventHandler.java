@@ -3,7 +3,7 @@ package io.github.dawncraft.event;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.passive.EntitySavage;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,7 +53,7 @@ public class GameEventHandler
         {
             EntitySavage savage = (EntitySavage) event.target;
             ItemStack stack = player.getCurrentEquippedItem();
-            if (stack != null && stack.getItem() == ItemLoader.faeces)
+            if (stack != null && stack.getItem() == ItemInitializer.faeces)
             {
                 player.attackEntityFrom(DamageSourceLoader.ger, 20.0F);
                 player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);

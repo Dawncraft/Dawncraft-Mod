@@ -3,7 +3,7 @@ package io.github.dawncraft.block;
 import com.google.common.base.Predicate;
 
 import io.github.dawncraft.entity.boss.EntityGerKing;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.item.ItemSkullDawn;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.state.BlockWorldState;
@@ -35,7 +35,7 @@ public class BlockDawnSkull extends BlockSkullDawn
     @Override
     public ItemSkullDawn getSkullItem()
     {
-        return (ItemSkullDawn) ItemLoader.skull;
+        return (ItemSkullDawn) ItemInitializer.skull;
     }
     
     @Override

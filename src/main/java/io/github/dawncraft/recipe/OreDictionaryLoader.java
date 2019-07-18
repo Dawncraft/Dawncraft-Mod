@@ -1,7 +1,7 @@
 package io.github.dawncraft.recipe;
 
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,13 +16,13 @@ public class OreDictionaryLoader
 {
     public static void initOreDictionary()
     {
-        registerOre("ingotMagnet", ItemLoader.magnetIngot);
+        registerOre("ingotMagnet", ItemInitializer.magnetIngot);
         registerOre("oreMagnet", BlockLoader.magnetOre);
         registerOre("blockMagnet", BlockLoader.magnetBlock);
-        registerOre("ingotCopper", ItemLoader.copperIngot);
+        registerOre("ingotCopper", ItemInitializer.copperIngot);
         registerOre("oreCopper", BlockLoader.copperOre);
         registerOre("blockCopper", BlockLoader.copperBlock);
-        registerOre("dustMagic", ItemLoader.magicDust);
+        registerOre("dustMagic", ItemInitializer.magicDust);
         registerOre("oreMagic", BlockLoader.magicOre);
     }
     

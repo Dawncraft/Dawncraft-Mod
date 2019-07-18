@@ -8,7 +8,7 @@ import java.util.Map;
 import io.github.dawncraft.block.BlockLoader;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,16 +52,16 @@ public class TooltipEventHandler
     public TooltipEventHandler()
     {
         IItemTooltipHandler customItemTooltipHandler = new CustomItemTooltipHandler(false);
-        registerItemTooltip(ItemLoader.simpleCPU, customItemTooltipHandler);
-        registerItemTooltip(ItemLoader.advancedCPU, customItemTooltipHandler);
-        registerItemTooltip(ItemLoader.superCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInitializer.simpleCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInitializer.advancedCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInitializer.superCPU, customItemTooltipHandler);
         if(ConfigLoader.isColoreggEnabled())
         {
             registerItemTooltip(BlockLoader.alarmClock);
             registerItemTooltip(Items.potato);
-            registerItemTooltip(ItemLoader.honeyChicken);
-            registerItemTooltip(ItemLoader.frogStew);
-            registerItemTooltip(ItemLoader.mjolnir);
+            registerItemTooltip(ItemInitializer.honeyChicken);
+            registerItemTooltip(ItemInitializer.frogStew);
+            registerItemTooltip(ItemInitializer.mjolnir);
         }
     }
     

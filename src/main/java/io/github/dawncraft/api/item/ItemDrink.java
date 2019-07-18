@@ -3,7 +3,7 @@ package io.github.dawncraft.api.item;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerThirst;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
@@ -77,7 +77,7 @@ public class ItemDrink extends Item
         world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
         this.onDrinkDrunk(stack, world, player);
         player.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
-        return new ItemStack(ItemLoader.tumbler);
+        return new ItemStack(ItemInitializer.tumbler);
     }
 
     protected void onDrinkDrunk(ItemStack stack, World world, EntityPlayer player)

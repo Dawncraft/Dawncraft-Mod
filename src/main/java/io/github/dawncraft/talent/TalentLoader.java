@@ -1,6 +1,6 @@
 package io.github.dawncraft.talent;
 
-import io.github.dawncraft.api.ModData;
+import io.github.dawncraft.api.registry.ModData;
 
 /**
  * Register some talents.

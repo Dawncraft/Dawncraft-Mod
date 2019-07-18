@@ -1,7 +1,7 @@
 package io.github.dawncraft.entity.boss;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -82,13 +82,13 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
     @Override
     protected Item getDropItem()
     {
-        return ItemLoader.faeces;
+        return ItemInitializer.faeces;
     }
     
     @Override
     protected void dropFewItems(boolean arg1, int arg2)
     {
-        this.dropItem(ItemLoader.gerHeart, 1);
+        this.dropItem(ItemInitializer.gerHeart, 1);
         super.dropFewItems(arg1, arg2);
     }
     
@@ -110,7 +110,7 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
     {
         super.onInitialSpawn(difficulty, livingdata);
         
-        this.setCurrentItemOrArmor(0, new ItemStack(ItemLoader.mjolnir));
+        this.setCurrentItemOrArmor(0, new ItemStack(ItemInitializer.mjolnir));
         
         return livingdata;
     }

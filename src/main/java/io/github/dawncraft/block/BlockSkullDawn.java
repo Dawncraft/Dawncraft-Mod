@@ -2,7 +2,7 @@ package io.github.dawncraft.block;
 
 import java.util.Random;
 
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.item.ItemSkullDawn;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.BlockSkull;
@@ -36,7 +36,7 @@ public class BlockSkullDawn extends BlockSkull
      */
     public ItemSkullDawn getSkullItem()
     {
-        return (ItemSkullDawn) ItemLoader.skull;
+        return (ItemSkullDawn) ItemInitializer.skull;
     }
     
     @Override

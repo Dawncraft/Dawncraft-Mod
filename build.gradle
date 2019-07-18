@@ -1,21 +1,25 @@
 buildscript {
     repositories {
+        maven { url = "https://lss233.com/artifactory/jcenter" }
+        maven { url = "https://lss233.com/artifactory/minecraft" }
         jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
+        maven { url = "https://files.minecraftforge.net/maven" }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
-
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = mod_version
 group = mod_group
 archivesBaseName = mod_id + "-" + minecraft_version
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
 
 minecraft {
     version = minecraft_version + "-" + forge_version
@@ -26,13 +30,17 @@ minecraft {
     makeObfSourceJar = false
 }
 
-/*
-sourceCompatibility = targetCompatibility = '1.7'
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.7'
+configurations {
+    shade
+    compile.extendsFrom shade
 }
-*/
-[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+dependencies {
+    // compile fileTree(dir: 'libs', include: '*.jar')
+    shade files('libs/luaj-jse-3.0.1.jar', 
+                'libs/markdown4j-2.2.jar',
+                'libs/bliki-core-3.1.0.jar')
+}
 
 processResources {
     inputs.property "version", project.version
@@ -48,16 +56,15 @@ processResources {
     }
 }
 
-configurations {
-    shade
-    compile.extendsFrom shade
-}
+reobf {
+    jar {
+        // addExtraSrgLines []
+        // addExtraSrgLine 'PK: org/luaj io/github/dawncraft/repack/org/luaj'
+        // addExtraSrgLine 'PK: org/markdown4j io/github/dawncraft/repack/org/markdown4j'
+        // addExtraSrgLine 'PK: com/github/rjeschke/txtmark io/github/dawncraft/repack/com/github/rjeschke/txtmark'
+    }
 
-dependencies {
-    // compile fileTree(dir: 'libs', include: '*.jar')
-    shade files('libs/luaj-jse-3.0.1.jar', 
-                'libs/markdown4j-2.2.jar',
-                'libs/bliki-core-3.1.0.jar')
+    coreJar {}
 }
 
 jar {
@@ -84,17 +91,6 @@ task coreJar(type: Jar) {
     }
 
     classifier = 'core'
-}
-
-reobf {
-    jar {
-        // addExtraSrgLines []
-        // addExtraSrgLine 'PK: org/luaj io/github/dawncraft/repack/org/luaj'
-        // addExtraSrgLine 'PK: org/markdown4j io/github/dawncraft/repack/org/markdown4j'
-        // addExtraSrgLine 'PK: com/github/rjeschke/txtmark io/github/dawncraft/repack/com/github/rjeschke/txtmark'
-    }
-
-    coreJar {}
 }
 
 task deobfJar(type: Jar) {

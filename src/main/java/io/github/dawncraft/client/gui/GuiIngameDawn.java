@@ -13,7 +13,7 @@ import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.DawnEnumHelperClient;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import io.github.dawncraft.potion.PotionLoader;
 import io.github.dawncraft.skill.EnumSpellAction;
 import io.github.dawncraft.skill.SkillStack;
@@ -215,11 +215,11 @@ public class GuiIngameDawn extends Gui
                 {
                     this.setActionMessage(I18n.format("gui.item.bow", player.getItemInUse().getDisplayName()), this.getIngameGUI().getFontRenderer().getColorCode('a'));
                 }
-                else if (action == ItemLoader.RELOAD)
+                else if (action == ItemInitializer.RELOAD)
                 {
                     this.setActionMessage(I18n.format("gui.item.reload", player.getItemInUse().getDisplayName()), this.getIngameGUI().getFontRenderer().getColorCode('a'));
                 }
-                else if (action == ItemLoader.SHOOT)
+                else if (action == ItemInitializer.SHOOT)
                 {
                     this.setActionMessage(I18n.format("gui.item.shoot", player.getItemInUse().getDisplayName()), this.getIngameGUI().getFontRenderer().getColorCode('a'));
                 }

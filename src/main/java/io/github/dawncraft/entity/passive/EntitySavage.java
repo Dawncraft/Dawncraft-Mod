@@ -1,6 +1,6 @@
 package io.github.dawncraft.entity.passive;
 
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
@@ -57,7 +57,7 @@ public class EntitySavage extends EntityAnimal
         
         for (int i = 0;i < j;i++)
         {
-            this.dropItem(ItemLoader.faeces, 1);
+            this.dropItem(ItemInitializer.faeces, 1);
         }
     }
 }

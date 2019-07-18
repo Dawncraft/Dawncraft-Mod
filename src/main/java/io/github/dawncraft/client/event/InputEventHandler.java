@@ -5,7 +5,7 @@ import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.gui.GuiEncyclopedia;
 import io.github.dawncraft.client.gui.container.GuiSkillInventory;
-import io.github.dawncraft.client.sound.SoundLoader;
+import io.github.dawncraft.client.sound.SoundInitializer;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.network.MessageOpenSkillInventory;
 import io.github.dawncraft.network.MessageSpellSkillChange;
@@ -53,7 +53,7 @@ public class InputEventHandler
                         {
                             ClientProxy.getInstance().getIngameGUIDawn().setSpellIndex(i);
                             NetworkLoader.instance.sendToServer(new MessageSpellSkillChange(i));
-                            mc.getSoundHandler().playSound(SoundLoader.createSound(new ResourceLocation("gui.button.press")));
+                            mc.getSoundHandler().playSound(SoundInitializer.createSound(new ResourceLocation("gui.button.press")));
                         }
                     }
                 }

@@ -6,7 +6,7 @@ package io.github.dawncraft.api.item;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.entity.projectile.EntityRocket;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -70,7 +70,7 @@ public class ItemGunLauncher extends ItemGun
     @Override
     public Item getAmmo()
     {
-        return ItemLoader.gunRocket;
+        return ItemInitializer.gunRocket;
     }
     
     public Class<? extends Entity> getAmmoEntity()

@@ -1,7 +1,7 @@
 package io.github.dawncraft.recipe;
 
 import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.item.ItemLoader;
+import io.github.dawncraft.item.ItemInitializer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,7 @@ public class CraftingLoader
 {
     public static void initCrafting()
     {
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnet), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnet), new Object[]
                 {
                         "B R", "A A", "AAA", 'A', "ingotMagnet", 'B', new ItemStack(Items.dye, 1, EnumDyeColor.BLUE.getDyeDamage()), 'R', Items.redstone
                 });
@@ -27,29 +27,29 @@ public class CraftingLoader
                 {
                         "###", "###", "###", '#', "ingotMagnet"
                 });
-        registerShapelessRecipe(new ItemStack(ItemLoader.magnetIngot, 9), new Object[]
+        registerShapelessRecipe(new ItemStack(ItemInitializer.magnetIngot, 9), new Object[]
                 {
                         BlockLoader.magnetBlock
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetStick, 4), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetStick, 4), new Object[]
                 {
                         "#", "#", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetBall, 4), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetBall, 4), new Object[]
                 {
                         "#", '#', "ingotMagnet"
                 });
-        registerShapelessOreRecipe(new ItemStack(ItemLoader.magnetCard, 1), new Object[]
+        registerShapelessOreRecipe(new ItemStack(ItemInitializer.magnetCard, 1), new Object[]
                 {
                         Items.paper, Items.paper, Items.paper, "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetDoor, 3), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetDoor, 3), new Object[]
                 {
                         "## ", "## ", "## ", '#', "ingotMagnet"
                 });
         registerShapedRecipe(new ItemStack(BlockLoader.magnetRail, 8), new Object[]
                 {
-                        "# #", "#*#", "#M#", '#', Items.iron_ingot , '*', Items.stick, 'M', ItemLoader.magnet
+                        "# #", "#*#", "#M#", '#', Items.iron_ingot , '*', Items.stick, 'M', ItemInitializer.magnet
                 });
         
         registerShapedRecipe(new ItemStack(BlockLoader.simpleComputer, 2), new Object[]
@@ -67,32 +67,32 @@ public class CraftingLoader
         //Food
         
         //Tools
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetSword), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetSword), new Object[]
                 {
-                        " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
+                        " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemInitializer.magnetStick
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetWand), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetWand), new Object[]
                 {
-                        "#*#", " * ", " * ", '#', "ingotMagnet", '*', ItemLoader.magnetStick
+                        "#*#", " * ", " * ", '#', "ingotMagnet", '*', ItemInitializer.magnetStick
                 });
-        registerShapedRecipe(new ItemStack(ItemLoader.goldiamondSword), new Object[]
+        registerShapedRecipe(new ItemStack(ItemInitializer.goldiamondSword), new Object[]
                 {
                         " % ", " & ", " * ", '%', Items.gold_ingot, '&', Items.diamond, '*', Items.stick
                 });
         // Armors
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetHelmet), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetHelmet), new Object[]
                 {
                         "###", "# #", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetChestplate), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetChestplate), new Object[]
                 {
                         "# #", "###", "###", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetLeggings), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetLeggings), new Object[]
                 {
                         "###", "# #", "# #", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemLoader.magnetBoots), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInitializer.magnetBoots), new Object[]
                 {
                         "# #", "# #", '#', "ingotMagnet"
                 });
