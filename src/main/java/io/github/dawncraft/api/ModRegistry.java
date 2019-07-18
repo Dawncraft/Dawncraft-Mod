@@ -19,7 +19,7 @@ public class ModRegistry
     {
         registerSkill(skill, skill.getRegistryName());
     }
-    
+
     /**
      * Register a skill with the skill registry with a custom name
      *
@@ -34,7 +34,7 @@ public class ModRegistry
         }
         ModData.getMain().registerSkill(skill, name);
     }
-    
+
     /**
      * Look up a mod skill in the global "named skill list"
      *

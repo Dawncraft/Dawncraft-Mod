@@ -30,29 +30,34 @@ public class ModData
     private static final int MAX_SKILL_ID = 31999;
     private static final int MIN_TALENT_ID = 0;
     private static final int MAX_TALENT_ID = 4095;
-    
+
     private static final ModData main = new ModData();
-    
+
     private final FMLControlledNamespacedRegistry<Enchantment> iEnchantmentRegistry = PersistentRegistryManager.createRegistry(Enchantments, Enchantment.class, null, MAX_ENCHANTMENT_ID, MIN_ENCHANTMENT_ID, false);
     private final FMLControlledNamespacedRegistry<Skill> iSkillRegistry = PersistentRegistryManager.createRegistry(Skills, Skill.class, null, MAX_SKILL_ID, MIN_SKILL_ID, true);
     private final FMLControlledNamespacedRegistry<Talent> iTalentRegistry = PersistentRegistryManager.createRegistry(Talents, Talent.class, null, MAX_TALENT_ID, MIN_TALENT_ID, true);
-    
+
     void registerSkill(Skill skill, String name)
     {
-        this.iSkillRegistry.register(-1, this.addPrefix(name), skill);
+        this.iSkillRegistry.register(-1, addPrefix(name), skill);
     }
 
+    void registerTalent(Talent talent, String name)
+    {
+        this.iTalentRegistry.register(-1, addPrefix(name), talent);
+    }
+    
     /**
      * Copy from {@link net.minecraftforge.fml.common.registry.GameData#addPrefix(String)}
      */
-    public ResourceLocation addPrefix(String name)
+    public static ResourceLocation addPrefix(String name)
     {
         int index = name.lastIndexOf(':');
         String oldPrefix = index == -1 ? "" : name.substring(0, index);
         name = index == -1 ? name : name.substring(index + 1);
         String prefix;
         ModContainer mc = Loader.instance().activeModContainer();
-        
+
         if (mc != null)
         {
             prefix = mc.getModId().toLowerCase();
@@ -61,51 +66,51 @@ public class ModData
         {
             prefix = "minecraft";
         }
-        
+
         if (!oldPrefix.equals(prefix) && oldPrefix.length() > 0)
         {
             FMLLog.bigWarning("Dangerous alternative prefix %s for name %s, invalid registry invocation/invalid name?", prefix, name);
             prefix = oldPrefix;
         }
-        
+
         return new ResourceLocation(prefix, name);
     }
-    
+
     public static ModData getMain()
     {
         return main;
     }
-    
+
     public static FMLControlledNamespacedRegistry<Enchantment> getEnchantmentRegistry()
     {
         return getMain().iEnchantmentRegistry;
     }
-
+    
     public static FMLControlledNamespacedRegistry<Skill> getSkillRegistry()
     {
         return getMain().iSkillRegistry;
     }
-
+    
     public static FMLControlledNamespacedRegistry<Talent> getTalentRegistry()
     {
         return getMain().iTalentRegistry;
     }
-
+    
     public static Enchantment getEnchantmentByID(int id)
     {
         return getEnchantmentRegistry().getObjectById(id);
     }
-    
+
     public static int getEnchantmentID(Enchantment enchantment)
     {
         return getEnchantmentRegistry().getIDForObject(enchantment);
     }
-    
+
     public static Enchantment getEnchantmentByLocation(String location)
     {
         return getEnchantmentRegistry().getObject(new ResourceLocation(location));
     }
-
+    
     static Skill findSkill(String modId, String name)
     {
         return getMain().iSkillRegistry.getObject(new ResourceLocation(modId, name));

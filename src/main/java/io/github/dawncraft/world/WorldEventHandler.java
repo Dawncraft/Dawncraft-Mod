@@ -26,6 +26,7 @@ public class WorldEventHandler
         // Register custom game rules
         GameRules gamerules = event.world.getGameRules();
         addGameRule(gamerules, "naturalRecovery", String.valueOf(true), ValueType.BOOLEAN_VALUE);
+        addGameRule(gamerules, "skillCooldown", String.valueOf(true), ValueType.BOOLEAN_VALUE);
         
         // Register custom world teleporter by reflection
         if (!event.world.isRemote && event.world.provider.getDimensionId() == WorldLoader.DAWNWORLD)

@@ -7,45 +7,45 @@ import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.RegistryDelegate;
 
 /**
- * 天赋基类
+ * The talent class
  *
  * @author QingChenW
  */
 public class Talent
 {
     private String unlocalizedName;
-
+    
     public Talent setUnlocalizedName(String unlocalizedName)
     {
         this.unlocalizedName = unlocalizedName;
         return this;
     }
-
+    
     public String getUnlocalizedName()
     {
         return "talent." + this.unlocalizedName;
     }
-    
-    public void onUpdate() {}
 
+    public void onUpdate() {}
+    
     /* ======================================== REGISTER START =====================================*/
     public static final RegistryNamespaced<ResourceLocation, Talent> talentRegistry = ModData.getTalentRegistry();
     public final RegistryDelegate<Talent> delegate = ((FMLControlledNamespacedRegistry)talentRegistry).getDelegate(this, Talent.class);
-    
+
     public static int getIdFromSkill(Talent talent)
     {
         return talent == null ? 0 : talentRegistry.getIDForObject(talent);
     }
-
+    
     public static Talent getTalentById(int id)
     {
         return talentRegistry.getObjectById(id);
     }
-
+    
     public static Talent getByNameOrId(String id)
     {
         Talent talent = talentRegistry.getObject(new ResourceLocation(id));
-
+        
         if (talent == null)
         {
             try
@@ -54,18 +54,18 @@ public class Talent
             }
             catch (NumberFormatException e) {}
         }
-
+        
         return talent;
     }
-    
+
     private ResourceLocation registryName = null;
-    
+
     public final String getRegistryName()
     {
         if (this.delegate.getResourceName() != null) return this.delegate.getResourceName().toString();
         return this.registryName != null ? this.registryName.toString() : null;
     }
-    
+
     public final Talent setRegistryName(String name)
     {
         if (this.getRegistryName() != null)

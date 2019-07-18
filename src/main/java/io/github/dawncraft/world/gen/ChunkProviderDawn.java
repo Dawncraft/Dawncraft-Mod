@@ -22,7 +22,7 @@ public class ChunkProviderDawn implements IChunkProvider
     }
     
     @Override
-    public Chunk provideChunk(BlockPos blockPosIn)
+    public Chunk provideChunk(BlockPos blockPos)
     {
         return null;
     }
@@ -50,32 +50,32 @@ public class ChunkProviderDawn implements IChunkProvider
         return chunk;
     }
 
-    private void spawnIsland(int x, int y, int z, ChunkPrimer chunkprimer)
+    private void spawnIsland(int x, int y, int z, ChunkPrimer chunkPrimer)
     {
-        chunkprimer.setBlockState(x, y+1, z, Blocks.sand.getDefaultState());
-        chunkprimer.setBlockState(x, y+2, z, Blocks.dirt.getDefaultState());
-        chunkprimer.setBlockState(x+1, y+1, z, Blocks.dirt.getDefaultState());
-        chunkprimer.setBlockState(x, y+1, z+1, Blocks.dirt.getDefaultState());
-        chunkprimer.setBlockState(x-1, y+1, z, Blocks.dirt.getDefaultState());
-        chunkprimer.setBlockState(x, y+1, z-1, Blocks.dirt.getDefaultState());
+        chunkPrimer.setBlockState(x, y+1, z, Blocks.sand.getDefaultState());
+        chunkPrimer.setBlockState(x, y+2, z, Blocks.dirt.getDefaultState());
+        chunkPrimer.setBlockState(x+1, y+1, z, Blocks.dirt.getDefaultState());
+        chunkPrimer.setBlockState(x, y+1, z+1, Blocks.dirt.getDefaultState());
+        chunkPrimer.setBlockState(x-1, y+1, z, Blocks.dirt.getDefaultState());
+        chunkPrimer.setBlockState(x, y+1, z-1, Blocks.dirt.getDefaultState());
         
-        chunkprimer.setBlockState(x, y+2, z, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x+1, y+2, z, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x+2, y+2, z, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x+1, y+2, z+1, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x, y+2, z+2, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x, y+2, z+1, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x-1, y+2, z+1, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x-1, y+2, z, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x-2, y+2, z, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x-1, y+2, z-1, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x, y+2, z-1, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x, y+2, z-2, Blocks.grass.getDefaultState());
-        chunkprimer.setBlockState(x+1, y+2, z-1, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x, y+2, z, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x+1, y+2, z, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x+2, y+2, z, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x+1, y+2, z+1, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x, y+2, z+2, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x, y+2, z+1, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x-1, y+2, z+1, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x-1, y+2, z, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x-2, y+2, z, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x-1, y+2, z-1, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x, y+2, z-1, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x, y+2, z-2, Blocks.grass.getDefaultState());
+        chunkPrimer.setBlockState(x+1, y+2, z-1, Blocks.grass.getDefaultState());
     }
 
     @Override
-    public boolean chunkExists(int p_73149_1_, int p_73149_2_)
+    public boolean chunkExists(int x, int z)
     {
         return true;
     }
@@ -87,13 +87,13 @@ public class ChunkProviderDawn implements IChunkProvider
     }
 
     @Override
-    public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z)
+    public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunk, int x, int z)
     {
         return false;
     }
     
     @Override
-    public boolean saveChunks(boolean p_73151_1_, IProgressUpdate p_73151_2_)
+    public boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback)
     {
         return true;
     }
@@ -127,7 +127,7 @@ public class ChunkProviderDawn implements IChunkProvider
     }
 
     @Override
-    public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position)
+    public BlockPos getStrongholdGen(World world, String structureName, BlockPos position)
     {
         return null;
     }
@@ -139,5 +139,5 @@ public class ChunkProviderDawn implements IChunkProvider
     }
 
     @Override
-    public void recreateStructures(Chunk p_180514_1_, int p_180514_2_, int p_180514_3_) {}
+    public void recreateStructures(Chunk chunk, int x, int z) {}
 }

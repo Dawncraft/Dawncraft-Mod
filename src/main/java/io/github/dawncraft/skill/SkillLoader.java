@@ -4,7 +4,7 @@ import io.github.dawncraft.api.ModRegistry;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 
 /**
- * Register smone skills.
+ * Register some skills.
  *
  * @author QingChenW
  */
@@ -13,14 +13,14 @@ public class SkillLoader
     public static Skill attack = new SkillInstant(3).setUnlocalizedName("attack").setCreativeTab(CreativeTabsLoader.tabSkills);
     public static Skill heal = new SkillInstant(3).setUnlocalizedName("heal").setCreativeTab(CreativeTabsLoader.tabSkills);
     public static Skill fireball = new SkillProjectile(3).setUnlocalizedName("fireball").setCreativeTab(CreativeTabsLoader.tabSkills);
-    
+
     public static void initSkills()
     {
         register(attack, "attack");
         register(heal, "heal");
         register(fireball, "fireball");
     }
-
+    
     /**
      * Register a skill with a name-id.
      *
