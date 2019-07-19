@@ -3,9 +3,9 @@ package io.github.dawncraft.container;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.TextComponentText;
+import net.minecraft.util.TextComponentTranslation;
+import net.minecraft.util.ITextComponent;
 
 import io.github.dawncraft.skill.SkillStack;
 
@@ -41,9 +41,9 @@ public class SkillInventoryLearning implements IInventory, ISkillInventory
     }
     
     @Override
-    public IChatComponent getDisplayName()
+    public ITextComponent getDisplayName()
     {
-        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+        return this.hasCustomName() ? new TextComponentText(this.getName()) : new TextComponentTranslation(this.getName());
     }
     
     // Skill Inventory

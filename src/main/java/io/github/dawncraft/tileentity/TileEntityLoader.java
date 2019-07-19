@@ -1,8 +1,8 @@
 package io.github.dawncraft.tileentity;
 
-import io.github.dawncraft.Dawncraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.GameData;
 
 public class TileEntityLoader
 {
@@ -14,14 +14,9 @@ public class TileEntityLoader
         registerTileEntity(TileEntityMachineFurnace.class, "MachineFurnace");
         registerTileEntity(TileEntitySkull.class, "Skull");
     }
-    
+
     private static void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
     {
-        GameRegistry.registerTileEntity(tileEntityClass, Dawncraft.MODID + ":" + id);
-    }
-    
-    private static void registerTileEntityWithAlias(Class<? extends TileEntity> tileEntityClass, String id, String... alternatives)
-    {
-        GameRegistry.registerTileEntityWithAlternatives(tileEntityClass, id, alternatives);
+        GameRegistry.registerTileEntity(tileEntityClass, GameData.checkPrefix(id, true));
     }
 }

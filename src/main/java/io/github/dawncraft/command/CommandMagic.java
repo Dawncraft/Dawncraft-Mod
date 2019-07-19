@@ -10,7 +10,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.TextComponentTranslation;
 import java.util.List;
 
 public class CommandMagic extends CommandBase
@@ -38,7 +38,7 @@ public class CommandMagic extends CommandBase
             {
                 float mana = playerCap.getMana();
                 NBTBase nbt = CapabilityLoader.playerMagic.getStorage().writeNBT(CapabilityLoader.playerMagic, playerCap, null);
-                serverPlayer.addChatMessage(new ChatComponentTranslation("commands.magic.view",
+                serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.view",
                         mana, serverPlayer.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue(), nbt.toString()));
             }
             else if(args[0].equals("set"))
@@ -48,7 +48,7 @@ public class CommandMagic extends CommandBase
                 {
                     playerCap.setMana((float) AttributesLoader.maxMana.clampValue(i));
                     float mana = playerCap.getMana();
-                    serverPlayer.addChatMessage(new ChatComponentTranslation("commands.magic.set", mana));
+                    serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.set", mana));
                 }
                 else throw new WrongUsageException("commands.magic.usage", new Object[0]);
             }
@@ -57,12 +57,12 @@ public class CommandMagic extends CommandBase
                 int i = parseInt(args[1], 0);
                 serverPlayer.getEntityAttribute(AttributesLoader.maxMana).setBaseValue(i);
                 float mana = playerCap.getMaxMana();
-                serverPlayer.addChatMessage(new ChatComponentTranslation("commands.magic.max", mana));
+                serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.max", mana));
             }
             else if(args[0].equals("reset"))
             {
                 playerCap.setMana(playerCap.getMaxMana());
-                serverPlayer.addChatMessage(new ChatComponentTranslation("commands.magic.reset"));
+                serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.reset"));
             }
             else throw new WrongUsageException("commands.magic.usage", new Object[0]);
         }

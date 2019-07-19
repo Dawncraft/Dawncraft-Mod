@@ -49,7 +49,7 @@ public class CommandLearn extends CommandBase
             SkillStack skillStack = new SkillStack(skill, level);
             if (args.length >= 4)
             {
-                String s = getChatComponentFromNthArg(sender, args, 3).getUnformattedText();
+                String s = getTextComponentFromNthArg(sender, args, 3).getUnformattedText();
                 try
                 {
                     skillStack.setTagCompound(JsonToNBT.getTagFromJson(s));
@@ -66,7 +66,7 @@ public class CommandLearn extends CommandBase
                 serverPlayer.worldObj.playSoundAtEntity(serverPlayer, "random.pop", 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
                 serverPlayer.getCapability(CapabilityLoader.playerMagic, null).getSkillInventoryContainer().detectAndSendChanges();
                 sender.setCommandStat(CommandLoader.AFFECTED_SKILLS, 1);
-                notifyOperators(sender, this, "commands.learn.success", skillStack.getChatComponent(), Integer.valueOf(level), serverPlayer.getName());
+                notifyOperators(sender, this, "commands.learn.success", skillStack.getTextComponent(), Integer.valueOf(level), serverPlayer.getName());
             }
             else throw new CommandException("commands.learn.full", serverPlayer.getName());
         }

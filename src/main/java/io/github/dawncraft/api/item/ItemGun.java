@@ -1,8 +1,8 @@
 package io.github.dawncraft.api.item;
 
-import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.item.ItemInitializer;
-import net.minecraft.block.Block;
+import io.github.dawncraft.client.sound.SoundInit;
+import io.github.dawncraft.item.ItemInit;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,13 +10,17 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * The base gun class.
+ * The basic gun class.
  *
  * @author QingChenW
  */
@@ -32,88 +36,87 @@ public class ItemGun extends Item
 
     public ItemGun(int maxDamage, int clip, int reload, int interval, int velocity, double deviation, double sway)
     {
-        this(maxDamage, clip, reload, interval, velocity, deviation, sway, 0.75F);
+	this(maxDamage, clip, reload, interval, velocity, deviation, sway, 0.75F);
     }
 
     public ItemGun(int maxDamage, int clip, int reload, int interval, int velocity, double deviation, double sway, double moifier)
     {
-        this.setFull3D();
-        this.setMaxStackSize(1);
-        this.setMaxDamage(maxDamage);
-        this.setClip(clip);
-        this.setReload(reload);
-        this.setInterval(interval);
-        this.setVelocity(velocity);
-        this.setDeviation(deviation);
-        this.setSway(sway);
-        this.setMoifier(moifier);
-    }
-    
-    @Override
-    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
-    {
-        stack.damageItem(1, attacker);
-        return true;
+	this.setFull3D();
+	this.setMaxStackSize(1);
+	this.setMaxDamage(maxDamage);
+	this.setClip(clip);
+	this.setReload(reload);
+	this.setInterval(interval);
+	this.setVelocity(velocity);
+	this.setDeviation(deviation);
+	this.setSway(sway);
+	this.setMoifier(moifier);
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
-    {
-        if ((double)blockIn.getBlockHardness(worldIn, pos) != 0.0D)
-        {
-            stack.damageItem(2, playerIn);
-        }
-        
-        return true;
-    }
-    
-    @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
-        if(this.getAmmoAmount(stack) > 0)
-        {
-            return ItemInitializer.SHOOT;
-        }
-        return super.getItemUseAction(stack);
+	if (this.getAmmoAmount(stack) > 0)
+	{
+	    return ItemInit.SHOOT;
+	}
+	return super.getItemUseAction(stack);
     }
-    
+
     @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
-        return 72000;
+	return 72000;
     }
-    
+
+    @Override
+    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
+    {
+	stack.damageItem(1, attacker);
+	return true;
+    }
+
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
+    {
+	if (state.getBlockHardness(world, pos) != 0.0F)
+	{
+	    stack.damageItem(2, entityLiving);
+	}
+	return true;
+    }
+
     /**
      * 当枪械第一次使用时
      */
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-        //BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
-        //if (MinecraftForge.EVENT_BUS.post(event)) return event.result;
-        
-        if (playerIn.capabilities.isCreativeMode || this.getAmmoAmount(itemStackIn) > 0)
-        {
-            playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
-        }
-        else if(this.getAmmo() == null || playerIn.inventory.hasItem(this.getAmmo()))
-        {
-            // 装弹逻辑
-            this.setAmmoAmount(itemStackIn, this.getClip());
-            playerIn.playSound(this.getReloadSound(), 1.0F, 1.0F);
-        }
-        else
-        {
-            playerIn.playSound(this.getEmptySound(), 1.0F, 1.0F);
-        }
-        return itemStackIn;
+	//BulletNockEvent event = new BulletNockEvent(playerIn, itemStackIn);
+	//if (MinecraftForge.EVENT_BUS.post(event)) return event.result;
+	ItemStack stack = player.getHeldItem(hand);
+	if (player.capabilities.isCreativeMode || this.getAmmoAmount(stack) > 0)
+	{
+	    player.setActiveHand(hand);
+	}
+	else if (this.getAmmo() != null || player.inventory.hasItemStack(this.getAmmo()))
+	{
+	    // 装弹逻辑
+	    this.setAmmoAmount(stack, this.getClip());
+	    player.playSound(this.getReloadSound(), 1.0F, 1.0F);
+	}
+	else
+	{
+	    player.playSound(this.getEmptySound(), 1.0F, 1.0F);
+	}
+	return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     /**
      * 当枪械一直在使用时
      */
     @Override
-    public void onUsingTick(ItemStack stack, EntityPlayer player, int count)
+    public void onUsingTick(ItemStack stack, EntityLivingBase entityLiving, int count)
     {
     }
 
@@ -122,7 +125,7 @@ public class ItemGun extends Item
      * 火箭筒之类的应该重写这个
      */
     @Override
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft)
+    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft)
     {
     }
 
@@ -131,9 +134,9 @@ public class ItemGun extends Item
      * 步枪之类的应该重写这个
      */
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn)
+    public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entityLiving)
     {
-        return stack;
+	return stack;
     }
 
     /**
@@ -153,25 +156,25 @@ public class ItemGun extends Item
     /**
      * @return 未装弹射击音效
      */
-    public String getEmptySound()
+    public SoundEvent getEmptySound()
     {
-        return Dawncraft.MODID + ":" + "gun.basic.empty";
+	return SoundInit.GUN_EMPTY;
     }
 
     /**
      * @return 装弹音效
      */
-    public String getReloadSound()
+    public SoundEvent getReloadSound()
     {
-        return Dawncraft.MODID + ":" + "gun.basic.reload";
+	return SoundInit.GUN_RELOAD;
     }
 
     /**
      * @return 射击音效
      */
-    public String getShootSound()
+    public SoundEvent getShootSound()
     {
-        return Dawncraft.MODID + ":" + "gun.basic.shoot";
+	return SoundInit.GUN_SHOOT;
     }
 
     /**
@@ -179,9 +182,9 @@ public class ItemGun extends Item
      *
      * @return
      */
-    public Item getAmmo()
+    public ItemStack getAmmo()
     {
-        return null;
+	return null;
     }
 
     /**
@@ -191,7 +194,7 @@ public class ItemGun extends Item
      */
     public int getClip()
     {
-        return this.clipAmount;
+	return this.clipAmount;
     }
 
     /**
@@ -201,7 +204,7 @@ public class ItemGun extends Item
      */
     public void setClip(int amount)
     {
-        this.clipAmount = amount;
+	this.clipAmount = amount;
     }
 
     /**
@@ -212,13 +215,13 @@ public class ItemGun extends Item
      */
     public int getAmmoAmount(ItemStack stack)
     {
-        if(stack.hasTagCompound())
-        {
-            return stack.getTagCompound().getInteger("ammo");
-        }
-        return 0;
+	if(stack.hasTagCompound())
+	{
+	    return stack.getTagCompound().getInteger("ammo");
+	}
+	return 0;
     }
-    
+
     /**
      * 设置当前物品的弹药数量
      *
@@ -227,8 +230,8 @@ public class ItemGun extends Item
      */
     public void setAmmoAmount(ItemStack stack, int amount)
     {
-        if(amount < 0) amount = 0;
-        stack.setTagInfo("ammo", new NBTTagInt(amount));
+	if(amount < 0) amount = 0;
+	stack.setTagInfo("ammo", new NBTTagInt(amount));
     }
 
     /**
@@ -236,12 +239,12 @@ public class ItemGun extends Item
      */
     public void reduceAmmo(ItemStack stack, int amount, EntityLivingBase entityIn)
     {
-        if (!(entityIn instanceof EntityPlayer) || !((EntityPlayer)entityIn).capabilities.isCreativeMode)
-        {
-            int clip = this.getAmmoAmount(stack);
-            this.setAmmoAmount(stack, clip - amount);
-            // this.renderBulletShells(stack, entityIn);
-        }
+	if (!(entityIn instanceof EntityPlayer) || !((EntityPlayer)entityIn).capabilities.isCreativeMode)
+	{
+	    int clip = this.getAmmoAmount(stack);
+	    this.setAmmoAmount(stack, clip - amount);
+	    // this.renderBulletShells(stack, entityIn);
+	}
     }
 
     /**
@@ -251,7 +254,7 @@ public class ItemGun extends Item
      */
     public int getReload()
     {
-        return this.reloadTicks;
+	return this.reloadTicks;
     }
 
     /**
@@ -261,7 +264,7 @@ public class ItemGun extends Item
      */
     public void setReload(int ticks)
     {
-        this.reloadTicks = ticks;
+	this.reloadTicks = ticks;
     }
 
     /**
@@ -271,7 +274,7 @@ public class ItemGun extends Item
      */
     public int getInterval()
     {
-        return this.shootInterval;
+	return this.shootInterval;
     }
 
     /**
@@ -281,7 +284,7 @@ public class ItemGun extends Item
      */
     public void setInterval(int ticks)
     {
-        this.shootInterval = ticks;
+	this.shootInterval = ticks;
     }
 
     /**
@@ -291,7 +294,7 @@ public class ItemGun extends Item
      */
     public double getSway()
     {
-        return this.shootSway;
+	return this.shootSway;
     }
 
     /**
@@ -301,7 +304,7 @@ public class ItemGun extends Item
      */
     public void setSway(double moifier)
     {
-        this.shootSway = moifier;
+	this.shootSway = moifier;
     }
 
     /**
@@ -311,7 +314,7 @@ public class ItemGun extends Item
      */
     public int getVelocity()
     {
-        return this.ammoVelocity;
+	return this.ammoVelocity;
     }
 
     /**
@@ -321,7 +324,7 @@ public class ItemGun extends Item
      */
     public void setVelocity(int speed)
     {
-        this.ammoVelocity = speed;
+	this.ammoVelocity = speed;
     }
 
     /**
@@ -332,7 +335,7 @@ public class ItemGun extends Item
      */
     public double getDeviation()
     {
-        return this.ammoDeviation;
+	return this.ammoDeviation;
     }
 
     /**
@@ -342,7 +345,7 @@ public class ItemGun extends Item
      */
     public void setDeviation(double moifier)
     {
-        this.ammoDeviation = moifier;
+	this.ammoDeviation = moifier;
     }
 
     /**
@@ -353,7 +356,7 @@ public class ItemGun extends Item
      */
     public double getMoifier()
     {
-        return this.sneakMoifier;
+	return this.sneakMoifier;
     }
 
     /**
@@ -363,6 +366,6 @@ public class ItemGun extends Item
      */
     public void setMoifier(double moifier)
     {
-        this.sneakMoifier = moifier;
+	this.sneakMoifier = moifier;
     }
 }

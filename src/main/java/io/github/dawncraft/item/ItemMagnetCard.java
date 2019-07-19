@@ -3,15 +3,20 @@ package io.github.dawncraft.item;
 import java.util.List;
 import java.util.UUID;
 
-import io.github.dawncraft.stats.AchievementLoader;
+import javax.annotation.Nullable;
+
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -20,67 +25,71 @@ public class ItemMagnetCard extends Item
 {
     public ItemMagnetCard()
     {
-        this.setMaxStackSize(16);
+	super();
+	this.setMaxStackSize(16);
     }
-    
+
     @Override
     public int getItemStackLimit(ItemStack itemStack)
     {
-        return itemStack.hasTagCompound() ? 1 : super.getItemStackLimit(itemStack);
+	return itemStack.hasTagCompound() ? 1 : super.getItemStackLimit(itemStack);
     }
 
     @Override
-    public boolean doesSneakBypassUse(World world, BlockPos blockPos, EntityPlayer player)
+    public boolean doesSneakBypassUse(ItemStack stack, IBlockAccess world, BlockPos pos, EntityPlayer player)
     {
-        return true;
+	return true;
     }
-    
-    @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
-    {
-        if (!world.isRemote)
-        {
-            if (!itemStack.hasTagCompound() || !itemStack.getTagCompound().hasKey("UUID", 8))
-            {
-                ItemStack newItemStack = new ItemStack(ItemInitializer.magnetCard);
-                
-                NBTTagCompound nbt = new NBTTagCompound();
-                nbt.setString("UUID", UUID.randomUUID().toString());
-                nbt.setString("Owner", player.getName());
-                nbt.setString("Text", StatCollector.translateToLocalFormatted(this.getUnlocalizedName() + ".owner", player.getName()));
-                newItemStack.setTagCompound(nbt);
 
-                --itemStack.stackSize;
-                if (itemStack.stackSize <= 0) return newItemStack;
-                if (!player.inventory.addItemStackToInventory(newItemStack.copy()))
-                    player.dropPlayerItemWithRandomChoice(newItemStack, false);
-            }
-        }
-        player.triggerAchievement(AchievementLoader.magnetCard);
-        return itemStack;
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
+    {
+	ItemStack stack = player.getHeldItem(hand);
+	if (!world.isRemote)
+	{
+	    if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("UUID", 8))
+	    {
+		ItemStack newStack = new ItemStack(ItemInit.magnetCard);
+
+		NBTTagCompound nbt = new NBTTagCompound();
+		nbt.setString("UUID", UUID.randomUUID().toString());
+		nbt.setString("Owner", player.getName());
+		nbt.setString("Text", I18n.format(this.getTranslationKey() + ".owner", player.getName()));
+		newStack.setTagCompound(nbt);
+
+		stack.shrink(1);
+		if (stack.getCount() <= 0)
+		    return new ActionResult<>(EnumActionResult.SUCCESS, newStack);
+		if (!player.inventory.addItemStackToInventory(newStack.copy()))
+		    player.dropItem(newStack, false);
+
+		return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+	    }
+	}
+	return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> tooltip, boolean advanced)
+    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
     {
-        if (itemStack.hasTagCompound())
-        {
-            NBTTagCompound nbt = itemStack.getTagCompound();
-            String uuid = nbt.getString("UUID");
-            if (!StringUtils.isNullOrEmpty(uuid))
-            {
-                tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(this.getUnlocalizedName() + ".id", uuid));
-                String text = nbt.getString("Text");
-                if (!StringUtils.isNullOrEmpty(text))
-                {
-                    tooltip.add(StatCollector.translateToLocalFormatted(this.getUnlocalizedName() + ".desc", text));
-                }
-            }
-        }
-        else
-        {
-            tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted(this.getUnlocalizedName() + ".null"));
-        }
+	if (stack.hasTagCompound())
+	{
+	    NBTTagCompound nbt = stack.getTagCompound();
+	    String uuid = nbt.getString("UUID");
+	    if (!StringUtils.isNullOrEmpty(uuid))
+	    {
+		tooltip.add(EnumChatFormatting.GRAY + I18n.format(this.getTranslationKey() + ".id", uuid));
+		String text = nbt.getString("Text");
+		if (!StringUtils.isNullOrEmpty(text))
+		{
+		    tooltip.add(I18n.format(this.getTranslationKey() + ".desc", text));
+		}
+	    }
+	}
+	else
+	{
+	    tooltip.add(EnumChatFormatting.GRAY + I18n.format(this.getTranslationKey() + ".null"));
+	}
     }
 }

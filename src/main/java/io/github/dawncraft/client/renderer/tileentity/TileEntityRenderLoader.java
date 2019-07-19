@@ -1,8 +1,8 @@
 package io.github.dawncraft.client.renderer.tileentity;
 
-import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.core.client.DawnClientHooks;
-import io.github.dawncraft.item.ItemInitializer;
+import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.item.ItemSkullDawn;
 import io.github.dawncraft.tileentity.TileEntityMagnetChest;
 import io.github.dawncraft.tileentity.TileEntitySkull;
@@ -27,11 +27,11 @@ public class TileEntityRenderLoader
         registerTileentityRenderer(TileEntityMagnetChest.class, new TileEntityRenderChest());
         registerTileentityRenderer(TileEntitySkull.class, new TileEntityRenderSkull());
         
-        registerTEISRWithTE(BlockLoader.magnetChest, 0, new TileEntityMagnetChest());
-        registerTEISRWithTE(BlockLoader.superChest, 0, new TileEntityChest(0));
+        registerTEISRWithTE(BlockInit.magnetChest, 0, new TileEntityMagnetChest());
+        registerTEISRWithTE(BlockInit.superChest, 0, new TileEntityChest(0));
         for (int i = 0; i < ItemSkullDawn.skullTypes.length; i++)
         {
-            registerTEISRWithTE(ItemInitializer.skull, i, new TileEntitySkull(i));
+            registerTEISRWithTE(ItemInit.skull, i, new TileEntitySkull(i));
         }
     }
 

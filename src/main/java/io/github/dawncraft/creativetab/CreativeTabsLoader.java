@@ -6,9 +6,9 @@ import java.lang.reflect.Field;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
-import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.enchantment.EnchantmentLoader;
-import io.github.dawncraft.item.ItemInitializer;
+import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillLoader;
 
@@ -67,7 +67,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return new ItemStack(BlockLoader.machineFurnace);
+				return new ItemStack(BlockInit.machineFurnace);
 			}
         };
         tabComputer = new CreativeTabs("Computer")
@@ -75,7 +75,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return new ItemStack(BlockLoader.simpleComputer);
+				return new ItemStack(BlockInit.simpleComputer);
 			}
         };
 
@@ -84,7 +84,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return  new ItemStack(BlockLoader.woodTable);
+				return  new ItemStack(BlockInit.woodTable);
 			}
         };
         tabCuisine = new CreativeTabs("Cuisine")
@@ -92,7 +92,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return new ItemStack(ItemInitializer.cookedEgg);
+				return new ItemStack(ItemInit.cookedEgg);
 			}
         };
         tabWeapons = new CreativeTabs("Weapons")
@@ -100,7 +100,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return new ItemStack(ItemInitializer.gunRPG);
+				return new ItemStack(ItemInit.gunRPG);
 			}
         };
         tabMagic = new CreativeTabs("Magic")
@@ -108,7 +108,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return new ItemStack(ItemInitializer.magicDust);
+				return new ItemStack(ItemInit.magicDust);
 			}
         };
         tabColourEgg = new CreativeTabs("ColourEgg")
@@ -116,7 +116,7 @@ public class CreativeTabsLoader
 			@Override
 			public ItemStack createIcon()
 			{
-				return new ItemStack(ItemInitializer.goldiamondSword);
+				return new ItemStack(ItemInit.goldiamondSword);
 			}
         };
 

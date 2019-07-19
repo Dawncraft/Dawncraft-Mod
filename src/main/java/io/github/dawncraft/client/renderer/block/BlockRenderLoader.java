@@ -1,7 +1,7 @@
 package io.github.dawncraft.client.renderer.block;
 
 import io.github.dawncraft.block.BlockFurnitureAlarmClock;
-import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.block.BlockMagnetDoor;
 import io.github.dawncraft.core.client.DawnClientHooks;
 
@@ -27,14 +27,14 @@ public class BlockRenderLoader
 {
     public static void initBlockRender()
     {
-        registerFieldModel((BlockFluidBase) BlockLoader.fluidPetroleum);
+        registerFieldModel((BlockFluidBase) BlockInit.fluidPetroleum);
         
-        registerStateMapper(BlockLoader.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
-        registerStateMapper(BlockLoader.alarmClock, new StateMap.Builder().ignore(BlockFurnitureAlarmClock.FACING).build());
+        registerStateMapper(BlockInit.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
+        registerStateMapper(BlockInit.alarmClock, new StateMap.Builder().ignore(BlockFurnitureAlarmClock.FACING).build());
 
-        registerBuiltIn(BlockLoader.magnetChest, "minecraft:blocks/planks_oak");
-        registerBuiltIn(BlockLoader.superChest, "minecraft:blocks/planks_oak");
-        registerBuiltIn(BlockLoader.skull, "minecraft:blocks/soul_sand");
+        registerBuiltIn(BlockInit.magnetChest, "minecraft:blocks/planks_oak");
+        registerBuiltIn(BlockInit.superChest, "minecraft:blocks/planks_oak");
+        registerBuiltIn(BlockInit.skull, "minecraft:blocks/soul_sand");
     }
     
     /**

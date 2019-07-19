@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.dawncraft.api.client.event.ChatComponentEvent;
+import io.github.dawncraft.api.client.event.TextComponentEvent;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -22,7 +22,7 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITextComponent;
 
 import net.minecraftforge.common.MinecraftForge;
 
@@ -108,13 +108,13 @@ public class DawnClientHooks
         
     }
 
-    public static void onChatComponentHovered(GuiScreen gui, IChatComponent component, int x, int y)
+    public static void onTextComponentHovered(GuiScreen gui, ITextComponent component, int x, int y)
     {
-        MinecraftForge.EVENT_BUS.post(new ChatComponentEvent.Hover(gui, component, x, y));
+        MinecraftForge.EVENT_BUS.post(new TextComponentEvent.Hover(gui, component, x, y));
     }
     
-    public static void onChatComponentClicked(GuiScreen gui, IChatComponent component)
+    public static void onTextComponentClicked(GuiScreen gui, ITextComponent component)
     {
-        MinecraftForge.EVENT_BUS.post(new ChatComponentEvent.Click(gui, component));
+        MinecraftForge.EVENT_BUS.post(new TextComponentEvent.Click(gui, component));
     }
 }

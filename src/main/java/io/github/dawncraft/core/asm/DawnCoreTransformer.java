@@ -151,10 +151,10 @@ public class DawnCoreTransformer implements IClassTransformer
                         }
                     }
                 }
-                else if ((methodName.equals("handleComponentHover") || methodName.equals("func_175272_a")) && methodDesc.equals("(Lnet/minecraft/util/IChatComponent;II)V"))
+                else if ((methodName.equals("handleComponentHover") || methodName.equals("func_175272_a")) && methodDesc.equals("(Lnet/minecraft/util/ITextComponent;II)V"))
                 {
                     changed = true;
-                    // 对GuiScreen.handleComponentHover(IChatComponent, int, int)进行操作
+                    // 对GuiScreen.handleComponentHover(ITextComponent, int, int)进行操作
                     for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
                     {
                         // 下面是 INVOKESTATIC net/minecraft/client/renderer/GlStateManager.disableLighting()V
@@ -180,7 +180,7 @@ public class DawnCoreTransformer implements IClassTransformer
                                 methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 1));
                                 methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 2));
                                 methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 3));
-                                methodNode.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "onChatComponentHovered", "(Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/util/IChatComponent;II)V", false));
+                                methodNode.instructions.insertBefore(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "onTextComponentHovered", "(Lnet/minecraft/client/gui/GuiScreen;Lnet/minecraft/util/ITextComponent;II)V", false));
                             }
                         }
                     }

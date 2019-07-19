@@ -7,9 +7,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITextComponent;
 import net.minecraft.util.ITickable;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -29,10 +29,10 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
     public int electricity;
     public final int Max_Electricity = 12800;
     
-    public IChatComponent getDisplayName()
+    public ITextComponent getDisplayName()
     {
         String name = "container." + this.getWorld().getBlockState(this.getPos()).getBlock().getUnlocalizedName();
-        return new ChatComponentTranslation(name, new Object[0]);
+        return new TextComponentTranslation(name, new Object[0]);
     }
     
     @Override

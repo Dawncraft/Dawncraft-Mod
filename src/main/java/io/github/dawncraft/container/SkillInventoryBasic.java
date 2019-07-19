@@ -1,9 +1,9 @@
 package io.github.dawncraft.container;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.TextComponentText;
+import net.minecraft.util.TextComponentTranslation;
+import net.minecraft.util.ITextComponent;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,7 +31,7 @@ public class SkillInventoryBasic implements ISkillInventory
     }
 
     @SideOnly(Side.CLIENT)
-    public SkillInventoryBasic(IChatComponent title, int slotCount)
+    public SkillInventoryBasic(ITextComponent title, int slotCount)
     {
         this(title.getUnformattedText(), true, slotCount);
     }
@@ -55,9 +55,9 @@ public class SkillInventoryBasic implements ISkillInventory
     }
 
     @Override
-    public IChatComponent getDisplayName()
+    public ITextComponent getDisplayName()
     {
-        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName());
+        return this.hasCustomName() ? new TextComponentText(this.getName()) : new TextComponentTranslation(this.getName());
     }
 
     @Override

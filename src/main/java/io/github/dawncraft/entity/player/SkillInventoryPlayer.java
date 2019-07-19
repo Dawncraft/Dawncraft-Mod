@@ -12,9 +12,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.TextComponentText;
+import net.minecraft.util.TextComponentTranslation;
+import net.minecraft.util.ITextComponent;
 import net.minecraft.util.ReportedException;
 
 public class SkillInventoryPlayer implements ISkillInventory
@@ -46,9 +46,9 @@ public class SkillInventoryPlayer implements ISkillInventory
     }
 
     @Override
-    public IChatComponent getDisplayName()
+    public ITextComponent getDisplayName()
     {
-        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
+        return this.hasCustomName() ? new TextComponentText(this.getName()) : new TextComponentTranslation(this.getName(), new Object[0]);
     }
     
     @Override

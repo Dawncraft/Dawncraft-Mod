@@ -2,7 +2,7 @@ package io.github.dawncraft.item;
 
 import java.util.List;
 
-import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.block.BlockSkullDawn;
 import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.entity.boss.EntityBarbarianKing;
@@ -48,7 +48,7 @@ public class ItemSkullDawn extends ItemSkull
      */
     public BlockSkullDawn getSkullBlock()
     {
-        return (BlockSkullDawn) BlockLoader.skull;
+        return (BlockSkullDawn) BlockInit.skull;
     }
 
     @Override

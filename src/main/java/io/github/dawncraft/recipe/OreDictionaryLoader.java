@@ -1,7 +1,7 @@
 package io.github.dawncraft.recipe;
 
-import io.github.dawncraft.block.BlockLoader;
-import io.github.dawncraft.item.ItemInitializer;
+import io.github.dawncraft.block.BlockInit;
+import io.github.dawncraft.item.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,14 +16,14 @@ public class OreDictionaryLoader
 {
     public static void initOreDictionary()
     {
-        registerOre("ingotMagnet", ItemInitializer.magnetIngot);
-        registerOre("oreMagnet", BlockLoader.magnetOre);
-        registerOre("blockMagnet", BlockLoader.magnetBlock);
-        registerOre("ingotCopper", ItemInitializer.copperIngot);
-        registerOre("oreCopper", BlockLoader.copperOre);
-        registerOre("blockCopper", BlockLoader.copperBlock);
-        registerOre("dustMagic", ItemInitializer.magicDust);
-        registerOre("oreMagic", BlockLoader.magicOre);
+        registerOre("ingotMagnet", ItemInit.magnetIngot);
+        registerOre("oreMagnet", BlockInit.magnetOre);
+        registerOre("blockMagnet", BlockInit.magnetBlock);
+        registerOre("ingotCopper", ItemInit.copperIngot);
+        registerOre("oreCopper", BlockInit.copperOre);
+        registerOre("blockCopper", BlockInit.copperBlock);
+        registerOre("dustMagic", ItemInit.magicDust);
+        registerOre("oreMagic", BlockInit.magicOre);
     }
     
     public static void registerOre(String name, Item ore)

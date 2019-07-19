@@ -2,7 +2,7 @@ package io.github.dawncraft.world.gen.feature;
 
 import java.util.Random;
 
-import io.github.dawncraft.block.BlockLoader;
+import io.github.dawncraft.block.BlockInit;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -23,7 +23,7 @@ public class GeneratorLoader
 {
     private BlockPos lastOrePos;
     
-    public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockLoader.magnetOre.getDefaultState(), 6)
+    public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockInit.magnetOre.getDefaultState(), 6)
     {
         @Override
         public boolean generate(World worldIn, Random rand, BlockPos position)

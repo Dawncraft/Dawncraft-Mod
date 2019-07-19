@@ -3,7 +3,7 @@ package io.github.dawncraft.block;
 import com.google.common.base.Predicate;
 
 import io.github.dawncraft.entity.boss.EntityGerKing;
-import io.github.dawncraft.item.ItemInitializer;
+import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.item.ItemSkullDawn;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.state.BlockWorldState;
@@ -26,7 +26,7 @@ public class BlockDawnSkull extends BlockSkullDawn
         @Override
         public boolean apply(BlockWorldState blockworldstate)
         {
-            return blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getBlock() == BlockLoader.skull && blockworldstate.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockworldstate.getTileEntity()).getSkullType() == 1;
+            return blockworldstate.getBlockState() != null && blockworldstate.getBlockState().getBlock() == BlockInit.skull && blockworldstate.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockworldstate.getTileEntity()).getSkullType() == 1;
         }
     };
     private BlockPattern kingBasePattern;
@@ -35,7 +35,7 @@ public class BlockDawnSkull extends BlockSkullDawn
     @Override
     public ItemSkullDawn getSkullItem()
     {
-        return (ItemSkullDawn) ItemInitializer.skull;
+        return (ItemSkullDawn) ItemInit.skull;
     }
     
     @Override

@@ -1,7 +1,7 @@
 package io.github.dawncraft.entity.boss;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.item.ItemInitializer;
+import io.github.dawncraft.item.ItemInit;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,7 +18,7 @@ import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -82,13 +82,13 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
     @Override
     protected Item getDropItem()
     {
-        return ItemInitializer.faeces;
+        return ItemInit.faeces;
     }
     
     @Override
     protected void dropFewItems(boolean arg1, int arg2)
     {
-        this.dropItem(ItemInitializer.gerHeart, 1);
+        this.dropItem(ItemInit.gerHeart, 1);
         super.dropFewItems(arg1, arg2);
     }
     
@@ -110,7 +110,7 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
     {
         super.onInitialSpawn(difficulty, livingdata);
         
-        this.setCurrentItemOrArmor(0, new ItemStack(ItemInitializer.mjolnir));
+        this.setCurrentItemOrArmor(0, new ItemStack(ItemInit.mjolnir));
         
         return livingdata;
     }
@@ -131,7 +131,7 @@ public class EntityGerKing extends EntityCreature implements IBossDisplayData, I
             this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, true);
             
             EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this, 64);
-            player.addChatMessage(new ChatComponentTranslation("chat.entity.GerKing.say2"));
+            player.addChatMessage(new TextComponentTranslation("chat.entity.GerKing.say2"));
         }
     }
 }

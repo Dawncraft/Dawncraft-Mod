@@ -9,8 +9,8 @@ import com.google.common.collect.Sets;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.stats.StatBase;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class StatLoader
 {
@@ -23,7 +23,7 @@ public class StatLoader
         initLearnableStats();
         initSpellStats();
     }
-    
+
     /**
      * Initializes statistics related to learnable skills. Is only called after skill stats have been initialized.
      */
@@ -34,22 +34,22 @@ public class StatLoader
 
     private static void initSpellStats()
     {
-        for (Skill skill : Skill.skillRegistry)
+        for (Skill skill : Skill.REGISTRY)
         {
             if (skill != null)
             {
                 int id = Skill.getIdFromSkill(skill);
-                String name = replace(Skill.skillRegistry.getNameForObject(skill));
-                
+                String name = replace(Skill.REGISTRY.getNameForObject(skill));
+
                 if (name != null)
                 {
-                    objectLearnStats[id] = new StatLearning("stat.spellSkill.", name, new ChatComponentTranslation("stat.spellSkill", new SkillStack(skill).getChatComponent()), skill).registerStat();
+                    objectLearnStats[id] = new StatLearning("stat.spellSkill.", name, new TextComponentTranslation("stat.spellSkill", new SkillStack(skill).getTextComponent()), skill).registerStat();
                     skillStats.add((StatLearning) objectLearnStats[id]);
                 }
             }
         }
     }
-    
+
     public static String replace(ResourceLocation resourcelocation)
     {
         return resourcelocation != null ? resourcelocation.toString().replace(':', '.') : null;

@@ -6,7 +6,7 @@ import java.util.Random;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
-import io.github.dawncraft.item.ItemInitializer;
+import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.tileentity.TileEntityMagnetDoor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
@@ -19,7 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.StringUtils;
 import net.minecraft.world.IBlockAccess;
@@ -72,7 +72,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                     TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
                     boolean canUnlock = !tileentityMagnetDoor.isLocked();
                     ItemStack itemStack = player.getHeldItem();
-                    if (itemStack != null && itemStack.getItem() == ItemInitializer.magnetCard && itemStack.hasTagCompound())
+                    if (itemStack != null && itemStack.getItem() == ItemInit.magnetCard && itemStack.hasTagCompound())
                     {
                         NBTTagCompound nbt = itemStack.getTagCompound();
                         String UUID = nbt.getString("UUID");
@@ -83,7 +83,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                                 if (!tileentityMagnetDoor.isLocked())
                                 {
                                     tileentityMagnetDoor.setUUID(UUID);
-                                    playerMagic.sendOverlayMessage(new ChatComponentTranslation("container.locked", this.getLocalizedName()));
+                                    playerMagic.sendOverlayMessage(new TextComponentTranslation("container.locked", this.getLocalizedName()));
                                     return true;
                                 }
                             }
@@ -104,7 +104,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                         world.playAuxSFXAtEntity(player, blockState.getValue(OPEN).booleanValue() ? 1003 : 1006, blockPos2, 0);
                         return true;
                     }
-                    playerMagic.sendOverlayMessage(new ChatComponentTranslation("container.isLocked", this.getLocalizedName()));
+                    playerMagic.sendOverlayMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()));
                 }
             }
         }
@@ -192,13 +192,13 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     @Override
     public Item getItemDropped(IBlockState blockState, Random rand, int fortune)
     {
-        return blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? ItemInitializer.magnetDoor : null;
+        return blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? ItemInit.magnetDoor : null;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public Item getItem(World world, BlockPos pos)
     {
-        return ItemInitializer.magnetDoor;
+        return ItemInit.magnetDoor;
     }
 }

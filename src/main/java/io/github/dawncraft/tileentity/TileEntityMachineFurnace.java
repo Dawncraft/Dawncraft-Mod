@@ -7,9 +7,9 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ITextComponent;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -30,10 +30,10 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
     public int cookTime;
     public int totalCookTime;
     
-    public IChatComponent getDisplayName()
+    public ITextComponent getDisplayName()
     {
         String name = "container.machineFurnace";
-        return new ChatComponentTranslation(name, new Object[0]);
+        return new TextComponentTranslation(name, new Object[0]);
     }
 
     @Override

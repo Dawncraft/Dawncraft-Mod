@@ -1,12 +1,13 @@
 package io.github.dawncraft.stats;
 
+import javax.annotation.Nullable;
+
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class SkillDamageSource extends DamageSource
 {
@@ -25,25 +26,23 @@ public class SkillDamageSource extends DamageSource
     {
         return this.skillStack;
     }
-    
+
     @Override
-    public Entity getEntity()
+    @Nullable
+    public Entity getTrueSource()
     {
         return this.damageSourceEntity;
     }
 
     @Override
-    public IChatComponent getDeathMessage(EntityLivingBase entityLivingBase)
+    public ITextComponent getDeathMessage(EntityLivingBase entityLiving)
     {
         String text = "death.attack." + this.damageType;
         if (this.getSkillStack() != null)
         {
             String skillName = text + ".skill";
-            if (StatCollector.canTranslate(skillName))
-            {
-                return new ChatComponentTranslation(skillName, entityLivingBase.getDisplayName(), this.damageSourceEntity.getDisplayName(), this.skillStack.getChatComponent());
-            }
+            return new TextComponentTranslation(skillName, entityLiving.getDisplayName(), this.damageSourceEntity.getDisplayName(), this.skillStack.getTextComponent());
         }
-        return new ChatComponentTranslation(text, entityLivingBase.getDisplayName(), this.damageSourceEntity.getDisplayName());
+        return new TextComponentTranslation(text, entityLiving.getDisplayName(), this.damageSourceEntity.getDisplayName());
     }
 }

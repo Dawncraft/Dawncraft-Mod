@@ -16,6 +16,6 @@ public class TalentLoader
     
     private static void register(Talent talent, String name)
     {
-        ModData.getTalentRegistry().register(-1, ModData.addPrefix(name), talent);
+        
     }
 }

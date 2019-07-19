@@ -15,7 +15,7 @@ import net.minecraft.nbt.NBTException;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.TextComponentTranslation;
 
 public class CommandForget extends CommandBase
 {
@@ -77,7 +77,7 @@ public class CommandForget extends CommandBase
         {
             if (count == 0)
             {
-                sender.addChatMessage(new ChatComponentTranslation("commands.forget.testing", serverPlayer.getName(), removed));
+                sender.addChatMessage(new TextComponentTranslation("commands.forget.testing", serverPlayer.getName(), removed));
             }
             else
             {

@@ -9,19 +9,18 @@ import com.google.common.collect.Lists;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.event.EventLoader;
 import io.github.dawncraft.stats.StatLoader;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.event.HoverEvent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -48,18 +47,18 @@ public class SkillStack
     public SkillStack(Skill skill, int level)
     {
         this.skill = skill;
-        this.skillLevel = MathHelper.clamp_int(level, 1, skill.getMaxLevel());
+        this.skillLevel = MathHelper.clamp(level, 1, skill.getMaxLevel());
     }
 
     private SkillStack() {}
-    
+
     public static SkillStack loadSkillStackFromNBT(NBTTagCompound nbt)
     {
         SkillStack stack = new SkillStack();
         stack.readFromNBT(nbt);
         return stack.getSkill() != null ? stack : null;
     }
-    
+
     public void setSkill(Skill newSkill)
     {
         this.skill = newSkill;
@@ -74,17 +73,17 @@ public class SkillStack
     {
         return this.getSkill().getConsume(this);
     }
-    
+
     public int getTotalPrepare()
     {
         return this.getSkill().getPrepare(this) + Skill.getGlobalPrepare();
     }
-    
+
     public int getMaxDuration()
     {
         return this.getSkill().getMaxDuration(this);
     }
-    
+
     public int getTotalCooldown()
     {
         return this.getSkill().getCooldown(this);
@@ -99,17 +98,17 @@ public class SkillStack
     {
         this.getSkill().setLevel(this, level);
     }
-    
+
     public int getMaxLevel()
     {
         return this.getSkill().getMaxLevel();
     }
-    
+
     public String getUnlocalizedName()
     {
         return this.getSkill().getUnlocalizedName(this);
     }
-    
+
     public boolean hasCustomName()
     {
         return this.stackTagCompound == null ? false : !this.stackTagCompound.hasKey("display", 10) ? false : this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8);
@@ -131,7 +130,7 @@ public class SkillStack
 
         return name;
     }
-    
+
     public SkillStack setCustomName(String displayName)
     {
         if (this.stackTagCompound == null)
@@ -157,13 +156,13 @@ public class SkillStack
                 NBTTagCompound nbttagcompound = this.stackTagCompound.getCompoundTag("display");
                 nbttagcompound.removeTag("Name");
 
-                if (nbttagcompound.hasNoTags())
+                if (nbttagcompound.isEmpty())
                 {
                     this.stackTagCompound.removeTag("display");
 
-                    if (this.stackTagCompound.hasNoTags())
+                    if (this.stackTagCompound.isEmpty())
                     {
-                        this.setTagCompound((NBTTagCompound)null);
+                        this.setTagCompound(null);
                     }
                 }
             }
@@ -174,17 +173,17 @@ public class SkillStack
     {
         return this.getSkill().getSkillStackDisplayDesc(this);
     }
-    
+
     public boolean hasTagCompound()
     {
         return this.stackTagCompound != null;
     }
-    
+
     public void setTagCompound(NBTTagCompound nbt)
     {
         this.stackTagCompound = nbt;
     }
-    
+
     public NBTTagCompound getTagCompound()
     {
         return this.stackTagCompound;
@@ -214,28 +213,28 @@ public class SkillStack
         {
             this.setTagCompound(new NBTTagCompound());
         }
-        
+
         this.stackTagCompound.setTag(key, value);
     }
-    
-    public IChatComponent getChatComponent()
+
+    public ITextComponent getTextComponent()
     {
-        ChatComponentText name = new ChatComponentText(this.getDisplayName());
+        TextComponentString name = new TextComponentString(this.getDisplayName());
         if (this.hasCustomName())
         {
-            name.getChatStyle().setItalic(Boolean.valueOf(true));
+            name.getStyle().setItalic(Boolean.valueOf(true));
         }
 
-        IChatComponent text = new ChatComponentText("[").appendSibling(name).appendText("]");
-        
+        ITextComponent text = new TextComponentString("[").appendSibling(name).appendText("]");
+
         if (this.skill != null)
         {
             NBTTagCompound tagCompound = new NBTTagCompound();
             this.writeToNBT(tagCompound);
-            text.getChatStyle().setChatHoverEvent(new HoverEvent(EventLoader.SHOW_SKILL, new ChatComponentText(tagCompound.toString())));
-            text.getChatStyle().setColor(EnumChatFormatting.AQUA);
+            text.getStyle().setHoverEvent(new HoverEvent(EventLoader.SHOW_SKILL, new TextComponentString(tagCompound.toString())));
+            text.getStyle().setColor(EnumChatFormatting.AQUA);
         }
-        
+
         return text;
     }
 
@@ -250,7 +249,7 @@ public class SkillStack
         {
             name += EnumChatFormatting.ITALIC;
         }
-        
+
         name += EnumChatFormatting.RESET;
 
         if (advanced)
@@ -259,7 +258,7 @@ public class SkillStack
         }
 
         list.add(name);
-        
+
         // Tooltip hide flags
         // TODO Hide flags 未实现
         int flag = 0;
@@ -268,9 +267,9 @@ public class SkillStack
         {
             flag = this.stackTagCompound.getInteger("HideFlags");
         }
-        
+
         // Skill level
-        list.add(StatCollector.translateToLocalFormatted("skill.level", this.getSkillLevel(), this.getMaxLevel()));
+        list.add(I18n.format("skill.level", this.getSkillLevel(), this.getMaxLevel()));
 
         // Skill description
         list.add(this.getDisplayDesc());
@@ -280,11 +279,11 @@ public class SkillStack
         if (this.hasTagCompound() && this.stackTagCompound.hasKey("display", 10))
         {
             NBTTagCompound nbt = this.stackTagCompound.getCompoundTag("display");
-            
+
             if (nbt.getTagId("Lore") == 9)
             {
                 NBTTagList nbtList = nbt.getTagList("Lore", 8);
-                
+
                 if (nbtList.tagCount() > 0)
                 {
                     for (int i = 0; i < nbtList.tagCount(); ++i)
@@ -294,37 +293,37 @@ public class SkillStack
                 }
             }
         }
-        
+
         // The next level of skill
         if (this.getSkillLevel() < this.getMaxLevel())
         {
             if (Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
             {
-                list.add(StatCollector.translateToLocal("skill.nextLevel"));
+                list.add(I18n.format("skill.nextLevel"));
                 SkillStack skillStack = this.copy();
                 ++skillStack.skillLevel;
                 list.add(skillStack.getDisplayDesc());
             }
             else
             {
-                list.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("skill.moreInfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+                list.add(EnumChatFormatting.GRAY + I18n.format("skill.moreInfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
             }
         }
         else
         {
-            list.add(EnumChatFormatting.GREEN + StatCollector.translateToLocalFormatted("skill.maxLevel", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+            list.add(EnumChatFormatting.GREEN + I18n.format("skill.maxLevel", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
         }
-        
+
         // NBT tag count
         if (advanced)
         {
-            list.add(EnumChatFormatting.DARK_GRAY + ((ResourceLocation) Skill.skillRegistry.getNameForObject(this.getSkill())).toString());
+            list.add(EnumChatFormatting.DARK_GRAY + Skill.REGISTRY.getNameForObject(this.getSkill()).toString());
             if (this.hasTagCompound())
             {
-                list.add(EnumChatFormatting.DARK_GRAY + StatCollector.translateToLocalFormatted("skill.nbtTags", 0));
+                list.add(EnumChatFormatting.DARK_GRAY + I18n.format("skill.nbtTags", 0));
             }
         }
-        
+
         return list;
     }
 
@@ -355,12 +354,12 @@ public class SkillStack
     public boolean onSkillSpell(World world, EntityPlayer player)
     {
         boolean flag = this.getSkill().onSkillSpell(this, world, player);
-        
+
         if (flag)
         {
-            player.triggerAchievement(StatLoader.objectLearnStats[Skill.getIdFromSkill(this.skill)]);
+            player.addStat(StatLoader.objectLearnStats[Skill.getIdFromSkill(this.skill)]);
         }
-        
+
         return flag;
     }
 
@@ -373,7 +372,7 @@ public class SkillStack
     {
         this.getSkill().onPlayerStoppedSpelling(this, world, player, duration);
     }
-    
+
     // 突然发现用这个能做个变身之类的能开关的技能啊666666
     public SkillStack onSkillSpellFinish(World world, EntityPlayer player)
     {
@@ -382,7 +381,7 @@ public class SkillStack
 
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
-        ResourceLocation resourcelocation = Skill.skillRegistry.getNameForObject(this.skill);
+        ResourceLocation resourcelocation = Skill.REGISTRY.getNameForObject(this.skill);
         nbt.setString("id", resourcelocation == null ? "minecraft:null" : resourcelocation.toString());
         nbt.setByte("Level", (byte) this.skillLevel);
         if (this.stackTagCompound != null)
@@ -391,7 +390,7 @@ public class SkillStack
         }
         return nbt;
     }
-    
+
     public void readFromNBT(NBTTagCompound nbt)
     {
         if (nbt.hasKey("id", 8))
@@ -402,7 +401,7 @@ public class SkillStack
         {
             this.setSkill(Skill.getSkillById(nbt.getShort("id")));
         }
-        this.skillLevel = MathHelper.clamp_int(nbt.getByte("Level"), 1, this.getMaxLevel());
+        this.skillLevel = MathHelper.clamp(nbt.getByte("Level"), 1, this.getMaxLevel());
         if (nbt.hasKey("tag", 10))
         {
             this.stackTagCompound = nbt.getCompoundTag("tag");
@@ -414,7 +413,7 @@ public class SkillStack
         SkillStack stack = new SkillStack(this.skill, this.skillLevel);
         if (this.stackTagCompound != null)
         {
-            stack.stackTagCompound = (NBTTagCompound) this.stackTagCompound.copy();
+            stack.stackTagCompound = this.stackTagCompound.copy();
         }
         return stack;
     }
@@ -433,7 +432,7 @@ public class SkillStack
     {
         return stackA != null && stackB != null ? stackA.isSkillEqual(stackB) : false;
     }
-    
+
     public boolean isSkillStackEqual(SkillStack other)
     {
         return other != null && this.isSkillEqual(other) && (this.stackTagCompound != null && other.stackTagCompound != null ? this.stackTagCompound.equals(other.stackTagCompound) : false);
@@ -443,7 +442,7 @@ public class SkillStack
     {
         return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.isSkillStackEqual(stackB) : false;
     }
-    
+
     @Override
     public String toString()
     {

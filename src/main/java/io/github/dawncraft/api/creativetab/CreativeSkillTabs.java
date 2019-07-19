@@ -47,7 +47,7 @@ public abstract class CreativeSkillTabs
     {
         return this.tabIndex;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public SkillStack getIconSkillStack()
     {
@@ -67,19 +67,19 @@ public abstract class CreativeSkillTabs
     {
         return 0;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getIcon()
     {
         return null;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public String getLabel()
     {
         return this.tabLabel;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public String getTranslatedLabel()
     {
@@ -91,13 +91,13 @@ public abstract class CreativeSkillTabs
         this.drawTitle = false;
         return this;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean shouldDrawTitle()
     {
         return this.drawTitle;
     }
-    
+
     public CreativeSkillTabs setNoScrollbar()
     {
         this.hasScrollbar = false;
@@ -109,7 +109,7 @@ public abstract class CreativeSkillTabs
     {
         return this.hasScrollbar;
     }
-    
+
     public boolean hasSearchBar()
     {
         return this.tabIndex == CreativeTabsLoader.tabSearch.tabIndex;
@@ -119,13 +119,13 @@ public abstract class CreativeSkillTabs
     {
         return 89;
     }
-    
+
     public CreativeSkillTabs setBackgroundImageName(String texture)
     {
         this.theTexture = texture;
         return this;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public String getBackgroundImageName()
     {
@@ -141,7 +141,7 @@ public abstract class CreativeSkillTabs
         }
         return 0;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getColumn()
     {
@@ -151,7 +151,7 @@ public abstract class CreativeSkillTabs
         }
         return this.tabIndex % 6;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean isOnTopRow()
     {
@@ -161,11 +161,11 @@ public abstract class CreativeSkillTabs
         }
         return this.tabIndex < 6;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void displayAllSkills(List<Skill> skillList)
     {
-        for (Skill skill : Skill.skillRegistry)
+        for (Skill skill : Skill.REGISTRY)
         {
             if (skill == null)
             {
@@ -177,7 +177,7 @@ public abstract class CreativeSkillTabs
             }
         }
     }
-    
+
     public static int getNextID()
     {
         int max = creativeTabArray.length;

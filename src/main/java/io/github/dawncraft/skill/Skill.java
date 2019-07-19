@@ -8,10 +8,12 @@ import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.potion.PotionLoader;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -33,12 +35,12 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 
     public Skill(int maxLevel)
     {
-        this.maxLevel = maxLevel;
+	this.maxLevel = maxLevel;
     }
 
     public float getConsume(SkillStack skillStack)
     {
-        return this.getConsume(skillStack.getSkillLevel());
+	return this.getConsume(skillStack.getSkillLevel());
     }
 
     /**
@@ -49,12 +51,12 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public float getConsume(int level)
     {
-        return 0.0F;
+	return 0.0F;
     }
 
     public int getPrepare(SkillStack skillStack)
     {
-        return this.getTotalPrepare(skillStack.getSkillLevel());
+	return this.getTotalPrepare(skillStack.getSkillLevel());
     }
 
     /**
@@ -65,7 +67,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public int getTotalPrepare(int level)
     {
-        return 0;
+	return 0;
     }
 
     /**
@@ -75,12 +77,12 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public static int getGlobalPrepare()
     {
-        return ConfigLoader.globalPrepareTicks;
+	return ConfigLoader.globalPrepareTicks;
     }
 
     public int getMaxDuration(SkillStack skillStack)
     {
-        return this.getMaxDuration(skillStack.getSkillLevel());
+	return this.getMaxDuration(skillStack.getSkillLevel());
     }
 
     /**
@@ -91,7 +93,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public int getMaxDuration(int level)
     {
-        return 0;
+	return 0;
     }
 
     /* 后摇?不存在的,为了简化机制,所以没有后摇啊哈哈哈 */
@@ -99,7 +101,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 
     public int getCooldown(SkillStack skillStack)
     {
-        return this.getCooldown(skillStack.getSkillLevel());
+	return this.getCooldown(skillStack.getSkillLevel());
     }
 
     /**
@@ -110,60 +112,60 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public int getCooldown(int level)
     {
-        return 0;
+	return 0;
     }
 
     public int getLevel(SkillStack skillStack)
     {
-        return skillStack.skillLevel;
+	return skillStack.skillLevel;
     }
 
     public void setLevel(SkillStack skillStack, int level)
     {
-        skillStack.skillLevel = level;
+	skillStack.skillLevel = level;
     }
 
     public int getMaxLevel()
     {
-        return this.maxLevel;
+	return this.maxLevel;
     }
 
     public Skill setMaxLevel(int maxLevel)
     {
-        this.maxLevel = maxLevel;
-        return this;
+	this.maxLevel = maxLevel;
+	return this;
     }
 
     public String getUnlocalizedName(SkillStack skillStack)
     {
-        return this.getUnlocalizedName();
+	return this.getUnlocalizedName();
     }
 
     public String getUnlocalizedName()
     {
-        return "skill." + this.unlocalizedName;
+	return "skill." + this.unlocalizedName;
     }
 
     public Skill setUnlocalizedName(String unlocalizedName)
     {
-        this.unlocalizedName = unlocalizedName;
-        return this;
+	this.unlocalizedName = unlocalizedName;
+	return this;
     }
 
     public String getUnlocalizedNameInefficiently(SkillStack skillStack)
     {
-        String s = this.getUnlocalizedName(skillStack);
-        return s == null ? "" : StatCollector.translateToLocal(s);
+	String s = this.getUnlocalizedName(skillStack);
+	return s == null ? "" : I18n.format(s);
     }
 
     public String getSkillStackDisplayName(SkillStack skillStack)
     {
-        return StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(skillStack) + ".name").trim();
+	return I18n.format(this.getUnlocalizedNameInefficiently(skillStack) + ".name").trim();
     }
 
     public String getUnlocalizedDesc(SkillStack skillStack)
     {
-        return this.getUnlocalizedName(skillStack) + ".desc";
+	return this.getUnlocalizedName(skillStack) + ".desc";
     }
 
     /**
@@ -175,31 +177,31 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public String getSkillStackDisplayDesc(SkillStack skillStack)
     {
-        return StatCollector.translateToLocal(this.getUnlocalizedDesc(skillStack));
+	return I18n.format(this.getUnlocalizedDesc(skillStack));
     }
 
     public Skill setCreativeTab(CreativeSkillTabs tab)
     {
-        this.tabToDisplayOn = tab;
-        return this;
+	this.tabToDisplayOn = tab;
+	return this;
     }
 
     @SideOnly(Side.CLIENT)
     public CreativeSkillTabs getCreativeTab()
     {
-        return this.tabToDisplayOn;
+	return this.tabToDisplayOn;
     }
 
     @SideOnly(Side.CLIENT)
     public int getColorFromSkillStack(SkillStack skillStack, int renderPass)
     {
-        return 0xFFFFFF;
+	return 0xFFFFFF;
     }
 
     @SideOnly(Side.CLIENT)
     public boolean canSpell(SkillStack skillStack, EntityPlayer player)
     {
-        return true;
+	return true;
     }
 
     @SideOnly(Side.CLIENT)
@@ -239,29 +241,29 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public EnumSpellAction onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
-        boolean isInit = duration == 0;
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        if (playerMagic.getCooldownTracker().isGlobalCooldown())
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.globalcool"), !isInit);
-            return EnumSpellAction.NONE;
-        }
-        if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.cool"), !isInit);
-            return EnumSpellAction.NONE;
-        }
-        if (!player.capabilities.isCreativeMode && playerMagic.getMana() < this.getConsume(skillStack))
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.nomana"), !isInit);
-            return EnumSpellAction.NONE;
-        }
-        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), !isInit);
-            return EnumSpellAction.NONE;
-        }
-        return EnumSpellAction.PREPARE;
+	boolean isInit = duration == 0;
+	IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+	if (playerMagic.getCooldownTracker().isGlobalCooldown())
+	{
+	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.globalcool"), !isInit);
+	    return EnumSpellAction.NONE;
+	}
+	if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
+	{
+	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.cool"), !isInit);
+	    return EnumSpellAction.NONE;
+	}
+	if (!player.capabilities.isCreativeMode && playerMagic.getMana() < this.getConsume(skillStack))
+	{
+	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.nomana"), !isInit);
+	    return EnumSpellAction.NONE;
+	}
+	if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+	{
+	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), !isInit);
+	    return EnumSpellAction.NONE;
+	}
+	return EnumSpellAction.PREPARE;
     }
 
     /**
@@ -274,7 +276,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public boolean onSkillSpell(SkillStack skillStack, World world, EntityPlayer player)
     {
-        return false;
+	return false;
     }
 
     /**
@@ -288,13 +290,13 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public EnumSpellAction onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
-        {
-            playerMagic.sendCancelSpellReason(new ChatComponentTranslation("gui.skill.silent"), true);
-            return EnumSpellAction.NONE;
-        }
-        return EnumSpellAction.SPELL;
+	IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+	if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+	{
+	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), true);
+	    return EnumSpellAction.NONE;
+	}
+	return EnumSpellAction.SPELL;
     }
 
     /**
@@ -322,32 +324,32 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public SkillStack onSkillSpellFinish(SkillStack skillStack, World world, EntityPlayer player)
     {
-        return skillStack;
+	return skillStack;
     }
 
     public static final RegistryNamespaced<ResourceLocation, Skill> REGISTRY = GameData.getWrapper(Skill.class);
 
     public static int getIdFromSkill(Skill skill)
     {
-        return skill == null ? 0 : REGISTRY.getIDForObject(skill);
+	return skill == null ? 0 : REGISTRY.getIDForObject(skill);
     }
 
     public static Skill getSkillById(int id)
     {
-        return REGISTRY.getObjectById(id);
+	return REGISTRY.getObjectById(id);
     }
 
     public static Skill getByNameOrId(String id)
     {
-        Skill skill = REGISTRY.getObject(new ResourceLocation(id));
-        if (skill == null)
-        {
-            try
-            {
-                return getSkillById(Integer.parseInt(id));
-            }
-            catch (NumberFormatException e) {}
-        }
-        return skill;
+	Skill skill = REGISTRY.getObject(new ResourceLocation(id));
+	if (skill == null)
+	{
+	    try
+	    {
+		return getSkillById(Integer.parseInt(id));
+	    }
+	    catch (NumberFormatException e) {}
+	}
+	return skill;
     }
 }

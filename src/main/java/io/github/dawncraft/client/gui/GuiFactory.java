@@ -1,40 +1,32 @@
 package io.github.dawncraft.client.gui;
 
+import java.util.Collections;
+import java.util.Set;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-
 import net.minecraftforge.fml.client.IModGuiFactory;
-
-import java.util.Set;
 
 public class GuiFactory implements IModGuiFactory
 {
-    public GuiFactory()
-    {
-        
-    }
-    
     @Override
-    public void initialize(Minecraft minecraft)
-    {
-        
-    }
-    
+    public void initialize(Minecraft minecraft) {}
+
     @Override
-    public Class<? extends GuiScreen> mainConfigGuiClass()
+    public boolean hasConfigGui()
     {
-        return GuiScreenConfig.class;
+	return true;
     }
-    
+
+    @Override
+    public GuiScreen createConfigGui(GuiScreen parent)
+    {
+	return new GuiScreenConfig(parent);
+    }
+
     @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories()
     {
-        return null;
-    }
-    
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element)
-    {
-        return null;
+	return Collections.emptySet();
     }
 }

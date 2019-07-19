@@ -1,17 +1,22 @@
 package io.github.dawncraft.api.item;
 
+import java.util.UUID;
+
 import com.google.common.collect.Multimap;
 
 import io.github.dawncraft.entity.AttributesLoader;
-import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants.AttributeModifierOperation;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * A new weapon that can speed up spelling skills.
@@ -20,17 +25,19 @@ import net.minecraft.world.World;
  */
 public class ItemWand extends Item
 {
+    protected static final UUID SPELL_SPEED_MODIFIER = UUID.fromString("FB233E8C-41R0-4885-B01B-BB8E9785ACB5");
+
     private final Item.ToolMaterial material;
     private float spellSpeed;
 
     public ItemWand(Item.ToolMaterial material, float spellSpeed)
     {
-        this.material = material;
-        this.spellSpeed = spellSpeed;
-        this.setFull3D();
-        this.setMaxStackSize(1);
-        this.setMaxDamage(material.getMaxUses());
-        this.setCreativeTab(CreativeTabs.tabCombat);
+	this.material = material;
+	this.setFull3D();
+	this.setMaxStackSize(1);
+	this.setMaxDamage(material.getMaxUses());
+	this.setCreativeTab(CreativeTabs.COMBAT);
+	this.spellSpeed = spellSpeed;
     }
 
     /**
@@ -38,52 +45,52 @@ public class ItemWand extends Item
      */
     public float getSpellSpeed()
     {
-        return this.spellSpeed;
+	return this.spellSpeed;
     }
 
     @Override
     public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
     {
-        stack.damageItem(2, attacker);
-        return true;
+	stack.damageItem(2, attacker);
+	return true;
     }
 
     @Override
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn)
+    public boolean onBlockDestroyed(ItemStack stack, World world, IBlockState state, BlockPos pos, EntityLivingBase entityLiving)
     {
-        if (blockIn.getBlockHardness(worldIn, pos) != 0.0D)
-        {
-            stack.damageItem(2, playerIn);
-        }
-        
-        return true;
+	if (state.getBlockHardness(world, pos) != 0.0D)
+	{
+	    stack.damageItem(2, entityLiving);
+	}
+	return true;
     }
 
     @Override
     public int getItemEnchantability()
     {
-        return this.material.getEnchantability();
+	return this.material.getEnchantability();
     }
-    
+
     public String getToolMaterialName()
     {
-        return this.material.toString();
-    }
-    
-    @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
-    {
-        ItemStack mat = this.material.getRepairItemStack();
-        if (mat != null && net.minecraftforge.oredict.OreDictionary.itemMatches(mat, repair, false)) return true;
-        return super.getIsRepairable(toRepair, repair);
+	return this.material.toString();
     }
 
     @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(ItemStack stack)
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
-        Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(stack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.material.getDamageVsEntity(), 0));
-        multimap.put(AttributesLoader.spellSpeed.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double) this.spellSpeed, 0));
-        return multimap;
+	ItemStack mat = this.material.getRepairItemStack();
+	if (mat != null && OreDictionary.itemMatches(mat, repair, false)) return true;
+	return super.getIsRepairable(toRepair, repair);
+    }
+
+    @Override
+    public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
+    {
+	Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
+	multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.material.getAttackDamage(), AttributeModifierOperation.ADD));
+	multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.2D, AttributeModifierOperation.ADD));
+	multimap.put(AttributesLoader.spellSpeed.getName(), new AttributeModifier(SPELL_SPEED_MODIFIER, "Weapon modifier", this.spellSpeed, AttributeModifierOperation.ADD));
+	return multimap;
     }
 }
