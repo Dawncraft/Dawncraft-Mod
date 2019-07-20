@@ -20,9 +20,9 @@ public class SkillInstant extends Skill
     @Override
     public float getConsume(int level)
     {
-	if (this == SkillLoader.heal)
+	if (this == SkillInit.heal)
 	    return 4 + 2 * level;
-	else if (this == SkillLoader.attack)
+	else if (this == SkillInit.attack)
 	    return 2 + 1 * level;
 	return super.getConsume(level);
     }
@@ -30,9 +30,9 @@ public class SkillInstant extends Skill
     @Override
     public int getCooldown(int level)
     {
-	if (this == SkillLoader.heal)
+	if (this == SkillInit.heal)
 	    return 20 + 10 * (level - 1);
-	else if (this == SkillLoader.attack)
+	else if (this == SkillInit.attack)
 	    return 20 + 10 * (level - 1);
 	return super.getCooldown(level);
     }
@@ -40,7 +40,7 @@ public class SkillInstant extends Skill
     @Override
     public String getSkillStackDisplayDesc(SkillStack skillStack)
     {
-	if (this == SkillLoader.heal)
+	if (this == SkillInit.heal)
 	    return I18n.format(this.getUnlocalizedName(skillStack) + ".desc",
 		    skillStack.getSkillConsume(), 4.0F + 2.0F * this.getLevel(skillStack), (float) skillStack.getTotalCooldown() / 20);
 	return super.getSkillStackDisplayDesc(skillStack);
@@ -49,7 +49,7 @@ public class SkillInstant extends Skill
     @Override
     public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
-	if (this == SkillLoader.heal)
+	if (this == SkillInit.heal)
 	    tooltip.add(I18n.format(this.getUnlocalizedName(skillStack) + ".desc2"));
     }
 
@@ -58,11 +58,11 @@ public class SkillInstant extends Skill
     {
 	if (!world.isRemote)
 	{
-	    if (this == SkillLoader.heal)
+	    if (this == SkillInit.heal)
 	    {
 		player.heal(4.0F + 2.0F * this.getLevel(skillStack));
 	    }
-	    else if (this == SkillLoader.attack)
+	    else if (this == SkillInit.attack)
 	    {
 		player.attackEntityFrom(DamageSourceLoader.causeSkillDamage(skillStack, player), 2.0F + 1.0F * this.getLevel(skillStack));
 	    }

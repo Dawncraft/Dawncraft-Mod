@@ -1,17 +1,17 @@
 package io.github.dawncraft.tileentity;
 
-import io.github.dawncraft.block.BlockMachineFurnace;
+import io.github.dawncraft.api.block.BlockMachine;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITextComponent;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -29,11 +29,12 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
     public int electricity;
     public int cookTime;
     public int totalCookTime;
-    
+
+    @Override
     public ITextComponent getDisplayName()
     {
         String name = "container.machineFurnace";
-        return new TextComponentTranslation(name, new Object[0]);
+        return new TextComponentTranslation(name);
     }
 
     @Override
@@ -45,18 +46,18 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
         }
         return super.hasCapability(capability, facing);
     }
-    
+
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing)
     {
         if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
         {
-            T result = (T) (facing == EnumFacing.DOWN ? this.downItemStack : this.upItemStack);
-            return result;
+            ItemStackHandler result = facing == EnumFacing.DOWN ? this.downItemStack : this.upItemStack;
+            return (T) result;
         }
         return super.getCapability(capability, facing);
     }
-    
+
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
@@ -69,7 +70,7 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
         compound.setTag("UpInventory", this.upItemStack.serializeNBT());
@@ -77,14 +78,15 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
         compound.setShort("Electricity", (short) this.electricity);
         compound.setShort("CookTime", (short) this.cookTime);
         compound.setShort("CookTimeTotal", (short) this.totalCookTime);
+        return compound;
     }
-    
+
     @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
     {
         return oldState.getBlock() != newState.getBlock();
     }
-    
+
     @Override
     public void update()
     {
@@ -92,7 +94,7 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
 
         //        if (wasWorking) --this.electricity;
 
-        if (!this.worldObj.isRemote)
+        if (!this.world.isRemote)
         {
             if (this.isWorking())
             {
@@ -109,7 +111,7 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
             }
             else if (!this.hasElectricity() && this.cookTime > 0)
             {
-                this.cookTime = MathHelper.clamp_int(this.cookTime - 2, 0, this.totalCookTime);
+                this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
             }
             else
             {
@@ -119,11 +121,11 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
             if (wasWorking != this.isWorking())
             {
                 this.markDirty();
-                BlockMachineFurnace.setBlockState(this.isWorking(), this.worldObj, this.pos);
+                BlockMachine.setBlockState(this.isWorking(), this.world, this.pos);
             }
         }
     }
-    
+
     public boolean isWorking()
     {
         return this.hasElectricity() && this.canSmelt();
@@ -134,7 +136,7 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
         //        return this.electricity > 0;
         return true;
     }
-    
+
     public boolean canSmelt()
     {
         ItemStack itemStack = this.upItemStack.getStackInSlot(0);
@@ -149,7 +151,7 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
             ItemStack itemStack2 = this.downItemStack.getStackInSlot(0);
             if (itemStack2 == null) return true;
             if (!itemStack2.isItemEqual(itemStack)) return false;
-            int result = itemStack2.stackSize + itemStack.stackSize;
+            int result = itemStack2.getCount() + itemStack.getCount();
             return result <= 64 && result <= itemStack2.getMaxStackSize();
         }
     }

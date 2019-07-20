@@ -1,66 +1,61 @@
 package io.github.dawncraft.block;
 
-import net.minecraft.block.Block;
+import com.google.common.collect.Lists;
+
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-
-import net.minecraftforge.client.model.TRSRTransformation;
 import net.minecraftforge.client.model.obj.OBJModel;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.google.common.collect.Lists;
-
-public class BlockFurnitureAlarmClock extends Block
+public class BlockFurnitureAlarmClock extends BlockHorizontal
 {
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-    
     public BlockFurnitureAlarmClock()
     {
-        super(Material.anvil);
+        super(Material.ANVIL);
         this.setHarvestLevel("hammer", 0);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
     @Override
-    public boolean isOpaqueCube()
+    public boolean isOpaqueCube(IBlockState state)
     {
         return false;
     }
 
     @Override
-    public boolean isFullCube()
+    public boolean isFullCube(IBlockState state)
     {
         return false;
     }
-    
+
     @Override
-    public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing facing)
+    public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side)
     {
         return false;
     }
-    
+
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new ExtendedBlockState(this, new IProperty<?>[]{ FACING }, new IUnlistedProperty<?>[]{ OBJModel.OBJProperty.instance });
+        return new ExtendedBlockState(this, new IProperty<?>[]{ FACING }, new IUnlistedProperty<?>[]{ OBJModel.OBJProperty.INSTANCE });
     }
-    
+
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        EnumFacing facing = EnumFacing.getHorizontal(meta & 3);
+        EnumFacing facing = EnumFacing.byHorizontalIndex(meta & 3);
         return this.getDefaultState().withProperty(FACING, facing);
     }
 
@@ -77,19 +72,12 @@ public class BlockFurnitureAlarmClock extends Block
         IExtendedBlockState oldState = (IExtendedBlockState) state;
         TRSRTransformation transform = new TRSRTransformation(state.getValue(FACING));
         OBJModel.OBJState objState = new OBJModel.OBJState(Lists.newArrayList(OBJModel.Group.ALL), true, transform);
-        return oldState.withProperty(OBJModel.OBJProperty.instance, objState);
+        return oldState.withProperty(OBJModel.OBJProperty.INSTANCE, objState);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public IBlockState getStateForEntityRender(IBlockState state)
-    {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
-    }
-    
-    @Override
-    public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ,
-            int meta, EntityLivingBase placer)
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ,
+            int meta, EntityLivingBase placer, EnumHand hand)
     {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }

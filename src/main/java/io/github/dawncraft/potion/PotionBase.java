@@ -14,16 +14,11 @@ public class PotionBase extends Potion
 
     private int statusIconX = 0;
     private int statusIconY = 0;
-    
-    protected PotionBase(String id, boolean badEffect, int potionColor)
-    {
-        this(new ResourceLocation(Dawncraft.MODID + ":" + id), badEffect, potionColor);
-        this.setIconIndex(nextIndex++);
-    }
 
-    public PotionBase(ResourceLocation location, boolean badEffect, int potionColor)
+    protected PotionBase(boolean badEffect, int potionColor)
     {
-        super(location, badEffect, potionColor);
+        super(badEffect, potionColor);
+        this.setIconIndex(nextIndex++);
     }
 
     public Potion setIconIndex(int index)
@@ -32,7 +27,7 @@ public class PotionBase extends Potion
         int y = Math.floorDiv(index, 16);
         return this.setIconIndex(x, y);
     }
-    
+
     @Override
     public Potion setIconIndex(int x, int y)
     {
@@ -57,7 +52,7 @@ public class PotionBase extends Potion
     public void performEffect(EntityLivingBase entity, int amplifier)
     {
     }
-    
+
     @Override
     public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
     {

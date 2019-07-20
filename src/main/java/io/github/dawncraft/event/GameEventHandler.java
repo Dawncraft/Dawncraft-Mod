@@ -1,16 +1,17 @@
 package io.github.dawncraft.event;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.stats.AchievementLoader;
 import io.github.dawncraft.stats.DamageSourceLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
@@ -20,22 +21,21 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
  *
  * @author QingChenW
  */
+@Mod.EventBusSubscriber(modid = Dawncraft.MODID)
 public class GameEventHandler
 {
-    public GameEventHandler() {}
-
     @SubscribeEvent
-    public void onEntityJoinWorld(EntityJoinWorldEvent event)
+    public static void onEntityJoinWorld(EntityJoinWorldEvent event)
     {
-        if (!event.world.isRemote && event.entity instanceof EntityPlayer)
+        if (!event.getWorld().isRemote && event.getEntity() instanceof EntityPlayer)
         {
-            EntityPlayerMP player = (EntityPlayerMP) event.entity;
-            player.triggerAchievement(AchievementLoader.basic);
+            EntityPlayerMP player = (EntityPlayerMP) event.getEntity();
+            // player.triggerAchievement(AchievementLoader.basic);
         }
     }
 
     @SubscribeEvent
-    public void playerTickEvent(PlayerTickEvent event)
+    public static void playerTickEvent(PlayerTickEvent event)
     {
         if (event.phase == Phase.END)
         {
@@ -46,17 +46,17 @@ public class GameEventHandler
     }
 
     @SubscribeEvent
-    public void onEntityInteract(EntityInteractEvent event)
+    public static void onEntityInteract(EntityInteract event)
     {
-        EntityPlayer player = event.entityPlayer;
-        if (player.isServerWorld() && event.target instanceof EntitySavage)
+        EntityPlayer player = event.getEntityPlayer();
+        if (player.isServerWorld() && event.getTarget() instanceof EntitySavage)
         {
-            EntitySavage savage = (EntitySavage) event.target;
-            ItemStack stack = player.getCurrentEquippedItem();
+            EntitySavage savage = (EntitySavage) event.getTarget();
+            ItemStack stack = player.getHeldItem(event.getHand());
             if (stack != null && stack.getItem() == ItemInit.faeces)
             {
                 player.attackEntityFrom(DamageSourceLoader.ger, 20.0F);
-                player.worldObj.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
+                player.world.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
                 savage.setDead();
             }
         }

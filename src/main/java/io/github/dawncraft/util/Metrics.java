@@ -30,14 +30,6 @@
 
 package io.github.dawncraft.util;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -56,6 +48,15 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
+
+import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class Metrics {
 
@@ -78,6 +79,11 @@ public class Metrics {
      * Interval of time to ping (in minutes)
      */
     private static final int PING_INTERVAL = 15;
+
+    /**
+     * The server which the mod is running on
+     */
+    private static MinecraftServer server;
 
     /**
      * The mod this metrics submits for
@@ -124,14 +130,14 @@ public class Metrics {
         this.modVersion = modVersion;
 
         // load the config
-        configurationFile = getConfigFile();
-        configuration = new Configuration(configurationFile);
+        this.configurationFile = this.getConfigFile();
+        this.configuration = new Configuration(this.configurationFile);
 
         // Get values, and add some defaults, if needed
-        configuration.get(Configuration.CATEGORY_GENERAL, "opt-out", false, "Set to true to disable all reporting");
-        guid = configuration.get(Configuration.CATEGORY_GENERAL, "guid", UUID.randomUUID().toString(), "Server unique ID").getString();
-        debug = configuration.get(Configuration.CATEGORY_GENERAL, "debug", false, "Set to true for verbose debug").getBoolean(false);
-        configuration.save();
+        this.configuration.get(Configuration.CATEGORY_GENERAL, "opt-out", false, "Set to true to disable all reporting");
+        this.guid = this.configuration.get(Configuration.CATEGORY_GENERAL, "guid", UUID.randomUUID().toString(), "Server unique ID").getString();
+        this.debug = this.configuration.get(Configuration.CATEGORY_GENERAL, "debug", false, "Set to true for verbose debug").getBoolean(false);
+        this.configuration.save();
     }
 
     /**
@@ -147,7 +153,7 @@ public class Metrics {
         }
 
         final Graph graph = new Graph(name);
-        graphs.add(graph);
+        this.graphs.add(graph);
 
         return graph;
     }
@@ -162,7 +168,7 @@ public class Metrics {
             throw new IllegalArgumentException("Graph cannot be null");
         }
 
-        graphs.add(graph);
+        this.graphs.add(graph);
     }
 
     /**
@@ -175,11 +181,11 @@ public class Metrics {
      */
     public boolean start() {
         // Did we opt out?
-        if (isOptOut()) {
+        if (this.isOptOut()) {
             return false;
         }
 
-        FMLCommonHandler.instance().bus().register(this);
+        MinecraftForge.EVENT_BUS.register(this);
 
         return true;
     }
@@ -188,16 +194,17 @@ public class Metrics {
     public void tick(TickEvent.ServerTickEvent tick) {
         if (tick.phase != TickEvent.Phase.END) return;
 
-        if (tickCount++ % (PING_INTERVAL * 1200) != 0) return;
+        if (this.tickCount++ % (PING_INTERVAL * 1200) != 0) return;
 
-        if (thread == null) {
-            thread = new Thread(new Runnable() {
+        if (this.thread == null) {
+            this.thread = new Thread(new Runnable() {
+                @Override
                 public void run() {
                     try {
                         // Disable Task, if it is running and the server owner decided
                         // to opt-out
-                        if (isOptOut()) {
-                            FMLCommonHandler.instance().bus().unregister(Metrics.this);
+                        if (Metrics.this.isOptOut()) {
+                            MinecraftForge.EVENT_BUS.unregister(Metrics.this);
                             return;
                         }
                         // We use the inverse of firstPost because if it
@@ -206,21 +213,21 @@ public class Metrics {
                         // FALSE
                         // Each time thereafter it will evaluate to
                         // TRUE, i.e PING!
-                        postPlugin(!firstPost);
+                        Metrics.this.postPlugin(!Metrics.this.firstPost);
                         // After the first post we set firstPost to
                         // false
                         // Each post thereafter will be a ping
-                        firstPost = false;
+                        Metrics.this.firstPost = false;
                     } catch (IOException e) {
-                        if (debug) {
+                        if (Metrics.this.debug) {
                             FMLLog.info("[Metrics] Exception - %s", e.getMessage());
                         }
                     } finally {
-                        thread = null;
+                        Metrics.this.thread = null;
                     }
                 }
             });
-            thread.start();
+            this.thread.start();
         }
     }
 
@@ -237,8 +244,8 @@ public class Metrics {
      */
     public boolean isOptOut() {
         // Reload the metrics file
-        configuration.load();
-        return configuration.get(Configuration.CATEGORY_GENERAL, "opt-out", false).getBoolean(false);
+        this.configuration.load();
+        return this.configuration.get(Configuration.CATEGORY_GENERAL, "opt-out", false).getBoolean(false);
     }
 
     /**
@@ -249,9 +256,9 @@ public class Metrics {
      */
     public void enable() throws IOException {
         // Check if the server owner has already set opt-out, if not, set it.
-        if (isOptOut()) {
-            configuration.getCategory(Configuration.CATEGORY_GENERAL).get("opt-out").set("false");
-            configuration.save();
+        if (this.isOptOut()) {
+            this.configuration.getCategory(Configuration.CATEGORY_GENERAL).get("opt-out").set("false");
+            this.configuration.save();
         }
         // Enable Task, if it is not running
         FMLCommonHandler.instance().bus().register(this);
@@ -265,9 +272,9 @@ public class Metrics {
      */
     public void disable() throws IOException {
         // Check if the server owner has already set opt-out, if not, set it.
-        if (!isOptOut()) {
-            configuration.getCategory(Configuration.CATEGORY_GENERAL).get("opt-out").set("true");
-            configuration.save();
+        if (!this.isOptOut()) {
+            this.configuration.getCategory(Configuration.CATEGORY_GENERAL).get("opt-out").set("true");
+            this.configuration.save();
         }
         FMLCommonHandler.instance().bus().unregister(this);
     }
@@ -287,16 +294,16 @@ public class Metrics {
      */
     private void postPlugin(final boolean isPing) throws IOException {
         // Server software specific section
-        String pluginName = modName;
-        boolean onlineMode = MinecraftServer.getServer().isServerInOnlineMode();
-        String pluginVersion = modVersion;
+        String pluginName = this.modName;
+        boolean onlineMode = server.isServerInOnlineMode();
+        String pluginVersion = this.modVersion;
         String serverVersion;
-        if (MinecraftServer.getServer().isDedicatedServer()) {
-            serverVersion = "MinecraftForge (MC: " + MinecraftServer.getServer().getMinecraftVersion() + ")";
+        if (server.isDedicatedServer()) {
+            serverVersion = "MinecraftForge (MC: " + server.getMinecraftVersion() + ")";
         } else {
-            serverVersion = "MinecraftForgeSSP (MC: " + MinecraftServer.getServer().getMinecraftVersion() + ")";
+            serverVersion = "MinecraftForgeSSP (MC: " + server.getMinecraftVersion() + ")";
         }
-        int playersOnline = MinecraftServer.getServer().getCurrentPlayerCount();
+        int playersOnline = server.getCurrentPlayerCount();
 
         // END server software specific section -- all code below does not use any code outside of this class / Java
 
@@ -305,7 +312,7 @@ public class Metrics {
         json.append('{');
 
         // The plugin's description file containg all of the plugin data such as name, version, author, etc
-        appendJSONPair(json, "guid", guid);
+        appendJSONPair(json, "guid", this.guid);
         appendJSONPair(json, "plugin_version", pluginVersion);
         appendJSONPair(json, "server_version", serverVersion);
         appendJSONPair(json, "players_online", Integer.toString(playersOnline));
@@ -334,8 +341,8 @@ public class Metrics {
             appendJSONPair(json, "ping", "1");
         }
 
-        if (graphs.size() > 0) {
-            synchronized (graphs) {
+        if (this.graphs.size() > 0) {
+            synchronized (this.graphs) {
                 json.append(',');
                 json.append('"');
                 json.append("graphs");
@@ -345,7 +352,7 @@ public class Metrics {
 
                 boolean firstGraph = true;
 
-                final Iterator<Graph> iter = graphs.iterator();
+                final Iterator<Graph> iter = this.graphs.iterator();
 
                 while (iter.hasNext()) {
                     Graph graph = iter.next();
@@ -385,7 +392,7 @@ public class Metrics {
 
         // Mineshafter creates a socks proxy, so we can safely bypass it
         // It does not reroute POST requests so we need to go around it
-        if (isMineshafterPresent()) {
+        if (this.isMineshafterPresent()) {
             connection = url.openConnection(Proxy.NO_PROXY);
         } else {
             connection = url.openConnection();
@@ -405,7 +412,7 @@ public class Metrics {
 
         connection.setDoOutput(true);
 
-        if (debug) {
+        if (this.debug) {
             System.out.println("[Metrics] Prepared request for " + pluginName + " uncompressed=" + uncompressed.length + " compressed=" + compressed.length);
         }
 
@@ -520,31 +527,31 @@ public class Metrics {
             char chr = text.charAt(index);
 
             switch (chr) {
-                case '"':
-                case '\\':
-                    builder.append('\\');
+            case '"':
+            case '\\':
+                builder.append('\\');
+                builder.append(chr);
+                break;
+            case '\b':
+                builder.append("\\b");
+                break;
+            case '\t':
+                builder.append("\\t");
+                break;
+            case '\n':
+                builder.append("\\n");
+                break;
+            case '\r':
+                builder.append("\\r");
+                break;
+            default:
+                if (chr < ' ') {
+                    String t = "000" + Integer.toHexString(chr);
+                    builder.append("\\u" + t.substring(t.length() - 4));
+                } else {
                     builder.append(chr);
-                    break;
-                case '\b':
-                    builder.append("\\b");
-                    break;
-                case '\t':
-                    builder.append("\\t");
-                    break;
-                case '\n':
-                    builder.append("\\n");
-                    break;
-                case '\r':
-                    builder.append("\\r");
-                    break;
-                default:
-                    if (chr < ' ') {
-                        String t = "000" + Integer.toHexString(chr);
-                        builder.append("\\u" + t.substring(t.length() - 4));
-                    } else {
-                        builder.append(chr);
-                    }
-                    break;
+                }
+                break;
             }
         }
         builder.append('"');
@@ -563,6 +570,16 @@ public class Metrics {
     }
 
     /**
+     * Set the server which the metrics is running on.
+     *
+     * @param server
+     */
+    public static void setServer(MinecraftServer server)
+    {
+        Metrics.server = server;
+    }
+
+    /**
      * Represents a custom graph on the website
      */
     public static class Graph {
@@ -576,7 +593,7 @@ public class Metrics {
         /**
          * The set of plotters that are contained within this graph
          */
-        private final Set<Plotter> plotters = new LinkedHashSet<Plotter>();
+        private final Set<Plotter> plotters = new LinkedHashSet<>();
 
         private Graph(final String name) {
             this.name = name;
@@ -588,7 +605,7 @@ public class Metrics {
          * @return the Graph's name
          */
         public String getName() {
-            return name;
+            return this.name;
         }
 
         /**
@@ -597,7 +614,7 @@ public class Metrics {
          * @param plotter the plotter to add to the graph
          */
         public void addPlotter(final Plotter plotter) {
-            plotters.add(plotter);
+            this.plotters.add(plotter);
         }
 
         /**
@@ -606,7 +623,7 @@ public class Metrics {
          * @param plotter the plotter to remove from the graph
          */
         public void removePlotter(final Plotter plotter) {
-            plotters.remove(plotter);
+            this.plotters.remove(plotter);
         }
 
         /**
@@ -615,12 +632,12 @@ public class Metrics {
          * @return an unmodifiable {@link java.util.Set} of the plotter objects
          */
         public Set<Plotter> getPlotters() {
-            return Collections.unmodifiableSet(plotters);
+            return Collections.unmodifiableSet(this.plotters);
         }
 
         @Override
         public int hashCode() {
-            return name.hashCode();
+            return this.name.hashCode();
         }
 
         @Override
@@ -630,7 +647,7 @@ public class Metrics {
             }
 
             final Graph graph = (Graph) object;
-            return graph.name.equals(name);
+            return graph.name.equals(this.name);
         }
 
         /**
@@ -681,7 +698,7 @@ public class Metrics {
          * @return the plotted point's column name
          */
         public String getColumnName() {
-            return name;
+            return this.name;
         }
 
         /**
@@ -692,7 +709,7 @@ public class Metrics {
 
         @Override
         public int hashCode() {
-            return getColumnName().hashCode();
+            return this.getColumnName().hashCode();
         }
 
         @Override
@@ -702,7 +719,7 @@ public class Metrics {
             }
 
             final Plotter plotter = (Plotter) object;
-            return plotter.name.equals(name) && plotter.getValue() == getValue();
+            return plotter.name.equals(this.name) && plotter.getValue() == this.getValue();
         }
     }
 

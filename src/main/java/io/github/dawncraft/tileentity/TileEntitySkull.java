@@ -2,8 +2,7 @@ package io.github.dawncraft.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,13 +27,13 @@ public class TileEntitySkull extends TileEntity
         this.useByItemStackRenderer = true;
         this.skullType = skullType;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public boolean usedByItemStackRenderer()
     {
         return this.useByItemStackRenderer;
     }
-    
+
     public void setSkullType(int type)
     {
         this.skullType = type;
@@ -49,7 +48,7 @@ public class TileEntitySkull extends TileEntity
     {
         this.skullRotation = rotation;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getSkullRotation()
     {
@@ -57,19 +56,19 @@ public class TileEntitySkull extends TileEntity
     }
 
     @Override
-    public Packet getDescriptionPacket()
+    public SPacketUpdateTileEntity getUpdatePacket()
     {
         NBTTagCompound nbt = new NBTTagCompound();
         this.writeToNBT(nbt);
-        return new S35PacketUpdateTileEntity(this.pos, 4, nbt);
+        return new SPacketUpdateTileEntity(this.pos, 4, nbt);
     }
 
     @Override
-    public void onDataPacket(NetworkManager netManager, S35PacketUpdateTileEntity packet)
+    public void onDataPacket(NetworkManager netManager, SPacketUpdateTileEntity packet)
     {
-        if (this.worldObj.isBlockLoaded(packet.getPos()))
+        if (this.world.isBlockLoaded(packet.getPos()))
         {
-            TileEntity tileentity = this.worldObj.getTileEntity(packet.getPos());
+            TileEntity tileentity = this.world.getTileEntity(packet.getPos());
             int i = packet.getTileEntityType();
 
             if (i == 4 && tileentity instanceof TileEntitySkull)
@@ -84,18 +83,19 @@ public class TileEntitySkull extends TileEntity
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
+    public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
-        super.writeToNBT(nbt);
-        nbt.setShort("SkullType", (short) this.skullType);
-        nbt.setByte("Rot", (byte) (this.skullRotation & 255));
+        super.writeToNBT(compound);
+        compound.setShort("SkullType", (short) this.skullType);
+        compound.setByte("Rot", (byte) (this.skullRotation & 255));
+        return compound;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
+    public void readFromNBT(NBTTagCompound compound)
     {
-        super.readFromNBT(nbt);
-        this.skullType = nbt.getShort("SkullType");
-        this.skullRotation = nbt.getByte("Rot");
+        super.readFromNBT(compound);
+        this.skullType = compound.getShort("SkullType");
+        this.skullRotation = compound.getByte("Rot");
     }
 }

@@ -1,5 +1,6 @@
 package io.github.dawncraft.block;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.block.BlockFurniture.EnumMaterialType;
 import io.github.dawncraft.api.block.BlockOre;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
@@ -10,67 +11,74 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fluids.BlockFluidClassic;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some blocks.
  *
  * @author QingChenW
  */
+@Mod.EventBusSubscriber(modid = Dawncraft.MODID)
+@ObjectHolder(Dawncraft.MODID)
 public class BlockInit
 {
     // Energy
-    public static Block fluidPetroleum = null;
+    public static final Block fluidPetroleum = null;
 
-    public static Block electricCable = null;
+    public static final Block electricCable = null;
 
-    public static Block energyGeneratorHeat = null;
-    public static Block energyGeneratorFluid = null;
-    public static Block energyGeneratorSolar = null;
-    public static Block energyGeneratorWind = null;
-    public static Block energyGeneratorNuclear = null;
-    public static Block energyGeneratorMagic = null;
+    public static final Block energyGeneratorHeat = null;
+    public static final Block energyGeneratorFluid = null;
+    public static final Block energyGeneratorSolar = null;
+    public static final Block energyGeneratorWind = null;
+    public static final Block energyGeneratorNuclear = null;
+    public static final Block energyGeneratorMagic = null;
 
     // Magnet
-    public static Block magnetOre = null;
-    public static Block magnetBlock = null;
-    public static Block magnetDoor = null;
-    public static Block magnetRail = null;
-    public static Block magnetChest = null;
+    public static final Block magnetOre = null;
+    public static final Block magnetBlock = null;
+    public static final Block magnetDoor = null;
+    public static final Block magnetRail = null;
+    public static final Block magnetChest = null;
 
     // Machine
-    public static Block copperOre = null;
-    public static Block copperBlock = null;
-    public static Block machineFurnace = null;
+    public static final Block copperOre = null;
+    public static final Block copperBlock = null;
+    public static final Block machineFurnace = null;
 
     // Computer
-    public static Block simpleComputer = null;
-    public static Block advancedComputer = null;
-    public static Block superComputer = null;
+    public static final Block simpleComputer = null;
+    public static final Block advancedComputer = null;
+    public static final Block superComputer = null;
 
     // Materials
 
     // Furniture
-    public static Block woodTable = null;
-    public static Block stoneTable = null;
-    public static Block woodChair = null;
-    public static Block stoneChair = null;
-    public static Block alarmClock = null;
+    public static final Block woodTable = null;
+    public static final Block stoneTable = null;
+    public static final Block woodChair = null;
+    public static final Block stoneChair = null;
+    public static final Block alarmClock = null;
 
     // War
 
     // Magic
-    public static Block magicOre = null;
+    public static final Block magicOre = null;
 
     // Guns
 
     // ColourEgg
-    public static Block superChest = null;
-    public static Block dawnPortal = null;
-    public static Block skull = null;
+    public static final Block superChest = null;
+    public static final Block dawnPortal = null;
+    public static final Block skull = null;
 
-    public static void initBlocks()
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Block> event)
     {
         // Building blocks
         Block block = new BlockOre().setTranslationKey("magnetOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS);

@@ -32,7 +32,7 @@ public class SkillProjectile extends Skill
     @Override
     public String getSkillStackDisplayDesc(SkillStack skillStack)
     {
-	if (this == SkillLoader.fireball)
+	if (this == SkillInit.fireball)
 	    return I18n.format(this.getUnlocalizedName(skillStack) + ".desc",
 		    skillStack.getSkillConsume(), 4.0F + 2.0F * this.getLevel(skillStack), (float) skillStack.getTotalCooldown() / 20);
 	return super.getSkillStackDisplayDesc(skillStack);
@@ -41,7 +41,7 @@ public class SkillProjectile extends Skill
     @Override
     public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, boolean advanced)
     {
-	if (this == SkillLoader.fireball)
+	if (this == SkillInit.fireball)
 	    tooltip.add(I18n.format(this.getUnlocalizedName(skillStack) + ".desc2"));
     }
 

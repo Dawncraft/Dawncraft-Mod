@@ -8,13 +8,12 @@ import io.github.dawncraft.item.ItemSkullDawn;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockPattern;
-import net.minecraft.block.state.pattern.BlockStateHelper;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
@@ -31,13 +30,13 @@ public class BlockDawnSkull extends BlockSkullDawn
     };
     private BlockPattern kingBasePattern;
     private BlockPattern kingPattern;
-    
+
     @Override
     public ItemSkullDawn getSkullItem()
     {
         return (ItemSkullDawn) ItemInit.skull;
     }
-    
+
     @Override
     public void checkEntitySpawn(World world, BlockPos pos, TileEntitySkull tileentity)
     {
@@ -57,7 +56,7 @@ public class BlockDawnSkull extends BlockSkullDawn
 
                 EntityGerKing entitygerking = new EntityGerKing(world);
                 BlockPos blockpos = patternhelper.translateOffset(0, 2, 0).getPos();
-                entitygerking.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)blockpos.getY() + 0.55D, (double)blockpos.getZ() + 0.5D, patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F, 0.0F);
+                entitygerking.setLocationAndAngles(blockpos.getX() + 0.5D, blockpos.getY() + 0.55D, blockpos.getZ() + 0.5D, patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F, 0.0F);
                 entitygerking.renderYawOffset = patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? 0.0F : 90.0F;
                 // 可在此来个ger王的开场动画
 
@@ -65,20 +64,20 @@ public class BlockDawnSkull extends BlockSkullDawn
                 {
                     entityplayer.triggerAchievement(AchievementLoader.ger);
                 }*/
-                
+
                 world.spawnEntityInWorld(entitygerking);
 
                 for (int l = 0; l < 120; ++l)
                 {
-                    world.spawnParticle(EnumParticleTypes.SNOWBALL, (double)pos.getX() + world.rand.nextDouble(), (double)(pos.getY() - 2.0D) + world.rand.nextDouble() * 4.0D, (double)pos.getZ() + world.rand.nextDouble(), 0.0D, 0.0D, 0.0D, new int[0]);
+                    world.spawnParticle(EnumParticleTypes.SNOWBALL, pos.getX() + world.rand.nextDouble(), pos.getY() - 2.0D + world.rand.nextDouble() * 4.0D, pos.getZ() + world.rand.nextDouble(), 0.0D, 0.0D, 0.0D, new int[0]);
                 }
-                
+
                 for (int count = 0; count < 6; count++)
                 {
                     EntityLightningBolt lightningBolt = new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getX());
                     world.spawnEntityInWorld(lightningBolt);
                 }
-                
+
                 world.setLightFor(EnumSkyBlock.SKY, pos, 15);
 
                 for (int j = 0; j < blockpattern.getThumbLength(); ++j)
@@ -97,7 +96,7 @@ public class BlockDawnSkull extends BlockSkullDawn
         {
             this.kingBasePattern = FactoryBlockPattern.start().aisle(" ", "#", "*").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).build();
         }
-        
+
         return this.kingBasePattern;
     }
 
@@ -106,9 +105,9 @@ public class BlockDawnSkull extends BlockSkullDawn
     {
         if (this.kingPattern == null)
         {
-            this.kingPattern = FactoryBlockPattern.start().aisle("^", "#", "*").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).where('^', this.IS_KING_SKULL).build();
+            this.kingPattern = FactoryBlockPattern.start().aisle("^", "#", "*").where('#', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.diamond_block))).where('*', BlockWorldState.hasState(BlockStateHelper.forBlock(Blocks.gold_block))).where('^', BlockDawnSkull.IS_KING_SKULL).build();
         }
-        
+
         return this.kingPattern;
     }
 }

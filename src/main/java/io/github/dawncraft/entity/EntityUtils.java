@@ -4,15 +4,15 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityUtils
 {
     public static String getEntityStringFromClass(Class<? extends Entity> entity)
     {
-        return EntityList.classToStringMapping.get(entity);
+        return EntityList.getKey(entity).toString();
     }
 
     public static boolean hasSittable(World world, BlockPos pos)
@@ -22,20 +22,20 @@ public class EntityUtils
         {
             if (sittable.blockPos.equals(pos))
             {
-                return sittable.riddenByEntity != null;
+                return !sittable.getPassengers().isEmpty();
             }
         }
         return false;
     }
-    
+
     // TODO 坐下有bug
     public static boolean sitAtPosition(World world, BlockPos pos, Entity entity, double yOffset)
     {
-        if(!EntityUtils.hasSittable(world, pos))
+        if (!EntityUtils.hasSittable(world, pos))
         {
             EntitySittable sittable = new EntitySittable(world, pos, yOffset);
-            world.spawnEntityInWorld(sittable);
-            entity.mountEntity(sittable);
+            world.spawnEntity(sittable);
+            entity.startRiding(sittable);
             return true;
         }
         return false;

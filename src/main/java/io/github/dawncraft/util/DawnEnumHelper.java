@@ -1,11 +1,11 @@
 package io.github.dawncraft.util;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-
-import java.lang.reflect.Field;
 
 /**
  *
@@ -16,12 +16,12 @@ import java.lang.reflect.Field;
  */
 public class DawnEnumHelper extends EnumHelper
 {
-    private static Class[][] newTypes =
+    private static Class<?>[][] newTypes =
         {
                 {CommandResultStats.Type.class, int.class, String.class},
                 {HoverEvent.Action.class, String.class, boolean.class}
         };
-    
+
     public static CommandResultStats.Type addCommandResultType(String name, String typeName)
     {
         try

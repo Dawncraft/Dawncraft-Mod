@@ -1,17 +1,17 @@
 package io.github.dawncraft.enchantment;
 
-import io.github.dawncraft.Dawncraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 
-public class EnchantmentFireBurn extends EnchantmentDawn
+public class EnchantmentFireBurn extends Enchantment
 {
-    public EnchantmentFireBurn(int enchID, String enchName, int enchWeight)
+    public EnchantmentFireBurn()
     {
-        super(enchID, new ResourceLocation(Dawncraft.MODID + ":" + enchName), enchWeight, EnumEnchantmentType.DIGGER);
+        super(Rarity.VERY_RARE, EnumEnchantmentType.DIGGER, new EntityEquipmentSlot[] {EntityEquipmentSlot.MAINHAND});
     }
 
     @Override
@@ -23,7 +23,7 @@ public class EnchantmentFireBurn extends EnchantmentDawn
     @Override
     public int getMaxEnchantability(int enchantmentLevel)
     {
-        return this.getMinEnchantability(enchantmentLevel) + 50;
+        return super.getMinEnchantability(enchantmentLevel) + 50;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class EnchantmentFireBurn extends EnchantmentDawn
     @Override
     public boolean canApplyTogether(Enchantment ench)
     {
-        return super.canApplyTogether(ench) && ench.effectId != silkTouch.effectId && ench.effectId != fortune.effectId;
+        return super.canApplyTogether(ench) && ench != Enchantments.SILK_TOUCH && ench != Enchantments.FORTUNE;
     }
 
     @Override
     public boolean canApply(ItemStack stack)
     {
-        return stack.getItem() == Items.shears ? true : super.canApply(stack);
+        return stack.getItem() == Items.SHEARS ? true : super.canApply(stack);
     }
 }

@@ -1,7 +1,5 @@
 package io.github.dawncraft.block;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import io.github.dawncraft.capability.CapabilityLoader;
@@ -11,6 +9,7 @@ import io.github.dawncraft.tileentity.TileEntityMagnetDoor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,14 +17,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Magnet door
@@ -36,11 +35,23 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
 {
     public BlockMagnetDoor()
     {
-        super(Material.iron);
-        this.isBlockContainer = true;
+        super(Material.IRON);
+        this.hasTileEntity = true;
         this.setHardness(5.0f);
         this.setResistance(10.0f);
         this.setHarvestLevel("pickaxe", 1);
+    }
+
+    @Override
+    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos)
+    {
+        return MapColor.IRON;
+    }
+
+    @Override
+    public boolean hasTileEntity(IBlockState state)
+    {
+        return super.hasTileEntity(state) && state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER;
     }
 
     @Override
@@ -48,30 +59,76 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     {
         return new TileEntityMagnetDoor();
     }
-    
+
     @Override
-    public boolean hasTileEntity(IBlockState blockState)
+    public Item getItem()
     {
-        return blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER;
+        return ItemInit.magnetDoor;
     }
-    
+
     @Override
-    public boolean onBlockActivated(World world, BlockPos blockPos, IBlockState blockState, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos fromPos)
+    {
+        if (state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER)
+        {
+            BlockPos pos2 = pos.down();
+            IBlockState state2 = world.getBlockState(pos2);
+
+            if (state2.getBlock() != this)
+            {
+                world.setBlockToAir(pos);
+            }
+            else if (neighborBlock != this)
+            {
+                state2.neighborChanged(world, pos2, neighborBlock, fromPos);
+            }
+        }
+        else
+        {
+            boolean removed = false;
+            BlockPos pos2 = pos.up();
+            IBlockState state2 = world.getBlockState(pos2);
+
+            if (state2.getBlock() != this)
+            {
+                world.setBlockToAir(pos);
+                removed = true;
+            }
+
+            if (!world.getBlockState(pos.down()).isSideSolid(world, pos.down(), EnumFacing.UP))
+            {
+                world.setBlockToAir(pos);
+                removed = true;
+
+                if (state2.getBlock() == this)
+                {
+                    world.setBlockToAir(pos2);
+                }
+            }
+
+            if (!world.isRemote && removed)
+            {
+                this.dropBlockAsItem(world, pos, state, 0);
+            }
+        }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         if (!world.isRemote)
         {
             IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-            boolean isUpper = blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER;
-            BlockPos blockPos2 = isUpper ? blockPos.down() : blockPos;
-            IBlockState blockState2 = isUpper ? world.getBlockState(blockPos2) : blockState;
-            if (blockState2.getBlock() == this)
+            BlockPos newPos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? pos.down() : pos;
+            IBlockState newState = world.getBlockState(newPos);
+            if (newState.getBlock() == this)
             {
-                TileEntity tileentity = world.getTileEntity(blockPos2);
+                boolean canUnlock = true;
+                TileEntity tileentity = world.getTileEntity(newPos);
                 if (tileentity instanceof TileEntityMagnetDoor)
                 {
                     TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
-                    boolean canUnlock = !tileentityMagnetDoor.isLocked();
-                    ItemStack itemStack = player.getHeldItem();
+                    ItemStack itemStack = player.getHeldItem(hand);
                     if (itemStack != null && itemStack.getItem() == ItemInit.magnetCard && itemStack.hasTagCompound())
                     {
                         NBTTagCompound nbt = itemStack.getTagCompound();
@@ -89,94 +146,35 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                             }
                             else
                             {
-                                if (UUID.equals(tileentityMagnetDoor.getUUID()))
-                                {
-                                    canUnlock = true;
-                                }
+                                canUnlock = UUID.equals(tileentityMagnetDoor.getUUID());
                             }
                         }
                     }
-                    if (canUnlock)
-                    {
-                        blockState = blockState2.cycleProperty(OPEN);
-                        world.setBlockState(blockPos2, blockState, 2);
-                        world.markBlockRangeForRenderUpdate(blockPos2, blockPos);
-                        world.playAuxSFXAtEntity(player, blockState.getValue(OPEN).booleanValue() ? 1003 : 1006, blockPos2, 0);
-                        return true;
-                    }
-                    playerMagic.sendOverlayMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()));
                 }
+                if (canUnlock)
+                {
+                    state = newState.cycleProperty(OPEN);
+                    world.setBlockState(newPos, state, 2);
+                    world.markBlockRangeForRenderUpdate(newPos, pos);
+                    world.playEvent(player, state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
+                    return true;
+                }
+                playerMagic.sendOverlayMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()));
             }
         }
         return false;
     }
-    
-    @Override
-    public void onNeighborBlockChange(World world, BlockPos blockPos, IBlockState blockState, Block neighborBlock)
-    {
-        if (blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER)
-        {
-            BlockPos blockPos2 = blockPos.down();
-            IBlockState blockState2 = world.getBlockState(blockPos2);
-
-            if (blockState2.getBlock() != this)
-            {
-                world.setBlockToAir(blockPos);
-            }
-            else if (neighborBlock != this)
-            {
-                this.onNeighborBlockChange(world, blockPos2, blockState2, neighborBlock);
-            }
-        }
-        else
-        {
-            boolean removed = false;
-            BlockPos blockpos2 = blockPos.up();
-            IBlockState blockState2 = world.getBlockState(blockpos2);
-
-            if (blockState2.getBlock() != this)
-            {
-                world.setBlockToAir(blockPos);
-                removed = true;
-            }
-
-            if (!World.doesBlockHaveSolidTopSurface(world, blockPos.down()))
-            {
-                world.setBlockToAir(blockPos);
-                removed = true;
-
-                if (blockState2.getBlock() == this)
-                {
-                    world.setBlockToAir(blockpos2);
-                }
-            }
-
-            if (!world.isRemote && removed)
-            {
-                this.dropBlockAsItem(world, blockPos, blockState, 0);
-            }
-        }
-    }
 
     @Override
-    public boolean onBlockEventReceived(World world, BlockPos blockPos, IBlockState blockState, int eventID, int eventParam)
+    public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState blockState, int fortune)
     {
-        super.onBlockEventReceived(world, blockPos, blockState, eventID, eventParam);
-        TileEntity tileentity = world.getTileEntity(blockPos);
-        return tileentity != null ? tileentity.receiveClientEvent(eventID, eventParam) : false;
-    }
-    
-    @Override
-    public List<ItemStack> getDrops(IBlockAccess world, BlockPos blockPos, IBlockState blockState, int fortune)
-    {
-        List<ItemStack> ret = new ArrayList<ItemStack>();
         Random rand = world instanceof World ? ((World) world).rand : RANDOM;
         Item item = this.getItemDropped(blockState, rand, fortune);
         if (item != null)
         {
             ItemStack itemStack = new ItemStack(item);
-            if (blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) blockPos = blockPos.down();
-            TileEntity tileentity = world.getTileEntity(blockPos);
+            if (blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER) pos = pos.down();
+            TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof TileEntityMagnetDoor)
             {
                 TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
@@ -184,21 +182,15 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                 nbt.setString("UUID", tileentityMagnetDoor.getUUID());
                 itemStack.setTagCompound(nbt);
             }
-            ret.add(itemStack);
+            drops.add(itemStack);
         }
-        return ret;
     }
 
     @Override
-    public Item getItemDropped(IBlockState blockState, Random rand, int fortune)
+    public boolean eventReceived(IBlockState state, World world, BlockPos pos, int id, int param)
     {
-        return blockState.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? ItemInit.magnetDoor : null;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public Item getItem(World world, BlockPos pos)
-    {
-        return ItemInit.magnetDoor;
+        super.eventReceived(state, world, pos, id, param);
+        TileEntity tileentity = world.getTileEntity(pos);
+        return tileentity != null ? tileentity.receiveClientEvent(id, param) : false;
     }
 }

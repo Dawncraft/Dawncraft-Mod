@@ -2,34 +2,33 @@ package io.github.dawncraft.block;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockMagnetRail extends BlockRailBase
 {
-    public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.<BlockRailBase.EnumRailDirection>create("shape", BlockRailBase.EnumRailDirection.class, new Predicate<BlockRailBase.EnumRailDirection>()
+    public static final PropertyEnum<EnumRailDirection> SHAPE = PropertyEnum.<EnumRailDirection>create("shape", EnumRailDirection.class, new Predicate<EnumRailDirection>()
     {
         @Override
-        public boolean apply(BlockRailBase.EnumRailDirection direction)
+        public boolean apply(EnumRailDirection direction)
         {
-            return direction != BlockRailBase.EnumRailDirection.NORTH_EAST && direction != BlockRailBase.EnumRailDirection.NORTH_WEST && direction != BlockRailBase.EnumRailDirection.SOUTH_EAST && direction != BlockRailBase.EnumRailDirection.SOUTH_WEST;
+            return direction != EnumRailDirection.NORTH_EAST && direction != EnumRailDirection.NORTH_WEST && direction != EnumRailDirection.SOUTH_EAST && direction != EnumRailDirection.SOUTH_WEST;
         }
     });
-    
+
     public BlockMagnetRail()
     {
         super(false);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(SHAPE, EnumRailDirection.NORTH_SOUTH));
     }
-    
+
     @Override
     public boolean isFlexibleRail(IBlockAccess world, BlockPos pos)
     {
@@ -37,27 +36,27 @@ public class BlockMagnetRail extends BlockRailBase
     }
 
     @Override
-    public float getRailMaxSpeed(World world, net.minecraft.entity.item.EntityMinecart cart, BlockPos pos)
+    public float getRailMaxSpeed(World world, EntityMinecart cart, BlockPos pos)
     {
         return 0.6f;
     }
 
     @Override
-    public IProperty<BlockRailBase.EnumRailDirection> getShapeProperty()
+    public IProperty<EnumRailDirection> getShapeProperty()
     {
         return SHAPE;
     }
-    
+
     @Override
-    protected BlockState createBlockState()
+    protected BlockStateContainer createBlockState()
     {
-        return new BlockState(this, SHAPE);
+        return new BlockStateContainer(this, SHAPE);
     }
 
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.byMetadata(meta));
+        return this.getDefaultState().withProperty(SHAPE, EnumRailDirection.byMetadata(meta));
     }
 
     @Override
@@ -65,20 +64,11 @@ public class BlockMagnetRail extends BlockRailBase
     {
         return state.getValue(SHAPE).getMetadata();
     }
-    
-    @Override
-    protected void onNeighborChangedInternal(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
-    {
-        if (neighborBlock.canProvidePower())
-        {
-            this.func_176564_a(worldIn, pos, state, false);
-        }
-    }
-    
+
     @Override
     public void onMinecartPass(World world, EntityMinecart cart, BlockPos pos)
     {
-        if (cart.riddenByEntity != null)
+        if (!cart.isBeingRidden())
         {
             cart.motionX *= 1.66D;
             cart.motionZ *= 1.66D;

@@ -1,5 +1,6 @@
 package io.github.dawncraft;
 
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -35,35 +36,40 @@ public class Dawncraft
     /** The instance of server proxy. */
     @SidedProxy(clientSide = "io.github.dawncraft.client.ClientProxy", serverSide = "io.github.dawncraft.server.ServerProxy")
     public static CommonProxy proxy;
-    
+
+    public Dawncraft()
+    {
+        FluidRegistry.enableUniversalBucket();
+    }
+
     /** {@link FMLPreInitializationEvent} */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit(event);
     }
-    
+
     /** {@link FMLInitializationEvent} */
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
         proxy.init(event);
     }
-    
+
     /** {@link FMLPostInitializationEvent} */
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit(event);
     }
-    
+
     /** {@link FMLServerStartingEvent} */
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event)
     {
         proxy.serverStarting(event);
     }
-    
+
     /** {@link IMCEvent} */
     @EventHandler
     public void interModComms(IMCEvent event)
@@ -75,6 +81,7 @@ public class Dawncraft
     @EventHandler
     public void fingerprintViolation(FMLFingerprintViolationEvent event)
     {
+        // TODO 重新下载界面
         System.out.println("[" + MODID + "] " + "你的曙光工艺Mod被修改过, 请到" + Loader.instance().getIndexedModList().get(MODID).getMetadata().url + "下载正式版");
     }
 }

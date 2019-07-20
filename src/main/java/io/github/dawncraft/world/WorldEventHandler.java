@@ -1,37 +1,35 @@
 package io.github.dawncraft.world;
 
+import java.lang.reflect.Field;
+
+import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.config.LogLoader;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.GameRules.ValueType;
-
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
-import java.lang.reflect.Field;
-
-import io.github.dawncraft.config.LogLoader;
-import io.github.dawncraft.stats.AchievementLoader;
-
+@Mod.EventBusSubscriber(modid = Dawncraft.MODID)
 public class WorldEventHandler
 {
-    public WorldEventHandler() {}
-
     @SubscribeEvent
-    public void onWorldLoaded(WorldEvent.Load event)
+    public static void onWorldLoaded(WorldEvent.Load event)
     {
         // Register custom game rules
-        GameRules gamerules = event.world.getGameRules();
+        GameRules gamerules = event.getWorld().getGameRules();
         addGameRule(gamerules, "naturalRecovery", String.valueOf(true), ValueType.BOOLEAN_VALUE);
         addGameRule(gamerules, "skillCooldown", String.valueOf(true), ValueType.BOOLEAN_VALUE);
-        
+
         // Register custom world teleporter by reflection
-        if (!event.world.isRemote && event.world.provider.getDimensionId() == WorldLoader.DAWNWORLD)
+        if (!event.getWorld().isRemote && event.getWorld().provider.getDimensionType() == WorldInit.DAWNWORLD)
         {
-            WorldServer worldServer = (WorldServer) event.world;
+            WorldServer worldServer = (WorldServer) event.getWorld();
             try
             {
                 Field field = ReflectionHelper.findField(WorldServer.class, "worldTeleporter", "field_85177_Q");
@@ -43,16 +41,16 @@ public class WorldEventHandler
             }
         }
     }
-    
+
     @SubscribeEvent
-    public void onEntityTravelToDimension(EntityTravelToDimensionEvent event)
+    public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event)
     {
-        if (event.dimension == WorldLoader.DAWNWORLD)
+        if (event.getDimension() == WorldInit.DAWNWORLD.getId())
         {
-            if (event.entity instanceof EntityPlayerMP)
+            if (event.getEntity() instanceof EntityPlayerMP)
             {
-                EntityPlayerMP entityPlayerMP = (EntityPlayerMP) event.entity;
-                entityPlayerMP.triggerAchievement(AchievementLoader.dawnArrival);
+                EntityPlayerMP entityPlayerMP = (EntityPlayerMP) event.getEntity();
+                // entityPlayerMP.triggerAchievement(AchievementLoader.dawnArrival);
             }
         }
     }

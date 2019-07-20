@@ -7,7 +7,7 @@ import io.github.dawncraft.api.item.ItemHammer;
 import io.github.dawncraft.api.item.ItemWand;
 import io.github.dawncraft.client.sound.SoundInit;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
-import io.github.dawncraft.potion.PotionLoader;
+import io.github.dawncraft.potion.PotionInit;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -192,7 +192,7 @@ public class ItemInit
                     player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 200, 1));
                     player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 1));
                     player.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 200, 1));
-                    player.addPotionEffect(new PotionEffect(PotionLoader.potionConfusion, 200, 1));
+                    player.addPotionEffect(new PotionEffect(PotionInit.potionConfusion, 200, 1));
                 }
             }
         }.setAlwaysEdible().setTranslationKey("faeces").setCreativeTab(CreativeTabsLoader.tabCuisine), "faeces");
@@ -224,7 +224,7 @@ public class ItemInit
                 super.onFoodEaten(stack, world, player);
                 if (!world.isRemote)
                 {
-                    player.addPotionEffect(new PotionEffect(PotionLoader.potionGerPower, 400, 2));
+                    player.addPotionEffect(new PotionEffect(PotionInit.potionGerPower, 400, 2));
                     player.addExperience(2000);
                 }
             }
@@ -237,7 +237,7 @@ public class ItemInit
                 super.onFoodEaten(stack, world, player);
                 if (!world.isRemote)
                 {
-                    player.addPotionEffect(new PotionEffect(PotionLoader.potionBrainDead, 160, 1));
+                    player.addPotionEffect(new PotionEffect(PotionInit.potionBrainDead, 160, 1));
                     player.addExperience(233);
                 }
             }
@@ -253,7 +253,7 @@ public class ItemInit
             @Override
             public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
             {
-                target.addPotionEffect(new PotionEffect(PotionLoader.potionParalysis, 60, 0));
+                target.addPotionEffect(new PotionEffect(PotionInit.potionParalysis, 60, 0));
                 attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
                 return super.hitEntity(stack, target, attacker);
             }

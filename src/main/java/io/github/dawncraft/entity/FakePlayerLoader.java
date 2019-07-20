@@ -2,7 +2,9 @@ package io.github.dawncraft.entity;
 
 import java.lang.ref.WeakReference;
 import java.util.UUID;
+
 import com.mojang.authlib.GameProfile;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayerFactory;
@@ -20,18 +22,18 @@ public class FakePlayerLoader
     public static void initFakePlayers()
     {
         gameProfile = new GameProfile(UUID.randomUUID(), "[Dawncraft]");
-        fakePlayer = new WeakReference<EntityPlayerMP>(null);
+        fakePlayer = new WeakReference<>(null);
     }
 
     public static WeakReference<EntityPlayerMP> getFakePlayer(WorldServer server)
     {
         if (fakePlayer.get() == null)
         {
-            fakePlayer = new WeakReference<EntityPlayerMP>(FakePlayerFactory.get(server, gameProfile));
+            fakePlayer = new WeakReference<>(FakePlayerFactory.get(server, gameProfile));
         }
         else
         {
-            fakePlayer.get().worldObj = server;
+            fakePlayer.get().world = server;
         }
         return fakePlayer;
     }

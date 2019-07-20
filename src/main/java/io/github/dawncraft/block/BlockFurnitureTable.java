@@ -1,15 +1,12 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.api.block.BlockFurniture;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 
 public class BlockFurnitureTable extends BlockFurniture
 {
@@ -17,7 +14,7 @@ public class BlockFurnitureTable extends BlockFurniture
     public static final PropertyBool SOUTH = PropertyBool.create("south");
     public static final PropertyBool WEST = PropertyBool.create("west");
     public static final PropertyBool EAST = PropertyBool.create("east");
-    
+
     public BlockFurnitureTable(EnumMaterialType type)
     {
         super(type);
@@ -26,18 +23,28 @@ public class BlockFurnitureTable extends BlockFurniture
     }
 
     @Override
-    public boolean isSideSolid(IBlockAccess world, BlockPos pos, EnumFacing facing)
+    public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing facing)
     {
-        if (facing == EnumFacing.UP)
-            return true;
+        if (facing == EnumFacing.UP) return true;
         return false;
     }
 
     @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ,
-            int meta, EntityLivingBase placer)
+    protected BlockStateContainer createBlockState()
     {
-        return this.getStateFromMeta(meta);
+        return new BlockStateContainer(this, NORTH, EAST, SOUTH, WEST);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return 0;
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState();
     }
 
     @Override
@@ -47,26 +54,6 @@ public class BlockFurnitureTable extends BlockFurniture
         boolean south = world.getBlockState(pos.south()).getBlock() == this;
         boolean west = world.getBlockState(pos.west()).getBlock() == this;
         boolean east = world.getBlockState(pos.east()).getBlock() == this;
-        return state.withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST,
-                west);
-    }
-    
-    @Override
-    public int getMetaFromState(IBlockState state)
-    {
-        return 0;
-    }
-    
-    @Override
-    public IBlockState getStateFromMeta(int meta)
-    {
-        return this.getDefaultState();
-    }
-    
-    @Override
-    protected BlockState createBlockState()
-    {
-        return new BlockState(this, new IProperty[]
-                { NORTH, EAST, SOUTH, WEST });
+        return state.withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west);
     }
 }

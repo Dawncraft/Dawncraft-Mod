@@ -7,7 +7,7 @@ import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
-import io.github.dawncraft.potion.PotionLoader;
+import io.github.dawncraft.potion.PotionInit;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -258,7 +258,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.nomana"), !isInit);
 	    return EnumSpellAction.NONE;
 	}
-	if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+	if (player.getActivePotionEffect(PotionInit.potionSilent) != null)
 	{
 	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), !isInit);
 	    return EnumSpellAction.NONE;
@@ -291,7 +291,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
     public EnumSpellAction onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
 	IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-	if (player.getActivePotionEffect(PotionLoader.potionSilent) != null)
+	if (player.getActivePotionEffect(PotionInit.potionSilent) != null)
 	{
 	    playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), true);
 	    return EnumSpellAction.NONE;

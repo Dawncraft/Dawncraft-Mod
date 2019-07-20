@@ -9,73 +9,157 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.TextComponentTranslation;
-import java.util.List;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.server.command.CommandTreeBase;
 
-public class CommandMagic extends CommandBase
+public class CommandMagic extends CommandTreeBase
 {
+    public CommandMagic()
+    {
+        this.addSubcommand(new CommandBase()
+        {
+            @Override
+            public String getName()
+            {
+                return "view";
+            }
+
+            @Override
+            public int getRequiredPermissionLevel()
+            {
+                return CommandMagic.this.getRequiredPermissionLevel();
+            }
+
+            @Override
+            public String getUsage(ICommandSender sender)
+            {
+                return CommandMagic.this.getUsage(sender);
+            }
+
+            @Override
+            public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+            {
+                EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                float mana = playerMagic.getMana();
+                double maxMana = playerMagic.getMaxMana();
+                NBTBase nbt = CapabilityLoader.playerMagic.getStorage().writeNBT(CapabilityLoader.playerMagic, playerMagic, null);
+                serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.view", mana, maxMana, nbt.toString()));
+            }
+        });
+        this.addSubcommand(new CommandBase()
+        {
+            @Override
+            public String getName()
+            {
+                return "set";
+            }
+
+            @Override
+            public int getRequiredPermissionLevel()
+            {
+                return CommandMagic.this.getRequiredPermissionLevel();
+            }
+
+            @Override
+            public String getUsage(ICommandSender sender)
+            {
+                return CommandMagic.this.getUsage(sender);
+            }
+
+            @Override
+            public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+            {
+                EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                int i = parseInt(args[0], 0);
+                if (i >= 0 && i <= playerMagic.getMaxMana())
+                {
+                    playerMagic.setMana((float) AttributesLoader.maxMana.clampValue(i));
+                    float mana = playerMagic.getMana();
+                    serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.set", mana));
+                }
+                else throw new WrongUsageException("commands.magic.usage");
+            }
+        });
+        this.addSubcommand(new CommandBase()
+        {
+            @Override
+            public String getName()
+            {
+                return "max";
+            }
+
+            @Override
+            public int getRequiredPermissionLevel()
+            {
+                return CommandMagic.this.getRequiredPermissionLevel();
+            }
+
+            @Override
+            public String getUsage(ICommandSender sender)
+            {
+                return CommandMagic.this.getUsage(sender);
+            }
+
+            @Override
+            public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+            {
+                EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                int i = parseInt(args[0], 0);
+                serverPlayer.getEntityAttribute(AttributesLoader.maxMana).setBaseValue(i);
+                float mana = playerMagic.getMaxMana();
+                serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.max", mana));
+            }
+        });
+        this.addSubcommand(new CommandBase()
+        {
+            @Override
+            public String getName()
+            {
+                return "reset";
+            }
+
+            @Override
+            public int getRequiredPermissionLevel()
+            {
+                return CommandMagic.this.getRequiredPermissionLevel();
+            }
+
+            @Override
+            public String getUsage(ICommandSender sender)
+            {
+                return CommandMagic.this.getUsage(sender);
+            }
+
+            @Override
+            public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+            {
+                EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                playerMagic.setMana(playerMagic.getMaxMana());
+                serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.reset"));
+            }
+        });
+    }
+
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "magic";
     }
-    
+
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public int getRequiredPermissionLevel()
     {
-        return "commands.magic.usage";
-    }
-    
-    @Override
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException
-    {
-        if(args.length > 0)
-        {
-            EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
-            IPlayerMagic playerCap = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
-            if(args[0].equals("view"))
-            {
-                float mana = playerCap.getMana();
-                NBTBase nbt = CapabilityLoader.playerMagic.getStorage().writeNBT(CapabilityLoader.playerMagic, playerCap, null);
-                serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.view",
-                        mana, serverPlayer.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue(), nbt.toString()));
-            }
-            else if(args[0].equals("set"))
-            {
-                int i = parseInt(args[1], 0);
-                if(i >= 0 && i <= serverPlayer.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue())
-                {
-                    playerCap.setMana((float) AttributesLoader.maxMana.clampValue(i));
-                    float mana = playerCap.getMana();
-                    serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.set", mana));
-                }
-                else throw new WrongUsageException("commands.magic.usage", new Object[0]);
-            }
-            else if(args[0].equals("max"))
-            {
-                int i = parseInt(args[1], 0);
-                serverPlayer.getEntityAttribute(AttributesLoader.maxMana).setBaseValue(i);
-                float mana = playerCap.getMaxMana();
-                serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.max", mana));
-            }
-            else if(args[0].equals("reset"))
-            {
-                playerCap.setMana(playerCap.getMaxMana());
-                serverPlayer.addChatMessage(new TextComponentTranslation("commands.magic.reset"));
-            }
-            else throw new WrongUsageException("commands.magic.usage", new Object[0]);
-        }
-        else throw new WrongUsageException("commands.magic.usage", new Object[0]);
+        return 0;
     }
 
     @Override
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+    public String getUsage(ICommandSender sender)
     {
-        if(args.length == 1)
-        {
-            return getListOfStringsMatchingLastWord(args, new String[] {"view", "set", "max", "reset"});
-        }
-        return null;
+        return "commands.magic.usage";
     }
 }

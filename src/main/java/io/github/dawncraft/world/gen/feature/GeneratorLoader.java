@@ -3,7 +3,8 @@ package io.github.dawncraft.world.gen.feature;
 import java.util.Random;
 
 import io.github.dawncraft.block.BlockInit;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -22,50 +23,48 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class GeneratorLoader
 {
     private BlockPos lastOrePos;
-    
+
     public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockInit.magnetOre.getDefaultState(), 6)
     {
         @Override
-        public boolean generate(World worldIn, Random rand, BlockPos position)
+        public boolean generate(World world, Random rand, BlockPos position)
         {
-            if (TerrainGen.generateOre(worldIn, rand, this, position, OreGenEvent.GenerateMinable.EventType.CUSTOM))
+            if (TerrainGen.generateOre(world, rand, this, position, OreGenEvent.GenerateMinable.EventType.CUSTOM))
             {
-                if (worldIn.provider.getDimensionId() == 0)
+                if (world.provider.getDimensionType() == DimensionType.OVERWORLD)
                 {
                     for (int i = 0; i < 8; ++i)
                     {
                         BlockPos blockpos = new BlockPos(position.getX() + rand.nextInt(16), 1 + rand.nextInt(62), position.getZ() + rand.nextInt(16));
-                        super.generate(worldIn, rand, blockpos);
+                        super.generate(world, rand, blockpos);
                     }
                 }
             }
             return true;
         }
     };
-    
+
     public static void initGenerators()
     {
-        // registerGenerator
-
         registerEvent(new GeneratorLoader());
     }
-    
+
     @SubscribeEvent
     public void onOreGenPost(OreGenEvent.Post event)
     {
-        if (!event.pos.equals(this.lastOrePos))
+        if (!event.getPos().equals(this.lastOrePos))
         {
-            this.lastOrePos = event.pos;
-            magnetOreGenerator.generate(event.world, event.rand, event.pos);
+            this.lastOrePos = event.getPos();
+            magnetOreGenerator.generate(event.getWorld(), event.getRand(), event.getPos());
         }
     }
-    
+
     @SubscribeEvent
     public void onOreGenGenerateMinable(OreGenEvent.GenerateMinable event)
     {
-        
+
     }
-    
+
     private static void registerEvent(Object target)
     {
         MinecraftForge.TERRAIN_GEN_BUS.register(target);

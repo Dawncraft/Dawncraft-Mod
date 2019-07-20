@@ -10,13 +10,13 @@ import org.apache.logging.log4j.Logger;
 public class LogLoader
 {
     private static Logger logger;
-    
+
     public static void init(Logger logger)
     {
         LogLoader.logger = logger;
-        logger.info("Logger loaded successfully.");
+        logger.info("Load logger successfully.");
     }
-    
+
     public static Logger logger()
     {
         return logger;

@@ -1,6 +1,7 @@
 package io.github.dawncraft.api.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -20,7 +21,7 @@ import net.minecraft.world.World;
  */
 public abstract class BlockFurniture extends Block
 {
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
 
     public BlockFurniture(EnumMaterialType type)
     {
@@ -43,13 +44,19 @@ public abstract class BlockFurniture extends Block
     }
 
     @Override
-    public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side)
+    public boolean isFullCube(IBlockState state)
     {
         return false;
     }
 
     @Override
-    public BlockStateContainer createBlockState()
+    public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing facing)
+    {
+        return false;
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState()
     {
         return new BlockStateContainer(this, FACING);
     }

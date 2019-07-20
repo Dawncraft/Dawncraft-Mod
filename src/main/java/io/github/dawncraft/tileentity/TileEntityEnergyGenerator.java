@@ -1,16 +1,16 @@
 package io.github.dawncraft.tileentity;
 
+import io.github.dawncraft.api.block.BlockMachine;
 import io.github.dawncraft.block.BlockEnergyGenerator;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.TextComponentTranslation;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITextComponent;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -28,13 +28,14 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
     public int currentItemBurnTime;
     public int electricity;
     public final int Max_Electricity = 12800;
-    
+
+    @Override
     public ITextComponent getDisplayName()
     {
-        String name = "container." + this.getWorld().getBlockState(this.getPos()).getBlock().getUnlocalizedName();
-        return new TextComponentTranslation(name, new Object[0]);
+        String name = "container." + this.getWorld().getBlockState(this.getPos()).getBlock().getTranslationKey();
+        return new TextComponentTranslation(name);
     }
-    
+
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
@@ -65,16 +66,17 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
         this.currentItemBurnTime = TileEntityFurnace.getItemBurnTime(this.fuelItemStack.getStackInSlot(0));
         this.electricity = compound.getShort("Electricity");
     }
-    
+
     @Override
-    public void writeToNBT(NBTTagCompound compound)
+    public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
         compound.setTag("FuelInventory", this.fuelItemStack.serializeNBT());
         compound.setShort("BurnTime", (short) this.generatorBurnTime);
         compound.setShort("Electricity", (short) this.electricity);
+        return compound;
     }
-    
+
     @Override
     public void onLoad()
     {
@@ -97,8 +99,8 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
         boolean wasWorking = this.isWorking();
 
         if(wasWorking) --this.generatorBurnTime;
-        
-        if (!this.worldObj.isRemote)
+
+        if (!this.world.isRemote)
         {
             if(!this.isWorking() && this.canWork())
             {
@@ -110,7 +112,7 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
                     this.fuelItemStack.extractItem(0, 1, false);
                 }
             }
-            
+
             if(this.isWorking() && this.canWork())
             {
                 ++this.electricity;
@@ -119,7 +121,7 @@ public class TileEntityEnergyGenerator extends TileEntity implements ITickable
             if (wasWorking != this.isWorking())
             {
                 this.markDirty();
-                BlockEnergyGenerator.setBlockState(this.isWorking(), this.worldObj, this.pos);
+                BlockMachine.setBlockState(this.isWorking(), this.world, this.pos);
             }
         }
     }

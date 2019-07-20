@@ -1,30 +1,24 @@
 package io.github.dawncraft.world;
 
-import io.github.dawncraft.world.gen.ChunkProviderDawn;
+import io.github.dawncraft.world.gen.ChunkGeneratorDawn;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.biome.WorldChunkManager;
-import net.minecraft.world.chunk.IChunkProvider;
+import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderDawn extends WorldProvider
 {
     @Override
-    public String getDimensionName()
+    public DimensionType getDimensionType()
     {
-        return "Dawnworld";
+        return WorldInit.DAWNWORLD;
     }
-    
-    @Override
-    public String getInternalNameSuffix()
-    {
-        return "_dawn";
-    }
-    
+
     @Override
     public boolean isSurfaceWorld()
     {
         return false;
     }
-    
+
     @Override
     public boolean canRespawnHere()
     {
@@ -32,27 +26,20 @@ public class WorldProviderDawn extends WorldProvider
     }
 
     @Override
-    public String getWelcomeMessage()
+    public int getAverageGroundLevel()
     {
-        return "Entering the Dawn world";
-    }
-    
-    @Override
-    public String getDepartMessage()
-    {
-        return "Leaving the Dawn world";
+        return 50;
     }
 
     @Override
-    public void registerWorldChunkManager()
+    protected void init()
     {
-        this.worldChunkMgr = new WorldChunkManager(this.worldObj);
-    }
-    
-    @Override
-    public IChunkProvider createChunkGenerator()
-    {
-        return new ChunkProviderDawn(this.worldObj, this.worldObj.getSeed());
+        this.biomeProvider = null;
     }
 
+    @Override
+    public IChunkGenerator createChunkGenerator()
+    {
+        return new ChunkGeneratorDawn(this.world, this.world.getSeed(), this.world.getWorldInfo().isMapFeaturesEnabled());
+    }
 }

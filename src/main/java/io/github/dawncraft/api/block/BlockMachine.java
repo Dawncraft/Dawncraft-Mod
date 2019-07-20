@@ -2,8 +2,10 @@ package io.github.dawncraft.api.block;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -11,15 +13,21 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class BlockMachine extends BlockContainer
 {
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool WORKING = PropertyBool.create("working");
 
     public BlockMachine()
@@ -46,6 +54,7 @@ public abstract class BlockMachine extends BlockContainer
         this.setResistance(10.0f);
         this.setHarvestLevel("hammer", 1);
         this.setSoundType(SoundType.METAL);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
     }
 
     @Override
@@ -104,25 +113,25 @@ public abstract class BlockMachine extends BlockContainer
     {
         if (!world.isRemote)
         {
-            Block north = world.getBlockState(pos.north()).getBlock();
-            Block south = world.getBlockState(pos.south()).getBlock();
-            Block west = world.getBlockState(pos.west()).getBlock();
-            Block east = world.getBlockState(pos.east()).getBlock();
+            IBlockState north = world.getBlockState(pos.north());
+            IBlockState south = world.getBlockState(pos.south());
+            IBlockState west = world.getBlockState(pos.west());
+            IBlockState east = world.getBlockState(pos.east());
             EnumFacing facing = state.getValue(FACING);
 
-            if (facing == EnumFacing.NORTH && north.isFullBlock(state) && !south.isFullBlock(state))
+            if (facing == EnumFacing.NORTH && north.isFullBlock() && !south.isFullBlock())
             {
                 facing = EnumFacing.SOUTH;
             }
-            else if (facing == EnumFacing.SOUTH && south.isFullBlock(state) && !north.isFullBlock(state))
+            else if (facing == EnumFacing.SOUTH && south.isFullBlock() && !north.isFullBlock())
             {
                 facing = EnumFacing.NORTH;
             }
-            else if (facing == EnumFacing.WEST && west.isFullBlock(state) && !east.isFullBlock(state))
+            else if (facing == EnumFacing.WEST && west.isFullBlock() && !east.isFullBlock())
             {
                 facing = EnumFacing.EAST;
             }
-            else if (facing == EnumFacing.EAST && east.isFullBlock(state) && !west.isFullBlock(state))
+            else if (facing == EnumFacing.EAST && east.isFullBlock() && !west.isFullBlock())
             {
                 facing = EnumFacing.WEST;
             }
@@ -132,7 +141,7 @@ public abstract class BlockMachine extends BlockContainer
     }
 
     @Override
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         return false;
     }
@@ -150,6 +159,38 @@ public abstract class BlockMachine extends BlockContainer
     }
 
     @Override
+    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity tileentity, ItemStack stack)
+    {
+        if (tileentity != null)
+        {
+            player.addStat(StatList.getBlockStats(this));
+            player.addExhaustion(0.005F);
+
+            if (!world.isRemote)
+            {
+                int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, stack);
+                Item item = this.getItemDropped(state, world.rand, i);
+
+                if (item != Items.AIR)
+                {
+                    ItemStack dropStack = new ItemStack(item, this.quantityDropped(world.rand));
+                    if (tileentity instanceof IWorldNameable && ((IWorldNameable) tileentity).hasCustomName())
+                        dropStack.setStackDisplayName(((IWorldNameable) tileentity).getName());
+                    this.attachItemStackNBT(dropStack, world, player, pos, state, tileentity, stack);
+                    spawnAsEntity(world, pos, dropStack);
+                }
+            }
+        }
+        else
+        {
+            super.harvestBlock(world, player, pos, state, null, stack);
+        }
+    }
+
+    public void attachItemStackNBT(ItemStack dropStack, World world, EntityPlayer player, BlockPos pos,
+            IBlockState state, TileEntity tileentity, ItemStack stack) {}
+
+    @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
         world.updateComparatorOutputLevel(pos, this);
@@ -165,5 +206,12 @@ public abstract class BlockMachine extends BlockContainer
     public static void setBlockState(boolean active, World world, BlockPos pos)
     {
         world.setBlockState(pos, world.getBlockState(pos).withProperty(WORKING, active), 3);
+
+        TileEntity tileentity = world.getTileEntity(pos);
+        if (tileentity != null)
+        {
+            tileentity.validate();
+            world.setTileEntity(pos, tileentity);
+        }
     }
 }
