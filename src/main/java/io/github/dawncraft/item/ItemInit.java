@@ -5,6 +5,8 @@ import io.github.dawncraft.api.item.ItemGunLauncher;
 import io.github.dawncraft.api.item.ItemGunRifle;
 import io.github.dawncraft.api.item.ItemHammer;
 import io.github.dawncraft.api.item.ItemWand;
+import io.github.dawncraft.block.BlockInit;
+import io.github.dawncraft.block.BlockSkull;
 import io.github.dawncraft.client.sound.SoundInit;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.potion.PotionInit;
@@ -215,7 +217,14 @@ public class ItemInit
         registerItem(new ItemSkillBook().setTranslationKey("skillBook").setCreativeTab(CreativeTabsLoader.tabMagic), "skill_book");
 
         // ColourEgg
-        registerItem(new ItemSkullDawn().setTranslationKey("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg), "skull");
+        registerItem(new ItemSkull()
+        {
+            @Override
+            public BlockSkull getSkullBlock()
+            {
+                return (BlockSkull) BlockInit.skull;
+            }
+        }.setTranslationKey("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg), "skull");
         registerItem(new ItemFood(2, 1.0F, false)
         {
             @Override

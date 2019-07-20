@@ -14,9 +14,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import io.github.dawncraft.core.DawnCoreSetuper;
-
 import net.minecraft.launchwrapper.IClassTransformer;
-
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 
 public class DawnCoreTransformer implements IClassTransformer
@@ -188,49 +186,6 @@ public class DawnCoreTransformer implements IClassTransformer
             }
         }
         // 服务器
-        /*
-        if (transformedName.equals("net.minecraft.server.management.ServerConfigurationManager"))
-        {
-            for (MethodNode methodNode : classNode.methods)
-            {
-                String methodName = FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(name, methodNode.name, methodNode.desc);
-                String methodDesc = FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
-                if ((methodName.equals("transferEntityToWorld") || methodName.equals("func_82448_a")) && methodDesc.equals("(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)V"))
-                {
-                    changed = true;
-                    // 对net.minecraft.server.management.ServerConfigurationManager.transferEntityToWorld(Entity, int, WorldServer, WorldServer)进行操作
-                    for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
-                    {
-                        // 第二个 ALOAD 4
-                        if (insnNode.getOpcode() == Opcodes.ALOAD && insnNode.getNext().getOpcode() == Opcodes.INVOKEVIRTUAL)
-                        {
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 1));
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 2));
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 3));
-                            methodNode.instructions.set(insnNode.getNext(), new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/server/DawnServerHooks", "getTeleporter", "(Lnet/minecraft/entity/Entity;ILnet/minecraft/world/WorldServer;Lnet/minecraft/world/WorldServer;)Lnet/minecraft/world/Teleporter;", false));
-                        }
-                    }
-                }
-                else if ((methodName.equals("transferPlayerToDimension") || methodName.equals("func_72356_a")) && methodDesc.equals("(Lnet/minecraft/entity/player/EntityPlayerMP;I)V"))
-                {
-                    changed = true;
-                    // 对net.minecraft.server.management.ServerConfigurationManager.transferPlayerToDimension(EntityPlayerMP, int)进行操作
-                    for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
-                    {
-                        if (insnNode.getOpcode() == Opcodes.ALOAD && insnNode.getPrevious().getOpcode() == Opcodes.ILOAD)
-                        {
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 1));
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 2));
-                        }
-                        else if (insnNode.getOpcode() == Opcodes.INVOKEVIRTUAL && ((MethodInsnNode) insnNode).desc.equals("()Lnet/minecraft/world/Teleporter;"))
-                        {
-                            methodNode.instructions.set(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/server/DawnServerHooks", "getTeleporter", "(Lnet/minecraft/entity/player/EntityPlayerMP;ILnet/minecraft/world/WorldServer;)Lnet/minecraft/world/Teleporter;", false));
-                        }
-                    }
-                }
-            }
-        }
-         */
         // 改了就快覆盖回去,切记一定要返回字节码,哪怕是原封不动
         if (changed) return getBytecode(classNode);
         return basicClass;
@@ -244,7 +199,7 @@ public class DawnCoreTransformer implements IClassTransformer
         classReader.accept(classNode, 0);
         return classNode;
     }
-    
+
     static public byte[] getBytecode(ClassNode classNode)
     {
         // 让ClassWriter自行计算最大栈深度和栈映射帧等信息

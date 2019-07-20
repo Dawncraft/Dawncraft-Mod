@@ -29,6 +29,10 @@ public class ConfigLoader
     public static int chairHealAmount = 0;
 
     @Config.Comment("")
+    @Config.LangKey("config." + Dawncraft.MODID + ".cuisine.isThirstEnabled")
+    public static boolean isThirstEnabled = false;
+
+    @Config.Comment("")
     @Config.LangKey("config." + Dawncraft.MODID + ".magic.globalPrepareTicks")
     @Config.RangeInt(min = 0)
     public static int globalPrepareTicks = 10;

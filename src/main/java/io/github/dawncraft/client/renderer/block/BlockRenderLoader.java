@@ -1,22 +1,20 @@
 package io.github.dawncraft.client.renderer.block;
 
-import io.github.dawncraft.block.BlockFurnitureAlarmClock;
 import io.github.dawncraft.block.BlockInit;
-import io.github.dawncraft.block.BlockMagnetDoor;
 import io.github.dawncraft.core.client.DawnClientHooks;
-
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
-import net.minecraftforge.fml.common.registry.GameData;
 
 /**
  * Register custom blocks' model.
@@ -28,15 +26,15 @@ public class BlockRenderLoader
     public static void initBlockRender()
     {
         registerFieldModel((BlockFluidBase) BlockInit.fluidPetroleum);
-        
-        registerStateMapper(BlockInit.magnetDoor, new StateMap.Builder().ignore(BlockMagnetDoor.POWERED).build());
-        registerStateMapper(BlockInit.alarmClock, new StateMap.Builder().ignore(BlockFurnitureAlarmClock.FACING).build());
+
+        registerStateMapper(BlockInit.magnetDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        registerStateMapper(BlockInit.alarmClock, new StateMap.Builder().ignore(BlockHorizontal.FACING).build());
 
         registerBuiltIn(BlockInit.magnetChest, "minecraft:blocks/planks_oak");
         registerBuiltIn(BlockInit.superChest, "minecraft:blocks/planks_oak");
         registerBuiltIn(BlockInit.skull, "minecraft:blocks/soul_sand");
     }
-    
+
     /**
      * Register a fluid's model.
      *
@@ -45,7 +43,7 @@ public class BlockRenderLoader
     private static void registerFieldModel(BlockFluidBase blockFluid)
     {
         Item itemFluid = Item.getItemFromBlock(blockFluid);
-        final String name = GameData.getBlockRegistry().getNameForObject(blockFluid).toString();
+        final String name = Block.REGISTRY.getNameForObject(blockFluid).toString();
         ModelLoader.setCustomMeshDefinition(itemFluid, new ItemMeshDefinition()
         {
             @Override
@@ -74,7 +72,7 @@ public class BlockRenderLoader
     {
         ModelLoader.setCustomStateMapper(block, mapper);
     }
-    
+
     /**
      * Register a builtin block.
      *

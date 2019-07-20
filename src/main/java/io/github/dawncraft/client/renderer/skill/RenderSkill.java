@@ -1,7 +1,5 @@
 package io.github.dawncraft.client.renderer.skill;
 
-import java.util.concurrent.Callable;
-
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.gui.GuiUtils;
@@ -9,12 +7,11 @@ import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.util.StringUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -22,10 +19,11 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
+import net.minecraft.crash.ICrashReportDetail;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 
 public class RenderSkill implements IResourceManagerReloadListener
 {
@@ -33,7 +31,7 @@ public class RenderSkill implements IResourceManagerReloadListener
     private ModelLoader modelLoader;
 
     public float zLevel;
-    
+
     public RenderSkill(TextureManager textureManager, ModelLoader modelLoader)
     {
         this.textureManager = textureManager;
@@ -89,7 +87,7 @@ public class RenderSkill implements IResourceManagerReloadListener
             {
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering skill");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Skill being rendered");
-                crashreportcategory.addCrashSectionCallable("Skill Type", new Callable<String>()
+                crashreportcategory.addDetail("Skill Type", new ICrashReportDetail<String>()
                 {
                     @Override
                     public String call() throws Exception
@@ -97,7 +95,7 @@ public class RenderSkill implements IResourceManagerReloadListener
                         return String.valueOf(stack.getSkill());
                     }
                 });
-                crashreportcategory.addCrashSectionCallable("Skill Level", new Callable<String>()
+                crashreportcategory.addDetail("Skill Level", new ICrashReportDetail<String>()
                 {
                     @Override
                     public String call() throws Exception
@@ -105,7 +103,7 @@ public class RenderSkill implements IResourceManagerReloadListener
                         return String.valueOf(stack.getSkillLevel());
                     }
                 });
-                crashreportcategory.addCrashSectionCallable("Skill NBT", new Callable<String>()
+                crashreportcategory.addDetail("Skill NBT", new ICrashReportDetail<String>()
                 {
                     @Override
                     public String call() throws Exception
@@ -134,27 +132,27 @@ public class RenderSkill implements IResourceManagerReloadListener
             }
             else
             {
-                level = EnumChatFormatting.RED + String.valueOf(stack.skillLevel);
+                level = TextFormatting.RED + String.valueOf(stack.skillLevel);
             }
 
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
             GlStateManager.disableBlend();
-            fontRenderer.drawStringWithShadow(level, (float) (x + 19 - 2 - fontRenderer.getStringWidth(level)), (float)(y + 6 + 3), 0xffffff);
+            fontRenderer.drawStringWithShadow(level, x + 19 - 2 - fontRenderer.getStringWidth(level), y + 6 + 3, 0xffffff);
             GlStateManager.enableLighting();
             GlStateManager.enableDepth();
 
             float cooldown = 0.0F;
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            EntityPlayer player = Minecraft.getMinecraft().player;
             IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
             cooldown = playerMagic.getCooldownTracker().getCooldownPercent(stack.getSkill(), 0);
-            
+
             if (cooldown > 0.0F)
             {
                 GlStateManager.disableLighting();
                 GlStateManager.disableDepth();
                 GlStateManager.colorMask(true, true, true, false);
-                GuiUtils.drawRect(x, y + MathHelper.floor_float(16.0F * (1.0F - cooldown)), 16, MathHelper.ceiling_float_int(16.0F * cooldown), 255, 255, 255, 127);
+                GuiUtils.drawRect(x, y + MathHelper.floor(16.0F * (1.0F - cooldown)), 16, MathHelper.ceil(16.0F * cooldown), 255, 255, 255, 127);
                 GlStateManager.colorMask(true, true, true, true);
                 GlStateManager.enableLighting();
                 GlStateManager.enableDepth();
@@ -168,7 +166,7 @@ public class RenderSkill implements IResourceManagerReloadListener
     public void drawSprite(int xCoord, int yCoord, TextureAtlasSprite textureSprite, int widthIn, int heightIn)
     {
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        BufferBuilder worldrenderer = tessellator.getBuffer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         worldrenderer.pos(xCoord + 0, yCoord + heightIn, this.zLevel).tex(textureSprite.getMinU(), textureSprite.getMaxV()).endVertex();
         worldrenderer.pos(xCoord + widthIn, yCoord + heightIn, this.zLevel).tex(textureSprite.getMaxU(), textureSprite.getMaxV()).endVertex();

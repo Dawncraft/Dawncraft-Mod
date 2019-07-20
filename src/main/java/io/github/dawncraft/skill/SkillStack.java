@@ -6,8 +6,8 @@ import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 
+import io.github.dawncraft.command.CommandInit;
 import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.event.EventLoader;
 import io.github.dawncraft.stats.StatLoader;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
@@ -20,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -231,8 +232,8 @@ public class SkillStack
         {
             NBTTagCompound tagCompound = new NBTTagCompound();
             this.writeToNBT(tagCompound);
-            text.getStyle().setHoverEvent(new HoverEvent(EventLoader.SHOW_SKILL, new TextComponentString(tagCompound.toString())));
-            text.getStyle().setColor(EnumChatFormatting.AQUA);
+            text.getStyle().setHoverEvent(new HoverEvent(CommandInit.SHOW_SKILL, new TextComponentString(tagCompound.toString())));
+            text.getStyle().setColor(TextFormatting.AQUA);
         }
 
         return text;
@@ -247,10 +248,10 @@ public class SkillStack
         String name = this.getDisplayName();
         if (this.hasCustomName())
         {
-            name += EnumChatFormatting.ITALIC;
+            name += TextFormatting.ITALIC;
         }
 
-        name += EnumChatFormatting.RESET;
+        name += TextFormatting.RESET;
 
         if (advanced)
         {
@@ -288,7 +289,7 @@ public class SkillStack
                 {
                     for (int i = 0; i < nbtList.tagCount(); ++i)
                     {
-                        list.add(EnumChatFormatting.DARK_PURPLE + "" + EnumChatFormatting.ITALIC + nbtList.getStringTagAt(i));
+                        list.add(TextFormatting.DARK_PURPLE + "" + TextFormatting.ITALIC + nbtList.getStringTagAt(i));
                     }
                 }
             }
@@ -306,21 +307,21 @@ public class SkillStack
             }
             else
             {
-                list.add(EnumChatFormatting.GRAY + I18n.format("skill.moreInfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+                list.add(TextFormatting.GRAY + I18n.format("skill.moreInfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
             }
         }
         else
         {
-            list.add(EnumChatFormatting.GREEN + I18n.format("skill.maxLevel", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+            list.add(TextFormatting.GREEN + I18n.format("skill.maxLevel", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
         }
 
         // NBT tag count
         if (advanced)
         {
-            list.add(EnumChatFormatting.DARK_GRAY + Skill.REGISTRY.getNameForObject(this.getSkill()).toString());
+            list.add(TextFormatting.DARK_GRAY + Skill.REGISTRY.getNameForObject(this.getSkill()).toString());
             if (this.hasTagCompound())
             {
-                list.add(EnumChatFormatting.DARK_GRAY + I18n.format("skill.nbtTags", 0));
+                list.add(TextFormatting.DARK_GRAY + I18n.format("skill.nbtTags", 0));
             }
         }
 

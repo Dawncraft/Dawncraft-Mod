@@ -41,97 +41,93 @@ public class ItemDrink extends Item
 
     public ItemDrink(int amount, float saturation)
     {
-	this.setMaxStackSize(1);
-	this.itemUseDuration = 32;
-	this.waterAmount = amount;
-	this.saturationModifier = saturation;
-	this.setCreativeTab(CreativeTabsLoader.tabCuisine);
+        this.setMaxStackSize(1);
+        this.itemUseDuration = 32;
+        this.waterAmount = amount;
+        this.saturationModifier = saturation;
+        this.setCreativeTab(CreativeTabsLoader.tabCuisine);
     }
 
     public ItemDrink(int amount)
     {
-	this(amount, 0.6F);
+        this(amount, 0.6F);
     }
 
     @Override
     public EnumAction getItemUseAction(ItemStack stack)
     {
-	return EnumAction.DRINK;
+        return EnumAction.DRINK;
     }
 
     @Override
     public int getMaxItemUseDuration(ItemStack stack)
     {
-	return 32;
+        return 32;
     }
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-	ItemStack stack = player.getHeldItem(hand);
-	IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);
+        ItemStack stack = player.getHeldItem(hand);
+        IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);
 
-	if (playerThirst.canDrink(this.alwaysDrinkable))
-	{
-	    player.setActiveHand(hand);
-	    return new ActionResult<>(EnumActionResult.SUCCESS, stack);
-	}
+        if (playerThirst.canDrink(this.alwaysDrinkable))
+        {
+            player.setActiveHand(hand);
+            return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+        }
 
-	return new ActionResult<>(EnumActionResult.FAIL, stack);
+        return new ActionResult<>(EnumActionResult.FAIL, stack);
     }
 
     @Override
     public ItemStack onItemUseFinish(ItemStack stack, World world, EntityLivingBase entityLiving)
     {
-	if (entityLiving instanceof EntityPlayer)
-	{
-	    EntityPlayer player = (EntityPlayer) entityLiving;
-	    if (!player.capabilities.isCreativeMode)
-		stack.shrink(1);
-	    IPlayerThirst playerThirst = entityLiving.getCapability(CapabilityLoader.playerThirst, null);
-	    if (playerThirst.getDrinkStats() != null)
-		playerThirst.getDrinkStats().addStats(this, stack);
-	    world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-	    this.onDrinkDrunk(stack, world, player);
-	    player.addStat(StatList.getObjectUseStats(this));
+        if (entityLiving instanceof EntityPlayer)
+        {
+            EntityPlayer player = (EntityPlayer) entityLiving;
+            if (!player.capabilities.isCreativeMode)
+                stack.shrink(1);
+            IPlayerThirst playerThirst = entityLiving.getCapability(CapabilityLoader.playerThirst, null);
+            if (playerThirst.getDrinkStats() != null)
+                playerThirst.getDrinkStats().addStats(this, stack);
+            world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+            this.onDrinkDrunk(stack, world, player);
+            player.addStat(StatList.getObjectUseStats(this));
 
-	    if (player instanceof EntityPlayerMP)
-	    {
-		CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
-	    }
+            if (player instanceof EntityPlayerMP)
+            {
+                CriteriaTriggers.CONSUME_ITEM.trigger((EntityPlayerMP) player, stack);
+            }
 
-	    if (!player.capabilities.isCreativeMode)
-	    {
-		if (stack.isEmpty())
-		{
-		    return new ItemStack(ItemInit.tumbler);
-		}
-
-		if (player != null)
-		{
-		    player.inventory.addItemStackToInventory(new ItemStack(ItemInit.tumbler));
-		}
-	    }
-	}
-	return stack;
+            if (!player.capabilities.isCreativeMode)
+            {
+                if (stack.isEmpty())
+                {
+                    return new ItemStack(ItemInit.tumbler);
+                }
+                player.inventory.addItemStackToInventory(new ItemStack(ItemInit.tumbler));
+            }
+        }
+        return stack;
     }
 
     protected void onDrinkDrunk(ItemStack stack, World world, EntityPlayer player)
     {
-	if (!world.isRemote && this.potion != null && world.rand.nextFloat() < this.potionEffectProbability)
-	{
-	    player.addPotionEffect(new PotionEffect(this.potion));
-	}
+        if (!world.isRemote && this.potion != null && world.rand.nextFloat() < this.potionEffectProbability)
+        {
+            player.addPotionEffect(new PotionEffect(this.potion));
+        }
     }
 
     public int getWaterAmount(ItemStack stack)
     {
-	return this.waterAmount;
+        return this.waterAmount;
     }
 
     public float getSaturationModifier(ItemStack stack)
     {
-	return this.saturationModifier;
+        return this.saturationModifier;
     }
 
     /**
@@ -139,14 +135,14 @@ public class ItemDrink extends Item
      */
     public ItemDrink setAlwaysDrinkable()
     {
-	this.alwaysDrinkable = true;
-	return this;
+        this.alwaysDrinkable = true;
+        return this;
     }
 
     public ItemDrink setPotionEffect(PotionEffect effect, float probability)
     {
-	this.potion = effect;
-	this.potionEffectProbability = probability;
-	return this;
+        this.potion = effect;
+        this.potionEffectProbability = probability;
+        return this;
     }
 }

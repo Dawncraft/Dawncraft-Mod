@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -34,94 +35,94 @@ public class TooltipEventHandler
     // 金刚经、龙裔之书
     // 喝彩
     protected static Map<Item, IItemTooltipHandler> tooltipMap = new HashMap<>();
-    // EnumChatFormatting.GRAY
+    // TextFormatting.GRAY
     public static IItemTooltipHandler defaultItemHandler = new IItemTooltipHandler()
     {
-	@Override
-	public List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips)
-	{
-	    List<String> toolTip = new ArrayList<>();
-	    toolTip.add(I18n.format(itemStack.getTranslationKey() + ".desc"));
-	    return toolTip;
-	}
+        @Override
+        public List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips)
+        {
+            List<String> toolTip = new ArrayList<>();
+            toolTip.add(I18n.format(itemStack.getTranslationKey() + ".desc"));
+            return toolTip;
+        }
     };
 
     public TooltipEventHandler()
     {
-	IItemTooltipHandler customItemTooltipHandler = new CustomItemTooltipHandler(false);
-	registerItemTooltip(ItemInit.simpleCPU, customItemTooltipHandler);
-	registerItemTooltip(ItemInit.advancedCPU, customItemTooltipHandler);
-	registerItemTooltip(ItemInit.superCPU, customItemTooltipHandler);
-	if(ConfigLoader.isColoreggEnabled())
-	{
-	    registerItemTooltip(BlockInit.alarmClock);
-	    registerItemTooltip(Items.POTATO);
-	    registerItemTooltip(ItemInit.honeyChicken);
-	    registerItemTooltip(ItemInit.frogStew);
-	    registerItemTooltip(ItemInit.mjolnir);
-	}
+        IItemTooltipHandler customItemTooltipHandler = new CustomItemTooltipHandler(false);
+        registerItemTooltip(ItemInit.simpleCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInit.advancedCPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInit.superCPU, customItemTooltipHandler);
+        if(ConfigLoader.isColoreggEnabled())
+        {
+            registerItemTooltip(BlockInit.alarmClock);
+            registerItemTooltip(Items.POTATO);
+            registerItemTooltip(ItemInit.honeyChicken);
+            registerItemTooltip(ItemInit.frogStew);
+            registerItemTooltip(ItemInit.mjolnir);
+        }
     }
 
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event)
     {
-	if (tooltipMap.containsKey(event.getItemStack().getItem()))
-	{
-	    int index = event.getFlags().isAdvanced() ? event.getToolTip().size() - 1 : event.getToolTip().size();
-	    List<String> toolTip = tooltipMap.get(event.getItemStack().getItem()).addItemTooltip(event.getItemStack(), event.getEntityPlayer(), event.getFlags().isAdvanced());
-	    event.getToolTip().addAll(index, toolTip);
-	}
+        if (tooltipMap.containsKey(event.getItemStack().getItem()))
+        {
+            int index = event.getFlags().isAdvanced() ? event.getToolTip().size() - 1 : event.getToolTip().size();
+            List<String> toolTip = tooltipMap.get(event.getItemStack().getItem()).addItemTooltip(event.getItemStack(), event.getEntityPlayer(), event.getFlags().isAdvanced());
+            event.getToolTip().addAll(index, toolTip);
+        }
     }
 
     private static void registerItemTooltip(Item item)
     {
-	registerItemTooltip(item, defaultItemHandler);
+        registerItemTooltip(item, defaultItemHandler);
     }
 
     private static void registerItemTooltip(Block block)
     {
-	registerItemTooltip(block, defaultItemHandler);
+        registerItemTooltip(block, defaultItemHandler);
     }
 
     public static void registerItemTooltip(Item item, IItemTooltipHandler handler)
     {
-	tooltipMap.put(item, handler == null ? defaultItemHandler : handler);
+        tooltipMap.put(item, handler == null ? defaultItemHandler : handler);
     }
 
     public static void registerItemTooltip(Block block, IItemTooltipHandler handler)
     {
-	registerItemTooltip(Item.getItemFromBlock(block), handler);
+        registerItemTooltip(Item.getItemFromBlock(block), handler);
     }
 
     public interface IItemTooltipHandler
     {
-	List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips);
+        List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips);
     }
 
     public static class CustomItemTooltipHandler implements IItemTooltipHandler
     {
-	/** If need press key to show information */
-	private boolean show;
+        /** If need press key to show information */
+        private boolean show;
 
-	public CustomItemTooltipHandler(boolean show)
-	{
-	    this.show = show;
-	}
+        public CustomItemTooltipHandler(boolean show)
+        {
+            this.show = show;
+        }
 
-	@Override
-	public List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips)
-	{
-	    List<String> toolTip = new ArrayList<>();
-	    // Don't use KeyLoader.use.isKeyDown()
-	    if (this.show || Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
-	    {
-		toolTip.add(EnumChatFormatting.GRAY + I18n.format(I18n.format(itemStack.getTranslationKey() + ".desc")));
-	    }
-	    else
-	    {
-		toolTip.add(EnumChatFormatting.GRAY + I18n.format("gui.moreinfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
-	    }
-	    return toolTip;
-	}
+        @Override
+        public List<String> addItemTooltip(ItemStack itemStack, EntityPlayer player, boolean showAdvancedItemTooltips)
+        {
+            List<String> toolTip = new ArrayList<>();
+            // Don't use KeyLoader.use.isKeyDown()
+            if (this.show || Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
+            {
+                toolTip.add(TextFormatting.GRAY + I18n.format(I18n.format(itemStack.getTranslationKey() + ".desc")));
+            }
+            else
+            {
+                toolTip.add(TextFormatting.GRAY + I18n.format("gui.moreinfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+            }
+            return toolTip;
+        }
     }
 }

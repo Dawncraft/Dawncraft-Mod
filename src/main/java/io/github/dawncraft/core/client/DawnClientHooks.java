@@ -5,25 +5,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.dawncraft.api.client.event.TextComponentEvent;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import io.github.dawncraft.api.client.event.TextComponentEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BlockModelShapes;
+import net.minecraft.client.renderer.block.model.ModelManager;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITextComponent;
-
+import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.MinecraftForge;
 
 /**
@@ -33,10 +31,10 @@ import net.minecraftforge.common.MinecraftForge;
  */
 public class DawnClientHooks
 {
-    public static Set<Block> BuiltInBlocks = new HashSet<Block>();
-    public static Map<Block, String> BlockParticles = new HashMap<Block, String>();
+    public static Set<Block> BuiltInBlocks = new HashSet<>();
+    public static Map<Block, String> BlockParticles = new HashMap<>();
     public static Map<Pair<Item, Integer>, TileEntity> TileentityItemMap = Maps.newHashMap();
-    
+
     /**
      * Register builtin blocks.
      *
@@ -46,7 +44,7 @@ public class DawnClientHooks
     {
         BuiltInBlocks.addAll(Lists.newArrayList(blocks));
     }
-    
+
     /**
      * Register builtin block's texture.
      *
@@ -57,7 +55,7 @@ public class DawnClientHooks
     {
         BlockParticles.put(block, iconName);
     }
-    
+
     /**
      * Register item with a specific tileentity for TEISR.
      *
@@ -70,7 +68,7 @@ public class DawnClientHooks
     {
         TileentityItemMap.put(Pair.of(item, meta), tileentity);
     }
-    
+
     /**
      * {@link net.minecraft.client.renderer.BlockModelShapes#registerAllBlocks()}
      */
@@ -90,7 +88,7 @@ public class DawnClientHooks
         }
         return modelManager.getMissingModel().getParticleTexture();
     }
-    
+
     /**
      * {@link net.minecraftforge.client.ForgeHooksClient#renderTileItem(Item, int)}
      */
@@ -100,19 +98,19 @@ public class DawnClientHooks
         TileEntity tileentity = TileentityItemMap.get(Pair.of(item, meta));
         return tileentity != null ? tileentity : null;
     }
-    
+
     // {@link net.minecraft.client.renderer.entity.layers.LayerCustomHead#doRenderLayer(EntityLivingBase, float, float, float, float, float, float, float)}
-    
+
     public static void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
     {
-        
+
     }
 
     public static void onTextComponentHovered(GuiScreen gui, ITextComponent component, int x, int y)
     {
         MinecraftForge.EVENT_BUS.post(new TextComponentEvent.Hover(gui, component, x, y));
     }
-    
+
     public static void onTextComponentClicked(GuiScreen gui, ITextComponent component)
     {
         MinecraftForge.EVENT_BUS.post(new TextComponentEvent.Click(gui, component));

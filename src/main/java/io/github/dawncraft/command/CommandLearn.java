@@ -69,7 +69,7 @@ public class CommandLearn extends CommandBase
             {
                 serverPlayer.world.playSound(null, serverPlayer.posX, serverPlayer.posY, serverPlayer.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((serverPlayer.getRNG().nextFloat() - serverPlayer.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
                 playerMagic.getSkillInventoryContainer().detectAndSendChanges();
-                sender.setCommandStat(CommandLoader.AFFECTED_SKILLS, 1);
+                sender.setCommandStat(CommandInit.AFFECTED_SKILLS, 1);
                 notifyCommandListener(sender, this, "commands.learn.success", skillStack.getTextComponent(), level, serverPlayer.getName());
             }
             else throw new CommandException("commands.learn.full", serverPlayer.getName());

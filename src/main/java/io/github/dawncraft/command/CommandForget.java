@@ -66,7 +66,7 @@ public class CommandForget extends CommandBase
             playerMagic.updateHeldSkill();
         }
 
-        sender.setCommandStat(CommandLoader.AFFECTED_SKILLS, removed);
+        sender.setCommandStat(CommandInit.AFFECTED_SKILLS, removed);
 
         if (removed == 0)
         {

@@ -35,15 +35,25 @@ public class SoundInit
     public static final SoundEvent GUI_ERROR = null;
     public static final SoundEvent GUI_PRESS = SoundEvents.UI_BUTTON_CLICK;
 
+    @ObjectHolder("mob.gerking.say")
+    public static final SoundEvent GERKING_SAY = null;
+    @ObjectHolder("mob.gerking.hurt")
+    public static final SoundEvent GERKING_HURT = null;
+    @ObjectHolder("mob.gerking.death")
+    public static final SoundEvent GERKING_DEATH = null;
+
     @SubscribeEvent
     public static void registerSounds(RegistryEvent.Register<SoundEvent> event)
     {
-	registerSound("gun.basic.empty");
-	registerSound("gun.basic.reload");
-	registerSound("gun.basic.shoot");
-	registerSound("records.dj");
-	registerSound("records.wzsongs");
-	registerSound("gui.error");
+        registerSound("gun.basic.empty");
+        registerSound("gun.basic.reload");
+        registerSound("gun.basic.shoot");
+        registerSound("records.dj");
+        registerSound("records.wzsongs");
+        registerSound("gui.error");
+        registerSound("mob.gerking.say");
+        registerSound("mob.gerking.hurt");
+        registerSound("mob.gerking.death");
     }
 
     /**
@@ -53,12 +63,12 @@ public class SoundInit
      */
     private static void registerSound(String name)
     {
-	ForgeRegistries.SOUND_EVENTS.register(new SoundEvent(GameData.checkPrefix(name, true)));
+        ForgeRegistries.SOUND_EVENTS.register(new SoundEvent(GameData.checkPrefix(name, true)));
     }
 
     @Deprecated
     public static ISound createSound(SoundEvent sound)
     {
-	return PositionedSoundRecord.getRecord(sound, 1.0F, 1.0F);
+        return PositionedSoundRecord.getRecord(sound, 1.0F, 1.0F);
     }
 }

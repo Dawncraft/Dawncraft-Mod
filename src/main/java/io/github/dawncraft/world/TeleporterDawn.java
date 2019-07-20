@@ -3,29 +3,38 @@ package io.github.dawncraft.world;
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Teleporter;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.util.ITeleporter;
 
-public class TeleporterDawn extends Teleporter
+public class TeleporterDawn implements ITeleporter
 {
-    private final WorldServer worldServerInstance;
+    private final WorldServer world;
     private final Random random;
 
     public TeleporterDawn(WorldServer world)
     {
-        super(world);
-        this.worldServerInstance = world;
+        this.world = world;
         this.random = new Random(world.getSeed());
     }
 
     @Override
+    public void placeEntity(World world, Entity entity, float yaw)
+    {
+        if (entity instanceof EntityPlayerMP)
+            this.placeInPortal(entity, yaw);
+        else
+            this.placeInExistingPortal(entity, yaw);
+    }
+
     public void placeInPortal(Entity entity, float rotationYaw)
     {
         BlockPos blockPos;
         if (entity.dimension != 0)
         {
-            blockPos = this.worldServerInstance.getTopSolidOrLiquidBlock(entity.getPosition());
+            blockPos = this.world.getTopSolidOrLiquidBlock(entity.getPosition());
         }
         else
         {
@@ -34,20 +43,18 @@ public class TeleporterDawn extends Teleporter
         entity.moveToBlockPosAndAngles(blockPos, entity.rotationYaw, entity.rotationPitch);
     }
 
-    @Override
     public boolean placeInExistingPortal(Entity entity, float rotationYaw)
     {
         return false;
     }
 
-    @Override
     public boolean makePortal(Entity entity)
     {
         return false;
     }
 
-    @Override
     public void removeStalePortalLocations(long time)
     {
+
     }
 }

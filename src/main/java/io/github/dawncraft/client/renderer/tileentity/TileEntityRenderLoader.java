@@ -3,7 +3,7 @@ package io.github.dawncraft.client.renderer.tileentity;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.core.client.DawnClientHooks;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.item.ItemSkullDawn;
+import io.github.dawncraft.item.ItemSkull;
 import io.github.dawncraft.tileentity.TileEntityMagnetChest;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 
@@ -29,7 +29,7 @@ public class TileEntityRenderLoader
         
         registerTEISRWithTE(BlockInit.magnetChest, 0, new TileEntityMagnetChest());
         registerTEISRWithTE(BlockInit.superChest, 0, new TileEntityChest(0));
-        for (int i = 0; i < ItemSkullDawn.skullTypes.length; i++)
+        for (int i = 0; i < ItemSkull.skullTypes.length; i++)
         {
             registerTEISRWithTE(ItemInit.skull, i, new TileEntitySkull(i));
         }

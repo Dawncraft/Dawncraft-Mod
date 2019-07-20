@@ -37,14 +37,17 @@ public class EntitySittable extends Entity
     {
         if (!this.world.isRemote)
         {
-            if (this.riddenByEntity != null && this.world.getBlockState(this.blockPos).getBlock() instanceof BlockFurnitureChair)
+            if (this.isBeingRidden() && this.world.getBlockState(this.blockPos).getBlock() instanceof BlockFurnitureChair)
             {
-                if (ConfigLoader.chairHealAmount > 0)
+                if (ConfigLoader.chairHealAmount > 0 && this.ticksExisted % 20 == 0)
                 {
-                    if (this.ticksExisted % 20 == 0 && this.riddenByEntity instanceof EntityPlayer)
+                    for (Entity entity : this.getPassengers())
                     {
-                        EntityPlayer player = (EntityPlayer) this.riddenByEntity;
-                        player.heal(ConfigLoader.chairHealAmount);
+                        if (entity instanceof EntityPlayer)
+                        {
+                            EntityPlayer player = (EntityPlayer) entity;
+                            player.heal(ConfigLoader.chairHealAmount);
+                        }
                     }
                 }
             }

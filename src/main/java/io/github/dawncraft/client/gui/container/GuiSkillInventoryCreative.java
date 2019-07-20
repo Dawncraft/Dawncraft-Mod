@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.TextFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
@@ -787,7 +787,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             
             for (String s : skillStack.getTooltip(this.mc.thePlayer, this.mc.gameSettings.advancedItemTooltips))
             {
-                if (EnumChatFormatting.getTextWithoutFormattingCodes(s).toLowerCase().contains(name))
+                if (TextFormatting.getTextWithoutFormattingCodes(s).toLowerCase().contains(name))
                 {
                     flag = true;
                     break;

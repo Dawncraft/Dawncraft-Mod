@@ -2,6 +2,7 @@ package io.github.dawncraft.block;
 
 import java.util.Random;
 
+import io.github.dawncraft.world.TeleporterDawn;
 import io.github.dawncraft.world.WorldInit;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.material.MapColor;
@@ -9,13 +10,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -42,7 +46,7 @@ public class BlockDawnPortal extends BlockBreakable
     }
 
     @Override
-    public ItemStack getItem(World world, BlockPos pos, IBlockState state)
+    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player)
     {
         return ItemStack.EMPTY;
     }
@@ -70,7 +74,7 @@ public class BlockDawnPortal extends BlockBreakable
     {
         if (!world.isRemote && !entity.isRiding() && !entity.isBeingRidden() && entity.isNonBoss() && entity.getEntityBoundingBox().intersects(state.getBoundingBox(world, pos).offset(pos)))
         {
-            entity.changeDimension(WorldInit.DAWNWORLD);
+            entity.changeDimension(WorldInit.DAWNWORLD.getId(), new TeleporterDawn((WorldServer) world));
         }
     }
 

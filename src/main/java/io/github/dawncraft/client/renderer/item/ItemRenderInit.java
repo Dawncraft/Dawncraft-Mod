@@ -3,10 +3,9 @@ package io.github.dawncraft.client.renderer.item;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.item.ItemSkullDawn;
-
+import io.github.dawncraft.item.ItemSkull;
 import net.minecraft.block.Block;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
@@ -16,13 +15,11 @@ import net.minecraftforge.client.model.ModelLoader;
  *
  * @author QingChenW
  */
-public class ItemRenderLoader
+public class ItemRenderInit
 {
     public static void initItemRender()
     {
         // Energy
-        registerItem(ItemInit.bucketPetroleum);
-        
         registerBlock(BlockInit.electricCable);
         registerBlock(BlockInit.energyGeneratorHeat);
         //        register(BlockLoader.energyGeneratorFluid);
@@ -58,7 +55,7 @@ public class ItemRenderLoader
 
         // Machine
         registerItem(ItemInit.copperIngot);
-        
+
         registerBlock(BlockInit.copperOre);
         registerBlock(BlockInit.copperBlock);
         registerBlock(BlockInit.machineFurnace);
@@ -106,9 +103,9 @@ public class ItemRenderLoader
         // ColourEgg
         registerBlock(BlockInit.superChest);
         String suffix = ItemInit.skull.getRegistryName() + "_";
-        for (int i = 0; i < ItemSkullDawn.skullTypes.length; i++)
+        for (int i = 0; i < ItemSkull.skullTypes.length; i++)
         {
-            Class<? extends Entity> entity = ItemSkullDawn.skullTypes[i];
+            Class<? extends Entity> entity = ItemSkull.skullTypes[i];
             registerItem(ItemInit.skull, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
         }
         registerItem(ItemInit.gerHeart);
@@ -129,7 +126,7 @@ public class ItemRenderLoader
      */
     private static void registerItem(Item item)
     {
-        registerItem(item, 0, item.getRegistryName());
+        registerItem(item, 0, item.getRegistryName().toString());
     }
 
     /**
@@ -139,9 +136,9 @@ public class ItemRenderLoader
      */
     private static void registerBlock(Block block)
     {
-        registerBlock(block, 0, block.getRegistryName());
+        registerBlock(block, 0, block.getRegistryName().toString());
     }
-    
+
     /**
      * Register a item's inventory model with meta and name and its variants.
      *

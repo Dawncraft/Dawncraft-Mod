@@ -9,11 +9,11 @@ import net.minecraft.command.CommandResultStats;
 import net.minecraft.util.text.event.HoverEvent;
 
 /**
- * Register commands.
+ * Register some commands.
  *
  * @author QingChenW
  */
-public class CommandLoader
+public class CommandInit
 {
     public static final HoverEvent.Action SHOW_SKILL = DawnEnumHelper.addHoverActionType("SHOW_SKILL", "show_skill", true);
     public static final CommandResultStats.Type AFFECTED_SKILLS = DawnEnumHelper.addCommandResultType("AFFECTED_SKILLS", "AffectedSkills");

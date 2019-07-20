@@ -27,6 +27,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -515,7 +516,7 @@ public class GuiIngameDawn extends Gui
         {
             ItemGun item = (ItemGun) player.getHeldItemMainhand().getItem();
             int amount = item.getAmmoAmount(player.getHeldItemMainhand());
-            String text = (amount <= 0 ? EnumTextFormatting.RED : "") + I18n.format("gui.gun.ammo", amount, item.getClip());
+            String text = (amount <= 0 ? TextFormatting.RED : "") + I18n.format("gui.gun.ammo", amount, item.getClip());
             this.drawString(this.getIngameGUI().getFontRenderer(), text, width - this.getIngameGUI().getFontRenderer().getStringWidth(text) - 2, height - 12, WHITE);
         }
 

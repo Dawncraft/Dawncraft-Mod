@@ -9,30 +9,31 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.text.TextFormatting;
 
 public class GuiUtils
 {
     public static int drawCentreString(FontRenderer fontRenderer, String text, int x, int y, int color)
     {
-	return fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text) / 2, y, color);
+        return fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text) / 2, y, color);
     }
 
     public static void drawRectWithRGB(int x, int y, int width, int height, int color)
     {
-	int alpha = 255;
-	int red = color >> 16 & 255;
-	int green = color >> 8 & 255;
-	int blue = color & 255;
-	drawRect(x, y, width, height, red, green, blue, alpha);
+        int alpha = 255;
+        int red = color >> 16 & 255;
+        int green = color >> 8 & 255;
+        int blue = color & 255;
+        drawRect(x, y, width, height, red, green, blue, alpha);
     }
 
     public static void drawRect(int x, int y, int width, int height, int color)
     {
-	int alpha = color >> 24 & 255;
-	int red = color >> 16 & 255;
-	int green = color >> 8 & 255;
-	int blue = color & 255;
-	drawRect(x, y, width, height, red, green, blue, alpha);
+        int alpha = color >> 24 & 255;
+        int red = color >> 16 & 255;
+        int green = color >> 8 & 255;
+        int blue = color & 255;
+        drawRect(x, y, width, height, red, green, blue, alpha);
     }
 
     /**
@@ -49,34 +50,34 @@ public class GuiUtils
      */
     public static void drawRect(int x, int y, int width, int height, int red, int green, int blue, int alpha)
     {
-	GlStateManager.disableTexture2D();
-	GlStateManager.enableBlend();
-	GlStateManager.disableAlpha();
-	GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-	GlStateManager.shadeModel(7425);
-	Tessellator tessellator = Tessellator.getInstance();
-	BufferBuilder worldrenderer = tessellator.getBuffer();
-	worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-	worldrenderer.pos(x, y, 0.0D).color(red, green, blue, alpha).endVertex();
-	worldrenderer.pos(x, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
-	worldrenderer.pos(x + width, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
-	worldrenderer.pos(x + width, y, 0.0D).color(red, green, blue, alpha).endVertex();
-	tessellator.draw();
-	GlStateManager.shadeModel(7424);
-	GlStateManager.disableBlend();
-	GlStateManager.enableAlpha();
-	GlStateManager.enableTexture2D();
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.shadeModel(7425);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder worldrenderer = tessellator.getBuffer();
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        worldrenderer.pos(x, y, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x + width, y + height, 0.0D).color(red, green, blue, alpha).endVertex();
+        worldrenderer.pos(x + width, y, 0.0D).color(red, green, blue, alpha).endVertex();
+        tessellator.draw();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
     }
 
     public static void renderSkillToolTip(GuiScreen gui, SkillStack stack, int x, int y)
     {
-	List<String> list = stack.getTooltip(gui.mc.player, gui.mc.gameSettings.advancedItemTooltips);
+        List<String> list = stack.getTooltip(gui.mc.player, gui.mc.gameSettings.advancedItemTooltips);
 
-	for (int i = 1; i < list.size(); ++i)
-	{
-	    list.set(i, EnumChatFormatting.GRAY + list.get(i));
-	}
+        for (int i = 1; i < list.size(); ++i)
+        {
+            list.set(i, TextFormatting.GRAY + list.get(i));
+        }
 
-	gui.drawHoveringText(list, x, y);
+        gui.drawHoveringText(list, x, y);
     }
 }

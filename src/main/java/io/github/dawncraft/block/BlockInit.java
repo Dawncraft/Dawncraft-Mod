@@ -27,9 +27,26 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 @ObjectHolder(Dawncraft.MODID)
 public class BlockInit
 {
-    // Energy
+    // Building blocks
+    public static final Block magnetOre = null;
+    public static final Block magnetBlock = null;
+
+    public static final Block copperOre = null;
+    public static final Block copperBlock = null;
+
+    // Decorations
+    public static final Block magnetChest = null;
+
+    // Redstone
+    public static final Block magnetDoor = null;
+    public static final Block magnetRail = null;
+
+    // Material/Misc
     public static final Block fluidPetroleum = null;
 
+    // Science
+
+    // Energy
     public static final Block electricCable = null;
 
     public static final Block energyGeneratorHeat = null;
@@ -39,24 +56,13 @@ public class BlockInit
     public static final Block energyGeneratorNuclear = null;
     public static final Block energyGeneratorMagic = null;
 
-    // Magnet
-    public static final Block magnetOre = null;
-    public static final Block magnetBlock = null;
-    public static final Block magnetDoor = null;
-    public static final Block magnetRail = null;
-    public static final Block magnetChest = null;
-
     // Machine
-    public static final Block copperOre = null;
-    public static final Block copperBlock = null;
     public static final Block machineFurnace = null;
 
     // Computer
     public static final Block simpleComputer = null;
     public static final Block advancedComputer = null;
     public static final Block superComputer = null;
-
-    // Materials
 
     // Furniture
     public static final Block woodTable = null;
@@ -65,12 +71,12 @@ public class BlockInit
     public static final Block stoneChair = null;
     public static final Block alarmClock = null;
 
-    // War
+    // Cuisine
+
+    // Weapons
 
     // Magic
     public static final Block magicOre = null;
-
-    // Guns
 
     // ColourEgg
     public static final Block superChest = null;
@@ -142,7 +148,7 @@ public class BlockInit
         // ColourEgg
         registerBlock(new BlockFurnitureSuperChest().setTranslationKey("superChest").setCreativeTab(CreativeTabsLoader.tabColourEgg), "super_chest");
         registerBlock(new BlockDawnPortal().setTranslationKey("dawnPortal"), "dawn_portal");
-        registerBlock(new BlockDawnSkull().setTranslationKey("skull"), "skull");
+        registerBlock(new BlockSkullDawn().setTranslationKey("skull"), "skull");
     }
 
     /**

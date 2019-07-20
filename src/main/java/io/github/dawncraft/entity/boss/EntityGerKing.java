@@ -1,137 +1,223 @@
 package io.github.dawncraft.entity.boss;
 
-import io.github.dawncraft.Dawncraft;
+import javax.annotation.Nullable;
+
+import io.github.dawncraft.client.sound.SoundInit;
 import io.github.dawncraft.item.ItemInit;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.IBossDisplayData;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.TextComponentTranslation;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 /**
- * ger king
+ * Ger king
  *
  * @author QingChenW
  * @author XiaoLang_dada and 4561789
  */
-public class EntityGerKing extends EntityCreature implements IBossDisplayData, IMob
+public class EntityGerKing extends EntityCreature implements IMob
 {
+    private final BossInfoServer bossInfo = new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS);
+
     public EntityGerKing(World world)
     {
         super(world);
         this.setSize(0.6F, 1.8F);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        this.setHealth(this.getMaxHealth());
+        ((PathNavigateGround) this.getNavigator()).setCanSwim(true);
+        this.experienceValue = 233;
     }
-    
-    @Override
-    protected void applyEntityAttributes()
-    {
-        super.applyEntityAttributes();
 
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.35D);
-        this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(0.2D);
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
-    }
-    
     @Override
     public float getEyeHeight()
     {
         return 1.74F;
     }
-    
+
     @Override
-    protected String getLivingSound()
+    public EnumCreatureAttribute getCreatureAttribute()
     {
-        return Dawncraft.MODID + ":" + "mob.gerking.say";
+        return EnumCreatureAttribute.UNDEFINED;
     }
-    
+
     @Override
-    protected String getHurtSound()
+    protected boolean canBeRidden(Entity entity)
     {
-        return Dawncraft.MODID + ":" + "mob.gerking.hurt";
+        return false;
     }
-    
+
     @Override
-    protected String getDeathSound()
+    public boolean isNonBoss()
     {
-        return Dawncraft.MODID + ":" + "mob.gerking.death";
+        return false;
     }
-    
+
+    @Override
+    public int getTotalArmorValue()
+    {
+        int i = super.getTotalArmorValue() + 4;
+        if (i > 20) i = 20;
+        return i;
+    }
+
     @Override
     protected Item getDropItem()
     {
         return ItemInit.faeces;
     }
-    
+
     @Override
-    protected void dropFewItems(boolean arg1, int arg2)
+    protected SoundEvent getAmbientSound()
     {
-        this.dropItem(ItemInit.gerHeart, 1);
-        super.dropFewItems(arg1, arg2);
+        return SoundInit.GERKING_SAY;
     }
-    
+
     @Override
-    public int getTotalArmorValue()
+    protected SoundEvent getHurtSound(DamageSource damageSource)
     {
-        int i = super.getTotalArmorValue() + 4;
-        
-        if (i > 20)
-        {
-            i = 20;
-        }
-        
-        return i;
+        return SoundInit.GERKING_HURT;
     }
-    
+
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata)
+    protected SoundEvent getDeathSound()
     {
-        super.onInitialSpawn(difficulty, livingdata);
-        
-        this.setCurrentItemOrArmor(0, new ItemStack(ItemInit.mjolnir));
-        
-        return livingdata;
+        return SoundInit.GERKING_DEATH;
     }
-    
+
+    @Override
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(100.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
+        this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).setBaseValue(0.2D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+    }
+
+    @Override
+    protected void initEntityAI()
+    {
+        this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(8, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[] {EntityPigZombie.class}));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+    }
+
+    @Override
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingData)
+    {
+        super.onInitialSpawn(difficulty, livingData);
+        this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(ItemInit.mjolnir));
+        return livingData;
+    }
+
     @Override
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
     }
-    
+
+    @Override
+    protected void updateAITasks()
+    {
+        super.updateAITasks();
+        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+    }
+
     @Override
     public void onDeath(DamageSource cause)
     {
         super.onDeath(cause);
-        
-        if (!this.worldObj.isRemote)
+
+        if (!this.world.isRemote)
         {
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, true);
-            
-            EntityPlayer player = this.worldObj.getClosestPlayerToEntity(this, 64);
-            player.addChatMessage(new TextComponentTranslation("chat.entity.GerKing.say2"));
+            this.world.createExplosion(this, this.posX, this.posY, this.posZ, 4.0F, true);
+
+            EntityPlayer player = this.world.getClosestPlayerToEntity(this, 64);
+            player.sendMessage(new TextComponentTranslation("chat.entity.GerKing.say2"));
+        }
+    }
+
+    @Override
+    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
+    {
+        super.dropFewItems(wasRecentlyHit, lootingModifier);
+
+        EntityItem entityItem = this.dropItem(ItemInit.gerHeart, 1);
+        if (entityItem != null)
+        {
+            entityItem.setNoDespawn();
+        }
+    }
+
+    @Override
+    protected void despawnEntity()
+    {
+        this.idleTime = 0;
+    }
+
+    @Override
+    public void setCustomNameTag(String name)
+    {
+        super.setCustomNameTag(name);
+        this.bossInfo.setName(this.getDisplayName());
+    }
+
+    @Override
+    public void addTrackingPlayer(EntityPlayerMP player)
+    {
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
+    }
+
+    @Override
+    public void removeTrackingPlayer(EntityPlayerMP player)
+    {
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound)
+    {
+        super.writeEntityToNBT(compound);
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound)
+    {
+        super.readEntityFromNBT(compound);
+
+        if (this.hasCustomName())
+        {
+            this.bossInfo.setName(this.getDisplayName());
         }
     }
 }

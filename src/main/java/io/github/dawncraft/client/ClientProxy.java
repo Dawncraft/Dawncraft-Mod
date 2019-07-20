@@ -6,8 +6,8 @@ import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.client.gui.stats.GuiStatLoader;
 import io.github.dawncraft.client.particle.ParticleLoader;
 import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
-import io.github.dawncraft.client.renderer.entity.EntityRenderLoader;
-import io.github.dawncraft.client.renderer.item.ItemRenderLoader;
+import io.github.dawncraft.client.renderer.entity.EntityRenderInit;
+import io.github.dawncraft.client.renderer.item.ItemRenderInit;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.RenderSkill;
 import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
@@ -41,10 +41,10 @@ public class ClientProxy extends CommonProxy
         instance = this;
         this.textureLoader = new TextureLoader();
         this.modelLoader = new ModelLoader(this.textureLoader);
-        ItemRenderLoader.initItemRender();
+        ItemRenderInit.initItemRender();
         BlockRenderLoader.initBlockRender();
         SkillRenderLoader.initSkillRender();
-        EntityRenderLoader.initEntityRender();
+        EntityRenderInit.initEntityRender();
         TileEntityRenderLoader.initTileEntityRender();
     }
 

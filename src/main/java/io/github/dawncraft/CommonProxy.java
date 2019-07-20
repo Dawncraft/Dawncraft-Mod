@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.command.CommandLoader;
+import io.github.dawncraft.command.CommandInit;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.container.GuiLoader;
@@ -46,7 +46,7 @@ public class CommonProxy
     {
         LogLoader.init(event.getModLog());
         ConfigLoader.init(event.getSuggestedConfigurationFile());
-        CommandLoader.initReflections();
+        CommandInit.initReflections();
         CapabilityLoader.initCapabilities();
         CreativeTabsLoader.initCreativeTabs();
         FluidInit.initFluids();
@@ -86,7 +86,7 @@ public class CommonProxy
     public void serverStarting(FMLServerStartingEvent event)
     {
         List<CommandBase> commands = new ArrayList<>();
-        CommandLoader.initCommands(commands);
+        CommandInit.initCommands(commands);
         for (CommandBase command : commands)
         {
             event.registerServerCommand(command);

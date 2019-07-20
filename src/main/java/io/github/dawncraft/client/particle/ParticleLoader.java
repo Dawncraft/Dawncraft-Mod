@@ -12,7 +12,7 @@ public class ParticleLoader
     
     public static void initParticles()
     {
-        registerParticle(LIGHTING, new EntityLightingFX.Factory());
+        registerParticle(LIGHTING, new ParticleLighting.Factory());
     }
 
     public static void registerParticle(EnumParticleTypes particleType, IParticleFactory particleFactory)
