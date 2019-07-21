@@ -1,14 +1,13 @@
 package io.github.dawncraft.client.gui.container;
 
+import java.io.IOException;
+
+import io.github.dawncraft.Dawncraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
-
-import java.io.IOException;
-
-import io.github.dawncraft.Dawncraft;
 
 public class GuiMagicBook extends GuiScreen
 {
@@ -19,7 +18,7 @@ public class GuiMagicBook extends GuiScreen
     //    private final EntityPlayer Player;
     //    private final ItemStack bookObj;
     private GuiButton buttonDone;
-    
+
     public GuiMagicBook()//EntityPlayer player, ItemStack book)
     {
         /*        this.Player = player;
@@ -30,7 +29,7 @@ public class GuiMagicBook extends GuiScreen
             NBTTagCompound nbttagcompound = book.getTagCompound();
         }*/
     }
-    
+
     @Override
     public void updateScreen()
     {
@@ -43,24 +42,24 @@ public class GuiMagicBook extends GuiScreen
     {
         this.buttonList.clear();
         this.buttonList.add(this.buttonDone = new GuiButton(0, this.width / 2 - 100, 4 + this.bookImageHeight, 200, 20, I18n.format("gui.done", new Object[0])));
-        
+
         this.updateButtons();
     }
 
     @Override
     public void onGuiClosed()
     {
-        
+
     }
-    
+
     private void updateButtons()
     {
-        
+
     }
 
     private void sendBookToServer(boolean publish) throws IOException
     {
-        
+
     }
 
     @Override
@@ -76,7 +75,7 @@ public class GuiMagicBook extends GuiScreen
             this.updateButtons();
         }
     }
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
@@ -85,14 +84,14 @@ public class GuiMagicBook extends GuiScreen
         int k = (this.width - this.bookImageWidth) / 2;
         byte b0 = 2;
         this.drawTexturedModalRect(k, b0, 0, 0, this.bookImageWidth, this.bookImageHeight);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("gui.magic.future"), this.width / 2, this.height / 2, 0x404040);
-        
+        this.drawCenteredString(this.fontRenderer, I18n.format("gui.magic.future"), this.width / 2, this.height / 2, 0x404040);
+
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
-    
+
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
-        
+
     }
 }

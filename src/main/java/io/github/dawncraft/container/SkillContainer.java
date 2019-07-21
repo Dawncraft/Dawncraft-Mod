@@ -1,17 +1,18 @@
 package io.github.dawncraft.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.List;
 
 import com.google.common.collect.Lists;
-import java.util.List;
+
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.SkillStack;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IContainerListener;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class SkillContainer extends Container
 {
@@ -34,7 +35,7 @@ public abstract class SkillContainer extends Container
         }
         return null;
     }
-    
+
     protected SkillSlot addSkillSlotToContainer(SkillSlot slot)
     {
         slot.slotNumber = this.inventorySkillSlots.size();
@@ -42,12 +43,12 @@ public abstract class SkillContainer extends Container
         this.inventorySkillStacks.add(null);
         return slot;
     }
-    
+
     public SkillSlot getSkillSlot(int slotId)
     {
         return this.inventorySkillSlots.get(slotId);
     }
-    
+
     public List<SkillStack> getSkillStacks()
     {
         List<SkillStack> list = Lists.<SkillStack>newArrayList();
@@ -64,7 +65,7 @@ public abstract class SkillContainer extends Container
     {
         this.getSkillSlot(slotId).putStack(stack);
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void putSkillStacksInSlots(SkillStack[] skillStacks)
     {
@@ -197,7 +198,7 @@ public abstract class SkillContainer extends Container
 
         return skillStack;
     }
-    
+
     public SkillStack transferSkillStackInSlot(EntityPlayer player, int index)
     {
         SkillSlot slot = this.inventorySkillSlots.get(index);
@@ -208,7 +209,7 @@ public abstract class SkillContainer extends Container
     {
         boolean move = false;
         int i = reverseDirection ? endIndex - 1 : startIndex;
-        
+
         while (!reverseDirection && i < endIndex || reverseDirection && i >= startIndex)
         {
             SkillSlot slot = this.inventorySkillSlots.get(i);
@@ -231,22 +232,22 @@ public abstract class SkillContainer extends Container
                 ++i;
             }
         }
-        
+
         return move;
     }
-    
+
     @Override
-    public void onCraftGuiOpened(ICrafting listener)
+    public void addListener(IContainerListener listener)
     {
-        super.onCraftGuiOpened(listener);
-        
+        super.addListener(listener);
+
         if (listener instanceof EntityPlayer)
         {
             IPlayerMagic magic = ((EntityPlayer) listener).getCapability(CapabilityLoader.playerMagic, null);
             magic.getSkillInventoryContainer().onLearnGuiOpened(magic);
         }
     }
-    
+
     public void onLearnGuiOpened(ILearning listener)
     {
         if (this.learners.contains(listener))
@@ -260,32 +261,32 @@ public abstract class SkillContainer extends Container
             this.detectAndSendChanges();
         }
     }
-    
+
     @SideOnly(Side.CLIENT)
     public void removeLearner(ILearning listener)
     {
         this.learners.remove(listener);
     }
-    
+
     public void onLearnMatrixChanged(ISkillInventory inventory)
     {
         this.detectAndSendChanges();
     }
-    
+
     @Override
     public void onContainerClosed(EntityPlayer player)
     {
         super.onContainerClosed(player);
 
         SkillInventoryPlayer skillInventoryPlayer = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
-        
+
         if (skillInventoryPlayer.getSkillStack() != null)
         {
             skillInventoryPlayer.addSkillStackToInventory(skillInventoryPlayer.getSkillStack());
             skillInventoryPlayer.setSkillStack(null);
         }
     }
-    
+
     @Override
     public void detectAndSendChanges()
     {

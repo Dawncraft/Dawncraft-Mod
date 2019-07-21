@@ -1,17 +1,15 @@
 package io.github.dawncraft.client.gui.container;
 
+import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.container.ContainerEnergyGenerator;
+import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.container.ContainerEnergyGenerator;
-import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 
 /**
  *
@@ -24,24 +22,24 @@ public class GuiEnergyGenerator extends GuiContainer
 
     private final EntityPlayer entityPlayer;
     public final TileEntityEnergyGenerator tileGenerator;
-    
+
     public GuiEnergyGenerator(EntityPlayer player, TileEntity tileEntity)
     {
         super(new ContainerEnergyGenerator(player, tileEntity));
         this.entityPlayer = player;
         this.tileGenerator = (TileEntityEnergyGenerator) tileEntity;
     }
-    
+
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         String name = this.tileGenerator.getDisplayName().getUnformattedText();
-        this.fontRendererObj.drawString(name, this.xSize / 2 - this.fontRendererObj.getStringWidth(name) / 2, 6, 0x404040);
-        this.fontRendererObj.drawString(this.entityPlayer.inventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
-        
-        this.fontRendererObj.drawStringWithShadow(this.tileGenerator.electricity + "A/12800A", 104, 64, 0x404040);
+        this.fontRenderer.drawString(name, this.xSize / 2 - this.fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
+        this.fontRenderer.drawString(this.entityPlayer.inventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
+
+        this.fontRenderer.drawStringWithShadow(this.tileGenerator.electricity + "A/12800A", 104, 64, 0x404040);
     }
-    
+
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
@@ -49,7 +47,7 @@ public class GuiEnergyGenerator extends GuiContainer
         this.mc.getTextureManager().bindTexture(heatGeneratorGuiTextures);
         int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
-        
+
         int pixels;
 
         if (this.tileGenerator.isWorking())
@@ -65,15 +63,15 @@ public class GuiEnergyGenerator extends GuiContainer
     private int getBurnLeftScaled(int pixels)
     {
         int j = this.tileGenerator.currentItemBurnTime;
-        
+
         if (j == 0)
         {
             j = 200;
         }
-        
+
         return this.tileGenerator.generatorBurnTime * pixels / j;
     }
-    
+
     private int getElectricScaled(int pixels)
     {
         int j = this.tileGenerator.electricity;

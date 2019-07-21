@@ -34,7 +34,7 @@ public interface ISkillInventory extends IWorldNameable
     /**
      * Do not make give this method the name canInteractWith because it clashes with Container
      */
-    boolean isUseableByPlayer(EntityPlayer player);
+    boolean isUsableByPlayer(EntityPlayer player);
     
     void openInventory(EntityPlayer player);
     

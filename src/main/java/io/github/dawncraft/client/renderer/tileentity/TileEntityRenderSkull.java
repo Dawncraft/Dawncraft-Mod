@@ -51,8 +51,8 @@ public class TileEntityRenderSkull extends TileEntitySpecialRenderer<TileEntityS
             }
             else
             {
-                EnumFacing enumfacing = EnumFacing.getFront(tileentityskull.getBlockMetadata() & 7);
-                this.renderSkull((float) x, (float) y, (float) z, enumfacing, tileentityskull.getSkullType(), tileentityskull.getSkullRotation() * 360 / 16.0F, destroyStage);
+                EnumFacing facing = EnumFacing.byIndex(tileentityskull.getBlockMetadata() & 7);
+                this.renderSkull((float) x, (float) y, (float) z, facing, tileentityskull.getSkullType(), tileentityskull.getSkullRotation() * 360 / 16.0F, destroyStage);
             }
         }
         else
@@ -90,7 +90,7 @@ public class TileEntityRenderSkull extends TileEntitySpecialRenderer<TileEntityS
         else
         {
             Render<? extends Entity> renderer = this.renderManager.getEntityClassRenderObject(ItemSkull.skullTypes[skulltype]);
-            Method method = ReflectionHelper.findMethod(Render.class, renderer, new String[] {"getEntityTexture", "func_110775_a"}, Entity.class);
+            Method method = ReflectionHelper.findMethod(Render.class, "getEntityTexture", "func_110775_a", Entity.class);
             ResourceLocation textureResource = null;
             try
             {

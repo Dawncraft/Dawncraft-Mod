@@ -1,11 +1,10 @@
 package io.github.dawncraft.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.TextComponentText;
-import net.minecraft.util.TextComponentTranslation;
-import net.minecraft.util.ITextComponent;
-
 import io.github.dawncraft.skill.SkillStack;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 
 public class SkillInventoryLearnResult implements ISkillInventory
 {
@@ -27,7 +26,7 @@ public class SkillInventoryLearnResult implements ISkillInventory
     @Override
     public ITextComponent getDisplayName()
     {
-        return this.hasCustomName() ? new TextComponentText(this.getName()) : new TextComponentTranslation(this.getName());
+        return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
     }
 
     @Override
@@ -67,7 +66,7 @@ public class SkillInventoryLearnResult implements ISkillInventory
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
         return true;
     }

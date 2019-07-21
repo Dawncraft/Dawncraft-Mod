@@ -29,15 +29,15 @@ public class EntitySavage extends EntityAnimal
         this.tasks.addTask(7, new EntityAIWander(this, 0.6D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 4.0F));
     }
-    
+
     @Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.4D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
         //        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(3.0D);
     }
-    
+
     @Override
     public void onLivingUpdate()
     {
@@ -47,14 +47,14 @@ public class EntitySavage extends EntityAnimal
     @Override
     public EntitySavage createChild(EntityAgeable ageable)
     {
-        return new EntitySavage(this.worldObj);
+        return new EntitySavage(this.world);
     }
 
     @Override
     protected void dropFewItems(boolean arg1, int arg2)
     {
         int j = this.rand.nextInt(3) + 1;
-        
+
         for (int i = 0;i < j;i++)
         {
             this.dropItem(ItemInit.faeces, 1);

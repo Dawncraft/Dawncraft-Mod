@@ -1,13 +1,11 @@
 package io.github.dawncraft.container;
 
 import io.github.dawncraft.skill.SkillStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -31,7 +29,7 @@ public class SkillSlot
         this.xDisplayPosition = xPosition;
         this.yDisplayPosition = yPosition;
     }
-    
+
     public int getSlotIndex()
     {
         return this.slotIndex;
@@ -41,7 +39,7 @@ public class SkillSlot
     {
         return this.getStack() != null;
     }
-    
+
     public SkillStack getStack()
     {
         return this.inventory.getSkillStackInSlot(this.slotIndex);
@@ -56,18 +54,18 @@ public class SkillSlot
     {
         return true;
     }
-    
+
     public void putStack(SkillStack stack)
     {
         this.inventory.setSkillInventorySlot(this.slotIndex, stack);
         this.onSlotChanged();
     }
-    
+
     public SkillStack removeStack()
     {
         return this.inventory.removeSkillStackFromSlot(this.slotIndex);
     }
-    
+
     public boolean canTakeStack(EntityPlayer player)
     {
         return true;
@@ -77,7 +75,7 @@ public class SkillSlot
     {
         this.onSlotChanged();
     }
-    
+
     public void onSlotChanged()
     {
         this.inventory.markDirty();
@@ -92,15 +90,15 @@ public class SkillSlot
     {
         return true;
     }
-    
+
     protected String backgroundName = null;
     protected ResourceLocation backgroundLocation = null;
     protected Object backgroundMap;
-    
+
     @SideOnly(Side.CLIENT)
     public ResourceLocation getBackgroundLocation()
     {
-        return this.backgroundLocation == null ? TextureMap.locationBlocksTexture : this.backgroundLocation;
+        return this.backgroundLocation == null ? TextureMap.LOCATION_BLOCKS_TEXTURE : this.backgroundLocation;
     }
 
     public void setBackgroundLocation(ResourceLocation texture)
@@ -125,7 +123,7 @@ public class SkillSlot
         if (this.backgroundMap == null) this.backgroundMap = Minecraft.getMinecraft().getTextureMapBlocks();
         return (TextureMap) this.backgroundMap;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public TextureAtlasSprite getBackgroundSprite()
     {

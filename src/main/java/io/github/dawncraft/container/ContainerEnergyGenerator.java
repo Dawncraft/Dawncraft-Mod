@@ -1,8 +1,9 @@
 package io.github.dawncraft.container;
 
+import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.ItemStack;
@@ -15,8 +16,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
-
 /**
  *
  * @author QingChenW
@@ -28,7 +27,7 @@ public class ContainerEnergyGenerator extends Container
     public int generatorBurnTime = 0;
     public int currentItemBurnTime = 0;
     public int electricity = 0;
-    
+
     public ContainerEnergyGenerator(EntityPlayer player, TileEntity tileEntity)
     {
         super();
@@ -42,14 +41,14 @@ public class ContainerEnergyGenerator extends Container
             {
                 return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack);
             }
-            
+
             @Override
             public int getItemStackLimit(ItemStack stack)
             {
                 return SlotFurnaceFuel.isBucket(stack) ? 1 : super.getItemStackLimit(stack);
             }
         });
-        
+
         for(int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
@@ -57,7 +56,7 @@ public class ContainerEnergyGenerator extends Container
                 this.addSlotToContainer(new Slot(player.inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
-        
+
         for(int i = 0; i < 9; ++i)
         {
             this.addSlotToContainer(new Slot(player.inventory, i, 8 + i * 18, 142));
@@ -69,18 +68,18 @@ public class ContainerEnergyGenerator extends Container
     {
         return player.getDistanceSq(this.tileGenerator.getPos()) <= 64.0D;
     }
-    
+
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
+    public ItemStack transferStackInSlot(EntityPlayer player, int index)
     {
         Slot slot = this.inventorySlots.get(index);
         ItemStack oldItemstack = null;
-        
+
         if (slot != null && slot.getHasStack())
         {
             ItemStack newItemstack = slot.getStack();
             oldItemstack = newItemstack.copy();
-            
+
             Boolean isMerged = false;
             if (index == 0)
             {
@@ -95,11 +94,11 @@ public class ContainerEnergyGenerator extends Container
                 isMerged = this.mergeItemStack(newItemstack, 0, 1, false) || this.mergeItemStack(newItemstack, 1, 28, false);
             }
             if (!isMerged) return null;
-            
-            if (newItemstack.stackSize <= 0) slot.putStack(null);
+
+            if (newItemstack.getCount() <= 0) slot.putStack(null);
             else slot.onSlotChanged();
-            
-            slot.onPickupFromSlot(playerIn, newItemstack);
+
+            slot.onTake(player, newItemstack);
         }
         return oldItemstack;
     }
@@ -109,24 +108,24 @@ public class ContainerEnergyGenerator extends Container
     {
         super.detectAndSendChanges();
 
-        for (ICrafting crafter : this.crafters)
+        for (IContainerListener crafter : this.listeners)
         {
             if (this.generatorBurnTime != this.tileGenerator.generatorBurnTime)
             {
-                crafter.sendProgressBarUpdate(this, 0, this.generatorBurnTime);
+                crafter.sendWindowProperty(this, 0, this.generatorBurnTime);
             }
 
             if (this.currentItemBurnTime != this.tileGenerator.currentItemBurnTime)
             {
-                crafter.sendProgressBarUpdate(this, 1, this.currentItemBurnTime);
+                crafter.sendWindowProperty(this, 1, this.currentItemBurnTime);
             }
 
             if (this.electricity != this.tileGenerator.electricity)
             {
-                crafter.sendProgressBarUpdate(this, 2, this.electricity);
+                crafter.sendWindowProperty(this, 2, this.electricity);
             }
         }
-        
+
         this.generatorBurnTime = this.tileGenerator.generatorBurnTime;
         this.currentItemBurnTime = this.tileGenerator.currentItemBurnTime;
         this.electricity = this.tileGenerator.electricity;
@@ -137,20 +136,20 @@ public class ContainerEnergyGenerator extends Container
     public void updateProgressBar(int id, int data)
     {
         super.updateProgressBar(id, data);
-        
+
         switch (id)
         {
-            case 0:
-                this.tileGenerator.generatorBurnTime = data;
-                break;
-            case 1:
-                this.tileGenerator.currentItemBurnTime = data;
-                break;
-            case 2:
-                this.tileGenerator.electricity = data;
-                break;
-            default:
-                break;
+        case 0:
+            this.tileGenerator.generatorBurnTime = data;
+            break;
+        case 1:
+            this.tileGenerator.currentItemBurnTime = data;
+            break;
+        case 2:
+            this.tileGenerator.electricity = data;
+            break;
+        default:
+            break;
         }
     }
 }

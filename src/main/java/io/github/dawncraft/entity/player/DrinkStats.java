@@ -47,7 +47,7 @@ public class DrinkStats
     public void onUpdate(EntityPlayer player)
     {
         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-        EnumDifficulty difficulty = player.worldObj.getDifficulty();
+        EnumDifficulty difficulty = player.world.getDifficulty();
 
         if (ConfigLoader.isThirstEnabled)
         {
@@ -67,7 +67,7 @@ public class DrinkStats
                 }
             }
 
-            if (player.worldObj.getGameRules().getBoolean("naturalRecovery") && this.drinkLevel >= 8 && playerMagic.shouldRecover())
+            if (player.world.getGameRules().getBoolean("naturalRecovery") && this.drinkLevel >= 8 && playerMagic.shouldRecover())
             {
                 ++this.drinkTimer;
 
@@ -98,7 +98,7 @@ public class DrinkStats
         }
         else
         {
-            if (player.worldObj.getGameRules().getBoolean("naturalRecovery") && player.getFoodStats().getFoodLevel() >= 12)
+            if (player.world.getGameRules().getBoolean("naturalRecovery") && player.getFoodStats().getFoodLevel() >= 12)
             {
                 if (playerMagic.shouldRecover() && player.ticksExisted % 30 == 0)
                 {

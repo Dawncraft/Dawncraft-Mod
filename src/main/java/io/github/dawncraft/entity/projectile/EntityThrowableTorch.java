@@ -3,22 +3,21 @@ package io.github.dawncraft.entity.projectile;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityThrowableTorch extends EntityThrowable
 {
     public int rotateTimer = 0;
-    
+
     public EntityThrowableTorch(World world)
     {
         super(world);
     }
-    
+
     public EntityThrowableTorch(World world, EntityLivingBase thrower)
     {
         super(world, thrower);
@@ -28,7 +27,7 @@ public class EntityThrowableTorch extends EntityThrowable
     {
         super(world, x, y, z);
     }
-    
+
     @Override
     protected float getVelocity()
     {
@@ -43,24 +42,24 @@ public class EntityThrowableTorch extends EntityThrowable
     }
 
     @Override
-    protected void onImpact(MovingObjectPosition movingObjectPosition)
+    protected void onImpact(RayTraceResult result)
     {
-        if (movingObjectPosition.entityHit != null)
+        if (result.entityHit != null)
         {
-            movingObjectPosition.entityHit.attackEntityFrom(DamageSource.onFire, 4.0F);
+            result.entityHit.attackEntityFrom(DamageSource.ON_FIRE, 4.0F);
         }
 
-        if (movingObjectPosition.typeOfHit == MovingObjectType.BLOCK)
+        if (result.typeOfHit == RayTraceResult.Type.BLOCK)
         {
-            this.makeFlames(movingObjectPosition.getBlockPos().offset(movingObjectPosition.sideHit));
-            
-            if (!this.worldObj.isRemote)
+            this.makeFlames(result.getBlockPos().offset(result.sideHit));
+
+            if (!this.world.isRemote)
             {
                 this.setDead();
             }
         }
     }
-    
+
     public void makeFlames(BlockPos blockPos)
     {
         int r = 3;
@@ -76,22 +75,22 @@ public class EntityThrowableTorch extends EntityThrowable
                         int y = blockPos.getY();
                         int z = blockPos.getZ() + dz;
                         BlockPos blockPos2 = new BlockPos(x, y, z);
-                        if (!this.worldObj.getBlockState(blockPos2).getBlock().getMaterial().isReplaceable())
+                        if (!this.world.getBlockState(blockPos2).getMaterial().isReplaceable())
                         {
-                            if (this.worldObj.getBlockState(blockPos2.up()).getBlock().getMaterial().isReplaceable())
+                            if (this.world.getBlockState(blockPos2.up()).getMaterial().isReplaceable())
                             {
-                                this.worldObj.setBlockState(blockPos2.up(), Blocks.fire.getDefaultState());
-                                this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, blockPos.getX(), y, blockPos.getZ(), dx, 0, dz, new int[0]);
+                                this.world.setBlockState(blockPos2.up(), Blocks.FIRE.getDefaultState());
+                                this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, blockPos.getX(), y, blockPos.getZ(), dx, 0, dz);
                             }
                         }
                         else
                         {
-                            if (this.worldObj.getBlockState(blockPos2.down()).getBlock().getMaterial().isReplaceable())
+                            if (this.world.getBlockState(blockPos2.down()).getMaterial().isReplaceable())
                                 blockPos2 = blockPos2.down();
-                            if (this.worldObj.getBlockState(blockPos2.down()).getBlock().isFullBlock())
+                            if (this.world.getBlockState(blockPos2.down()).isFullBlock())
                             {
-                                this.worldObj.setBlockState(blockPos2, Blocks.fire.getDefaultState());
-                                this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, blockPos.getX(), y, blockPos.getZ(), dx, 0, dz, new int[0]);
+                                this.world.setBlockState(blockPos2, Blocks.FIRE.getDefaultState());
+                                this.world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, blockPos.getX(), y, blockPos.getZ(), dx, 0, dz);
                             }
                         }
                     }

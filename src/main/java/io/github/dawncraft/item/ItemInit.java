@@ -1,6 +1,7 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.api.item.ItemAxe;
 import io.github.dawncraft.api.item.ItemGunLauncher;
 import io.github.dawncraft.api.item.ItemGunRifle;
 import io.github.dawncraft.api.item.ItemHammer;
@@ -20,7 +21,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemPickaxe;
@@ -153,7 +153,7 @@ public class ItemInit
         registerItem(new ItemHammer(ToolMaterial.IRON).setTranslationKey("ironHammer"), "iron_hammer");
         registerItem(new ItemHammer(ToolMaterial.GOLD).setTranslationKey("goldHammer"), "gold_hammer");
         registerItem(new ItemHammer(ToolMaterial.DIAMOND).setTranslationKey("diamondHammer"), "diamond_hammer");
-        registerItem(new ItemAxe(MAGNET_TOOL).setTranslationKey("magnetAxe"), "magnet_axe");
+        registerItem(new ItemAxe(MAGNET_TOOL, 8.0F,-3.2F).setTranslationKey("magnetAxe"), "magnet_axe");
         registerItem(new ItemPickaxe(MAGNET_TOOL).setTranslationKey("magnetPickaxe"), "magnet_pickaxe");
         registerItem(new ItemSpade(MAGNET_TOOL).setTranslationKey("magnetSpade"), "magnet_shovel");
         registerItem(new ItemHoe(MAGNET_TOOL).setTranslationKey("magnetHoe"), "magnet_hoe");

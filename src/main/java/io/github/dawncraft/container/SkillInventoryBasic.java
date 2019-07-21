@@ -1,18 +1,16 @@
 package io.github.dawncraft.container;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.TextComponentText;
-import net.minecraft.util.TextComponentTranslation;
-import net.minecraft.util.ITextComponent;
-
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import java.util.List;
-
 import io.github.dawncraft.skill.SkillStack;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class SkillInventoryBasic implements ISkillInventory
 {
@@ -47,7 +45,7 @@ public class SkillInventoryBasic implements ISkillInventory
     {
         return this.hasCustomName;
     }
-    
+
     public void setCustomName(String title)
     {
         this.hasCustomName = true;
@@ -57,7 +55,7 @@ public class SkillInventoryBasic implements ISkillInventory
     @Override
     public ITextComponent getDisplayName()
     {
-        return this.hasCustomName() ? new TextComponentText(this.getName()) : new TextComponentTranslation(this.getName());
+        return this.hasCustomName() ? new TextComponentString(this.getName()) : new TextComponentTranslation(this.getName());
     }
 
     @Override
@@ -85,7 +83,7 @@ public class SkillInventoryBasic implements ISkillInventory
         for (int i = 0; i < this.slotsCount; ++i)
         {
             SkillStack skillStack2 = this.getSkillStackInSlot(i);
-            
+
             if (skillStack2 == null)
             {
                 this.setSkillInventorySlot(i, skillStack);
@@ -121,7 +119,7 @@ public class SkillInventoryBasic implements ISkillInventory
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player)
+    public boolean isUsableByPlayer(EntityPlayer player)
     {
         return true;
     }

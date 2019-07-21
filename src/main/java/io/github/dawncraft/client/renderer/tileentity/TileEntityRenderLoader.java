@@ -6,8 +6,8 @@ import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.item.ItemSkull;
 import io.github.dawncraft.tileentity.TileEntityMagnetChest;
 import io.github.dawncraft.tileentity.TileEntitySkull;
-
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest.Type;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -26,9 +26,9 @@ public class TileEntityRenderLoader
     {
         registerTileentityRenderer(TileEntityMagnetChest.class, new TileEntityRenderChest());
         registerTileentityRenderer(TileEntitySkull.class, new TileEntityRenderSkull());
-        
+
         registerTEISRWithTE(BlockInit.magnetChest, 0, new TileEntityMagnetChest());
-        registerTEISRWithTE(BlockInit.superChest, 0, new TileEntityChest(0));
+        registerTEISRWithTE(BlockInit.superChest, 0, new TileEntityChest(Type.BASIC));
         for (int i = 0; i < ItemSkull.skullTypes.length; i++)
         {
             registerTEISRWithTE(ItemInit.skull, i, new TileEntitySkull(i));
@@ -41,12 +41,11 @@ public class TileEntityRenderLoader
      * @param tileEntityClass the class of tileentity
      * @param renderer the renderer of tileentity
      */
-    private static void registerTileentityRenderer(Class<? extends TileEntity> tileEntityClass,
-            TileEntitySpecialRenderer renderer)
+    private static <T extends TileEntity> void registerTileentityRenderer(Class<T> tileEntityClass, TileEntitySpecialRenderer<? super T> renderer)
     {
         ClientRegistry.bindTileEntitySpecialRenderer(tileEntityClass, renderer);
     }
-    
+
     /**
      * Register tileentity itemstack render for item in inventory.
      * <br>It don't supports tileentity with custom data like skulls.</br>
