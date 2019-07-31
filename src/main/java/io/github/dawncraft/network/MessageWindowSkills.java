@@ -23,9 +23,9 @@ public class MessageWindowSkills implements IMessage
 {
     private int windowId;
     private SkillStack[] skillStacks;
-    
+
     public MessageWindowSkills() {}
-    
+
     public MessageWindowSkills(int windowId, List<SkillStack> stacks)
     {
         this.windowId = windowId;
@@ -49,7 +49,7 @@ public class MessageWindowSkills implements IMessage
     {
         buf.writeByte(this.windowId);
         buf.writeShort(this.skillStacks.length);
-        
+
         for (SkillStack stack : this.skillStacks)
         {
             DawnByteBufUtils.writeSkillStack(buf, stack);
@@ -68,9 +68,9 @@ public class MessageWindowSkills implements IMessage
                     @Override
                     public void run()
                     {
-                        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                        EntityPlayer player = Minecraft.getMinecraft().player;
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
-                        
+
                         if (message.windowId == 0)
                         {
                             playerMagic.getSkillInventoryContainer().putSkillStacksInSlots(message.skillStacks);

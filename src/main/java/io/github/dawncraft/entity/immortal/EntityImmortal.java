@@ -4,38 +4,41 @@ import io.github.dawncraft.api.event.DawnEventFactory;
 import io.github.dawncraft.capability.IEntityMana;
 import io.github.dawncraft.entity.AttributesLoader;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.util.MathHelper;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public abstract class EntityImmortal extends EntityAgeable implements IEntityMana
 {
-    public static int MANA_ID = 19;
+    private static final DataParameter<Float> MANA = EntityDataManager.<Float>createKey(EntityImmortal.class, DataSerializers.FLOAT);
 
-    public EntityImmortal(World worldIn)
+    public EntityImmortal(World world)
     {
-        super(worldIn);
+        super(world);
     }
-    
+
     @Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
     }
-    
+
     @Override
     protected void entityInit()
     {
         super.entityInit();
-        this.getDataWatcher().addObject(MANA_ID, Float.valueOf(0));
+        this.dataManager.register(MANA, Float.valueOf(1.0F));
     }
 
     @Override
     public float getMana()
     {
-        return this.getDataWatcher().getWatchableObjectFloat(MANA_ID);
+        return this.dataManager.get(MANA).floatValue();
     }
-    
+
     @Override
     public final float getMaxMana()
     {
@@ -45,9 +48,9 @@ public abstract class EntityImmortal extends EntityAgeable implements IEntityMan
     @Override
     public void setMana(float mana)
     {
-        this.getDataWatcher().updateObject(MANA_ID, Float.valueOf(MathHelper.clamp_float(mana, 0.0F, this.getMana())));
+        this.dataManager.set(MANA, MathHelper.clamp(mana, 0.0F, this.getMaxHealth()));
     }
-    
+
     @Override
     public void recover(float recoverAmount)
     {
@@ -57,7 +60,7 @@ public abstract class EntityImmortal extends EntityAgeable implements IEntityMan
         if (mana < 0.0F) mana = 0.0F;
         this.setMana(mana + recoverAmount);
     }
-    
+
     @Override
     public boolean shouldRecover()
     {

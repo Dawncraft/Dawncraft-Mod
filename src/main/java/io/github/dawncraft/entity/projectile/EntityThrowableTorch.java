@@ -29,9 +29,9 @@ public class EntityThrowableTorch extends EntityThrowable
     }
 
     @Override
-    protected float getVelocity()
+    protected float getGravityVelocity()
     {
-        return 0.65F;
+        return 0.05F;
     }
 
     @Override

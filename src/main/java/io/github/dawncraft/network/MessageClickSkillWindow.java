@@ -1,26 +1,24 @@
 package io.github.dawncraft.network;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.NetHandlerPlayServer;
-import net.minecraft.network.play.server.S32PacketConfirmTransaction;
-import net.minecraft.util.IntHashMap;
-
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import net.minecraftforge.fml.relauncher.Side;
-
-import com.google.common.collect.Lists;
-
 import java.lang.reflect.Field;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.network.play.server.SPacketConfirmTransaction;
+import net.minecraft.util.IntHashMap;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class MessageClickSkillWindow implements IMessage
 {
@@ -38,7 +36,7 @@ public class MessageClickSkillWindow implements IMessage
     private int mode;
 
     public MessageClickSkillWindow() {}
-    
+
     public MessageClickSkillWindow(int windowId, int slotId, int usedButton, int mode, SkillStack clickedSkill, short actionNumber)
     {
         this.windowId = windowId;
@@ -59,7 +57,7 @@ public class MessageClickSkillWindow implements IMessage
         this.mode = buf.readByte();
         this.clickedSkill = DawnByteBufUtils.readSkillStack(buf);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -70,7 +68,7 @@ public class MessageClickSkillWindow implements IMessage
         buf.writeByte(this.mode);
         DawnByteBufUtils.writeSkillStack(buf, this.clickedSkill);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageClickSkillWindow, IMessage>
     {
         @Override
@@ -78,8 +76,8 @@ public class MessageClickSkillWindow implements IMessage
         {
             if (ctx.side == Side.SERVER)
             {
-                final EntityPlayerMP serverPlayer = ctx.getServerHandler().playerEntity;
-                serverPlayer.getServerForPlayer().addScheduledTask(new Runnable()
+                final EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+                serverPlayer.getServer().addScheduledTask(new Runnable()
                 {
                     @Override
                     public void run()
@@ -107,7 +105,7 @@ public class MessageClickSkillWindow implements IMessage
 
                                 if (SkillStack.areSkillStacksEqual(message.clickedSkill, skillStack))
                                 {
-                                    serverPlayer.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(message.windowId, message.actionNumber, true));
+                                    serverPlayer.connection.sendPacket(new SPacketConfirmTransaction(message.windowId, message.actionNumber, true));
                                     container.detectAndSendChanges();
                                     playerMagic.updateHeldSkill();
                                 }
@@ -118,7 +116,7 @@ public class MessageClickSkillWindow implements IMessage
                                         // TODO 改为AT
                                         Field field = ReflectionHelper.findField(NetHandlerPlayServer.class, "field_147372_n", "field_147372_n");
                                         field.setAccessible(true);
-                                        IntHashMap<Short> uidMap = (IntHashMap<Short>) field.get(serverPlayer.playerNetServerHandler);
+                                        IntHashMap<Short> uidMap = (IntHashMap<Short>) field.get(serverPlayer.connection);
                                         uidMap.addKey(container.windowId, message.actionNumber);
                                     }
                                     catch (Exception e)
@@ -126,7 +124,7 @@ public class MessageClickSkillWindow implements IMessage
                                         e.printStackTrace();
                                         return;
                                     }
-                                    serverPlayer.playerNetServerHandler.sendPacket(new S32PacketConfirmTransaction(message.windowId, message.actionNumber, false));
+                                    serverPlayer.connection.sendPacket(new SPacketConfirmTransaction(message.windowId, message.actionNumber, false));
                                     serverPlayer.openContainer.setCanCraft(serverPlayer, false);
                                     List<SkillStack> list = Lists.<SkillStack>newArrayList();
                                     for (int j = 0; j < container.inventorySkillSlots.size(); ++j)

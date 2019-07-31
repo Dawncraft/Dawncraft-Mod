@@ -1,23 +1,21 @@
 package io.github.dawncraft.network;
 
+import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IPlayerMagic;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
-
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 
-import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayerMagic;
-import io.netty.buffer.ByteBuf;
-
 public class MessageOpenSkillInventory implements IMessage
 {
     public MessageOpenSkillInventory() {}
-    
+
     @Override
     public void fromBytes(ByteBuf buf) {}
-    
+
     @Override
     public void toBytes(ByteBuf buf) {}
 
@@ -28,8 +26,8 @@ public class MessageOpenSkillInventory implements IMessage
         {
             if (ctx.side == Side.SERVER)
             {
-                final EntityPlayerMP serverPlayer = ctx.getServerHandler().playerEntity;
-                serverPlayer.getServerForPlayer().addScheduledTask(new Runnable()
+                final EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+                serverPlayer.getServer().addScheduledTask(new Runnable()
                 {
                     @Override
                     public void run()

@@ -1,15 +1,14 @@
 package io.github.dawncraft.network;
 
+import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.IPlayerMagic;
+import io.github.dawncraft.skill.SkillStack;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
-
-import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayerMagic;
-import io.github.dawncraft.skill.SkillStack;
-import io.netty.buffer.ByteBuf;
 
 public class MessageCreativeSkillInventoryAction implements IMessage
 {
@@ -17,7 +16,7 @@ public class MessageCreativeSkillInventoryAction implements IMessage
     public SkillStack stack;
 
     public MessageCreativeSkillInventoryAction() {}
-    
+
     public MessageCreativeSkillInventoryAction(int slotId, SkillStack stack)
     {
         this.slotId = slotId;
@@ -30,7 +29,7 @@ public class MessageCreativeSkillInventoryAction implements IMessage
         this.slotId = buf.readShort();
         this.stack = DawnByteBufUtils.readSkillStack(buf);
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -45,18 +44,18 @@ public class MessageCreativeSkillInventoryAction implements IMessage
         {
             if (ctx.side == Side.SERVER)
             {
-                final EntityPlayerMP serverPlayer = ctx.getServerHandler().playerEntity;
-                serverPlayer.getServerForPlayer().addScheduledTask(new Runnable()
+                final EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+                serverPlayer.getServer().addScheduledTask(new Runnable()
                 {
                     @Override
                     public void run()
                     {
                         IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
 
-                        if (serverPlayer.theItemInWorldManager.isCreative() && message.slotId >= 0 && message.slotId < playerMagic.getSkillInventoryContainer().inventorySkillSlots.size())
+                        if (serverPlayer.interactionManager.isCreative() && message.slotId >= 0 && message.slotId < playerMagic.getSkillInventoryContainer().inventorySkillSlots.size())
                         {
                             SkillStack skillStack = message.stack;
-                            
+
                             if (skillStack == null)
                             {
                                 playerMagic.getSkillInventoryContainer().putSkillStackInSlot(message.slotId, null);
@@ -65,7 +64,7 @@ public class MessageCreativeSkillInventoryAction implements IMessage
                             {
                                 playerMagic.getSkillInventoryContainer().putSkillStackInSlot(message.slotId, skillStack);
                             }
-                            
+
                             playerMagic.getSkillInventoryContainer().setCanCraft(serverPlayer, true);
                         }
                     }

@@ -22,7 +22,7 @@ public class MessageUpdateMana implements IMessage
     private float mana;
     private int drinkLevel;
     private float saturationLevel;
-    
+
     public MessageUpdateMana() {}
 
     public MessageUpdateMana(float mana)
@@ -42,19 +42,19 @@ public class MessageUpdateMana implements IMessage
     {
         return this.mana;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public int getDrinkLevel()
     {
         return this.drinkLevel;
     }
-    
+
     @SideOnly(Side.CLIENT)
     public float getSaturationLevel()
     {
         return this.saturationLevel;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -62,7 +62,7 @@ public class MessageUpdateMana implements IMessage
         this.drinkLevel = buf.readInt();
         this.saturationLevel = buf.readFloat();
     }
-    
+
     @Override
     public void toBytes(ByteBuf buf)
     {
@@ -83,7 +83,7 @@ public class MessageUpdateMana implements IMessage
                     @Override
                     public void run()
                     {
-                        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                        EntityPlayer player = Minecraft.getMinecraft().player;
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
                         playerMagic.setMana(message.getMana());
                         IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);

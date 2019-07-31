@@ -25,12 +25,12 @@ public class MessageSpellSkillChange implements IMessage
     public int slotId;
 
     public MessageSpellSkillChange() {}
-    
+
     public MessageSpellSkillChange(int slot)
     {
         this.slotId = slot;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -42,7 +42,7 @@ public class MessageSpellSkillChange implements IMessage
     {
         buf.writeShort(this.slotId);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSpellSkillChange, IMessage>
     {
         @Override
@@ -50,8 +50,8 @@ public class MessageSpellSkillChange implements IMessage
         {
             if (ctx.side == Side.SERVER)
             {
-                final EntityPlayerMP serverPlayer = ctx.getServerHandler().playerEntity;
-                serverPlayer.getServerForPlayer().addScheduledTask(new Runnable()
+                final EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+                serverPlayer.getServer().addScheduledTask(new Runnable()
                 {
                     @Override
                     public void run()
@@ -83,7 +83,7 @@ public class MessageSpellSkillChange implements IMessage
             }
             else if (ctx.side == Side.CLIENT)
             {
-                final EntityPlayerSP clientPlayer = Minecraft.getMinecraft().thePlayer;
+                final EntityPlayerSP clientPlayer = Minecraft.getMinecraft().player;
                 Minecraft.getMinecraft().addScheduledTask(new Runnable()
                 {
                     @Override

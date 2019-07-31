@@ -18,7 +18,7 @@ public class MessageSpellCooldown implements IMessage
     private int tick;
 
     public MessageSpellCooldown() {}
-    
+
     /**
      * Send a global cooldown message
      *
@@ -42,7 +42,7 @@ public class MessageSpellCooldown implements IMessage
         this.skill = skill;
         this.tick = tick;
     }
-    
+
     @Override
     public void fromBytes(ByteBuf buf)
     {
@@ -64,7 +64,7 @@ public class MessageSpellCooldown implements IMessage
         }
         buf.writeInt(this.tick);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSpellCooldown, IMessage>
     {
         @Override
@@ -77,7 +77,7 @@ public class MessageSpellCooldown implements IMessage
                     @Override
                     public void run()
                     {
-                        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                        EntityPlayer player = Minecraft.getMinecraft().player;
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
                         if (message.isGlobal)
                         {

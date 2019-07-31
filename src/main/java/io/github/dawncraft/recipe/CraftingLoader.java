@@ -29,10 +29,7 @@ public class CraftingLoader
                 {
                         "###", "###", "###", '#', "ingotMagnet"
                 });
-        registerShapelessRecipe(new ItemStack(ItemInit.magnetIngot, 9), new Object[]
-                {
-                        BlockInit.magnetBlock
-                });
+        registerShapelessRecipe(new ItemStack(ItemInit.magnetIngot, 9), new ItemStack(BlockInit.magnetBlock));
         registerShapedOreRecipe(new ItemStack(ItemInit.magnetStick, 4), new Object[]
                 {
                         "#", "#", '#', "ingotMagnet"
@@ -105,9 +102,9 @@ public class CraftingLoader
         GameRegistry.addShapedRecipe(null, null, output, params);
     }
 
-    private static void registerShapelessRecipe(ItemStack output, Ingredient... params)
+    private static void registerShapelessRecipe(ItemStack output, ItemStack... params)
     {
-        GameRegistry.addShapelessRecipe(null, null, output, params);
+        GameRegistry.addShapelessRecipe(null, null, output, Ingredient.fromStacks(params));
     }
 
     private static void registerShapedOreRecipe(ItemStack output, Object... params)

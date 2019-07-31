@@ -25,7 +25,7 @@ public class MessageSetSkillSlot implements IMessage
     private SkillStack skillStack;
 
     public MessageSetSkillSlot() {}
-    
+
     public MessageSetSkillSlot(int windowId, int slot, SkillStack stack)
     {
         this.windowId = windowId;
@@ -48,7 +48,7 @@ public class MessageSetSkillSlot implements IMessage
         buf.writeShort(this.slot);
         DawnByteBufUtils.writeSkillStack(buf, this.skillStack);
     }
-    
+
     public static class Handler implements IMessageHandler<MessageSetSkillSlot, IMessage>
     {
         @Override
@@ -61,7 +61,7 @@ public class MessageSetSkillSlot implements IMessage
                     @Override
                     public void run()
                     {
-                        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+                        EntityPlayer player = Minecraft.getMinecraft().player;
                         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
 
                         if (message.windowId == -1)
@@ -83,7 +83,7 @@ public class MessageSetSkillSlot implements IMessage
                             if (message.windowId == 0)
                             {
                                 SkillStack stack = playerMagic.getSkillInventoryContainer().getSkillSlot(message.slot).getStack();
-                                
+
                                 if (message.slot >= 0 && message.slot < 9)
                                 {
                                     if (message.skillStack != null && (stack == null || stack.skillLevel < message.skillStack.skillLevel))
@@ -91,7 +91,7 @@ public class MessageSetSkillSlot implements IMessage
                                         message.skillStack.animationsToGo = 5;
                                     }
                                 }
-                                
+
                                 playerMagic.getSkillInventoryContainer().putSkillStackInSlot(message.slot, message.skillStack);
                             }
                             else if (player.openContainer instanceof SkillContainer && message.windowId == player.openContainer.windowId && !flag)
