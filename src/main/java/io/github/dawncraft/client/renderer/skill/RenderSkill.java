@@ -144,7 +144,7 @@ public class RenderSkill implements IResourceManagerReloadListener
 
             float cooldown = 0.0F;
             EntityPlayer player = Minecraft.getMinecraft().player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
             cooldown = playerMagic.getCooldownTracker().getCooldownPercent(stack.getSkill(), 0);
 
             if (cooldown > 0.0F)

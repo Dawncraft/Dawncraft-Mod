@@ -1,21 +1,19 @@
 package io.github.dawncraft.client;
 
 import io.github.dawncraft.CommonProxy;
-import io.github.dawncraft.client.event.ClientEventLoader;
 import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.client.gui.stats.GuiStatLoader;
-import io.github.dawncraft.client.particle.ParticleLoader;
-import io.github.dawncraft.client.renderer.block.BlockRenderLoader;
+import io.github.dawncraft.client.particle.ParticleInit;
+import io.github.dawncraft.client.renderer.block.BlockRenderInit;
 import io.github.dawncraft.client.renderer.entity.EntityRenderInit;
 import io.github.dawncraft.client.renderer.item.ItemRenderInit;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.RenderSkill;
 import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
-import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderLoader;
+import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderInit;
 import io.github.dawncraft.config.KeyLoader;
 import net.minecraft.client.Minecraft;
-
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -28,24 +26,23 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 public class ClientProxy extends CommonProxy
 {
     private static ClientProxy instance;
-    
+
     private TextureLoader textureLoader;
     private ModelLoader modelLoader;
     private RenderSkill skillRender;
     private GuiIngameDawn ingameGUIDawn;
-    
+
+    public ClientProxy()
+    {
+        instance = this;
+    }
+
     @Override
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
-        instance = this;
         this.textureLoader = new TextureLoader();
         this.modelLoader = new ModelLoader(this.textureLoader);
-        ItemRenderInit.initItemRender();
-        BlockRenderLoader.initBlockRender();
-        SkillRenderLoader.initSkillRender();
-        EntityRenderInit.initEntityRender();
-        TileEntityRenderLoader.initTileEntityRender();
     }
 
     @Override
@@ -53,10 +50,14 @@ public class ClientProxy extends CommonProxy
     {
         super.init(event);
         this.skillRender = new RenderSkill(Minecraft.getMinecraft().getTextureManager(), this.modelLoader);
-        ParticleLoader.initParticles();
+        BlockRenderInit.initBlockRender();
+        ItemRenderInit.initItemRender();
+        SkillRenderLoader.initSkillRender();
+        EntityRenderInit.initEntityRender();
+        TileEntityRenderInit.initTileEntityRender();
+        ParticleInit.initParticles();
         KeyLoader.initKeys();
         GuiStatLoader.initStatSlots();
-        ClientEventLoader.initClientEvents();
     }
 
     @Override
@@ -70,22 +71,22 @@ public class ClientProxy extends CommonProxy
     {
         return this.textureLoader;
     }
-    
+
     public ModelLoader getModelLoader()
     {
         return this.modelLoader;
     }
-    
+
     public RenderSkill getSkillRender()
     {
         return this.skillRender;
     }
-    
+
     public GuiIngameDawn getIngameGUIDawn()
     {
         return this.ingameGUIDawn;
     }
-    
+
     public static ClientProxy getInstance()
     {
         return instance;

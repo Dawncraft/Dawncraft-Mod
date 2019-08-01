@@ -46,7 +46,7 @@ public class DrinkStats
      */
     public void onUpdate(EntityPlayer player)
     {
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         EnumDifficulty difficulty = player.world.getDifficulty();
 
         if (ConfigLoader.isThirstEnabled)
@@ -85,7 +85,7 @@ public class DrinkStats
                 {
                     if (player.getHealth() > 10.0F || difficulty == EnumDifficulty.HARD || player.getHealth() > 1.0F && difficulty == EnumDifficulty.NORMAL)
                     {
-                        player.attackEntityFrom(DamageSourceLoader.thirst, 1.0F);
+                        player.attackEntityFrom(DamageSourceLoader.THIRST, 1.0F);
                     }
 
                     this.drinkTimer = 0;

@@ -76,7 +76,7 @@ public class SkillContainerPlayer extends SkillContainer
             
             if (skillStack != null)
             {
-                IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                 playerMagic.getSkillInventory().addSkillStackToInventory(skillStack);
             }
         }

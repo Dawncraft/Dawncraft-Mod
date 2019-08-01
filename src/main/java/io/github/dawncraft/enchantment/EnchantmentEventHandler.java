@@ -18,7 +18,7 @@ public class EnchantmentEventHandler
         if (!event.getWorld().isRemote && event.getHarvester() != null)
         {
             ItemStack itemStack = event.getHarvester().getActiveItemStack();
-            if (EnchantmentHelper.getEnchantmentLevel(EnchantmentInit.fireBurn, itemStack) > 0
+            if (EnchantmentHelper.getEnchantmentLevel(EnchantmentInit.FIRE_BURN, itemStack) > 0
                     && itemStack.getItem() != Items.SHEARS)
             {
                 for (int i = 0; i < event.getDrops().size(); ++i)

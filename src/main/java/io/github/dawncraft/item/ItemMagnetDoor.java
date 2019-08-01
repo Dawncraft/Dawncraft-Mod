@@ -28,7 +28,7 @@ public class ItemMagnetDoor extends ItemDoor
 {
     public ItemMagnetDoor()
     {
-        super(BlockInit.magnetDoor);
+        super(BlockInit.MAGNET_DOOR);
     }
 
     @Override

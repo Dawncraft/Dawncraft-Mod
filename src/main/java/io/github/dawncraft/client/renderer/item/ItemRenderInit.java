@@ -1,6 +1,7 @@
 package io.github.dawncraft.client.renderer.item;
 
 import io.github.dawncraft.block.BlockInit;
+import io.github.dawncraft.client.event.TooltipEventHandler;
 import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.item.ItemSkull;
@@ -20,8 +21,8 @@ public class ItemRenderInit
     public static void initItemRender()
     {
         // Energy
-        registerBlock(BlockInit.electricCable);
-        registerBlock(BlockInit.energyGeneratorHeat);
+        registerBlock(BlockInit.ELECTRIC_CABLE);
+        registerBlock(BlockInit.HEAT_GENERATOR);
         //        register(BlockLoader.energyGeneratorFluid);
         //        register(BlockLoader.energyGeneratorSolar);
         //        register(BlockLoader.energyGeneratorWind);
@@ -29,94 +30,97 @@ public class ItemRenderInit
         //        register(BlockLoader.energyGeneratorMagic);
 
         // Magnet
-        registerItem(ItemInit.magnet);
-        registerItem(ItemInit.magnetIngot);
-        registerItem(ItemInit.magnetStick);
-        registerItem(ItemInit.magnetBall);
-        registerItem(ItemInit.magnetCard);
-        registerItem(ItemInit.magnetDoor);
+        registerItem(ItemInit.MAGNET);
+        registerItem(ItemInit.MAGNET_INGOT);
+        registerItem(ItemInit.MAGNET_STICK);
+        registerItem(ItemInit.MAGNET_BALL);
+        registerItem(ItemInit.MAGNET_CARD);
+        registerItem(ItemInit.MAGNET_DOOR);
 
-        registerItem(ItemInit.magnetAxe);
-        registerItem(ItemInit.magnetPickaxe);
-        registerItem(ItemInit.magnetHammer);
-        registerItem(ItemInit.magnetSpade);
-        registerItem(ItemInit.magnetHoe);
-        registerItem(ItemInit.magnetSword);
-        registerItem(ItemInit.magnetWand);
-        registerItem(ItemInit.magnetHelmet);
-        registerItem(ItemInit.magnetChestplate);
-        registerItem(ItemInit.magnetLeggings);
-        registerItem(ItemInit.magnetBoots);
+        registerItem(ItemInit.MAGNET_AXE);
+        registerItem(ItemInit.MAGNET_PICKAXE);
+        registerItem(ItemInit.MAGNET_HAMMER);
+        registerItem(ItemInit.MAGNET_SPADE);
+        registerItem(ItemInit.MAGNET_HOE);
+        registerItem(ItemInit.MAGNET_SWORD);
+        registerItem(ItemInit.MAGNET_WAND);
+        registerItem(ItemInit.MAGNET_HELMET);
+        registerItem(ItemInit.MAGNET_CHESTPLATE);
+        registerItem(ItemInit.MAGNET_LEGGINGS);
+        registerItem(ItemInit.MAGNET_BOOTS);
 
-        registerBlock(BlockInit.magnetOre);
-        registerBlock(BlockInit.magnetBlock);
-        registerBlock(BlockInit.magnetRail);
-        registerBlock(BlockInit.magnetChest);
+        registerBlock(BlockInit.MAGIC_ORE);
+        registerBlock(BlockInit.MAGNET_BLOCK);
+        registerBlock(BlockInit.MAGNET_RAIL);
+        registerBlock(BlockInit.MAGNET_CHEST);
 
         // Machine
-        registerItem(ItemInit.copperIngot);
+        registerItem(ItemInit.COPPER_INGOT);
 
-        registerBlock(BlockInit.copperOre);
-        registerBlock(BlockInit.copperBlock);
-        registerBlock(BlockInit.machineFurnace);
+        registerBlock(BlockInit.COPPER_ORE);
+        registerBlock(BlockInit.COPPER_BLOCK);
+        registerBlock(BlockInit.MACHINE_FURNACE);
 
         // Computer
-        registerItem(ItemInit.simpleCPU);
-        registerItem(ItemInit.advancedCPU);
-        registerItem(ItemInit.superCPU);
+        registerItem(ItemInit.SIMPLE_CPU);
+        registerItem(ItemInit.ADVANCED_CPU);
+        registerItem(ItemInit.PROFESSIONAL_CPU);
 
-        registerBlock(BlockInit.simpleComputer);
-        registerBlock(BlockInit.advancedComputer);
-        registerBlock(BlockInit.superComputer);
+        registerBlock(BlockInit.SIMPLE_COMPUTER);
+        registerBlock(BlockInit.ADVANCED_COMPUTER);
+        registerBlock(BlockInit.PROFESSIONAL_COMPUTER);
 
         // Science
 
         // Furniture
-        registerBlock(BlockInit.woodTable);
-        registerBlock(BlockInit.stoneTable);
-        registerBlock(BlockInit.woodChair);
-        registerBlock(BlockInit.stoneChair);
-        registerBlock(BlockInit.alarmClock);
+        registerBlock(BlockInit.WOOD_TABLE);
+        registerBlock(BlockInit.STONE_TABLE);
+        registerBlock(BlockInit.WOOD_CHAIR);
+        registerBlock(BlockInit.STONE_CHAIR);
+        registerBlock(BlockInit.ALARM_CLOCK);
 
         // Cuisine
-        registerItem(ItemInit.tumbler);
-        registerItem(ItemInit.faeces);
-        registerItem(ItemInit.cookedEgg);
-        registerItem(ItemInit.honeyChicken);
-        registerItem(ItemInit.honeyStew);
-        registerItem(ItemInit.frogStew);
-        registerItem(ItemInit.honey);
-        registerItem(ItemInit.frog);
+        registerItem(ItemInit.TUMBLER);
+        registerItem(ItemInit.FAECES);
+        registerItem(ItemInit.COOKED_EGG);
+        registerItem(ItemInit.HONEY_CHICKEN);
+        registerItem(ItemInit.HONEY_STEW);
+        registerItem(ItemInit.FROG_STEW);
+        registerItem(ItemInit.HONEY);
+        registerItem(ItemInit.FROG);
 
         // Magic
-        registerBlock(BlockInit.magicOre);
-        registerItem(ItemInit.magicDust);
-        registerItem(ItemInit.skillBook);
+        registerBlock(BlockInit.MAGIC_ORE);
+        registerItem(ItemInit.MAGIC_DUST);
+        registerItem(ItemInit.SKILL_BOOK);
 
         // War
-        registerItem(ItemInit.gunAK47);
-        registerItem(ItemInit.gunBullet);
-        registerItem(ItemInit.gunRPG);
-        registerItem(ItemInit.gunRocket);
-        registerItem(ItemInit.throwableTorch);
+        registerItem(ItemInit.GUN_AK47);
+        registerItem(ItemInit.GUN_BULLET);
+        registerItem(ItemInit.GUN_RPG);
+        registerItem(ItemInit.GUN_ROCKET);
+        registerItem(ItemInit.THROWABLE_TORCH);
 
         // ColourEgg
-        registerBlock(BlockInit.superChest);
-        String suffix = ItemInit.skull.getRegistryName() + "_";
+        registerBlock(BlockInit.SUPER_CHEST);
+        String suffix = ItemInit.SKULL.getRegistryName() + "_";
         for (int i = 0; i < ItemSkull.skullTypes.length; i++)
         {
             Class<? extends Entity> entity = ItemSkull.skullTypes[i];
-            registerItem(ItemInit.skull, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
+            registerItem(ItemInit.SKULL, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
         }
-        registerItem(ItemInit.gerHeart);
-        registerItem(ItemInit.brainDead);
-        registerItem(ItemInit.funny);
+        registerItem(ItemInit.GER_HEART);
+        registerItem(ItemInit.BRAIN_DEAD);
+        registerItem(ItemInit.FUNNY);
 
-        registerItem(ItemInit.dj);
-        registerItem(ItemInit.wz);
+        registerItem(ItemInit.RECORD_DJ);
+        registerItem(ItemInit.RECORD_WZSONGS);
 
-        registerItem(ItemInit.goldiamondSword);
-        registerItem(ItemInit.mjolnir);
+        registerItem(ItemInit.GOLDIAMOND_SWORD);
+        registerItem(ItemInit.MJOLNIR);
+        registerItem(ItemInit.INFINITY_GAUNTLET);
+
+        TooltipEventHandler.initTooltips();
     }
 
     /**

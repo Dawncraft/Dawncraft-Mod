@@ -78,7 +78,7 @@ public class MessageSpellCooldown implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().player;
-                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                         if (message.isGlobal)
                         {
                             playerMagic.getCooldownTracker().setGlobalCooldown(message.tick);

@@ -13,10 +13,8 @@ import net.minecraft.util.EntityDamageSourceIndirect;
  */
 public class DamageSourceLoader
 {
-    public static DamageSource thirst = new DamageSource("thirst").setDamageBypassesArmor().setDamageIsAbsolute();
-    public static DamageSource ger = new DamageSource("byGer").setDifficultyScaled().setExplosion();
-
-    public static void initDamageSources() {}
+    public static final DamageSource THIRST = new DamageSource("thirst").setDamageBypassesArmor().setDamageIsAbsolute();
+    public static final DamageSource GER = new DamageSource("byGer").setDifficultyScaled().setExplosion();
 
     /**
      * returns EntityDamageSourceIndirect of a Magic Skill

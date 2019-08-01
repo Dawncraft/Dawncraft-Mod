@@ -28,60 +28,60 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 public class BlockInit
 {
     // Building blocks
-    public static final Block magnetOre = null;
-    public static final Block magnetBlock = null;
+    public static final Block MAGNET_ORE = null;
+    public static final Block MAGNET_BLOCK = null;
 
-    public static final Block copperOre = null;
-    public static final Block copperBlock = null;
+    public static final Block COPPER_ORE = null;
+    public static final Block COPPER_BLOCK = null;
 
     // Decorations
-    public static final Block magnetChest = null;
+    public static final Block MAGNET_CHEST = null;
 
     // Redstone
-    public static final Block magnetDoor = null;
-    public static final Block magnetRail = null;
+    public static final Block MAGNET_DOOR = null;
+    public static final Block MAGNET_RAIL = null;
 
     // Material/Misc
-    public static final Block fluidPetroleum = null;
+    public static final Block PETROLEUM = null;
 
     // Science
 
     // Energy
-    public static final Block electricCable = null;
+    public static final Block ELECTRIC_CABLE = null;
 
-    public static final Block energyGeneratorHeat = null;
-    public static final Block energyGeneratorFluid = null;
-    public static final Block energyGeneratorSolar = null;
-    public static final Block energyGeneratorWind = null;
-    public static final Block energyGeneratorNuclear = null;
-    public static final Block energyGeneratorMagic = null;
+    public static final Block HEAT_GENERATOR = null;
+    public static final Block FLUID_GENERATOR = null;
+    public static final Block SOLAR_GENERATOR = null;
+    public static final Block WIND_GENERATOR = null;
+    public static final Block NUCLEAR_GENERATOR = null;
+    public static final Block MAGIC_GENERATOR = null;
 
     // Machine
-    public static final Block machineFurnace = null;
+    public static final Block MACHINE_FURNACE = null;
 
     // Computer
-    public static final Block simpleComputer = null;
-    public static final Block advancedComputer = null;
-    public static final Block superComputer = null;
+    public static final Block SIMPLE_COMPUTER = null;
+    public static final Block ADVANCED_COMPUTER = null;
+    public static final Block PROFESSIONAL_COMPUTER = null;
 
     // Furniture
-    public static final Block woodTable = null;
-    public static final Block stoneTable = null;
-    public static final Block woodChair = null;
-    public static final Block stoneChair = null;
-    public static final Block alarmClock = null;
+    public static final Block WOOD_TABLE = null;
+    public static final Block STONE_TABLE = null;
+    public static final Block WOOD_CHAIR = null;
+    public static final Block STONE_CHAIR = null;
+    public static final Block ALARM_CLOCK = null;
 
     // Cuisine
 
     // Weapons
 
     // Magic
-    public static final Block magicOre = null;
+    public static final Block MAGIC_ORE = null;
 
     // ColourEgg
-    public static final Block superChest = null;
-    public static final Block dawnPortal = null;
-    public static final Block skull = null;
+    public static final Block SUPER_CHEST = null;
+    public static final Block DAWN_PORTAL = null;
+    public static final Block SKULL = null;
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
@@ -103,7 +103,7 @@ public class BlockInit
         registerBlock(new BlockMagnetRail().setTranslationKey("magnetRail").setCreativeTab(CreativeTabs.REDSTONE), "magnet_rail");
 
         // Material/Misc
-        registerBlock(new BlockFluidClassic(FluidInit.PETROLEUM, Material.WATER).setTranslationKey("fluidPetroleum"), "fluid_petroleum");
+        registerBlock(new BlockFluidClassic(FluidInit.PETROLEUM, Material.WATER).setTranslationKey("petroleum"), "petroleum");
 
         // Science
 
@@ -122,7 +122,7 @@ public class BlockInit
         // Computer
         registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.SIMPLE).setTranslationKey("simpleComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "simple_computer");
         registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.ADVANCED).setTranslationKey("advancedComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "advanced_computer");
-        registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.PROFESSIONAL).setTranslationKey("superComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "super_computer");
+        registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.PROFESSIONAL).setTranslationKey("professionalComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "professional_computer");
 
         // Furniture
         registerBlock(new BlockFurnitureTable(EnumMaterialType.WOOD).setTranslationKey("woodTable").setCreativeTab(CreativeTabsLoader.tabFurniture), "wood_table");
@@ -141,7 +141,7 @@ public class BlockInit
             @Override
             public Item getMineral()
             {
-                return ItemInit.magicDust;
+                return ItemInit.MAGIC_DUST;
             }
         }.setDroppedExp(5, 7).setTranslationKey("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic), "magic_ore");
 

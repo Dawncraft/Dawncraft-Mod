@@ -27,8 +27,8 @@ public class SmeltingLoader
 {
     public static void initSmelting()
     {
-        registerSmelting(BlockInit.magnetOre, new ItemStack(ItemInit.magnetIngot), 0.7F);
-        registerSmelting(Items.EGG, new ItemStack(ItemInit.cookedEgg), 0.3F);
+        registerSmelting(BlockInit.MAGIC_ORE, new ItemStack(ItemInit.MAGNET_INGOT), 0.7F);
+        registerSmelting(Items.EGG, new ItemStack(ItemInit.COOKED_EGG), 0.3F);
     }
 
     @SubscribeEvent

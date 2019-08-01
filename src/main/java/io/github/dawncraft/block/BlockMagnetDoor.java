@@ -2,8 +2,6 @@ package io.github.dawncraft.block;
 
 import java.util.Random;
 
-import io.github.dawncraft.capability.CapabilityLoader;
-import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.tileentity.TileEntityMagnetDoor;
 import net.minecraft.block.Block;
@@ -63,7 +61,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     @Override
     public Item getItem()
     {
-        return ItemInit.magnetDoor;
+        return ItemInit.MAGNET_DOOR;
     }
 
     @Override
@@ -118,7 +116,6 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
     {
         if (!world.isRemote)
         {
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
             BlockPos newPos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? pos.down() : pos;
             IBlockState newState = world.getBlockState(newPos);
             if (newState.getBlock() == this)
@@ -129,7 +126,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                 {
                     TileEntityMagnetDoor tileentityMagnetDoor = (TileEntityMagnetDoor) tileentity;
                     ItemStack itemStack = player.getHeldItem(hand);
-                    if (itemStack != null && itemStack.getItem() == ItemInit.magnetCard && itemStack.hasTagCompound())
+                    if (itemStack != null && itemStack.getItem() == ItemInit.MAGNET_CARD && itemStack.hasTagCompound())
                     {
                         NBTTagCompound nbt = itemStack.getTagCompound();
                         String UUID = nbt.getString("UUID");
@@ -140,7 +137,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                                 if (!tileentityMagnetDoor.isLocked())
                                 {
                                     tileentityMagnetDoor.setUUID(UUID);
-                                    playerMagic.sendOverlayMessage(new TextComponentTranslation("container.locked", this.getLocalizedName()));
+                                    player.sendStatusMessage(new TextComponentTranslation("container.lock", this.getLocalizedName()), true);
                                     return true;
                                 }
                             }
@@ -159,7 +156,7 @@ public class BlockMagnetDoor extends BlockDoor implements ITileEntityProvider
                     world.playEvent(player, state.getValue(OPEN).booleanValue() ? this.getOpenSound() : this.getCloseSound(), pos, 0);
                     return true;
                 }
-                playerMagic.sendOverlayMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()));
+                player.sendStatusMessage(new TextComponentTranslation("container.isLocked", this.getLocalizedName()), true);
             }
         }
         return false;

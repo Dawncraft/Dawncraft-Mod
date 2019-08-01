@@ -34,6 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class SkillStack
 {
+    public static final SkillStack EMPTY = new SkillStack(null);
     private Skill skill;
     public int skillLevel;
     /** A NBTTagMap containing data about an ItemStack. Can only be used for non stackable items */
@@ -298,7 +299,7 @@ public class SkillStack
         // The next level of skill
         if (this.getSkillLevel() < this.getMaxLevel())
         {
-            if (Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
+            if (Keyboard.isKeyDown(KeyLoader.USE.getKeyCode()))
             {
                 list.add(I18n.format("skill.nextLevel"));
                 SkillStack skillStack = this.copy();
@@ -307,12 +308,12 @@ public class SkillStack
             }
             else
             {
-                list.add(TextFormatting.GRAY + I18n.format("skill.moreInfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+                list.add(TextFormatting.GRAY + I18n.format("skill.moreInfo", Keyboard.getKeyName(KeyLoader.USE.getKeyCode())));
             }
         }
         else
         {
-            list.add(TextFormatting.GREEN + I18n.format("skill.maxLevel", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+            list.add(TextFormatting.GREEN + I18n.format("skill.maxLevel", Keyboard.getKeyName(KeyLoader.USE.getKeyCode())));
         }
 
         // NBT tag count
@@ -448,5 +449,28 @@ public class SkillStack
     public String toString()
     {
         return this.getUnlocalizedName() + "@" + this.skillLevel;
+    }
+
+    public boolean isEmpty()
+    {
+        if (this == EMPTY)
+        {
+            return true;
+        }
+        else if (this.getSkill() != null)
+        {
+            if (this.skillLevel <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return true;
+        }
     }
 }

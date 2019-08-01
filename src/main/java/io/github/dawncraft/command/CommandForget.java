@@ -41,7 +41,7 @@ public class CommandForget extends CommandBase
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
         EntityPlayerMP serverPlayer = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(server, sender, args[0]);
-        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         Skill skill = args.length >= 2 ? CommandLearn.getSkillByText(sender, args[1]) : null;
         int level = args.length >= 3 ? parseInt(args[2], 0, skill.getMaxLevel()) : 0;
         int count = args.length >= 4 ? parseInt(args[3], -1) : -1;

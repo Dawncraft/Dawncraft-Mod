@@ -21,77 +21,77 @@ public class CraftingLoader
 {
     public static void initCrafting()
     {
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnet), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET), new Object[]
                 {
                         "B R", "A A", "AAA", 'A', "ingotMagnet", 'B', new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), 'R', Items.REDSTONE
                 });
-        registerShapedOreRecipe(new ItemStack(BlockInit.magnetBlock), new Object[]
+        registerShapedOreRecipe(new ItemStack(BlockInit.MAGNET_BLOCK), new Object[]
                 {
                         "###", "###", "###", '#', "ingotMagnet"
                 });
-        registerShapelessRecipe(new ItemStack(ItemInit.magnetIngot, 9), new ItemStack(BlockInit.magnetBlock));
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetStick, 4), new Object[]
+        registerShapelessRecipe(new ItemStack(ItemInit.MAGNET_INGOT, 9), new ItemStack(BlockInit.MAGNET_BLOCK));
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_STICK, 4), new Object[]
                 {
                         "#", "#", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetBall, 4), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_BALL, 4), new Object[]
                 {
                         "#", '#', "ingotMagnet"
                 });
-        registerShapelessOreRecipe(new ItemStack(ItemInit.magnetCard, 1), new Object[]
+        registerShapelessOreRecipe(new ItemStack(ItemInit.MAGNET_CARD, 1), new Object[]
                 {
                         Items.PAPER, Items.PAPER, Items.PAPER, "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetDoor, 3), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_DOOR, 3), new Object[]
                 {
                         "## ", "## ", "## ", '#', "ingotMagnet"
                 });
-        registerShapedRecipe(new ItemStack(BlockInit.magnetRail, 8), new Object[]
+        registerShapedRecipe(new ItemStack(BlockInit.MAGNET_RAIL, 8), new Object[]
                 {
-                        "# #", "#*#", "#M#", '#', Items.IRON_INGOT , '*', Items.STICK, 'M', ItemInit.magnet
+                        "# #", "#*#", "#M#", '#', Items.IRON_INGOT , '*', Items.STICK, 'M', ItemInit.MAGNET
                 });
 
-        registerShapedRecipe(new ItemStack(BlockInit.simpleComputer, 2), new Object[]
+        registerShapedRecipe(new ItemStack(BlockInit.SIMPLE_COMPUTER, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.IRON_INGOT
                 });
-        registerShapedRecipe(new ItemStack(BlockInit.advancedComputer, 2), new Object[]
+        registerShapedRecipe(new ItemStack(BlockInit.ADVANCED_COMPUTER, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.GOLD_INGOT
                 });
-        registerShapedRecipe(new ItemStack(BlockInit.superComputer, 2), new Object[]
+        registerShapedRecipe(new ItemStack(BlockInit.PROFESSIONAL_COMPUTER, 2), new Object[]
                 {
                         "###", "# #", "###", '#', Items.DIAMOND
                 });
         //Food
 
         //Tools
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetSword), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_SWORD), new Object[]
                 {
-                        " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemInit.magnetStick
+                        " # ", " # ", " * ", '#', "ingotMagnet", '*', ItemInit.MAGNET_STICK
                 });
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetWand), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_WAND), new Object[]
                 {
-                        "#*#", " * ", " * ", '#', "ingotMagnet", '*', ItemInit.magnetStick
+                        "#*#", " * ", " * ", '#', "ingotMagnet", '*', ItemInit.MAGNET_STICK
                 });
-        registerShapedRecipe(new ItemStack(ItemInit.goldiamondSword), new Object[]
+        registerShapedRecipe(new ItemStack(ItemInit.GOLDIAMOND_SWORD), new Object[]
                 {
                         " % ", " & ", " * ", '%', Items.GOLD_INGOT, '&', Items.DIAMOND, '*', Items.STICK
                 });
         // Armors
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetHelmet), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_HELMET), new Object[]
                 {
                         "###", "# #", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetChestplate), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_CHESTPLATE), new Object[]
                 {
                         "# #", "###", "###", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetLeggings), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_LEGGINGS), new Object[]
                 {
                         "###", "# #", "# #", '#', "ingotMagnet"
                 });
-        registerShapedOreRecipe(new ItemStack(ItemInit.magnetBoots), new Object[]
+        registerShapedOreRecipe(new ItemStack(ItemInit.MAGNET_BOOTS), new Object[]
                 {
                         "# #", "# #", '#', "ingotMagnet"
                 });

@@ -32,7 +32,7 @@ public class MessageOpenSkillInventory implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                         serverPlayer.openContainer = playerMagic.getSkillInventoryContainer();
                     }
                 });

@@ -21,18 +21,18 @@ import net.minecraftforge.fluids.BlockFluidBase;
  *
  * @author QingChenW
  */
-public class BlockRenderLoader
+public class BlockRenderInit
 {
     public static void initBlockRender()
     {
-        registerFieldModel((BlockFluidBase) BlockInit.fluidPetroleum);
+        registerFieldModel((BlockFluidBase) BlockInit.PETROLEUM);
 
-        registerStateMapper(BlockInit.magnetDoor, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
-        registerStateMapper(BlockInit.alarmClock, new StateMap.Builder().ignore(BlockHorizontal.FACING).build());
+        registerStateMapper(BlockInit.MAGNET_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
+        registerStateMapper(BlockInit.ALARM_CLOCK, new StateMap.Builder().ignore(BlockHorizontal.FACING).build());
 
-        registerBuiltIn(BlockInit.magnetChest, "minecraft:blocks/planks_oak");
-        registerBuiltIn(BlockInit.superChest, "minecraft:blocks/planks_oak");
-        registerBuiltIn(BlockInit.skull, "minecraft:blocks/soul_sand");
+        registerBuiltIn(BlockInit.MAGNET_CHEST, "minecraft:blocks/planks_oak");
+        registerBuiltIn(BlockInit.SUPER_CHEST, "minecraft:blocks/planks_oak");
+        registerBuiltIn(BlockInit.SKULL, "minecraft:blocks/soul_sand");
     }
 
     /**

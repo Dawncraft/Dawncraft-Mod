@@ -13,6 +13,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some potions.
@@ -20,16 +21,21 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
+@ObjectHolder(Dawncraft.MODID)
 public class PotionInit
 {
-    public static Potion potionRecover;
-    public static Potion potionSilent;
-    public static Potion potionParalysis;
-    public static Potion potionConfusion;
+    public static final Potion RECOVER = null;
+    public static final Potion SILENT = null;
+    public static final Potion PARALYSIS = null;
+    public static final Potion CONFUSION = null;
 
-    public static Potion potionBrainDead;
-    public static Potion potionGerPower;
-    public static Potion potionBadGer;
+    public static final Potion BRAIN_DEAD = null;
+    public static final Potion GER_POWER = null;
+    public static final Potion BAD_GER = null;
+
+    public static final PotionType RECOVERY = null;
+    public static final PotionType LONG_RECOVERY = null;
+    public static final PotionType STRONG_RECOVERY = null;
 
     @SubscribeEvent
     public static void registerPotions(RegistryEvent.Register<Potion> event)
@@ -50,7 +56,7 @@ public class PotionInit
 
                 if (entity instanceof EntityPlayer)
                 {
-                    entityMana = entity.getCapability(CapabilityLoader.playerMagic, null);
+                    entityMana = entity.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                 }
                 else if (entity instanceof EntityImmortal)
                 {
@@ -74,9 +80,9 @@ public class PotionInit
     @SubscribeEvent
     public static void registerPotionTypes(RegistryEvent.Register<PotionType> event)
     {
-        registerPotionType(new PotionType(new PotionEffect(potionRecover, 900)), "regeneration");
-        registerPotionType(new PotionType("recover", new PotionEffect(potionRecover, 1800)), "long_regeneration");
-        registerPotionType(new PotionType("recover", new PotionEffect(potionRecover, 450, 1)), "strong_regeneration");
+        registerPotionType(new PotionType(new PotionEffect(RECOVER, 900)), "recovery");
+        registerPotionType(new PotionType("recover", new PotionEffect(RECOVER, 1800)), "long_recovery");
+        registerPotionType(new PotionType("recover", new PotionEffect(RECOVER, 450, 1)), "strong_recovery");
     }
 
     /**

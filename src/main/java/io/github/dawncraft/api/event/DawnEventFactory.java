@@ -27,7 +27,7 @@ public class DawnEventFactory
         return MinecraftForge.EVENT_BUS.post(event) ? 0 : event.amount;
     }
     
-    public static void firePlayerCraftingEvent(EntityPlayer player, SkillStack learned, ISkillInventory learnMatrix)
+    public static void firePlayerLearningEvent(EntityPlayer player, SkillStack learned, ISkillInventory learnMatrix)
     {
         SkillLearnedEvent event = new SkillLearnedEvent(player, learned, learnMatrix);
         MinecraftForge.EVENT_BUS.post(event);

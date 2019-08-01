@@ -12,6 +12,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some enchantments.
@@ -19,10 +20,11 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
+@ObjectHolder(Dawncraft.MODID)
 public class EnchantmentInit
 {
     // Enchantment type
-    public static final EnumEnchantmentType WAND = EnumHelper.addEnchantmentType("WAND", new Predicate<Item>()
+    public static EnumEnchantmentType WAND = EnumHelper.addEnchantmentType("WAND", new Predicate<Item>()
     {
         @Override
         public boolean apply(Item item)
@@ -31,14 +33,14 @@ public class EnchantmentInit
         }
     });
 
-    public static Enchantment enhancement = new EnchantmentWandEnhancement().setName("enhancement");
-    public static Enchantment fireBurn = new EnchantmentFireBurn().setName("fireBurn");
+    public static final Enchantment ENHANCEMENT = null;
+    public static final Enchantment FIRE_BURN = null;
 
     @SubscribeEvent
     public static void registerEnchantments(RegistryEvent.Register<Enchantment> event)
     {
-        registerEnchantment(enhancement, "enhancement");
-        registerEnchantment(fireBurn, "fire_burn");
+        registerEnchantment(new EnchantmentWandEnhancement().setName("enhancement"), "enhancement");
+        registerEnchantment(new EnchantmentFireBurn().setName("fireBurn"), "fire_burn");
     }
 
     private static void registerEnchantment(Enchantment enchantment, String name)

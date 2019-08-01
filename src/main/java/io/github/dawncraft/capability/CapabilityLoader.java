@@ -1,5 +1,7 @@
 package io.github.dawncraft.capability;
 
+import java.util.concurrent.Callable;
+
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
 import net.minecraftforge.common.capabilities.CapabilityInject;
@@ -14,27 +16,27 @@ public class CapabilityLoader
 {
     /** A capability to handle thirst for player. */
     @CapabilityInject(IPlayerThirst.class)
-    public static Capability<IPlayerThirst> playerThirst;
+    public static Capability<IPlayerThirst> PLAYER_THIRST;
     /** A capability to handle magic for player. */
     @CapabilityInject(IPlayerMagic.class)
-    public static Capability<IPlayerMagic> playerMagic;
+    public static Capability<IPlayerMagic> PLAYER_MAGIC;
 
     public static void initCapabilities()
     {
-        registerCapability(IPlayerThirst.class, CapabilityThirst.Implementation.class, new CapabilityThirst.Storage());
-        registerCapability(IPlayerMagic.class, CapabilityMagic.Common.class, new CapabilityMagic.Storage());
+        registerCapability(IPlayerThirst.class, CapabilityThirst.Implementation::new, new CapabilityThirst.Storage());
+        registerCapability(IPlayerMagic.class, CapabilityMagic.Common::new, new CapabilityMagic.Storage());
     }
-    
+
     /**
      * Register a capability with its abstract class, the implementation of its abstract class and storage object.
      *
      * @param type The capability's abstract class
      *
-     * @param implementation The capability's implementation class
+     * @param factory The capability's implementation factory
      * @param storage The capability's storage object
      */
-    private static <T> void registerCapability(Class<T> type, Class<? extends T> implementation, IStorage<T> storage)
+    private static <T> void registerCapability(Class<T> type, Callable<? extends T> factory, IStorage<T> storage)
     {
-        CapabilityManager.INSTANCE.register(type, storage, implementation);
+        CapabilityManager.INSTANCE.register(type, storage, factory);
     }
 }

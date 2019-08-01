@@ -13,27 +13,35 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
  */
 public class KeyLoader
 {
-    public static KeyBinding change;
-    public static KeyBinding reload;
-    public static KeyBinding use;
-    public static KeyBinding encyclopedia;
+    public static final KeyBinding CHANGE;
+    public static final KeyBinding RELOAD;
+    public static final KeyBinding USE;
+    public static final KeyBinding ENCYCLOPEDIA;
+
+    static
+    {
+        String category = "key.categories." + Dawncraft.MODID;
+        CHANGE = new KeyBinding("key." + Dawncraft.MODID + ".switch", Keyboard.KEY_GRAVE, category);
+        RELOAD = new KeyBinding("key." + Dawncraft.MODID + ".reload", Keyboard.KEY_R, category);
+        USE = new KeyBinding("key." + Dawncraft.MODID + ".use", Keyboard.KEY_LMENU, category);
+        ENCYCLOPEDIA =  new KeyBinding("key." + Dawncraft.MODID + ".wiki", Keyboard.KEY_H, category);
+    }
 
     public static void initKeys()
     {
-        String category = "key.categories." + Dawncraft.MODID;
-        registerKey(change = new KeyBinding("key." + Dawncraft.MODID + ".switch", Keyboard.KEY_GRAVE, category));
-        registerKey(reload = new KeyBinding("key." + Dawncraft.MODID + ".reload", Keyboard.KEY_R, category));
-        registerKey(use = new KeyBinding("key." + Dawncraft.MODID + ".use", Keyboard.KEY_LMENU, category));
-        registerKey(encyclopedia =  new KeyBinding("key." + Dawncraft.MODID + ".wiki", Keyboard.KEY_H, category));
+        registerKey(CHANGE);
+        registerKey(RELOAD);
+        registerKey(USE);
+        registerKey(ENCYCLOPEDIA);
     }
 
     /**
      * Register a key binding
      *
-     * @param keybinding The key to bind
+     * @param keyBinding The key to bind
      */
-    private static void registerKey(KeyBinding keybinding)
+    private static void registerKey(KeyBinding keyBinding)
     {
-        ClientRegistry.registerKeyBinding(keybinding);
+        ClientRegistry.registerKeyBinding(keyBinding);
     }
 }

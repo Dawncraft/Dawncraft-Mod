@@ -24,9 +24,9 @@ public class SkillTooltipEvent extends PlayerEvent
     /**
      * This event is fired in {@link SkillStack#getTooltip(EntityPlayer, boolean)}, which in turn is called from it's respective GUIContainer.
      */
-    public SkillTooltipEvent(SkillStack skillStack, EntityPlayer entityPlayer, List<String> toolTip, boolean showAdvancedSkillTooltips)
+    public SkillTooltipEvent(SkillStack skillStack, EntityPlayer player, List<String> toolTip, boolean showAdvancedSkillTooltips)
     {
-        super(entityPlayer);
+        super(player);
         this.skillStack = skillStack;
         this.toolTip = toolTip;
         this.showAdvancedSkillTooltips = showAdvancedSkillTooltips;

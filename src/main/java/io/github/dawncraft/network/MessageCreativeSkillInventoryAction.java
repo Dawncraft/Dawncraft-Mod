@@ -50,7 +50,7 @@ public class MessageCreativeSkillInventoryAction implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
 
                         if (serverPlayer.interactionManager.isCreative() && message.slotId >= 0 && message.slotId < playerMagic.getSkillInventoryContainer().inventorySkillSlots.size())
                         {

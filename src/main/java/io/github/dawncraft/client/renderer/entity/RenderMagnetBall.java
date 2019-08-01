@@ -10,7 +10,7 @@ public class RenderMagnetBall extends RenderSnowball<EntityMagnetBall>
 {
     public RenderMagnetBall(RenderManager renderManager)
     {
-        super(renderManager, ItemInit.magnetBall, Minecraft.getMinecraft().getRenderItem());
+        super(renderManager, ItemInit.MAGNET_BALL, Minecraft.getMinecraft().getRenderItem());
     }
 
 }

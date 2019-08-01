@@ -88,7 +88,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             this.searchField.setMaxStringLength(15);
             this.searchField.setEnableBackgroundDrawing(false);
             this.searchField.setVisible(false);
-            int tabCount = CreativeSkillTabs.creativeTabArray.length;
+            int tabCount = CreativeSkillTabs.CREATIVE_TAB_ARRAY.length;
             if (tabCount > 12)
             {
                 this.buttonList.add(new GuiButton(101, this.guiLeft, this.guiTop - 50, 20, 20, "<"));
@@ -97,8 +97,8 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             }
             int i = currentTab;
             currentTab = -1;
-            this.setCurrentCreativeSkillTab(CreativeSkillTabs.creativeTabArray[i]);
-            IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.playerMagic, null);
+            this.setCurrentCreativeSkillTab(CreativeSkillTabs.CREATIVE_TAB_ARRAY[i]);
+            IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
             playerMagic.getSkillInventoryContainer().onLearnGuiOpened(this);
         }
         else
@@ -121,13 +121,13 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         RenderHelper.enableGUIStandardItemLighting();
-        CreativeSkillTabs creativetab = CreativeSkillTabs.creativeTabArray[currentTab];
+        CreativeSkillTabs creativetab = CreativeSkillTabs.CREATIVE_TAB_ARRAY[currentTab];
 
         int start = currentPage * 10;
-        int end = Math.min(CreativeSkillTabs.creativeTabArray.length, (currentPage + 1) * 10 + 2);
+        int end = Math.min(CreativeSkillTabs.CREATIVE_TAB_ARRAY.length, (currentPage + 1) * 10 + 2);
         if (currentPage != 0) start += 2;
 
-        for (CreativeSkillTabs creativetab2 : Arrays.copyOfRange(CreativeSkillTabs.creativeTabArray, start, end))
+        for (CreativeSkillTabs creativetab2 : Arrays.copyOfRange(CreativeSkillTabs.CREATIVE_TAB_ARRAY, start, end))
         {
             this.mc.getTextureManager().bindTexture(creativeSkillInventoryTabs);
             if (creativetab2 == null) continue;
@@ -160,7 +160,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
         int k = j + 112;
         this.mc.getTextureManager().bindTexture(creativeSkillInventoryTabs);
 
-        if (creativetab.shouldHideInventory())
+        if (creativetab.hasScrollbar())
         {
             this.drawTexturedModalRect(i, j + (k - j - 17) * this.currentScroll, 232 + (this.hasScrollBars() ? 0 : 12), 0, 12, 15);
         }
@@ -189,18 +189,18 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     @Override
     protected void drawGuiSkillContainerForegroundLayer(int mouseX, int mouseY)
     {
-        CreativeSkillTabs creativetab = CreativeSkillTabs.creativeTabArray[currentTab];
+        CreativeSkillTabs creativetab = CreativeSkillTabs.CREATIVE_TAB_ARRAY[currentTab];
 
         if (creativetab != null && creativetab.shouldDrawTitle())
         {
             GlStateManager.disableBlend();
-            this.fontRenderer.drawString(I18n.format(creativetab.getTranslatedLabel()), 8, 6, 0x404040);
+            this.fontRenderer.drawString(I18n.format(creativetab.getTranslationKey()), 8, 6, 0x404040);
         }
 
         if (creativetab == CreativeTabsLoader.tabInventory)
         {
             EntityPlayer player = this.mc.player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
             GuiUtils.drawCentreString(this.fontRenderer, player.getName(), 34, 8, 0x404040);
             this.fontRenderer.drawString(player.experienceLevel + "", 21, 19, 0x404040);
             this.fontRenderer.drawString(player.getHealth() + "/" + player.getMaxHealth(), 21, 28, 0x404040);
@@ -240,11 +240,11 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
 
         super.drawScreen(mouseX, mouseY, partialTicks);
         int start = currentPage * 10;
-        int end = Math.min(CreativeSkillTabs.creativeTabArray.length, (currentPage + 1) * 10 + 2);
+        int end = Math.min(CreativeSkillTabs.CREATIVE_TAB_ARRAY.length, (currentPage + 1) * 10 + 2);
         if (currentPage != 0) start += 2;
         boolean rendered = false;
 
-        for (CreativeSkillTabs creativetab : Arrays.copyOfRange(CreativeSkillTabs.creativeTabArray, start, end))
+        for (CreativeSkillTabs creativetab : Arrays.copyOfRange(CreativeSkillTabs.CREATIVE_TAB_ARRAY, start, end))
         {
             if (creativetab == null) continue;
             if (this.renderCreativeTabHoveringText(creativetab, mouseX, mouseY))
@@ -326,7 +326,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
         GlStateManager.enableRescaleNormal();
         if (tab.getIcon() == null)
         {
-            SkillStack skillStack = tab.getIconSkillStack();
+            SkillStack skillStack = tab.getIcon();
             this.skillRender.renderSkillAndEffectIntoGUI(skillStack, l, i1);
             this.skillRender.renderSkillOverlayIntoGUI(this.fontRenderer, skillStack, l, i1);
         }
@@ -338,7 +338,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             GlStateManager.alphaFunc(516, 0.1F);
             GlStateManager.blendFunc(770, 771);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.skillRender.drawSprite(l, i1, tab.getIcon(), 16, 16);
+            this.skillRender.drawSprite(l, i1, tab.getIconSprite(), 16, 16);
             GlStateManager.disableAlpha();
             GlStateManager.disableRescaleNormal();
         }
@@ -373,7 +373,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
 
         if (this.isPointInRegion(j + 3, k + 3, 23, 27, mouseX, mouseY))
         {
-            this.drawHoveringText(I18n.format(tab.getTranslatedLabel()), mouseX, mouseY);
+            this.drawHoveringText(I18n.format(tab.getTranslationKey()), mouseX, mouseY);
             return true;
         }
         else
@@ -408,7 +408,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             int i = mouseX - this.guiLeft;
             int j = mouseY - this.guiTop;
 
-            for (CreativeSkillTabs creativetab : CreativeSkillTabs.creativeTabArray)
+            for (CreativeSkillTabs creativetab : CreativeSkillTabs.CREATIVE_TAB_ARRAY)
             {
                 if (creativetab != null && this.isMouseOverTab(creativetab, i, j))
                     return;
@@ -426,7 +426,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             int i = mouseX - this.guiLeft;
             int j = mouseY - this.guiTop;
 
-            for (CreativeSkillTabs creativetabs : CreativeSkillTabs.creativeTabArray)
+            for (CreativeSkillTabs creativetabs : CreativeSkillTabs.CREATIVE_TAB_ARRAY)
             {
                 if (creativetabs != null && this.isMouseOverTab(creativetabs, i, j))
                 {
@@ -466,7 +466,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     protected void handleClick(SkillSlot slot, int slotId, int clickedButton, int clickType)
     {
         this.clearSearch = true;
-        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         boolean move = clickType == 1;
 
         if (slot != null)
@@ -609,7 +609,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     @Override
     protected void keyTyped(char typedChar, int keyCode) throws IOException
     {
-        if (!CreativeSkillTabs.creativeTabArray[currentTab].hasSearchBar())
+        if (!CreativeSkillTabs.CREATIVE_TAB_ARRAY[currentTab].hasSearchBar())
         {
             if (GameSettings.isKeyDown(this.mc.gameSettings.keyBindChat))
             {
@@ -647,7 +647,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     {
         super.onGuiClosed();
 
-        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         playerMagic.getSkillInventoryContainer().removeLearner(this);
 
         Keyboard.enableRepeatEvents(false);
@@ -658,7 +658,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
         if (tab == null) return;
         int tabIndex = currentTab;
         currentTab = tab.getIndex();
-        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         SkillContainerCreative containerCreative = (SkillContainerCreative) this.inventorySlots;
         containerCreative.skillList.clear();
         List<Skill> skillList = Lists.newArrayList();
@@ -741,8 +741,8 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
 
     private boolean hasScrollBars()
     {
-        if (CreativeSkillTabs.creativeTabArray[currentTab] == null) return false;
-        return currentTab != CreativeTabsLoader.tabInventory.getIndex() && CreativeSkillTabs.creativeTabArray[currentTab].shouldHideInventory() && ((SkillContainerCreative) this.inventorySlots).canScroll();
+        if (CreativeSkillTabs.CREATIVE_TAB_ARRAY[currentTab] == null) return false;
+        return currentTab != CreativeTabsLoader.tabInventory.getIndex() && CreativeSkillTabs.CREATIVE_TAB_ARRAY[currentTab].hasScrollbar() && ((SkillContainerCreative) this.inventorySlots).canScroll();
     }
 
     private void updateCreativeSearch()
@@ -750,7 +750,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
         SkillContainerCreative containerCreative = (SkillContainerCreative) this.inventorySlots;
         containerCreative.skillList.clear();
 
-        CreativeSkillTabs tab = CreativeSkillTabs.creativeTabArray[currentTab];
+        CreativeSkillTabs tab = CreativeSkillTabs.CREATIVE_TAB_ARRAY[currentTab];
         if (tab.hasSearchBar() && tab != CreativeTabsLoader.tabSearch)
         {
             List<Skill> skillList = Lists.newArrayList();
@@ -815,7 +815,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
 
         public SkillContainerCreative(EntityPlayer player)
         {
-            SkillInventoryPlayer inventoryPlayer = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
+            SkillInventoryPlayer inventoryPlayer = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventory();
 
             for (int i = 0; i < 5; ++i)
             {

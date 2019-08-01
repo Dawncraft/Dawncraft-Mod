@@ -7,11 +7,10 @@ package io.github.dawncraft.api.item;
  */
 public class ItemGunPistol extends ItemGun
 {
-    
+
     public ItemGunPistol(int maxDamage, int clip, int reload, int interval, int velocity, double deviation, double sway)
     {
         super(maxDamage, clip, reload, interval, velocity, deviation, sway);
-        // TODO 自动生成的构造函数存根
     }
-    
+
 }

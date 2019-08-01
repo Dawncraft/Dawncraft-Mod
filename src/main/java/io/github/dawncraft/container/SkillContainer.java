@@ -77,7 +77,7 @@ public abstract class SkillContainer extends Container
 
     public SkillStack skillSlotClick(int slotId, int clickedButton, int mode, EntityPlayer player)
     {
-        SkillInventoryPlayer inventoryPlayer = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
+        SkillInventoryPlayer inventoryPlayer = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventory();
         SkillStack skillStack = null;
 
         if ((mode == 0 || mode == 1) && (clickedButton == 0 || clickedButton == 1))
@@ -243,7 +243,7 @@ public abstract class SkillContainer extends Container
 
         if (listener instanceof EntityPlayer)
         {
-            IPlayerMagic magic = ((EntityPlayer) listener).getCapability(CapabilityLoader.playerMagic, null);
+            IPlayerMagic magic = ((EntityPlayer) listener).getCapability(CapabilityLoader.PLAYER_MAGIC, null);
             magic.getSkillInventoryContainer().onLearnGuiOpened(magic);
         }
     }
@@ -278,7 +278,7 @@ public abstract class SkillContainer extends Container
     {
         super.onContainerClosed(player);
 
-        SkillInventoryPlayer skillInventoryPlayer = player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventory();
+        SkillInventoryPlayer skillInventoryPlayer = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventory();
 
         if (skillInventoryPlayer.getSkillStack() != null)
         {

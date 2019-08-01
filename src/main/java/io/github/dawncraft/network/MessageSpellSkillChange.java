@@ -56,7 +56,7 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                         if (message.slotId < 0)
                         {
                             playerMagic.cancelSpellingSkill();
@@ -89,7 +89,7 @@ public class MessageSpellSkillChange implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = clientPlayer.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = clientPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                         if (message.slotId < 0)
                         {
                             ClientProxy.getInstance().getIngameGUIDawn().setSpellIndex(-1);

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.KeyLoader;
@@ -19,13 +20,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * 用事件添加一些奇怪的提示
  *
  * @author QingChenW
  */
+@Mod.EventBusSubscriber(value = Side.CLIENT, modid = Dawncraft.MODID)
 public class TooltipEventHandler
 {
     // 政治家、永垂不朽、烧铝、酵母菌的食用方式、血绿蛋白、大眼激光、略施魔法
@@ -35,7 +39,6 @@ public class TooltipEventHandler
     // 金刚经、龙裔之书
     // 喝彩
     protected static Map<Item, IItemTooltipHandler> tooltipMap = new HashMap<>();
-    // TextFormatting.GRAY
     public static IItemTooltipHandler defaultItemHandler = new IItemTooltipHandler()
     {
         @Override
@@ -47,24 +50,24 @@ public class TooltipEventHandler
         }
     };
 
-    public TooltipEventHandler()
+    public static void initTooltips()
     {
         IItemTooltipHandler customItemTooltipHandler = new CustomItemTooltipHandler(false);
-        registerItemTooltip(ItemInit.simpleCPU, customItemTooltipHandler);
-        registerItemTooltip(ItemInit.advancedCPU, customItemTooltipHandler);
-        registerItemTooltip(ItemInit.superCPU, customItemTooltipHandler);
-        if(ConfigLoader.isColoreggEnabled())
+        registerItemTooltip(ItemInit.SIMPLE_CPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInit.ADVANCED_CPU, customItemTooltipHandler);
+        registerItemTooltip(ItemInit.PROFESSIONAL_CPU, customItemTooltipHandler);
+        if (ConfigLoader.isColoreggEnabled())
         {
-            registerItemTooltip(BlockInit.alarmClock);
+            registerItemTooltip(BlockInit.ALARM_CLOCK);
             registerItemTooltip(Items.POTATO);
-            registerItemTooltip(ItemInit.honeyChicken);
-            registerItemTooltip(ItemInit.frogStew);
-            registerItemTooltip(ItemInit.mjolnir);
+            registerItemTooltip(ItemInit.HONEY_CHICKEN);
+            registerItemTooltip(ItemInit.FROG_STEW);
+            registerItemTooltip(ItemInit.MJOLNIR);
         }
     }
 
     @SubscribeEvent
-    public void onItemTooltip(ItemTooltipEvent event)
+    public static void onItemTooltip(ItemTooltipEvent event)
     {
         if (tooltipMap.containsKey(event.getItemStack().getItem()))
         {
@@ -114,13 +117,13 @@ public class TooltipEventHandler
         {
             List<String> toolTip = new ArrayList<>();
             // Don't use KeyLoader.use.isKeyDown()
-            if (this.show || Keyboard.isKeyDown(KeyLoader.use.getKeyCode()))
+            if (this.show || Keyboard.isKeyDown(KeyLoader.USE.getKeyCode()))
             {
                 toolTip.add(TextFormatting.GRAY + I18n.format(I18n.format(itemStack.getTranslationKey() + ".desc")));
             }
             else
             {
-                toolTip.add(TextFormatting.GRAY + I18n.format("gui.moreinfo", Keyboard.getKeyName(KeyLoader.use.getKeyCode())));
+                toolTip.add(TextFormatting.GRAY + I18n.format("gui.moreinfo", Keyboard.getKeyName(KeyLoader.USE.getKeyCode())));
             }
             return toolTip;
         }

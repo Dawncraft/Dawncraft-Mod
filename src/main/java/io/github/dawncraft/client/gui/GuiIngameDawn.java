@@ -196,7 +196,7 @@ public class GuiIngameDawn extends Gui
         if (this.mc.player != null)
         {
             EntityPlayer player = this.mc.player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
 
             if (player.isHandActive())
             {
@@ -301,7 +301,7 @@ public class GuiIngameDawn extends Gui
         this.mc.profiler.startSection("skillBar");
 
         EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
 
         int left = width / 2 - 91;
         int top = height - 22;
@@ -348,7 +348,7 @@ public class GuiIngameDawn extends Gui
 
     protected void renderHotbarSkill(int index, int xPos, int yPos, float partialTicks, EntityPlayer player)
     {
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(index);
 
         if (skillStack != null)
@@ -383,7 +383,7 @@ public class GuiIngameDawn extends Gui
         GlStateManager.enableBlend();
 
         EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         int mana = MathHelper.ceil(playerMagic.getMana());
         boolean highlight = this.manaUpdateCounter > this.getIngameGUI().getUpdateCounter() && (this.manaUpdateCounter - this.getIngameGUI().getUpdateCounter()) / 3L % 2L == 1L;
 
@@ -420,9 +420,9 @@ public class GuiIngameDawn extends Gui
         final int BG_U = highlight ? 9 : 0;
         final int V = 9 + 9;
         int U = 0;
-        if (player.isPotionActive(PotionInit.potionSilent)) U += 36;
+        if (player.isPotionActive(PotionInit.SILENT)) U += 36;
 
-        int recover = player.isPotionActive(PotionInit.potionRecover) ? this.getIngameGUI().getUpdateCounter() % 25 : -1;
+        int recover = player.isPotionActive(PotionInit.RECOVER) ? this.getIngameGUI().getUpdateCounter() % 25 : -1;
 
         for (int i = MathHelper.ceil(maxMana / 2.0F) - 1; i >= 0; --i)
         {

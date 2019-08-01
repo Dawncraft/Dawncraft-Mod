@@ -9,8 +9,8 @@ public class LearningLoader
 {
     public static void initLearning()
     {
-        registerRecipe(new SkillStack(SkillInit.heal, 2), SkillInit.heal, SkillInit.heal);
-        registerRecipe(new SkillStack(SkillInit.fireball, 1), SkillInit.attack, SkillInit.heal);
+        registerRecipe(new SkillStack(SkillInit.HEAL, 2), SkillInit.HEAL, SkillInit.HEAL);
+        registerRecipe(new SkillStack(SkillInit.FIREBALL, 1), SkillInit.ATTACK, SkillInit.HEAL);
     }
 
     private static void registerRecipe(SkillStack output, Object... params)

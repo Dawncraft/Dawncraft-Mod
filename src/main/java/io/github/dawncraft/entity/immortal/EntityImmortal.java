@@ -23,7 +23,7 @@ public abstract class EntityImmortal extends EntityAgeable implements IEntityMan
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(AttributesLoader.maxMana);
+        this.getAttributeMap().registerAttribute(AttributesLoader.MAX_MANA);
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class EntityImmortal extends EntityAgeable implements IEntityMan
     @Override
     public final float getMaxMana()
     {
-        return (float) this.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue();
+        return (float) this.getEntityAttribute(AttributesLoader.MAX_MANA).getAttributeValue();
     }
 
     @Override

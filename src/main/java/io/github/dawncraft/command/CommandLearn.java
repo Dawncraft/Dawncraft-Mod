@@ -49,7 +49,7 @@ public class CommandLearn extends CommandBase
         if (args.length >= 2)
         {
             EntityPlayerMP serverPlayer = getPlayer(server, sender, args[0]);
-            IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.playerMagic, null);
+            IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
             Skill skill = getSkillByText(sender, args[1]);
             int level = args.length >= 3 ? parseInt(args[2], 1, skill.getMaxLevel()) : 1;
             SkillStack skillStack = new SkillStack(skill, level);

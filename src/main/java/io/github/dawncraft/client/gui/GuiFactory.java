@@ -13,6 +13,11 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
+/**
+ * A factory which provides Dawncraft mod's config screen
+ *
+ * @author QingChenW
+ */
 public class GuiFactory implements IModGuiFactory
 {
     @Override

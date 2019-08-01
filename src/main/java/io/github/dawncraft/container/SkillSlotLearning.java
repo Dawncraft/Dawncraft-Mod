@@ -30,7 +30,7 @@ public class SkillSlotLearning extends SkillSlot
     @Override
     public void onPickupFromSlot(EntityPlayer player, SkillStack stack)
     {
-        DawnEventFactory.firePlayerCraftingEvent(player, stack, this.learnMatrix);
+        DawnEventFactory.firePlayerLearningEvent(player, stack, this.learnMatrix);
         this.onLearning(stack);
 
         for (int i = 0; i < this.learnMatrix.getSkillInventorySize(); ++i)

@@ -10,7 +10,6 @@ import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.container.GuiLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
-import io.github.dawncraft.entity.AttributesLoader;
 import io.github.dawncraft.entity.FakePlayerLoader;
 import io.github.dawncraft.fluid.FluidInit;
 import io.github.dawncraft.network.NetworkLoader;
@@ -19,7 +18,6 @@ import io.github.dawncraft.recipe.CraftingLoader;
 import io.github.dawncraft.recipe.LearningLoader;
 import io.github.dawncraft.recipe.OreDictionaryLoader;
 import io.github.dawncraft.recipe.SmeltingLoader;
-import io.github.dawncraft.stats.DamageSourceLoader;
 import io.github.dawncraft.stats.StatLoader;
 import io.github.dawncraft.tileentity.TileEntityLoader;
 import io.github.dawncraft.util.Metrics;
@@ -48,21 +46,19 @@ public class CommonProxy
         ConfigLoader.init(event.getSuggestedConfigurationFile());
         CommandInit.initReflections();
         CapabilityLoader.initCapabilities();
-        CreativeTabsLoader.initCreativeTabs();
         FluidInit.initFluids();
-        AttributesLoader.initAttributes();
         TileEntityLoader.initTileEntities();
     }
 
     public void init(FMLInitializationEvent event)
     {
+        CreativeTabsLoader.initCreativeTabs();
         OreDictionaryLoader.initOreDictionary();
         CraftingLoader.initCrafting();
         SmeltingLoader.initSmelting();
         BrewingLoader.initBrewing();
         LearningLoader.initLearning();
         StatLoader.initStats();
-        DamageSourceLoader.initDamageSources();
         GeneratorLoader.initGenerators();
         WorldInit.initWorlds();
         FakePlayerLoader.initFakePlayers();

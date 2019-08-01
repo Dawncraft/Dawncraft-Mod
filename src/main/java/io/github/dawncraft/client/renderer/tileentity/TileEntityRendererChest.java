@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * @author QingChenW
  */
 @SideOnly(Side.CLIENT)
-public class TileEntityRenderChest extends TileEntitySpecialRenderer<TileEntityChest>
+public class TileEntityRendererChest extends TileEntitySpecialRenderer<TileEntityChest>
 {
     private static final ResourceLocation textureMagnetic = new ResourceLocation(Dawncraft.MODID, "textures/entity/chest/magnetic.png");
     private static final ResourceLocation textureMagneticDouble = new ResourceLocation(Dawncraft.MODID, "textures/entity/chest/magnetic_double.png");

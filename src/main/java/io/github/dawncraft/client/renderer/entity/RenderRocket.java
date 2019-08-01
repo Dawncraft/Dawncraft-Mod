@@ -10,7 +10,7 @@ public class RenderRocket extends RenderSnowball<EntityRocket>
 {
     public RenderRocket(RenderManager renderManager)
     {
-        super(renderManager, ItemInit.gunRocket, Minecraft.getMinecraft().getRenderItem());
+        super(renderManager, ItemInit.GUN_ROCKET, Minecraft.getMinecraft().getRenderItem());
     }
 
 }

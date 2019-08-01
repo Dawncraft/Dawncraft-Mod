@@ -16,26 +16,26 @@ public class OreDictionaryLoader
 {
     public static void initOreDictionary()
     {
-        registerOre("ingotMagnet", ItemInit.magnetIngot);
-        registerOre("oreMagnet", BlockInit.magnetOre);
-        registerOre("blockMagnet", BlockInit.magnetBlock);
-        registerOre("ingotCopper", ItemInit.copperIngot);
-        registerOre("oreCopper", BlockInit.copperOre);
-        registerOre("blockCopper", BlockInit.copperBlock);
-        registerOre("dustMagic", ItemInit.magicDust);
-        registerOre("oreMagic", BlockInit.magicOre);
+        registerOre("ingotMagnet", ItemInit.MAGNET_INGOT);
+        registerOre("oreMagnet", BlockInit.MAGIC_ORE);
+        registerOre("blockMagnet", BlockInit.MAGNET_BLOCK);
+        registerOre("ingotCopper", ItemInit.COPPER_INGOT);
+        registerOre("oreCopper", BlockInit.COPPER_ORE);
+        registerOre("blockCopper", BlockInit.COPPER_BLOCK);
+        registerOre("dustMagic", ItemInit.MAGIC_DUST);
+        registerOre("oreMagic", BlockInit.MAGIC_ORE);
     }
-    
+
     public static void registerOre(String name, Item ore)
     {
         OreDictionary.registerOre(name, ore);
     }
-    
+
     public static void registerOre(String name, Block ore)
     {
         OreDictionary.registerOre(name, ore);
     }
-    
+
     public static void registerOre(String name, ItemStack ore)
     {
         OreDictionary.registerOre(name, ore);

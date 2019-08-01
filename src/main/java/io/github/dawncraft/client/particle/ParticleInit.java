@@ -6,7 +6,7 @@ import net.minecraft.util.EnumParticleTypes;
 
 import io.github.dawncraft.client.DawnEnumHelperClient;
 
-public class ParticleLoader
+public class ParticleInit
 {
     public static final EnumParticleTypes LIGHTING = DawnEnumHelperClient.addEnumParticleType("LIGHTING", "lighting", 129, true);
     

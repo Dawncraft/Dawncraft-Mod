@@ -3,10 +3,12 @@ package io.github.dawncraft.api.creativetab;
 import java.util.Arrays;
 import java.util.List;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -17,14 +19,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class CreativeSkillTabs
 {
-    public static CreativeSkillTabs[] creativeTabArray = new CreativeSkillTabs[12];
-    private final int tabIndex;
-    private final String tabLabel;
-    private String theTexture = "skills.png";
-    private boolean hasScrollbar = true;
+    public static CreativeSkillTabs[] CREATIVE_TAB_ARRAY = new CreativeSkillTabs[12];
+    private final int index;
+    private final String label;
+    private SkillStack icon;
     private boolean drawTitle = true;
-    @SideOnly(Side.CLIENT)
-    private SkillStack iconSkillStack;
+    private boolean hasScrollbar = true;
+    private String backgroundTexture = "skills.png";
 
     public CreativeSkillTabs(String label)
     {
@@ -33,57 +34,58 @@ public abstract class CreativeSkillTabs
 
     public CreativeSkillTabs(int index, String label)
     {
-        if (index >= creativeTabArray.length)
+        if (index >= CREATIVE_TAB_ARRAY.length)
         {
-            creativeTabArray = Arrays.copyOf(creativeTabArray, index + 1);
+            CREATIVE_TAB_ARRAY = Arrays.copyOf(CREATIVE_TAB_ARRAY, index + 1);
         }
-        this.tabIndex = index;
-        this.tabLabel = label;
-        creativeTabArray[index] = this;
+        this.index = index;
+        this.label = label;
+        this.icon = SkillStack.EMPTY;
+        CREATIVE_TAB_ARRAY[index] = this;
     }
 
     @SideOnly(Side.CLIENT)
     public int getIndex()
     {
-        return this.tabIndex;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public SkillStack getIconSkillStack()
-    {
-        if (this.iconSkillStack == null)
-        {
-            this.iconSkillStack = new SkillStack(this.getIconSkill(), this.getIconSkillLevel());
-        }
-
-        return this.iconSkillStack;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public abstract Skill getIconSkill();
-
-    @SideOnly(Side.CLIENT)
-    public int getIconSkillLevel()
-    {
-        return 0;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public TextureAtlasSprite getIcon()
-    {
-        return null;
+        return this.index;
     }
 
     @SideOnly(Side.CLIENT)
     public String getLabel()
     {
-        return this.tabLabel;
+        return this.label;
     }
 
     @SideOnly(Side.CLIENT)
-    public String getTranslatedLabel()
+    public int getLabelColor()
+    {
+        return 0x404040;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getTranslationKey()
     {
         return "skillGroup." + this.getLabel();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public SkillStack getIcon()
+    {
+        if (this.icon.isEmpty())
+        {
+            this.icon = this.createIcon();
+        }
+
+        return this.icon;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public abstract SkillStack createIcon();
+
+    @SideOnly(Side.CLIENT)
+    public TextureAtlasSprite getIconSprite()
+    {
+        return null;
     }
 
     public CreativeSkillTabs setNoTitle()
@@ -105,14 +107,14 @@ public abstract class CreativeSkillTabs
     }
 
     @SideOnly(Side.CLIENT)
-    public boolean shouldHideInventory()
+    public boolean hasScrollbar()
     {
         return this.hasScrollbar;
     }
 
     public boolean hasSearchBar()
     {
-        return this.tabIndex == CreativeTabsLoader.tabSearch.tabIndex;
+        return this.index == CreativeTabsLoader.tabSearch.index;
     }
 
     public int getSearchbarWidth()
@@ -122,22 +124,28 @@ public abstract class CreativeSkillTabs
 
     public CreativeSkillTabs setBackgroundImageName(String texture)
     {
-        this.theTexture = texture;
+        this.backgroundTexture = texture;
         return this;
     }
 
     @SideOnly(Side.CLIENT)
     public String getBackgroundImageName()
     {
-        return this.theTexture;
+        return this.backgroundTexture;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public ResourceLocation getBackgroundImage()
+    {
+        return new ResourceLocation(Dawncraft.MODID, "textures/gui/container/skill_inventory/tab_" + this.getBackgroundImageName());
     }
 
     @SideOnly(Side.CLIENT)
     public int getPage()
     {
-        if (this.tabIndex > 11)
+        if (this.index > 11)
         {
-            return (this.tabIndex - 12) / 10 + 1;
+            return (this.index - 12) / 10 + 1;
         }
         return 0;
     }
@@ -145,21 +153,27 @@ public abstract class CreativeSkillTabs
     @SideOnly(Side.CLIENT)
     public int getColumn()
     {
-        if (this.tabIndex > 11)
+        if (this.index > 11)
         {
-            return (this.tabIndex - 12) % 10 % 5;
+            return (this.index - 12) % 10 % 5;
         }
-        return this.tabIndex % 6;
+        return this.index % 6;
     }
 
     @SideOnly(Side.CLIENT)
     public boolean isOnTopRow()
     {
-        if (this.tabIndex > 11)
+        if (this.index > 11)
         {
-            return (this.tabIndex - 12) % 10 < 5;
+            return (this.index - 12) % 10 < 5;
         }
-        return this.tabIndex < 6;
+        return this.index < 6;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean isAlignedRight()
+    {
+        return this.getColumn() == 5;
     }
 
     @SideOnly(Side.CLIENT)
@@ -180,10 +194,10 @@ public abstract class CreativeSkillTabs
 
     public static int getNextID()
     {
-        int max = creativeTabArray.length;
+        int max = CREATIVE_TAB_ARRAY.length;
         for (int i = 0; i < max; i++)
         {
-            if (creativeTabArray[i] == null) return i;
+            if (CREATIVE_TAB_ARRAY[i] == null) return i;
         }
         return max;
     }

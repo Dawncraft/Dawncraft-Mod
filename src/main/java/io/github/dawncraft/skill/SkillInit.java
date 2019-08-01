@@ -6,6 +6,7 @@ import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some skills.
@@ -13,11 +14,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
+@ObjectHolder(Dawncraft.MODID)
 public class SkillInit
 {
-    public static Skill attack = null;
-    public static Skill heal = null;
-    public static Skill fireball = null;
+    public static final Skill ATTACK = null;
+    public static final Skill HEAL = null;
+    public static final Skill FIREBALL = null;
 
     @SubscribeEvent
     public static void registerSkills(RegistryEvent.Register<Skill> event)

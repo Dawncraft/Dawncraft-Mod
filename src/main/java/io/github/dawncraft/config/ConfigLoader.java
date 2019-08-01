@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
-@Config(modid = Dawncraft.MODID, name = Dawncraft.NAME, category = "")
+@Config(modid = Dawncraft.MODID, name = Dawncraft.NAME, category = "general")
 @Config.LangKey("config." + Dawncraft.MODID + ".general")
 public class ConfigLoader
 {

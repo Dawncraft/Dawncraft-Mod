@@ -2,6 +2,7 @@ package io.github.dawncraft.item;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.item.ItemAxe;
+import io.github.dawncraft.api.item.ItemGlove;
 import io.github.dawncraft.api.item.ItemGunLauncher;
 import io.github.dawncraft.api.item.ItemGunRifle;
 import io.github.dawncraft.api.item.ItemHammer;
@@ -48,38 +49,39 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 public class ItemInit
 {
     // Action
-    public static final EnumAction SHOOT = EnumHelper.addAction("SHOOT");
-    public static final EnumAction RELOAD = EnumHelper.addAction("RELOAD");
+    public static EnumAction SHOOT = EnumHelper.addAction("SHOOT");
+    public static EnumAction RELOAD = EnumHelper.addAction("RELOAD");
 
-    public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11);
-    public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", Dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+    public static Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11);
+    public static ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", Dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+    public static ItemArmor.ArmorMaterial COPPER_ARMOR = EnumHelper.addArmorMaterial("COPPER", Dawncraft.MODID + ":" + "copper", 13, new int[] { 1, 4, 3, 1 }, 8, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 
     // Redstone
-    public static final Item magnetCard = null;
-    public static final Item magnetDoor = null;
+    public static final Item MAGNET_CARD = null;
+    public static final Item MAGNET_DOOR = null;
 
     // Materials/Misc
-    public static final Item magnet = null;
-    public static final Item magnetIngot = null;
-    public static final Item magnetStick = null;
-    public static final Item magnetBall = null;
+    public static final Item MAGNET = null;
+    public static final Item MAGNET_INGOT = null;
+    public static final Item MAGNET_STICK = null;
+    public static final Item MAGNET_BALL = null;
 
-    public static final Item copperIngot = null;
+    public static final Item COPPER_INGOT = null;
 
     // Tools
-    public static final Item magnetAxe = null;
-    public static final Item magnetPickaxe = null;
-    public static final Item magnetHammer = null;
-    public static final Item magnetSpade = null;
-    public static final Item magnetHoe = null;
+    public static final Item MAGNET_AXE = null;
+    public static final Item MAGNET_PICKAXE = null;
+    public static final Item MAGNET_HAMMER = null;
+    public static final Item MAGNET_SPADE = null;
+    public static final Item MAGNET_HOE = null;
 
     // Compat
-    public static final Item magnetSword = null;
-    public static final Item magnetWand = null;
-    public static final Item magnetHelmet = null;
-    public static final Item magnetChestplate = null;
-    public static final Item magnetLeggings = null;
-    public static final Item magnetBoots = null;
+    public static final Item MAGNET_SWORD = null;
+    public static final Item MAGNET_WAND = null;
+    public static final Item MAGNET_HELMET = null;
+    public static final Item MAGNET_CHESTPLATE = null;
+    public static final Item MAGNET_LEGGINGS = null;
+    public static final Item MAGNET_BOOTS = null;
 
     // Science
 
@@ -88,47 +90,48 @@ public class ItemInit
     // Machine
 
     // Computer
-    public static final Item simpleCPU = null;
-    public static final Item advancedCPU = null;
-    public static final Item superCPU = null;
+    public static final Item SIMPLE_CPU = null;
+    public static final Item ADVANCED_CPU = null;
+    public static final Item PROFESSIONAL_CPU = null;
 
     // Furniture
 
     // Cuisine
-    public static final Item tumbler = null;
-    public static final Item faeces = null;
-    public static final Item cookedEgg = null;
-    public static final Item honeyChicken = null;
-    public static final Item honeyStew = null;
-    public static final Item frogStew = null;
-    public static final Item honey = null;
-    public static final Item frog = null;
+    public static final Item TUMBLER = null;
+    public static final Item FAECES = null;
+    public static final Item COOKED_EGG = null;
+    public static final Item HONEY_CHICKEN = null;
+    public static final Item HONEY_STEW = null;
+    public static final Item FROG_STEW = null;
+    public static final Item HONEY = null;
+    public static final Item FROG = null;
 
     // Weapons
-    public static final Item gunAK47 = null;
-    public static final Item gunRPG = null;
-    public static final Item gunBullet = null;
-    public static final Item gunRocket = null;
-    public static final Item throwableTorch = null;
+    public static final Item GUN_AK47 = null;
+    public static final Item GUN_RPG = null;
+    public static final Item GUN_BULLET = null;
+    public static final Item GUN_ROCKET = null;
+    public static final Item THROWABLE_TORCH = null;
 
     // Magic
-    public static final Item magicDust = null;
-    public static final Item skillBook = null;
+    public static final Item MAGIC_DUST = null;
+    public static final Item SKILL_BOOK = null;
 
     // ColourEgg
-    public static final Item.ToolMaterial GOLDIAMOND = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F, 16);
-    public static final Item.ToolMaterial MJOLNIR = EnumHelper.addToolMaterial("MJOLNIR", 4, 2586, 10.0F, 2.0F, 24);
+    public static Item.ToolMaterial GOLDIAMOND_TOOL = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F, 16);
+    public static Item.ToolMaterial MJOLNIR_TOOL = EnumHelper.addToolMaterial("MJOLNIR", 4, 2586, 10.0F, 2.0F, 24);
 
-    public static final Item skull = null;
-    public static final Item gerHeart = null;
-    public static final Item brainDead = null;
-    public static final Item funny = null;
+    public static final Item SKULL = null;
+    public static final Item GER_HEART = null;
+    public static final Item BRAIN_DEAD = null;
+    public static final Item FUNNY = null;
 
-    public static final Item dj = null;
-    public static final Item wz = null;
+    public static final Item RECORD_DJ = null;
+    public static final Item RECORD_WZSONGS = null;
 
-    public static final Item goldiamondSword = null;
-    public static final Item mjolnir = null;
+    public static final Item GOLDIAMOND_SWORD = null;
+    public static final Item MJOLNIR = null;
+    public static final Item INFINITY_GAUNTLET = null;
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event)
@@ -177,7 +180,7 @@ public class ItemInit
         // Computer
         registerItem(new Item().setTranslationKey("simpleCPU").setCreativeTab(CreativeTabsLoader.tabComputer), "simple_cpu");
         registerItem(new Item().setTranslationKey("advancedCPU").setCreativeTab(CreativeTabsLoader.tabComputer), "advanced_cpu");
-        registerItem(new Item().setTranslationKey("superCPU").setCreativeTab(CreativeTabsLoader.tabComputer), "super_cpu");
+        registerItem(new Item().setTranslationKey("professionalCPU").setCreativeTab(CreativeTabsLoader.tabComputer), "professional_cpu");
 
         // Furniture
 
@@ -194,7 +197,7 @@ public class ItemInit
                     player.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 200, 1));
                     player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 200, 1));
                     player.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 200, 1));
-                    player.addPotionEffect(new PotionEffect(PotionInit.potionConfusion, 200, 1));
+                    player.addPotionEffect(new PotionEffect(PotionInit.CONFUSION, 200, 1));
                 }
             }
         }.setAlwaysEdible().setTranslationKey("faeces").setCreativeTab(CreativeTabsLoader.tabCuisine), "faeces");
@@ -222,7 +225,7 @@ public class ItemInit
             @Override
             public BlockSkull getSkullBlock()
             {
-                return (BlockSkull) BlockInit.skull;
+                return (BlockSkull) BlockInit.SKULL;
             }
         }.setTranslationKey("skull").setCreativeTab(CreativeTabsLoader.tabColourEgg), "skull");
         registerItem(new ItemFood(2, 1.0F, false)
@@ -233,7 +236,7 @@ public class ItemInit
                 super.onFoodEaten(stack, world, player);
                 if (!world.isRemote)
                 {
-                    player.addPotionEffect(new PotionEffect(PotionInit.potionGerPower, 400, 2));
+                    player.addPotionEffect(new PotionEffect(PotionInit.GER_POWER, 400, 2));
                     player.addExperience(2000);
                 }
             }
@@ -246,7 +249,7 @@ public class ItemInit
                 super.onFoodEaten(stack, world, player);
                 if (!world.isRemote)
                 {
-                    player.addPotionEffect(new PotionEffect(PotionInit.potionBrainDead, 160, 1));
+                    player.addPotionEffect(new PotionEffect(PotionInit.BRAIN_DEAD, 160, 1));
                     player.addExperience(233);
                 }
             }
@@ -256,17 +259,18 @@ public class ItemInit
         registerItem(new ItemRecord("dj", SoundInit.RECORDS_DJ).setTranslationKey("record").setCreativeTab(CreativeTabsLoader.tabColourEgg), "record_dj");
         registerItem(new ItemRecord("wzsongs", SoundInit.RECORDS_WZSONGS).setTranslationKey("record").setCreativeTab(CreativeTabsLoader.tabColourEgg), "record_wzsongs");
 
-        registerItem(new ItemSword(ItemInit.GOLDIAMOND).setTranslationKey("goldiamondSword").setCreativeTab(CreativeTabsLoader.tabColourEgg), "goldiamond_sword");
-        registerItem( new ItemHammer(ItemInit.MJOLNIR)
+        registerItem(new ItemSword(ItemInit.GOLDIAMOND_TOOL).setTranslationKey("goldiamondSword").setCreativeTab(CreativeTabsLoader.tabColourEgg), "goldiamond_sword");
+        registerItem(new ItemHammer(ItemInit.MJOLNIR_TOOL)
         {
             @Override
             public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker)
             {
-                target.addPotionEffect(new PotionEffect(PotionInit.potionParalysis, 60, 0));
+                target.addPotionEffect(new PotionEffect(PotionInit.PARALYSIS, 60, 0));
                 attacker.addPotionEffect(new PotionEffect(MobEffects.SPEED, 60, 0));
                 return super.hitEntity(stack, target, attacker);
             }
         }.setTranslationKey("mjolnir").setCreativeTab(CreativeTabsLoader.tabColourEgg), "mjolnir");
+        registerItem(new ItemGlove(2, 999.0F, -1.2F).setTranslationKey("infinityGauntlet").setCreativeTab(CreativeTabsLoader.tabColourEgg), "infinity_gauntlet");
     }
 
     /**

@@ -69,7 +69,7 @@ public class MessageWindowSkills implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().player;
-                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
 
                         if (message.windowId == 0)
                         {

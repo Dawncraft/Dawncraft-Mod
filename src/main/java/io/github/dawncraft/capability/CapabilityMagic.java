@@ -67,6 +67,8 @@ public class CapabilityMagic
         private SkillStack skillInSpell;
         private int skillInSpellCount;
 
+        public Common() {}
+
         public Common(EntityPlayer player)
         {
             this.player = player;
@@ -125,7 +127,7 @@ public class CapabilityMagic
         @Override
         public float getMaxMana()
         {
-            return (float) this.player.getEntityAttribute(AttributesLoader.maxMana).getAttributeValue();
+            return (float) this.player.getEntityAttribute(AttributesLoader.MAX_MANA).getAttributeValue();
         }
 
         @Override
@@ -298,7 +300,7 @@ public class CapabilityMagic
                     this.recover(1.0F);
                 }
 
-                IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
+                IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.PLAYER_THIRST, null);
 
                 if (ConfigLoader.isThirstEnabled && playerThirst.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
                 {
@@ -445,7 +447,7 @@ public class CapabilityMagic
                 this.cancelSpellingSkill();
             }
 
-            IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.playerThirst, null);
+            IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.PLAYER_THIRST, null);
             playerThirst.getDrinkStats().onUpdate(this.player);
 
             if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != playerThirst.getDrinkStats().getDrinkLevel() || playerThirst.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
@@ -482,13 +484,13 @@ public class CapabilityMagic
 
                 for (EntityItem entityItem : itemList)
                 {
-                    if (entityItem.getItem().getItem() == ItemInit.gerHeart && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.WATER))
+                    if (entityItem.getItem().getItem() == ItemInit.GER_HEART && world.isMaterialInBB(entityItem.getEntityBoundingBox(), Material.WATER))
                     {
                         int dx = MathHelper.floor(entityItem.posX);
                         int dy = MathHelper.floor(entityItem.posY);
                         int dz = MathHelper.floor(entityItem.posZ);
                         BlockPos pos = new BlockPos(dx, dy, dz);
-                        world.setBlockState(pos, BlockInit.dawnPortal.getDefaultState());
+                        world.setBlockState(pos, BlockInit.DAWN_PORTAL.getDefaultState());
                         world.addWeatherEffect(new EntityLightningBolt(world, dx, dy, dz, true));
                     }
                 }
@@ -638,13 +640,13 @@ public class CapabilityMagic
             {
                 this.instance = new Common(player);
             }
-            this.storage = CapabilityLoader.playerMagic.getStorage();
+            this.storage = CapabilityLoader.PLAYER_MAGIC.getStorage();
         }
 
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
-            return CapabilityLoader.playerMagic.equals(capability);
+            return CapabilityLoader.PLAYER_MAGIC.equals(capability);
         }
 
         @Override
@@ -661,13 +663,13 @@ public class CapabilityMagic
         @Override
         public NBTTagCompound serializeNBT()
         {
-            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.playerMagic, this.instance, null);
+            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.PLAYER_MAGIC, this.instance, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound tagCompound)
         {
-            this.storage.readNBT(CapabilityLoader.playerMagic, this.instance, null, tagCompound);
+            this.storage.readNBT(CapabilityLoader.PLAYER_MAGIC, this.instance, null, tagCompound);
         }
     }
 }

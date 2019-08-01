@@ -28,7 +28,7 @@ public class BlockSkullDawn extends BlockSkull
         @Override
         public boolean apply(BlockWorldState blockWorldState)
         {
-            return blockWorldState.getBlockState() != null && blockWorldState.getBlockState().getBlock() == BlockInit.skull && blockWorldState.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockWorldState.getTileEntity()).getSkullType() == 1;
+            return blockWorldState.getBlockState() != null && blockWorldState.getBlockState().getBlock() == BlockInit.SKULL && blockWorldState.getTileEntity() instanceof TileEntitySkull && ((TileEntitySkull) blockWorldState.getTileEntity()).getSkullType() == 1;
         }
     };
     private BlockPattern kingBasePattern;
@@ -37,7 +37,7 @@ public class BlockSkullDawn extends BlockSkull
     @Override
     public ItemSkull getSkullItem()
     {
-        return (ItemSkull) ItemInit.skull;
+        return (ItemSkull) ItemInit.SKULL;
     }
 
     @Override

@@ -1,4 +1,4 @@
-//曙光工艺Mod，中文语言文件，作者Wc
+// 曙光工艺Mod，中文语言文件，作者QingChenW
 dawncraft.name=曙光工艺模组
 
 itemGroup.Energy=能源
@@ -44,8 +44,8 @@ item.simpleCPU.name=普通CPU
 item.simpleCPU.desc=曙光一代CPU,慢的要死
 item.advancedCPU.name=高级CPU
 item.advancedCPU.desc=曙光二代CPU,速度还算可以
-item.superCPU.name=超级CPU
-item.superCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
+item.professionalCPU.name=超级CPU
+item.professionalCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
 item.tumbler.name=平底玻璃杯
 item.potato.desc=土豆栽子,苞米胚子,甜菜梆子
@@ -81,6 +81,7 @@ item.funny.name=滑稽
 item.goldiamondSword.name=§e黄金§b钻石§5剑
 item.mjolnir.name=§b雷神之锤
 item.mjolnir.desc=巨ger之王的小锤锤
+item.infinityGauntlet.name=§b无限手套
 
 skillGroup.Skills=基础法术
 skillGroup.Search=搜索技能
@@ -155,7 +156,7 @@ potion.brainDead=脑残
 potion.gerPower=巨Ger之力
 potion.badGer=Ger化
 
-container.locked=已为 %s 上锁
+container.lock=已为 %s 上锁
 container.heatGenerator=热能发电机
 container.magnetChest=磁力箱
 container.machineFurnace=电炉

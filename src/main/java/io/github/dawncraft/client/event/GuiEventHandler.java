@@ -2,6 +2,7 @@ package io.github.dawncraft.client.event;
 
 import java.lang.reflect.Field;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.client.event.TextComponentEvent;
 import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.gui.container.GuiInventoryTabs;
@@ -23,31 +24,34 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
 import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import net.minecraftforge.fml.relauncher.Side;
 
+@Mod.EventBusSubscriber(value = Side.CLIENT, modid = Dawncraft.MODID)
 public class GuiEventHandler
 {
-    private Minecraft mc;
-    public GuiInventoryTabs inventoryTabs;
+    private static Minecraft mc;
+    public static GuiInventoryTabs inventoryTabs;
 
-    public GuiEventHandler()
+    static
     {
-        this.mc = Minecraft.getMinecraft();
-        this.inventoryTabs = new GuiInventoryTabs();
+        mc = Minecraft.getMinecraft();
+        inventoryTabs = new GuiInventoryTabs();
     }
 
     @SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent event)
+    public static void onGuiOpen(GuiOpenEvent event)
     {
         if (event.getGui() instanceof GuiStats)
         {
-            event.setGui(new GuiStatsDawn(this.mc.currentScreen, this.mc.player.getStatFileWriter()));
+            event.setGui(new GuiStatsDawn(GuiEventHandler.mc.currentScreen, GuiEventHandler.mc.player.getStatFileWriter()));
         }
     }
 
     @SubscribeEvent
-    public void onPostGuiInit(InitGuiEvent.Post event)
+    public static void onPostGuiInit(InitGuiEvent.Post event)
     {
         if (event.getGui() instanceof GuiInventory || event.getGui() instanceof GuiContainerCreative)
         {
@@ -67,24 +71,24 @@ public class GuiEventHandler
     }
 
     @SubscribeEvent
-    public void onPreDrawScreen(DrawScreenEvent.Pre event)
+    public static void onPreDrawScreen(DrawScreenEvent.Pre event)
     {
 
     }
 
     @SubscribeEvent
-    public void onPostDrawScreen(DrawScreenEvent.Post event)
+    public static void onPostDrawScreen(DrawScreenEvent.Post event)
     {
 
     }
 
     @SubscribeEvent
-    public void onPostActionPerformed(ActionPerformedEvent.Post event)
+    public static void onPostActionPerformed(ActionPerformedEvent.Post event)
     {
     }
 
     @SubscribeEvent
-    public void onDrawHoverTextComponent(TextComponentEvent.Hover event)
+    public static void onDrawHoverTextComponent(TextComponentEvent.Hover event)
     {
         if (event.textComponent != null && event.textComponent.getStyle().getHoverEvent() != null)
         {

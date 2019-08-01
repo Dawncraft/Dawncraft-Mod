@@ -57,7 +57,7 @@ public class EntitySavage extends EntityAnimal
 
         for (int i = 0;i < j;i++)
         {
-            this.dropItem(ItemInit.faeces, 1);
+            this.dropItem(ItemInit.FAECES, 1);
         }
     }
 }

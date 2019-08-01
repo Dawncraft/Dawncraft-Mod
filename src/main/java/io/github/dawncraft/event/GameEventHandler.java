@@ -40,7 +40,7 @@ public class GameEventHandler
         if (event.phase == Phase.END)
         {
             EntityPlayer player = event.player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
             playerMagic.update();
         }
     }
@@ -53,9 +53,9 @@ public class GameEventHandler
         {
             EntitySavage savage = (EntitySavage) event.getTarget();
             ItemStack stack = player.getHeldItem(event.getHand());
-            if (stack != null && stack.getItem() == ItemInit.faeces)
+            if (stack != null && stack.getItem() == ItemInit.FAECES)
             {
-                player.attackEntityFrom(DamageSourceLoader.ger, 20.0F);
+                player.attackEntityFrom(DamageSourceLoader.GER, 20.0F);
                 player.world.createExplosion(savage, savage.posX, savage.posY, savage.posZ, 4.0F, false);
                 savage.setDead();
             }

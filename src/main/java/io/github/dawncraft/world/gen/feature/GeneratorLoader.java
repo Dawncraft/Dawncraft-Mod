@@ -24,7 +24,7 @@ public class GeneratorLoader
 {
     private BlockPos lastOrePos;
 
-    public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockInit.magnetOre.getDefaultState(), 6)
+    public static WorldGenerator magnetOreGenerator = new WorldGenMinable(BlockInit.MAGIC_ORE.getDefaultState(), 6)
     {
         @Override
         public boolean generate(World world, Random rand, BlockPos position)

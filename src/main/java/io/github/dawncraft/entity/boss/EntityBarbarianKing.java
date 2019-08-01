@@ -111,7 +111,7 @@ public class EntityBarbarianKing extends EntityCreature implements IMob
     @Override
     protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier)
     {
-        EntityItem entityItem = this.entityDropItem(new ItemStack(ItemInit.skull, 1, 2), 0.0F);
+        EntityItem entityItem = this.entityDropItem(new ItemStack(ItemInit.SKULL, 1, 2), 0.0F);
 
         if (entityItem != null)
         {

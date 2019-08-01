@@ -14,9 +14,9 @@ public class PotionEventHandler
     public static void onPlayerAttack(AttackEntityEvent event)
     {
         EntityPlayer player = event.getEntityPlayer();
-        if (player.isServerWorld() && player.isPotionActive(PotionInit.potionParalysis))
+        if (player.isServerWorld() && player.isPotionActive(PotionInit.PARALYSIS))
         {
-            if(player.world.rand.nextBoolean())
+            if (player.world.rand.nextBoolean())
             {
                 event.setCanceled(true);
                 player.sendMessage(new TextComponentTranslation("chat.potion.paralysis"));

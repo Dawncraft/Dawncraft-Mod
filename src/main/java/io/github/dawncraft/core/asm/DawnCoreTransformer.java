@@ -95,35 +95,6 @@ public class DawnCoreTransformer implements IClassTransformer
                 }
             }
         }
-        else if (transformedName.equals("net.minecraftforge.client.ForgeHooksClient"))
-        {
-            for (MethodNode methodNode : classNode.methods)
-            {
-                String methodName = FMLDeobfuscatingRemapper.INSTANCE.mapMethodName(name, methodNode.name, methodNode.desc);
-                String methodDesc = FMLDeobfuscatingRemapper.INSTANCE.mapMethodDesc(methodNode.desc);
-                if (methodName.equals("renderTileItem") && methodDesc.equals("(Lnet/minecraft/item/Item;I)V"))
-                {
-                    changed = true;
-                    // 对ForgeHooksClient.renderTileItem(Item, int)进行操作
-                    for (AbstractInsnNode insnNode : methodNode.instructions.toArray())
-                    {
-                        // ACONST_NULL
-                        if (insnNode.getOpcode() == Opcodes.ACONST_NULL)
-                        {
-                            System.out.println("=================================");
-                            System.out.println("Modifing " + transformedName + "( " + name + " )");
-                            System.out.println("The class name is: " + classNode.name);
-                            System.out.println("The method name is: " + methodName + "( " + methodNode.name + " )");
-                            System.out.println("The method desc is: " + methodDesc + "( " + methodNode.desc + " )");
-                            System.out.println("=================================");
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ALOAD, 0));
-                            methodNode.instructions.insertBefore(insnNode, new VarInsnNode(Opcodes.ILOAD, 1));
-                            methodNode.instructions.set(insnNode, new MethodInsnNode(Opcodes.INVOKESTATIC, "io/github/dawncraft/core/client/DawnClientHooks", "getTileentityForItem", "(Lnet/minecraft/item/Item;I)Lnet/minecraft/tileentity/TileEntity;", false));
-                        }
-                    }
-                }
-            }
-        }
         else if (transformedName.equals("net.minecraft.client.gui.GuiScreen"))
         {
             for (MethodNode methodNode : classNode.methods)

@@ -87,7 +87,7 @@ public class EntityGerKing extends EntityCreature implements IMob
     @Override
     protected Item getDropItem()
     {
-        return ItemInit.faeces;
+        return ItemInit.FAECES;
     }
 
     @Override
@@ -134,7 +134,7 @@ public class EntityGerKing extends EntityCreature implements IMob
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingData)
     {
         super.onInitialSpawn(difficulty, livingData);
-        this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(ItemInit.mjolnir));
+        this.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(ItemInit.MJOLNIR));
         return livingData;
     }
 
@@ -170,7 +170,7 @@ public class EntityGerKing extends EntityCreature implements IMob
     {
         super.dropFewItems(wasRecentlyHit, lootingModifier);
 
-        EntityItem entityItem = this.dropItem(ItemInit.gerHeart, 1);
+        EntityItem entityItem = this.dropItem(ItemInit.GER_HEART, 1);
         if (entityItem != null)
         {
             entityItem.setNoDespawn();

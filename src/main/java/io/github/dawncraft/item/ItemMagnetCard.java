@@ -50,7 +50,7 @@ public class ItemMagnetCard extends Item
         {
             if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("UUID", 8))
             {
-                ItemStack newStack = new ItemStack(ItemInit.magnetCard);
+                ItemStack newStack = new ItemStack(ItemInit.MAGNET_CARD);
 
                 NBTTagCompound nbt = new NBTTagCompound();
                 nbt.setString("UUID", UUID.randomUUID().toString());

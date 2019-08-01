@@ -7,8 +7,8 @@ import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.enchantment.EnchantmentInit;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillInit;
+import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
@@ -61,7 +61,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(BlockInit.machineFurnace);
+                return new ItemStack(BlockInit.MACHINE_FURNACE);
             }
         };
         tabComputer = new CreativeTabs("Computer")
@@ -69,7 +69,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(BlockInit.simpleComputer);
+                return new ItemStack(BlockInit.SIMPLE_COMPUTER);
             }
         };
 
@@ -78,7 +78,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return  new ItemStack(BlockInit.woodTable);
+                return  new ItemStack(BlockInit.WOOD_TABLE);
             }
         };
         tabCuisine = new CreativeTabs("Cuisine")
@@ -86,7 +86,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(ItemInit.cookedEgg);
+                return new ItemStack(ItemInit.COOKED_EGG);
             }
         };
         tabWeapons = new CreativeTabs("Weapons")
@@ -94,7 +94,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(ItemInit.gunRPG);
+                return new ItemStack(ItemInit.GUN_RPG);
             }
         };
         tabMagic = new CreativeTabs("Magic")
@@ -102,7 +102,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(ItemInit.magicDust);
+                return new ItemStack(ItemInit.MAGIC_DUST);
             }
         };
         tabColourEgg = new CreativeTabs("ColourEgg")
@@ -110,28 +110,28 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(ItemInit.goldiamondSword);
+                return new ItemStack(ItemInit.GOLDIAMOND_SWORD);
             }
         };
 
         tabSkills = new CreativeSkillTabs("Skills")
         {
             @Override
-            public Skill getIconSkill()
+            public SkillStack createIcon()
             {
-                return SkillInit.heal;
+                return new SkillStack(SkillInit.HEAL);
             }
         };
         tabSearch = new CreativeSkillTabs(5, "Search")
         {
             @Override
-            public Skill getIconSkill()
+            public SkillStack createIcon()
             {
                 return null;
             }
 
             @Override
-            public TextureAtlasSprite getIcon()
+            public TextureAtlasSprite getIconSprite()
             {
                 return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:items/paper");
             }
@@ -139,13 +139,13 @@ public class CreativeTabsLoader
         tabInventory = new CreativeSkillTabs(11, "skillInventory")
         {
             @Override
-            public Skill getIconSkill()
+            public SkillStack createIcon()
             {
                 return null;
             }
 
             @Override
-            public TextureAtlasSprite getIcon()
+            public TextureAtlasSprite getIconSprite()
             {
                 return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(Dawncraft.MODID + ":" + "items/magic/skill_book");
             }

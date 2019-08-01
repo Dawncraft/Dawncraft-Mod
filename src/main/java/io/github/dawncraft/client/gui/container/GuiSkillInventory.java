@@ -14,7 +14,7 @@ public class GuiSkillInventory extends GuiSkillContainer
 
     public GuiSkillInventory(EntityPlayer player)
     {
-        super(player.getCapability(CapabilityLoader.playerMagic, null).getSkillInventoryContainer());
+        super(player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventoryContainer());
         this.allowUserInput = true;
     }
 
@@ -62,7 +62,7 @@ public class GuiSkillInventory extends GuiSkillContainer
         this.fontRenderer.drawString(I18n.format("container.learning"), 68, 16, 0x404040);
 
         EntityPlayer player = this.mc.player;
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         GuiUtils.drawCentreString(this.fontRenderer, player.getName(), 34, 24, 0x404040);
         this.fontRenderer.drawString(player.experienceLevel + "", 21, 36, 0x404040);
         this.fontRenderer.drawString(player.getHealth() + "/" + player.getMaxHealth(), 21, 45, 0x404040);

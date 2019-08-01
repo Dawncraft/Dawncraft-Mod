@@ -84,9 +84,9 @@ public class MessageUpdateMana implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().player;
-                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.playerMagic, null);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
                         playerMagic.setMana(message.getMana());
-                        IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.playerThirst, null);
+                        IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.PLAYER_THIRST, null);
                         if (playerThirst.getDrinkStats() != null)
                         {
                             playerThirst.getDrinkStats().setDrinkLevel(message.getDrinkLevel());

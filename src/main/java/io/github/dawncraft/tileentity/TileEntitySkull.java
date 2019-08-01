@@ -14,8 +14,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class TileEntitySkull extends TileEntity
 {
-    private boolean useByItemStackRenderer = false;
-
     private int skullType;
     private int skullRotation;
 
@@ -24,14 +22,7 @@ public class TileEntitySkull extends TileEntity
     @SideOnly(Side.CLIENT)
     public TileEntitySkull(int skullType)
     {
-        this.useByItemStackRenderer = true;
         this.skullType = skullType;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public boolean usedByItemStackRenderer()
-    {
-        return this.useByItemStackRenderer;
     }
 
     public void setSkullType(int type)
@@ -56,11 +47,15 @@ public class TileEntitySkull extends TileEntity
     }
 
     @Override
+    public NBTTagCompound getUpdateTag()
+    {
+        return this.writeToNBT(new NBTTagCompound());
+    }
+
+    @Override
     public SPacketUpdateTileEntity getUpdatePacket()
     {
-        NBTTagCompound nbt = new NBTTagCompound();
-        this.writeToNBT(nbt);
-        return new SPacketUpdateTileEntity(this.pos, 4, nbt);
+        return new SPacketUpdateTileEntity(this.pos, 4, this.getUpdateTag());
     }
 
     @Override

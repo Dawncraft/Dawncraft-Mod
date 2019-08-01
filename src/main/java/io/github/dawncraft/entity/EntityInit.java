@@ -34,7 +34,7 @@ public class EntityInit
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event)
     {
         registerEntity(EntityEntryBuilder.create().entity(EntityMouse.class).name("Mouse").tracker(64, 3, true).egg(0x5b0f00, 0x573131), "mouse");
-        registerEntity(EntityEntryBuilder.create().entity(EntitySavage.class).name("Mouse").tracker(64, 3, true)
+        registerEntity(EntityEntryBuilder.create().entity(EntitySavage.class).name("Savage").tracker(64, 3, true)
                 .egg(0x795949, 0x513830).spawn(EnumCreatureType.CREATURE, 40, 2, 6, Biomes.PLAINS, Biomes.SAVANNA_PLATEAU), "savage");
         registerEntity(EntityEntryBuilder.create().entity(EntityBarbarianKing.class).name("BarbarianKing").tracker(64, 3, true), "barbarian_king");
         registerEntity(EntityEntryBuilder.create().entity(EntityGerKing.class).name("GerKing").tracker(64, 3, true), "ger_king");
@@ -43,6 +43,7 @@ public class EntityInit
         registerEntity(EntityEntryBuilder.create().entity(EntityBullet.class).name("Bullet").tracker(64, 10, true), "bullet");
         registerEntity(EntityEntryBuilder.create().entity(EntityRocket.class).name("SmallRocket").tracker(64, 10, true), "smallrocket");
         registerEntity(EntityEntryBuilder.create().entity(EntityThrowableTorch.class).name("ThrowableTorch").tracker(64, 10, true), "throwable_torch");
+
         registerEntity(EntityEntryBuilder.create().entity(EntityMFFireBall.class).name("MagicFieldFireBall").tracker(64, 10, true), "magicfield_fireball");
 
     }
