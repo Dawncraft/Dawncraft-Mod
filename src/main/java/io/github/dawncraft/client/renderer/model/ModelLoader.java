@@ -207,7 +207,7 @@ public class ModelLoader
             ModelSkill modelSkill = this.getSkillModel(skillStack.getSkill());
             if (modelSkill != null)
             {
-                String s = modelSkill.resolveTextureName(String.valueOf(skillStack.getSkillLevel()));
+                String s = modelSkill.resolveTextureName(String.valueOf(skillStack.getLevel()));
                 location = !StringUtils.isNullOrEmpty(s) ? new ResourceLocation(s) : null;
             }
         }

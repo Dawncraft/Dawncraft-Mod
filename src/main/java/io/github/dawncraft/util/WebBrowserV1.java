@@ -32,7 +32,7 @@ import javax.swing.event.HyperlinkListener;
 public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionListener
 {
     String htmlSource;
-    private ArrayList history = new ArrayList();
+    private ArrayList<String> history = new ArrayList<String>();
     private int historyIndex;
     
     JWindow window = new JWindow(this);
@@ -97,7 +97,7 @@ public class WebBrowserV1 extends JFrame implements HyperlinkListener, ActionLis
         {
             if (this.historyIndex > 0)
                 this.historyIndex--;
-            url = (String) this.history.get(this.historyIndex);
+            url = this.history.get(this.historyIndex);
             this.loadWebPage(url);
         }
     }

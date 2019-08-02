@@ -3,16 +3,18 @@ package io.github.dawncraft.entity;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class EntityUtils
 {
-    public static String getEntityStringFromClass(Class<? extends Entity> entity)
+    public static String getEntityName(Class<? extends Entity> entity)
     {
-        return EntityList.getKey(entity).toString();
+        EntityEntry entry = EntityRegistry.getEntry(entity);
+        return entry == null ? null : entry.getName();
     }
 
     public static boolean hasSittable(World world, BlockPos pos)

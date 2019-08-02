@@ -16,10 +16,10 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 /**
  * Dawncraft Mod For Minecraft with Forge Mod Loader.
  *
- * @version mc-1.8.9
+ * @version mc-1.12.2
  * @author QingChenW
  **/
-@Mod(modid = Dawncraft.MODID, name = Dawncraft.NAME, version = Dawncraft.VERSION, guiFactory = Dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.8.9", dependencies = "after:dawncore[0.0.1,)", certificateFingerprint = "")
+@Mod(modid = Dawncraft.MODID, name = Dawncraft.NAME, version = Dawncraft.VERSION, guiFactory = Dawncraft.GUI_FACTORY, acceptedMinecraftVersions = "1.12.2", dependencies = "after:dawncore[0.1.0,)", certificateFingerprint = "")
 public class Dawncraft
 {
     /** The id of Dawncraft Mod. */

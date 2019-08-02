@@ -100,7 +100,7 @@ public class RenderSkill implements IResourceManagerReloadListener
                     @Override
                     public String call() throws Exception
                     {
-                        return String.valueOf(stack.getSkillLevel());
+                        return String.valueOf(stack.getLevel());
                     }
                 });
                 crashreportcategory.addDetail("Skill NBT", new ICrashReportDetail<String>()
@@ -126,13 +126,13 @@ public class RenderSkill implements IResourceManagerReloadListener
         if (stack != null)
         {
             String level;
-            if (stack.skillLevel >= 1)
+            if (stack.getLevel() >= 1)
             {
-                level = StringUtils.toRome(stack.skillLevel);
+                level = StringUtils.toRome(stack.getLevel());
             }
             else
             {
-                level = TextFormatting.RED + String.valueOf(stack.skillLevel);
+                level = TextFormatting.RED + String.valueOf(stack.getLevel());
             }
 
             GlStateManager.disableLighting();

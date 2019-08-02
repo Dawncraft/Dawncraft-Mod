@@ -1,31 +1,35 @@
 package io.github.dawncraft.client.renderer.block;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.core.client.DawnClientHooks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Register custom blocks' model.
  *
  * @author QingChenW
  */
-public class BlockRenderInit
+@Mod.EventBusSubscriber(modid = Dawncraft.MODID, value = Side.CLIENT)
+public class BlockModelInit
 {
-    public static void initBlockRender()
+    @SubscribeEvent
+    public static void registerBlockModels(ModelRegistryEvent event)
     {
-        registerFieldModel((BlockFluidBase) BlockInit.PETROLEUM);
+        registerFieldModel(BlockInit.PETROLEUM);
 
         registerStateMapper(BlockInit.MAGNET_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
         registerStateMapper(BlockInit.ALARM_CLOCK, new StateMap.Builder().ignore(BlockHorizontal.FACING).build());
@@ -38,20 +42,13 @@ public class BlockRenderInit
     /**
      * Register a fluid's model.
      *
-     * @param blockFluid Fluid block to register
+     * @param block Fluid block to register
      */
-    private static void registerFieldModel(BlockFluidBase blockFluid)
+    private static void registerFieldModel(Block block)
     {
-        Item itemFluid = Item.getItemFromBlock(blockFluid);
-        final String name = Block.REGISTRY.getNameForObject(blockFluid).toString();
-        ModelLoader.setCustomMeshDefinition(itemFluid, new ItemMeshDefinition()
-        {
-            @Override
-            public ModelResourceLocation getModelLocation(ItemStack stack)
-            {
-                return new ModelResourceLocation(name, "fluid");
-            }
-        });
+        if (!(block instanceof BlockFluidBase)) return;
+        BlockFluidBase blockFluid = (BlockFluidBase) block;
+        final String name = blockFluid.getRegistryName().toString();
         registerStateMapper(blockFluid, new StateMapperBase()
         {
             @Override
@@ -63,7 +60,7 @@ public class BlockRenderInit
     }
 
     /**
-     * Register a BlockStateMapper.
+     * Register a block state mapper.
      *
      * @param block block to register
      * @param mapper block's state mapper

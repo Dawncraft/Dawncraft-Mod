@@ -1,5 +1,5 @@
 {
-    "parent": "dawncraft:block/super_computer",
+    "parent": "dawncraft:block/heat_generator",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

@@ -1,11 +1,11 @@
 package io.github.dawncraft.core.client;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import io.github.dawncraft.api.client.event.TextComponentEvent;
 import net.minecraft.block.Block;
@@ -26,8 +26,8 @@ import net.minecraftforge.common.MinecraftForge;
  */
 public class DawnClientHooks
 {
-    public static Set<Block> BuiltInBlocks = new HashSet<>();
-    public static Map<Block, String> BlockParticles = new HashMap<>();
+    public static final Set<Block> builtInBlocks = Sets.newHashSet();
+    public static final Map<Block, String> blockParticles = Maps.newHashMap();
 
     /**
      * Register builtin blocks.
@@ -36,7 +36,7 @@ public class DawnClientHooks
      */
     public static void registerBuiltInBlocks(Block... blocks)
     {
-        BuiltInBlocks.addAll(Lists.newArrayList(blocks));
+        builtInBlocks.addAll(Lists.newArrayList(blocks));
     }
 
     /**
@@ -47,7 +47,7 @@ public class DawnClientHooks
      */
     public static void registerBlockParticle(Block block, String iconName)
     {
-        BlockParticles.put(block, iconName);
+        blockParticles.put(block, iconName);
     }
 
     /**
@@ -55,7 +55,7 @@ public class DawnClientHooks
      */
     public static void onRegisterAllBlocks(BlockModelShapes shapes)
     {
-        shapes.registerBuiltInBlocks(BuiltInBlocks.toArray(new Block[0]));
+        shapes.registerBuiltInBlocks(builtInBlocks.toArray(new Block[0]));
     }
 
     /**
@@ -63,9 +63,9 @@ public class DawnClientHooks
      */
     public static TextureAtlasSprite getBlockParticle(ModelManager modelManager, Block block)
     {
-        if (BlockParticles.containsKey(block))
+        if (blockParticles.containsKey(block))
         {
-            return modelManager.getTextureMap().getAtlasSprite(BlockParticles.get(block));
+            return modelManager.getTextureMap().getAtlasSprite(blockParticles.get(block));
         }
         return modelManager.getMissingModel().getParticleTexture();
     }

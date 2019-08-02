@@ -13,7 +13,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some potions.
@@ -21,26 +20,25 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
-@ObjectHolder(Dawncraft.MODID)
 public class PotionInit
 {
-    public static final Potion RECOVER = null;
-    public static final Potion SILENT = null;
-    public static final Potion PARALYSIS = null;
-    public static final Potion CONFUSION = null;
+    public static Potion RECOVER;
+    public static Potion SILENT;
+    public static Potion PARALYSIS;
+    public static Potion CONFUSION;
 
-    public static final Potion BRAIN_DEAD = null;
-    public static final Potion GER_POWER = null;
-    public static final Potion BAD_GER = null;
+    public static Potion BRAIN_DEAD;
+    public static Potion GER_POWER;
+    public static Potion BAD_GER;
 
-    public static final PotionType RECOVERY = null;
-    public static final PotionType LONG_RECOVERY = null;
-    public static final PotionType STRONG_RECOVERY = null;
+    public static PotionType RECOVERY;
+    public static PotionType LONG_RECOVERY;
+    public static PotionType STRONG_RECOVERY;
 
     @SubscribeEvent
     public static void registerPotions(RegistryEvent.Register<Potion> event)
     {
-        registerPotion(new PotionBase(false, 0x0000FF)
+        RECOVER = registerPotion(new PotionBase(false, 0x0000FF)
         {
             @Override
             public boolean isReady(int duration, int amplifier)
@@ -69,20 +67,20 @@ public class PotionInit
                 }
             };
         }.setPotionName("potion.recover"), "recover");
-        registerPotion(new PotionBase(true, 0x585858).setPotionName("potion.silent"), "silent");
-        registerPotion(new PotionBase(true, 0x3C64C8).setPotionName("potion.paralysis"), "paralysis");
-        registerPotion(new PotionBase(true, 0x649664).setPotionName("potion.confusion"), "confusion");
-        registerPotion(new PotionBase(true, 0x7F0000).setPotionName("potion.brainDead"), "brain_dead");
-        registerPotion(new PotionBase(false, 0x7F0000).setPotionName("potion.gerPower"), "ger_power");
-        registerPotion(new PotionBase(true, 0x7F0000).setPotionName("potion.badGer"), "bad_ger");
+        SILENT = registerPotion(new PotionBase(true, 0x585858).setPotionName("potion.silent"), "silent");
+        PARALYSIS = registerPotion(new PotionBase(true, 0x3C64C8).setPotionName("potion.paralysis"), "paralysis");
+        CONFUSION = registerPotion(new PotionBase(true, 0x649664).setPotionName("potion.confusion"), "confusion");
+        BRAIN_DEAD = registerPotion(new PotionBase(true, 0x7F0000).setPotionName("potion.brainDead"), "brain_dead");
+        GER_POWER = registerPotion(new PotionBase(false, 0x7F0000).setPotionName("potion.gerPower"), "ger_power");
+        BAD_GER = registerPotion(new PotionBase(true, 0x7F0000).setPotionName("potion.badGer"), "bad_ger");
     }
 
     @SubscribeEvent
     public static void registerPotionTypes(RegistryEvent.Register<PotionType> event)
     {
-        registerPotionType(new PotionType(new PotionEffect(RECOVER, 900)), "recovery");
-        registerPotionType(new PotionType("recover", new PotionEffect(RECOVER, 1800)), "long_recovery");
-        registerPotionType(new PotionType("recover", new PotionEffect(RECOVER, 450, 1)), "strong_recovery");
+        RECOVERY = registerPotionType(new PotionType(new PotionEffect(RECOVER, 900)), "recovery");
+        LONG_RECOVERY = registerPotionType(new PotionType("recover", new PotionEffect(RECOVER, 1800)), "long_recovery");
+        STRONG_RECOVERY = registerPotionType(new PotionType("recover", new PotionEffect(RECOVER, 450, 1)), "strong_recovery");
     }
 
     /**
@@ -90,10 +88,12 @@ public class PotionInit
      *
      * @param potion The potion to register
      * @param name The potion's string id
+     * @return
      */
-    private static void registerPotion(Potion potion, String name)
+    private static Potion registerPotion(Potion potion, String name)
     {
         ForgeRegistries.POTIONS.register(potion.setRegistryName(name));
+        return potion;
     }
 
     /**
@@ -101,9 +101,11 @@ public class PotionInit
      *
      * @param potion The potion type to register
      * @param name The potion type's string id
+     * @return
      */
-    private static void registerPotionType(PotionType potionType, String name)
+    private static PotionType registerPotionType(PotionType potionType, String name)
     {
         ForgeRegistries.POTION_TYPES.register(potionType.setRegistryName(name));
+        return potionType;
     }
 }

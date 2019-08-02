@@ -16,13 +16,16 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
  *
  * @author QingChenW
  */
-public class TileEntityRenderInit
+public class TileEntityRendererInit
 {
-    public static void initTileEntityRender()
+    public static void initTileEntityRenderer()
     {
         registerTileEntityRenderer(TileEntityMagnetChest.class, new TileEntityRendererChest());
         registerTileEntityRenderer(TileEntitySkull.class, new TileEntityRendererSkull());
+    }
 
+    public static void initTileEntityItemStackRenderer()
+    {
         registerTileEntityItemStackRenderer(BlockInit.MAGNET_CHEST, DawnTileEntityItemStackRenderer.instance);
         registerTileEntityItemStackRenderer(BlockInit.SUPER_CHEST, DawnTileEntityItemStackRenderer.instance);
         registerTileEntityItemStackRenderer(ItemInit.SKULL, DawnTileEntityItemStackRenderer.instance);

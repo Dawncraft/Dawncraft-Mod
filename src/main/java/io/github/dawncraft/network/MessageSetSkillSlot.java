@@ -86,7 +86,7 @@ public class MessageSetSkillSlot implements IMessage
 
                                 if (message.slot >= 0 && message.slot < 9)
                                 {
-                                    if (message.skillStack != null && (stack == null || stack.skillLevel < message.skillStack.skillLevel))
+                                    if (message.skillStack != null && (stack == null || stack.getLevel() < message.skillStack.getLevel()))
                                     {
                                         message.skillStack.animationsToGo = 5;
                                     }

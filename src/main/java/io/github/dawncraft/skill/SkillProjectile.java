@@ -5,8 +5,10 @@ import java.util.Random;
 
 import io.github.dawncraft.magicfield.EntityMFFireBall;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
@@ -33,24 +35,24 @@ public class SkillProjectile extends Skill
     public String getSkillStackDisplayDesc(SkillStack skillStack)
     {
         if (this == SkillInit.FIREBALL)
-            return I18n.format(this.getUnlocalizedName(skillStack) + ".desc",
-                    skillStack.getSkillConsume(), 4.0F + 2.0F * this.getLevel(skillStack), (float) skillStack.getTotalCooldown() / 20);
+            return I18n.format(this.getTranslationKey(skillStack) + ".desc",
+                    skillStack.getSkillConsume(), 4.0F + 2.0F * skillStack.getLevel(), (float) skillStack.getTotalCooldown() / 20);
         return super.getSkillStackDisplayDesc(skillStack);
     }
 
     @Override
-    public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, boolean advanced)
+    public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, ITooltipFlag advanced)
     {
         if (this == SkillInit.FIREBALL)
-            tooltip.add(I18n.format(this.getUnlocalizedName(skillStack) + ".desc2"));
+            tooltip.add(I18n.format(this.getTranslationKey(skillStack) + ".desc2"));
     }
 
     @Override
-    public boolean onSkillSpell(SkillStack skillStack, World world, EntityPlayer player)
+    public EnumActionResult onSkillSpell(SkillStack skillStack, World world, EntityPlayer player)
     {
         if (!world.isRemote)
         {
-            world.spawnEntity(new EntityMFFireBall(world, player, 4.0F + 2.0F * this.getLevel(skillStack), 0.1D));
+            world.spawnEntity(new EntityMFFireBall(world, player, 4.0F + 2.0F * skillStack.getLevel(), 0.1D));
         }
 
         player.playSound(SoundEvents.ITEM_FIRECHARGE_USE, 1.0F, 1.0F);
@@ -64,9 +66,9 @@ public class SkillProjectile extends Skill
             double d3 = 0.0D;
             double d4 = 0.0D;
             double d5 = 0.0D;
-            world.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, d3, d4, d5, new int[0]);
+            world.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, d3, d4, d5);
         }
 
-        return true;
+        return EnumActionResult.SUCCESS;
     }
 }

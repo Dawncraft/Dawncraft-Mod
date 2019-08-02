@@ -20,11 +20,13 @@ import io.github.dawncraft.recipe.OreDictionaryLoader;
 import io.github.dawncraft.recipe.SmeltingLoader;
 import io.github.dawncraft.stats.StatLoader;
 import io.github.dawncraft.tileentity.TileEntityLoader;
+import io.github.dawncraft.util.DawnEnumHelper;
 import io.github.dawncraft.util.Metrics;
 import io.github.dawncraft.util.ScriptHelper;
 import io.github.dawncraft.world.WorldInit;
 import io.github.dawncraft.world.gen.feature.GeneratorLoader;
-import net.minecraft.command.CommandBase;
+import net.minecraft.command.ICommand;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -39,6 +41,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 public class CommonProxy
 {
     public static Metrics metrics;
+    public static final HoverEvent.Action SHOW_SKILL = DawnEnumHelper.addHoverActionType("SHOW_SKILL", "show_skill", true);
 
     public void preInit(FMLPreInitializationEvent event)
     {
@@ -81,12 +84,12 @@ public class CommonProxy
 
     public void serverStarting(FMLServerStartingEvent event)
     {
-        List<CommandBase> commands = new ArrayList<>();
-        CommandInit.initCommands(commands);
-        for (CommandBase command : commands)
+        List<ICommand> commands = new ArrayList<>();
+        CommandInit.registerCommands(commands);
+        commands.forEach(command ->
         {
             event.registerServerCommand(command);
-        }
+        });
 
         Metrics.setServer(event.getServer());
         metrics.start();

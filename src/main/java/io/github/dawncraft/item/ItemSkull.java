@@ -53,7 +53,7 @@ public abstract class ItemSkull extends net.minecraft.item.ItemSkull
     {
         int i = itemStack.getMetadata();
         if (i < 0 || i >= skullTypes.length) i = 0;
-        return super.getTranslationKey() + "." + EntityUtils.getEntityStringFromClass(skullTypes[i]).toLowerCase();
+        return super.getTranslationKey() + "." + EntityUtils.getEntityName(skullTypes[i]);
     }
 
     @Override

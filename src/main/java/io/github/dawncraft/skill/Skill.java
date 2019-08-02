@@ -6,15 +6,21 @@ import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
 import io.github.dawncraft.capability.CapabilityLoader;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.ConfigLoader;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.potion.PotionInit;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.RegistryNamespaced;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.IRarity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.GameData;
@@ -27,8 +33,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
  */
 public class Skill extends IForgeRegistryEntry.Impl<Skill>
 {
+    private String translationKey;
     private int maxLevel = 1;
-    private String unlocalizedName;
     private CreativeSkillTabs tabToDisplayOn;
 
     public Skill() {}
@@ -40,7 +46,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 
     public float getConsume(SkillStack skillStack)
     {
-        return this.getConsume(skillStack.getSkillLevel());
+        return this.getConsume(skillStack.getLevel());
     }
 
     /**
@@ -56,7 +62,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 
     public int getPrepare(SkillStack skillStack)
     {
-        return this.getTotalPrepare(skillStack.getSkillLevel());
+        return this.getTotalPrepare(skillStack.getLevel());
     }
 
     /**
@@ -82,7 +88,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 
     public int getMaxDuration(SkillStack skillStack)
     {
-        return this.getMaxDuration(skillStack.getSkillLevel());
+        return this.getMaxDuration(skillStack.getLevel());
     }
 
     /**
@@ -101,7 +107,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
 
     public int getCooldown(SkillStack skillStack)
     {
-        return this.getCooldown(skillStack.getSkillLevel());
+        return this.getCooldown(skillStack.getLevel());
     }
 
     /**
@@ -115,62 +121,51 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
         return 0;
     }
 
-    public int getLevel(SkillStack skillStack)
-    {
-        return skillStack.skillLevel;
-    }
-
-    public void setLevel(SkillStack skillStack, int level)
-    {
-        skillStack.skillLevel = level;
-    }
-
     public int getMaxLevel()
     {
         return this.maxLevel;
     }
 
-    public Skill setMaxLevel(int maxLevel)
+    public Skill setMaxLevel(int level)
     {
-        this.maxLevel = maxLevel;
+        this.maxLevel = level;
         return this;
     }
 
-    public String getUnlocalizedName(SkillStack skillStack)
+    public String getTranslationKey()
     {
-        return this.getUnlocalizedName();
+        return "skill." + this.translationKey;
     }
 
-    public String getUnlocalizedName()
+    public Skill setTranslationKey(String key)
     {
-        return "skill." + this.unlocalizedName;
-    }
-
-    public Skill setUnlocalizedName(String unlocalizedName)
-    {
-        this.unlocalizedName = unlocalizedName;
+        this.translationKey = key;
         return this;
     }
 
-    public String getUnlocalizedNameInefficiently(SkillStack skillStack)
+    public String getTranslationKey(SkillStack skillStack)
     {
-        String s = this.getUnlocalizedName(skillStack);
-        return s == null ? "" : I18n.format(s);
+        return this.getTranslationKey();
     }
 
     public String getSkillStackDisplayName(SkillStack skillStack)
     {
-        return I18n.format(this.getUnlocalizedNameInefficiently(skillStack) + ".name").trim();
+        return I18n.format(this.getTranslationKey(skillStack) + ".name").trim();
+    }
+
+    public IRarity getRarity(SkillStack skillStack)
+    {
+        return EnumRarity.COMMON;
     }
 
     public String getUnlocalizedDesc(SkillStack skillStack)
     {
-        return this.getUnlocalizedName(skillStack) + ".desc";
+        return this.getTranslationKey(skillStack) + ".desc";
     }
 
     /**
      * 这可能是个特例,你可能需要覆写它来为技能添加说明
-     * <br>注意此处只有技能效果说明,有关技能的背景或故事或是其他文字请覆写{@link #addInformation(SkillStack, EntityPlayer, List, boolean)}}</br>
+     * <br>注意此处只应该有技能效果说明,有关技能的背景或故事或是其他文字请覆写{@link #addInformation(SkillStack, EntityPlayer, List, boolean)}}</br>
      *
      * @param skillStack 技能
      * @return 格式化过的字符串
@@ -186,10 +181,17 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
         return this;
     }
 
-    @SideOnly(Side.CLIENT)
-    public CreativeSkillTabs getCreativeTab()
+    public boolean isInCreativeTab(CreativeSkillTabs targetTab)
     {
-        return this.tabToDisplayOn;
+        for (CreativeSkillTabs tab : this.getCreativeTabs())
+            if (tab == targetTab)
+                return true;
+        return targetTab == CreativeTabsLoader.SEARCH;
+    }
+
+    public CreativeSkillTabs[] getCreativeTabs()
+    {
+        return new CreativeSkillTabs[]{ this.tabToDisplayOn };
     }
 
     @SideOnly(Side.CLIENT)
@@ -199,16 +201,30 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
     }
 
     @SideOnly(Side.CLIENT)
+    public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, ITooltipFlag advanced) {}
+
+    /**
+     * 当技能读NBT时被触发
+     */
+    public boolean updateSkillStackNBT(NBTTagCompound nbt)
+    {
+        return false;
+    }
+
+    /**
+     * 用于GUI显示是否能够施放
+     *
+     * @param skillStack
+     * @param player
+     * @return
+     */
     public boolean canSpell(SkillStack skillStack, EntityPlayer player)
     {
         return true;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(SkillStack skillStack, EntityPlayer player, List<String> tooltip, boolean advanced) {}
-
     /**
-     * 当技能被学习时出发
+     * 当技能被学习时触发
      *
      * @param skillStack 技能
      * @param world 携带者所在世界
@@ -239,31 +255,31 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      * @param duration 已经准备了多少刻
      * @return 准备施法的结果(如果返回值是NONE则取消技能准备)
      */
-    public EnumSpellAction onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
+    public EnumActionResult onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
         boolean isInit = duration == 0;
         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         if (playerMagic.getCooldownTracker().isGlobalCooldown())
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.globalcool"), !isInit);
-            return EnumSpellAction.NONE;
+            return EnumActionResult.FAIL;
         }
         if (playerMagic.getCooldownTracker().getCooldown(this) > 0)
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.cool"), !isInit);
-            return EnumSpellAction.NONE;
+            return EnumActionResult.FAIL;
         }
         if (!player.capabilities.isCreativeMode && playerMagic.getMana() < this.getConsume(skillStack))
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.nomana"), !isInit);
-            return EnumSpellAction.NONE;
+            return EnumActionResult.FAIL;
         }
         if (player.getActivePotionEffect(PotionInit.SILENT) != null)
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), !isInit);
-            return EnumSpellAction.NONE;
+            return EnumActionResult.FAIL;
         }
-        return EnumSpellAction.PREPARE;
+        return EnumActionResult.SUCCESS;
     }
 
     /**
@@ -274,9 +290,9 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      * @param player 施放玩家
      * @return 是否施放成功(暂时无实际意义)
      */
-    public boolean onSkillSpell(SkillStack skillStack, World world, EntityPlayer player)
+    public EnumActionResult onSkillSpell(SkillStack skillStack, World world, EntityPlayer player)
     {
-        return false;
+        return EnumActionResult.PASS;
     }
 
     /**
@@ -288,15 +304,15 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      * @param duration 已经施放了多少刻
      * @return 施放魔法的结果(如果返回值是NONE则取消技能施放)
      */
-    public EnumSpellAction onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
+    public EnumActionResult onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
         IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
         if (player.getActivePotionEffect(PotionInit.SILENT) != null)
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), true);
-            return EnumSpellAction.NONE;
+            return EnumActionResult.FAIL;
         }
-        return EnumSpellAction.SPELL;
+        return EnumActionResult.SUCCESS;
     }
 
     /**

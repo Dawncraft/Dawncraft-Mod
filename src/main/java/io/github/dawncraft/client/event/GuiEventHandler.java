@@ -2,12 +2,12 @@ package io.github.dawncraft.client.event;
 
 import java.lang.reflect.Field;
 
+import io.github.dawncraft.CommonProxy;
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.client.event.TextComponentEvent;
 import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.gui.container.GuiInventoryTabs;
 import io.github.dawncraft.client.gui.stats.GuiStatsDawn;
-import io.github.dawncraft.command.CommandInit;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.achievement.GuiStats;
@@ -94,17 +94,17 @@ public class GuiEventHandler
         {
             HoverEvent hoverEvent = event.textComponent.getStyle().getHoverEvent();
 
-            if (hoverEvent.getAction() == CommandInit.SHOW_SKILL)
+            if (hoverEvent.getAction() == CommonProxy.SHOW_SKILL)
             {
                 SkillStack skillStack = null;
                 try
                 {
-                    NBTTagCompound tagCompound = JsonToNBT.getTagFromJson(hoverEvent.getValue().getUnformattedText());
-                    skillStack = SkillStack.loadSkillStackFromNBT(tagCompound);
+                    NBTTagCompound compound = JsonToNBT.getTagFromJson(hoverEvent.getValue().getUnformattedText());
+                    skillStack = new SkillStack(compound);
                 }
                 catch (NBTException e) {}
 
-                if (skillStack != null)
+                if (skillStack != null && skillStack.getSkill() != null)
                 {
                     GuiUtils.renderSkillToolTip(event.getGui(), skillStack, event.x, event.y);
                 }

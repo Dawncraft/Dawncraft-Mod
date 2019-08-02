@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/war/gun_rpg"
+        "layer0": "dawncraft:items/weapons/gun_rpg"
     },
     "display": {
         "thirdperson": {

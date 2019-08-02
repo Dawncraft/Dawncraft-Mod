@@ -1,8 +1,10 @@
 package io.github.dawncraft.world;
 
+import io.github.dawncraft.world.biome.BiomeInit;
 import io.github.dawncraft.world.gen.ChunkGeneratorDawn;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderDawn extends WorldProvider
@@ -34,7 +36,8 @@ public class WorldProviderDawn extends WorldProvider
     @Override
     protected void init()
     {
-        this.biomeProvider = null;
+        this.hasSkyLight = true;
+        this.biomeProvider = new BiomeProviderSingle(BiomeInit.FAIRY_LAND);
     }
 
     @Override

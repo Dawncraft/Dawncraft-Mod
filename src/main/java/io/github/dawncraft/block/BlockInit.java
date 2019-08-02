@@ -16,7 +16,6 @@ import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some blocks.
@@ -24,131 +23,132 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
-@ObjectHolder(Dawncraft.MODID)
 public class BlockInit
 {
     // Building blocks
-    public static final Block MAGNET_ORE = null;
-    public static final Block MAGNET_BLOCK = null;
+    public static Block MAGNET_ORE;
+    public static Block MAGNET_BLOCK;
 
-    public static final Block COPPER_ORE = null;
-    public static final Block COPPER_BLOCK = null;
+    public static Block COPPER_ORE;
+    public static Block COPPER_BLOCK;
 
     // Decorations
-    public static final Block MAGNET_CHEST = null;
+    public static Block MAGNET_CHEST;
 
     // Redstone
-    public static final Block MAGNET_DOOR = null;
-    public static final Block MAGNET_RAIL = null;
+    public static Block MAGNET_DOOR;
+    public static Block MAGNET_RAIL;
 
     // Material/Misc
-    public static final Block PETROLEUM = null;
+    public static Block PETROLEUM;
 
     // Science
 
     // Energy
-    public static final Block ELECTRIC_CABLE = null;
+    public static Block ELECTRIC_CABLE;
 
-    public static final Block HEAT_GENERATOR = null;
-    public static final Block FLUID_GENERATOR = null;
-    public static final Block SOLAR_GENERATOR = null;
-    public static final Block WIND_GENERATOR = null;
-    public static final Block NUCLEAR_GENERATOR = null;
-    public static final Block MAGIC_GENERATOR = null;
+    public static Block HEAT_GENERATOR;
+    public static Block FLUID_GENERATOR;
+    public static Block WIND_GENERATOR;
+    public static Block SOLAR_GENERATOR;
+    public static Block NUCLEAR_GENERATOR;
+    public static Block MAGIC_GENERATOR;
 
     // Machine
-    public static final Block MACHINE_FURNACE = null;
+    public static Block MACHINE_FURNACE;
 
     // Computer
-    public static final Block SIMPLE_COMPUTER = null;
-    public static final Block ADVANCED_COMPUTER = null;
-    public static final Block PROFESSIONAL_COMPUTER = null;
+    public static Block SIMPLE_COMPUTER;
+    public static Block ADVANCED_COMPUTER;
+    public static Block PROFESSIONAL_COMPUTER;
 
     // Furniture
-    public static final Block WOOD_TABLE = null;
-    public static final Block STONE_TABLE = null;
-    public static final Block WOOD_CHAIR = null;
-    public static final Block STONE_CHAIR = null;
-    public static final Block ALARM_CLOCK = null;
+    public static Block WOOD_TABLE;
+    public static Block STONE_TABLE;
+    public static Block WOOD_CHAIR;
+    public static Block STONE_CHAIR;
+    public static Block ALARM_CLOCK;
 
     // Cuisine
 
     // Weapons
 
     // Magic
-    public static final Block MAGIC_ORE = null;
+    public static Block MAGIC_ORE;
 
     // ColourEgg
-    public static final Block SUPER_CHEST = null;
-    public static final Block DAWN_PORTAL = null;
-    public static final Block SKULL = null;
+    public static Block SUPER_CHEST;
+    public static Block DAWN_PORTAL;
+    public static Block SKULL;
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
     {
         // Building blocks
-        Block block = new BlockOre().setTranslationKey("magnetOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-        block.setHarvestLevel("pickaxe", 1);
-        registerBlock(block, "magnet_ore");
-        registerBlock(new Block(Material.IRON).setTranslationKey("magnetBlock").setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "magnet_block");
+        COPPER_ORE = registerBlock(new BlockOre().setTranslationKey("copperOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "copper_ore");
+        COPPER_BLOCK = registerBlock(new Block(Material.IRON).setTranslationKey("copperBlock").setCreativeTab(CreativeTabsLoader.MACHINE).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "copper_block");
 
-        registerBlock(new BlockOre().setTranslationKey("copperOre").setCreativeTab(CreativeTabsLoader.tabMachine), "copper_ore");
-        registerBlock(new Block(Material.IRON).setTranslationKey("copperBlock").setCreativeTab(CreativeTabsLoader.tabMachine).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "copper_block");
+        MAGNET_ORE = registerBlock(new BlockOre().setTranslationKey("magnetOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "magnet_ore");
+        MAGNET_ORE.setHarvestLevel("pickaxe", 1);
+        MAGNET_BLOCK = registerBlock(new Block(Material.IRON).setTranslationKey("magnetBlock").setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "magnet_block");
 
         // Decorations
-        registerBlock(new BlockMagnetChest().setTranslationKey("magnetChest").setCreativeTab(CreativeTabs.DECORATIONS), "magnet_chest");
+        MAGNET_CHEST = registerBlock(new BlockMagnetChest().setTranslationKey("magnetChest").setCreativeTab(CreativeTabs.DECORATIONS), "magnet_chest");
 
         // Redstone
-        registerBlock(new BlockMagnetDoor().setTranslationKey("magnetDoor").setCreativeTab(CreativeTabs.REDSTONE), "magnet_door");
-        registerBlock(new BlockMagnetRail().setTranslationKey("magnetRail").setCreativeTab(CreativeTabs.REDSTONE), "magnet_rail");
+        MAGNET_DOOR = registerBlock(new BlockMagnetDoor().setTranslationKey("magnetDoor").setCreativeTab(CreativeTabs.REDSTONE), "magnet_door");
+
+        // Transportation
+        MAGNET_RAIL = registerBlock(new BlockMagnetRail().setTranslationKey("magnetRail").setCreativeTab(CreativeTabs.TRANSPORTATION), "magnet_rail");
 
         // Material/Misc
-        registerBlock(new BlockFluidClassic(FluidInit.PETROLEUM, Material.WATER).setTranslationKey("petroleum"), "petroleum");
+        PETROLEUM = registerBlock(new BlockFluidClassic(FluidInit.PETROLEUM, Material.WATER).setTranslationKey("petroleum"), "petroleum");
+        FluidInit.PETROLEUM.setBlock(PETROLEUM);
 
         // Science
 
         // Energy
-        registerBlock(new BlockElectricCable().setTranslationKey("electricityCable").setCreativeTab(CreativeTabsLoader.tabEnergy), "electric_cable");
-        registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.HEAT).setTranslationKey("heatGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy), "heat_generator");
-        registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.FLUID).setTranslationKey("fluidGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy), "fluid_generator");
-        registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.SOLAR).setTranslationKey("solarGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy), "solar_generator");
-        registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.WIND).setTranslationKey("windGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy), "wind_generator");
-        registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.NUCLEAR).setTranslationKey("nuclearGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy), "nuclear_generator");
-        registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.MAGIC).setTranslationKey("magicGenerator").setCreativeTab(CreativeTabsLoader.tabEnergy), "magic_generator");
+        ELECTRIC_CABLE = registerBlock(new BlockElectricCable().setTranslationKey("electricityCable").setCreativeTab(CreativeTabsLoader.ENERGY), "electric_cable");
+        HEAT_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.HEAT).setTranslationKey("heatGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "heat_generator");
+        FLUID_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.FLUID).setTranslationKey("fluidGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "fluid_generator");
+        WIND_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.WIND).setTranslationKey("windGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "wind_generator");
+        SOLAR_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.SOLAR).setTranslationKey("solarGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "solar_generator");
+        NUCLEAR_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.NUCLEAR).setTranslationKey("nuclearGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "nuclear_generator");
+        MAGIC_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.MAGIC).setTranslationKey("magicGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "magic_generator");
 
         // Machine
-        registerBlock(new BlockMachineFurnace().setTranslationKey("machineFurnace").setCreativeTab(CreativeTabsLoader.tabMachine), "iron_furnace");
+        MACHINE_FURNACE = registerBlock(new BlockMachineFurnace().setTranslationKey("machineFurnace").setCreativeTab(CreativeTabsLoader.MACHINE), "machine_furnace");
 
         // Computer
-        registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.SIMPLE).setTranslationKey("simpleComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "simple_computer");
-        registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.ADVANCED).setTranslationKey("advancedComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "advanced_computer");
-        registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.PROFESSIONAL).setTranslationKey("professionalComputer").setCreativeTab(CreativeTabsLoader.tabComputer), "professional_computer");
+        SIMPLE_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.SIMPLE).setTranslationKey("simpleComputer").setCreativeTab(CreativeTabsLoader.COMPUTER), "simple_computer");
+        ADVANCED_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.ADVANCED).setTranslationKey("advancedComputer").setCreativeTab(CreativeTabsLoader.COMPUTER), "advanced_computer");
+        PROFESSIONAL_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.PROFESSIONAL).setTranslationKey("professionalComputer").setCreativeTab(CreativeTabsLoader.COMPUTER), "professional_computer");
 
         // Furniture
-        registerBlock(new BlockFurnitureTable(EnumMaterialType.WOOD).setTranslationKey("woodTable").setCreativeTab(CreativeTabsLoader.tabFurniture), "wood_table");
-        registerBlock(new BlockFurnitureTable(EnumMaterialType.STONE).setTranslationKey("stoneTable").setCreativeTab(CreativeTabsLoader.tabFurniture), "stone_table");
-        registerBlock(new BlockFurnitureChair(EnumMaterialType.WOOD).setTranslationKey("woodChair").setCreativeTab(CreativeTabsLoader.tabFurniture), "wood_chair");
-        registerBlock(new BlockFurnitureChair(EnumMaterialType.STONE).setTranslationKey("stoneChair").setCreativeTab(CreativeTabsLoader.tabFurniture), "stone_chair");
-        registerBlock(new BlockFurnitureAlarmClock().setTranslationKey("alarmClock").setCreativeTab(CreativeTabsLoader.tabFurniture), "alarm_clock");
+        WOOD_TABLE = registerBlock(new BlockFurnitureTable(EnumMaterialType.WOOD).setTranslationKey("woodTable").setCreativeTab(CreativeTabsLoader.FURNITURE), "wood_table");
+        STONE_TABLE = registerBlock(new BlockFurnitureTable(EnumMaterialType.STONE).setTranslationKey("stoneTable").setCreativeTab(CreativeTabsLoader.FURNITURE), "stone_table");
+        WOOD_CHAIR = registerBlock(new BlockFurnitureChair(EnumMaterialType.WOOD).setTranslationKey("woodChair").setCreativeTab(CreativeTabsLoader.FURNITURE), "wood_chair");
+        STONE_CHAIR = registerBlock(new BlockFurnitureChair(EnumMaterialType.STONE).setTranslationKey("stoneChair").setCreativeTab(CreativeTabsLoader.FURNITURE), "stone_chair");
+        ALARM_CLOCK = registerBlock(new BlockFurnitureAlarmClock().setTranslationKey("alarmClock").setCreativeTab(CreativeTabsLoader.FURNITURE), "alarm_clock");
 
         // Cuisine
 
         // Weapons
 
         // Magic
-        registerBlock(new BlockOre(1, 2)
+        MAGIC_ORE = registerBlock(new BlockOre(1, 2)
         {
             @Override
             public Item getMineral()
             {
                 return ItemInit.MAGIC_DUST;
             }
-        }.setDroppedExp(5, 7).setTranslationKey("magicOre").setCreativeTab(CreativeTabsLoader.tabMagic), "magic_ore");
+        }.setDroppedExp(5, 7).setTranslationKey("magicOre").setCreativeTab(CreativeTabsLoader.MAGIC), "magic_ore");
 
         // ColourEgg
-        registerBlock(new BlockFurnitureSuperChest().setTranslationKey("superChest").setCreativeTab(CreativeTabsLoader.tabColourEgg), "super_chest");
-        registerBlock(new BlockDawnPortal().setTranslationKey("dawnPortal"), "dawn_portal");
-        registerBlock(new BlockSkullDawn().setTranslationKey("skull"), "skull");
+        SUPER_CHEST = registerBlock(new BlockFurnitureSuperChest().setTranslationKey("superChest").setCreativeTab(CreativeTabsLoader.COLOUR_EGG), "super_chest");
+        DAWN_PORTAL = registerBlock(new BlockDawnPortal().setTranslationKey("dawnPortal"), "dawn_portal");
+        SKULL = registerBlock(new BlockSkullDawn().setTranslationKey("skull"), "skull");
     }
 
     /**
@@ -157,8 +157,9 @@ public class BlockInit
      * @param block The block to register
      * @param name The block's string id
      */
-    private static void registerBlock(Block block, String name)
+    private static Block registerBlock(Block block, String name)
     {
         ForgeRegistries.BLOCKS.register(block.setRegistryName(name));
+        return block;
     }
 }

@@ -36,7 +36,6 @@ public class TileEntityRendererSkull extends TileEntitySpecialRenderer<TileEntit
     {
         super.setRendererDispatcher(rendererDispatcher);
         instance = this;
-        this.renderManager = Minecraft.getMinecraft().getRenderManager();
     }
 
     @Override
@@ -51,6 +50,8 @@ public class TileEntityRendererSkull extends TileEntitySpecialRenderer<TileEntit
 
     public void renderSkull(float x, float y, float z, int skullType, EnumFacing facing, float rotation, int destroyStage)
     {
+        if (this.renderManager == null) this.renderManager = Minecraft.getMinecraft().getRenderManager();
+
         ModelBase modelbase = this.skeletonHead;
 
         if (destroyStage >= 0)

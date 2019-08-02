@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "dawncraft:blocks/machine/iron_furnace_top",
-        "front": "dawncraft:blocks/machine/iron_furnace",
-        "side": "blocks/iron_block"
-    }
-}

@@ -2,20 +2,26 @@ package io.github.dawncraft.skill;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import org.lwjgl.input.Keyboard;
 
 import com.google.common.collect.Lists;
 
-import io.github.dawncraft.command.CommandInit;
+import io.github.dawncraft.CommonProxy;
+import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.api.event.DawnEventFactory;
 import io.github.dawncraft.config.KeyLoader;
 import io.github.dawncraft.stats.StatLoader;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
@@ -34,10 +40,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class SkillStack
 {
-    public static final SkillStack EMPTY = new SkillStack(null);
+    public static final SkillStack EMPTY = new SkillStack((Skill) null);
+
     private Skill skill;
-    public int skillLevel;
-    /** A NBTTagMap containing data about an ItemStack. Can only be used for non stackable items */
+    /** Level of the stack. */
+    private int stackLevel;
+    /** A NBTTagCompound containing data about a SkillStack.*/
     private NBTTagCompound stackTagCompound;
     public int animationsToGo;
 
@@ -49,21 +57,12 @@ public class SkillStack
     public SkillStack(Skill skill, int level)
     {
         this.skill = skill;
-        this.skillLevel = MathHelper.clamp(level, 1, skill.getMaxLevel());
+        this.stackLevel = this.skill != null ? MathHelper.clamp(level, 1, skill.getMaxLevel()) : 1;
     }
 
-    private SkillStack() {}
-
-    public static SkillStack loadSkillStackFromNBT(NBTTagCompound nbt)
+    public SkillStack(NBTTagCompound compound)
     {
-        SkillStack stack = new SkillStack();
-        stack.readFromNBT(nbt);
-        return stack.getSkill() != null ? stack : null;
-    }
-
-    public void setSkill(Skill newSkill)
-    {
-        this.skill = newSkill;
+        this.readFromNBT(compound);
     }
 
     public Skill getSkill()
@@ -91,83 +90,92 @@ public class SkillStack
         return this.getSkill().getCooldown(this);
     }
 
-    public int getSkillLevel()
-    {
-        return this.getSkill().getLevel(this);
-    }
-
-    public void setSkillLevel(int level)
-    {
-        this.getSkill().setLevel(this, level);
-    }
-
     public int getMaxLevel()
     {
         return this.getSkill().getMaxLevel();
     }
 
-    public String getUnlocalizedName()
+    public int getLevel()
     {
-        return this.getSkill().getUnlocalizedName(this);
+        return Math.min(1, this.stackLevel);
     }
 
-    public boolean hasCustomName()
+    public void setLevel(int level)
     {
-        return this.stackTagCompound == null ? false : !this.stackTagCompound.hasKey("display", 10) ? false : this.stackTagCompound.getCompoundTag("display").hasKey("Name", 8);
+        this.stackLevel = level;
+    }
+
+    public void levelup(int amount)
+    {
+        this.setLevel(this.stackLevel + amount);
+    }
+
+    public void leveldown(int amount)
+    {
+        this.levelup(-amount);
+    }
+
+    public String getTranslationKey()
+    {
+        return this.getSkill().getTranslationKey(this);
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.getTranslationKey() + "@" + this.stackLevel;
+    }
+
+    public boolean hasDisplayName()
+    {
+        NBTTagCompound compound = this.getSubCompound("display", false);
+        return compound != null && compound.hasKey("Name", 8);
     }
 
     public String getDisplayName()
     {
-        String name = this.getSkill().getSkillStackDisplayName(this);
-
-        if (this.stackTagCompound != null && this.stackTagCompound.hasKey("display", 10))
+        NBTTagCompound compound = this.getSubCompound("display", false);
+        if (compound != null)
         {
-            NBTTagCompound nbttagcompound = this.stackTagCompound.getCompoundTag("display");
-
-            if (nbttagcompound.hasKey("Name", 8))
+            if (compound.hasKey("Name", 8))
             {
-                name = nbttagcompound.getString("Name");
+                return compound.getString("Name");
+            }
+
+            if (compound.hasKey("LocName", 8))
+            {
+                return I18n.format(compound.getString("LocName"));
             }
         }
+        return this.getSkill().getSkillStackDisplayName(this);
+    }
 
-        return name;
+    public SkillStack setTranslatableName(String translatableKey)
+    {
+        this.getSubCompound("display", true).setString("LocName", translatableKey);
+        return this;
     }
 
     public SkillStack setCustomName(String displayName)
     {
-        if (this.stackTagCompound == null)
-        {
-            this.stackTagCompound = new NBTTagCompound();
-        }
-
-        if (!this.stackTagCompound.hasKey("display", 10))
-        {
-            this.stackTagCompound.setTag("display", new NBTTagCompound());
-        }
-
-        this.stackTagCompound.getCompoundTag("display").setString("Name", displayName);
+        this.getSubCompound("display", true).setString("Name", displayName);
         return this;
     }
 
     public void clearCustomName()
     {
-        if (this.stackTagCompound != null)
+        NBTTagCompound compound = this.getSubCompound("display", false);
+        if (compound != null)
         {
-            if (this.stackTagCompound.hasKey("display", 10))
+            compound.removeTag("Name");
+            if (compound.isEmpty())
             {
-                NBTTagCompound nbttagcompound = this.stackTagCompound.getCompoundTag("display");
-                nbttagcompound.removeTag("Name");
-
-                if (nbttagcompound.isEmpty())
-                {
-                    this.stackTagCompound.removeTag("display");
-
-                    if (this.stackTagCompound.isEmpty())
-                    {
-                        this.setTagCompound(null);
-                    }
-                }
+                this.removeSubCompound("display");
             }
+        }
+        if (this.stackTagCompound != null && this.stackTagCompound.isEmpty())
+        {
+            this.stackTagCompound = null;
         }
     }
 
@@ -181,7 +189,7 @@ public class SkillStack
         return this.stackTagCompound != null;
     }
 
-    public void setTagCompound(NBTTagCompound nbt)
+    public void setTagCompound(@Nullable NBTTagCompound nbt)
     {
         this.stackTagCompound = nbt;
     }
@@ -191,6 +199,7 @@ public class SkillStack
         return this.stackTagCompound;
     }
 
+    @Nullable
     public NBTTagCompound getSubCompound(String key, boolean create)
     {
         if (this.stackTagCompound != null && this.stackTagCompound.hasKey(key, 10))
@@ -199,13 +208,21 @@ public class SkillStack
         }
         else if (create)
         {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            this.setTagInfo(key, nbttagcompound);
-            return nbttagcompound;
+            NBTTagCompound compound = new NBTTagCompound();
+            this.setTagInfo(key, compound);
+            return compound;
         }
         else
         {
             return null;
+        }
+    }
+
+    public void removeSubCompound(String key)
+    {
+        if (this.stackTagCompound != null && this.stackTagCompound.hasKey(key, 10))
+        {
+            this.stackTagCompound.removeTag(key);
         }
     }
 
@@ -215,14 +232,23 @@ public class SkillStack
         {
             this.setTagCompound(new NBTTagCompound());
         }
-
         this.stackTagCompound.setTag(key, value);
+    }
+
+    public int getAnimationsToGo()
+    {
+        return this.animationsToGo;
+    }
+
+    public void setAnimationsToGo(int animations)
+    {
+        this.animationsToGo = animations;
     }
 
     public ITextComponent getTextComponent()
     {
         TextComponentString name = new TextComponentString(this.getDisplayName());
-        if (this.hasCustomName())
+        if (this.hasDisplayName())
         {
             name.getStyle().setItalic(Boolean.valueOf(true));
         }
@@ -231,38 +257,35 @@ public class SkillStack
 
         if (this.skill != null)
         {
-            NBTTagCompound tagCompound = new NBTTagCompound();
-            this.writeToNBT(tagCompound);
-            text.getStyle().setHoverEvent(new HoverEvent(CommandInit.SHOW_SKILL, new TextComponentString(tagCompound.toString())));
-            text.getStyle().setColor(TextFormatting.AQUA);
+            NBTTagCompound compound = this.writeToNBT(new NBTTagCompound());
+            text.getStyle().setHoverEvent(new HoverEvent(CommonProxy.SHOW_SKILL, new TextComponentString(compound.toString())));
+            text.getStyle().setColor(this.getSkill().getRarity(this).getColor());
         }
 
         return text;
     }
 
     @SideOnly(Side.CLIENT)
-    public List<String> getTooltip(EntityPlayer player, boolean advanced)
+    public List<String> getTooltip(EntityPlayer player, ITooltipFlag advanced)
     {
         List<String> list = Lists.<String>newArrayList();
-
         // Skill name and suffix
         String name = this.getDisplayName();
-        if (this.hasCustomName())
+        if (this.hasDisplayName())
         {
             name += TextFormatting.ITALIC;
         }
 
         name += TextFormatting.RESET;
 
-        if (advanced)
+        if (advanced.isAdvanced())
         {
             name += String.format(" (#%04d)", Skill.getIdFromSkill(this.skill));
         }
 
         list.add(name);
-
         // Tooltip hide flags
-        // TODO Hide flags 未实现
+        // TODO 技能 Hide flags 未实现
         int flag = 0;
 
         if (this.hasTagCompound() && this.stackTagCompound.hasKey("HideFlags", 99))
@@ -271,39 +294,40 @@ public class SkillStack
         }
 
         // Skill level
-        list.add(I18n.format("skill.level", this.getSkillLevel(), this.getMaxLevel()));
+        list.add(I18n.format("skill.level", this.getLevel(), this.getMaxLevel()));
 
         // Skill description
         list.add(this.getDisplayDesc());
 
-        this.skill.addInformation(this, player, list, advanced);
+        this.getSkill().addInformation(this, player, list, advanced);
 
-        if (this.hasTagCompound() && this.stackTagCompound.hasKey("display", 10))
+        if (this.hasTagCompound())
         {
-            NBTTagCompound nbt = this.stackTagCompound.getCompoundTag("display");
-
-            if (nbt.getTagId("Lore") == 9)
+            if (this.stackTagCompound.hasKey("display", 10))
             {
-                NBTTagList nbtList = nbt.getTagList("Lore", 8);
-
-                if (nbtList.tagCount() > 0)
+                NBTTagCompound nbt = this.stackTagCompound.getCompoundTag("display");
+                if (nbt.getTagId("Lore") == 9)
                 {
-                    for (int i = 0; i < nbtList.tagCount(); ++i)
+                    NBTTagList nbtList = nbt.getTagList("Lore", 8);
+                    if (!nbtList.isEmpty())
                     {
-                        list.add(TextFormatting.DARK_PURPLE + "" + TextFormatting.ITALIC + nbtList.getStringTagAt(i));
+                        for (int i = 0; i < nbtList.tagCount(); ++i)
+                        {
+                            list.add(TextFormatting.DARK_PURPLE + "" + TextFormatting.ITALIC + nbtList.getStringTagAt(i));
+                        }
                     }
                 }
             }
         }
 
         // The next level of skill
-        if (this.getSkillLevel() < this.getMaxLevel())
+        if (this.getLevel() < this.getMaxLevel())
         {
             if (Keyboard.isKeyDown(KeyLoader.USE.getKeyCode()))
             {
                 list.add(I18n.format("skill.nextLevel"));
                 SkillStack skillStack = this.copy();
-                ++skillStack.skillLevel;
+                skillStack.levelup(1);
                 list.add(skillStack.getDisplayDesc());
             }
             else
@@ -317,24 +341,22 @@ public class SkillStack
         }
 
         // NBT tag count
-        if (advanced)
+        if (advanced.isAdvanced())
         {
-            list.add(TextFormatting.DARK_GRAY + Skill.REGISTRY.getNameForObject(this.getSkill()).toString());
+            list.add(TextFormatting.DARK_GRAY + this.getSkill().getRegistryName().toString());
             if (this.hasTagCompound())
             {
-                list.add(TextFormatting.DARK_GRAY + I18n.format("skill.nbtTags", 0));
+                list.add(TextFormatting.DARK_GRAY + I18n.format("skill.nbt_tags", this.getTagCompound().getKeySet().size()));
             }
         }
 
+        DawnEventFactory.onSkillTooltip(this, player, list, advanced);
         return list;
     }
 
     public void onLearning(World world, EntityPlayer player)
     {
-        player.addStat(StatLoader.objectLearnStats[Skill.getIdFromSkill(this.skill)], 1);
-
-        // 成就可以在这里写
-
+        player.addStat(StatLoader.getLearnStats(this.skill));
         this.skill.onCreated(this, world, player);
     }
 
@@ -345,27 +367,28 @@ public class SkillStack
             --this.animationsToGo;
         }
 
-        this.skill.onUpdate(this, world, entity, skillSlot);
+        if (this.skill != null)
+        {
+            this.skill.onUpdate(this, world, entity, skillSlot);
+        }
     }
 
-    public EnumSpellAction onSkillPreparing(World world, EntityPlayer player, int duration)
+    public EnumActionResult onSkillPreparing(World world, EntityPlayer player, int duration)
     {
         return this.getSkill().onSkillPreparing(this, world, player, duration);
     }
 
-    public boolean onSkillSpell(World world, EntityPlayer player)
+    public EnumActionResult onSkillSpell(World world, EntityPlayer player)
     {
-        boolean flag = this.getSkill().onSkillSpell(this, world, player);
-
-        if (flag)
+        EnumActionResult result = this.getSkill().onSkillSpell(this, world, player);
+        if (result == EnumActionResult.SUCCESS)
         {
-            player.addStat(StatLoader.objectLearnStats[Skill.getIdFromSkill(this.skill)]);
+            player.addStat(StatLoader.getObjectSpellStats(this.skill));
         }
-
-        return flag;
+        return result;
     }
 
-    public EnumSpellAction onSkillSpelling(World world, EntityPlayer player, int duration)
+    public EnumActionResult onSkillSpelling(World world, EntityPlayer player, int duration)
     {
         return this.getSkill().onSkillSpelling(this, world, player, duration);
     }
@@ -375,7 +398,6 @@ public class SkillStack
         this.getSkill().onPlayerStoppedSpelling(this, world, player, duration);
     }
 
-    // 突然发现用这个能做个变身之类的能开关的技能啊666666
     public SkillStack onSkillSpellFinish(World world, EntityPlayer player)
     {
         return this.getSkill().onSkillSpellFinish(this, world, player);
@@ -383,9 +405,9 @@ public class SkillStack
 
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
-        ResourceLocation resourcelocation = Skill.REGISTRY.getNameForObject(this.skill);
-        nbt.setString("id", resourcelocation == null ? "minecraft:null" : resourcelocation.toString());
-        nbt.setByte("Level", (byte) this.skillLevel);
+        ResourceLocation id = this.skill.getRegistryName();
+        nbt.setString("id", id == null ? Dawncraft.MODID + ":" + "null" : id.toString());
+        nbt.setByte("Level", (byte) this.stackLevel);
         if (this.stackTagCompound != null)
         {
             nbt.setTag("tag", this.stackTagCompound);
@@ -395,24 +417,23 @@ public class SkillStack
 
     public void readFromNBT(NBTTagCompound nbt)
     {
-        if (nbt.hasKey("id", 8))
-        {
-            this.setSkill(Skill.getByNameOrId(nbt.getString("id")));
-        }
-        else
-        {
-            this.setSkill(Skill.getSkillById(nbt.getShort("id")));
-        }
-        this.skillLevel = MathHelper.clamp(nbt.getByte("Level"), 1, this.getMaxLevel());
+        this.skill = nbt.hasKey("id", 8) ? Skill.getByNameOrId(nbt.getString("id")) : null;
+        this.stackLevel = this.skill != null ? MathHelper.clamp(nbt.getByte("Level"), 1, this.getMaxLevel()) : 1;
         if (nbt.hasKey("tag", 10))
         {
             this.stackTagCompound = nbt.getCompoundTag("tag");
+
+            if (this.skill != null)
+            {
+                this.skill.updateSkillStackNBT(nbt);
+            }
         }
     }
 
     public SkillStack copy()
     {
-        SkillStack stack = new SkillStack(this.skill, this.skillLevel);
+        SkillStack stack = new SkillStack(this.skill, this.stackLevel);
+        stack.setAnimationsToGo(this.getAnimationsToGo());
         if (this.stackTagCompound != null)
         {
             stack.stackTagCompound = this.stackTagCompound.copy();
@@ -420,14 +441,9 @@ public class SkillStack
         return stack;
     }
 
-    public static SkillStack copySkillStack(SkillStack stack)
-    {
-        return stack == null ? null : stack.copy();
-    }
-
     public boolean isSkillEqual(SkillStack other)
     {
-        return other != null && this.skill == other.skill && this.skillLevel == other.skillLevel;
+        return other != null && this.skill == other.skill && this.stackLevel == other.stackLevel;
     }
 
     public static boolean areSkillsEqual(SkillStack stackA, SkillStack stackB)
@@ -445,10 +461,27 @@ public class SkillStack
         return stackA == null && stackB == null ? true : stackA != null && stackB != null ? stackA.isSkillStackEqual(stackB) : false;
     }
 
-    @Override
-    public String toString()
+    public static boolean areSkillStackTagsEqual(SkillStack stackA, SkillStack stackB)
     {
-        return this.getUnlocalizedName() + "@" + this.skillLevel;
+        if (stackA == null && stackB == null)
+        {
+            return true;
+        }
+        else if (stackA != null && stackB != null)
+        {
+            if (stackA.stackTagCompound == null && stackB.stackTagCompound != null)
+            {
+                return false;
+            }
+            else
+            {
+                return stackA.stackTagCompound == null || stackA.stackTagCompound.equals(stackB.stackTagCompound);
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public boolean isEmpty()
@@ -459,7 +492,7 @@ public class SkillStack
         }
         else if (this.getSkill() != null)
         {
-            if (this.skillLevel <= 0)
+            if (this.stackLevel <= 1)
             {
                 return true;
             }

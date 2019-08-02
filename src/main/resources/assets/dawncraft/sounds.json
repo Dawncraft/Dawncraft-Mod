@@ -2,43 +2,43 @@
     "mob.gerking.death": {
         "category": "hostile",
         "sounds": [
-            "mob/gerking/death"
+            "dawncraft:mob/gerking/death"
         ]
     },
     "mob.gerking.hurt": {
         "category": "hostile",
         "sounds": [
-            "mob/gerking/hurt"
+            "dawncraft:mob/gerking/hurt"
         ]
     },
     "mob.gerking.say": {
         "category": "hostile",
         "sounds": [
-            "mob/gerking/say"
+            "dawncraft:mob/gerking/say"
         ]
     },
     "gun.basic.empty": {
         "category": "neutral",
         "sounds": [
-            "random/gun_empty"
+            "dawncraft:random/gun_empty"
         ]
     },
     "gun.basic.reload": {
         "category": "neutral",
         "sounds": [
-            "random/gun_reload"
+            "dawncraft:random/gun_reload"
         ]
     },
     "gun.basic.shoot": {
         "category": "neutral",
         "sounds": [
-            "random/gun_shoot"
+            "dawncraft:random/gun_shoot"
         ]
     },
     "gui.error": {
         "category": "master",
         "sounds": [
-            "random/error"
+            "dawncraft:random/error"
         ]
     },
     "records.dj": {

@@ -112,7 +112,7 @@ public class SkillInventoryPlayer implements ISkillInventory
 
                 if (i >= 0)
                 {
-                    this.inventory[i] = SkillStack.copySkillStack(skillStack);
+                    this.inventory[i] = skillStack.copy();
                     this.inventory[i].animationsToGo = 5;
                     return true;
                 }
@@ -122,7 +122,7 @@ public class SkillInventoryPlayer implements ISkillInventory
                 CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Adding skill to inventory");
                 CrashReportCategory crashreportcategory = crashreport.makeCategory("Skill being added");
                 crashreportcategory.addCrashSection("Skill ID", Integer.valueOf(Skill.getIdFromSkill(skillStack.getSkill())));
-                crashreportcategory.addCrashSection("Skill level", Integer.valueOf(skillStack.getSkillLevel()));
+                crashreportcategory.addCrashSection("Skill level", Integer.valueOf(skillStack.getLevel()));
                 crashreportcategory.addDetail("Skill name", new ICrashReportDetail<String>()
                 {
                     @Override
@@ -155,7 +155,7 @@ public class SkillInventoryPlayer implements ISkillInventory
         {
             SkillStack stack = this.inventory[i];
 
-            if (stack != null && (skill == null || stack.getSkill() == skill) && (level < 1 || stack.skillLevel == level) && (skillNBT == null || NBTUtil.areNBTEquals(skillNBT, stack.getTagCompound(), true)))
+            if (stack != null && (skill == null || stack.getSkill() == skill) && (level < 1 || stack.getLevel() == level) && (skillNBT == null || NBTUtil.areNBTEquals(skillNBT, stack.getTagCompound(), true)))
             {
                 ++removed;
 
@@ -171,7 +171,7 @@ public class SkillInventoryPlayer implements ISkillInventory
             }
         }
 
-        if (this.skillStack != null && (skill == null || this.skillStack.getSkill() == skill) && (level < 1 || this.skillStack.skillLevel == level) && (skillNBT == null || NBTUtil.areNBTEquals(skillNBT, this.skillStack.getTagCompound(), true)))
+        if (this.skillStack != null && (skill == null || this.skillStack.getSkill() == skill) && (level < 1 || this.skillStack.getLevel() == level) && (skillNBT == null || NBTUtil.areNBTEquals(skillNBT, this.skillStack.getTagCompound(), true)))
         {
             ++removed;
 
@@ -228,7 +228,7 @@ public class SkillInventoryPlayer implements ISkillInventory
         this.inventoryChanged = true;
     }
 
-    public NBTTagList writeToNBT(NBTTagList nbtTagListIn)
+    public NBTTagList writeToNBT(NBTTagList tagList)
     {
         for (int i = 0; i < this.inventory.length; ++i)
         {
@@ -237,23 +237,23 @@ public class SkillInventoryPlayer implements ISkillInventory
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte) i);
                 this.inventory[i].writeToNBT(nbttagcompound);
-                nbtTagListIn.appendTag(nbttagcompound);
+                tagList.appendTag(nbttagcompound);
             }
         }
-        return nbtTagListIn;
+        return tagList;
     }
 
-    public void readFromNBT(NBTTagList nbtTagListIn)
+    public void readFromNBT(NBTTagList tagList)
     {
         this.clearSkillStacks();
 
-        for (int i = 0; i < nbtTagListIn.tagCount(); ++i)
+        for (int i = 0; i < tagList.tagCount(); ++i)
         {
-            NBTTagCompound nbttagcompound = nbtTagListIn.getCompoundTagAt(i);
-            int j = nbttagcompound.getByte("Slot") & 255;
-            SkillStack skillstack = SkillStack.loadSkillStackFromNBT(nbttagcompound);
+            NBTTagCompound compound = tagList.getCompoundTagAt(i);
+            int j = compound.getByte("Slot") & 255;
+            SkillStack skillstack = new SkillStack(compound);
 
-            if (skillstack != null)
+            if (skillstack.getSkill() != null)
             {
                 if (j >= 0 && j < this.inventory.length)
                 {
@@ -267,7 +267,8 @@ public class SkillInventoryPlayer implements ISkillInventory
     {
         for (int i = 0; i < this.inventory.length; ++i)
         {
-            this.inventory[i] = SkillStack.copySkillStack(playerInventory.inventory[i]);
+            if (playerInventory.inventory[i] != null)
+                this.inventory[i] = playerInventory.inventory[i].copy();
         }
     }
 

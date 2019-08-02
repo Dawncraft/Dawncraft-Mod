@@ -36,6 +36,7 @@ import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.network.play.server.SPacketChat;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -196,7 +197,7 @@ public class CapabilityMagic
         {
             if (skillStack != this.getSkillInSpell())
             {
-                if (skillStack.onSkillPreparing(this.player.getEntityWorld(), this.player, 0) != EnumSpellAction.NONE)
+                if (skillStack.onSkillPreparing(this.player.getEntityWorld(), this.player, 0) != EnumActionResult.FAIL)
                 {
                     int duration = skillStack.getTotalPrepare();
                     duration = DawnEventFactory.onSkillPrepareStart(this.player, skillStack, duration);
@@ -262,11 +263,11 @@ public class CapabilityMagic
         {
             if (this.skillInSpell != null)
             {
-                int level = this.skillInSpell.getSkillLevel();
+                int level = this.skillInSpell.getLevel();
                 SkillStack skillStack = this.skillInSpell.onSkillSpellFinish(this.player.getEntityWorld(), this.player);
 
                 skillStack = DawnEventFactory.onSkillSpellFinish(this.player, this.skillInSpell, this.skillInSpellCount, skillStack);
-                if (skillStack != this.skillInSpell || skillStack != null && skillStack.getSkillLevel() != level)
+                if (skillStack != this.skillInSpell || skillStack != null && skillStack.getLevel() != level)
                 {
                     for (int i = 0; i < this.skillInventory.getSkillInventorySize(); i++)
                     {
@@ -316,11 +317,11 @@ public class CapabilityMagic
                 {
                     if (this.spellAction == EnumSpellAction.PREPARE)
                     {
-                        EnumSpellAction result = this.skillInSpell.onSkillPreparing(this.player.getEntityWorld(), this.player, this.getSkillInSpellDuration());
-                        if (result == EnumSpellAction.PREPARE || result == EnumSpellAction.SPELL)
+                        EnumActionResult result = this.skillInSpell.onSkillPreparing(this.player.getEntityWorld(), this.player, this.getSkillInSpellDuration());
+                        if (result != EnumActionResult.FAIL)
                         {
                             this.skillInSpellCount = DawnEventFactory.onSkillPrepareTick(this.player, this.skillInSpell, this.skillInSpellCount);
-                            if (result == EnumSpellAction.SPELL || this.skillInSpellCount <= 0)
+                            if (this.skillInSpellCount <= 0)
                             {
                                 if (!this.player.capabilities.isCreativeMode)
                                     this.setMana(this.getMana() - this.skillInSpell.getSkillConsume());
@@ -351,8 +352,8 @@ public class CapabilityMagic
                     }
                     else if (this.getSpellAction() == EnumSpellAction.SPELL)
                     {
-                        EnumSpellAction result = this.skillInSpell.onSkillSpelling(this.player.getEntityWorld(), this.player, this.getSkillInSpellDuration());
-                        if (result == EnumSpellAction.SPELL)
+                        EnumActionResult result = this.skillInSpell.onSkillSpelling(this.player.getEntityWorld(), this.player, this.getSkillInSpellDuration());
+                        if (result != EnumActionResult.FAIL)
                         {
                             this.skillInSpellCount = DawnEventFactory.onSkillSpellTick(this.player, this.skillInSpell, this.skillInSpellCount);
                             if (this.getSkillInSpellCount() <= 0)

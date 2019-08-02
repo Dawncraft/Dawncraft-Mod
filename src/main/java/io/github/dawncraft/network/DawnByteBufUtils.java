@@ -35,7 +35,7 @@ public class DawnByteBufUtils
         else
         {
             pb.writeShort(Skill.getIdFromSkill(stack.getSkill()));
-            pb.writeByte(stack.getSkillLevel());
+            pb.writeByte(stack.getLevel());
             pb.writeCompoundTag(stack.getTagCompound());
         }
     }

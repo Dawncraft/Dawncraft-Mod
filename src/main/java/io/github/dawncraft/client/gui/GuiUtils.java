@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.util.text.TextFormatting;
 
 public class GuiUtils
@@ -71,7 +72,7 @@ public class GuiUtils
 
     public static void renderSkillToolTip(GuiScreen gui, SkillStack stack, int x, int y)
     {
-        List<String> list = stack.getTooltip(gui.mc.player, gui.mc.gameSettings.advancedItemTooltips);
+        List<String> list = stack.getTooltip(gui.mc.player, gui.mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
 
         for (int i = 1; i < list.size(); ++i)
         {

@@ -10,23 +10,22 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
-@ObjectHolder(Dawncraft.MODID)
 public class BiomeInit
 {
-    public static final Biome FAIRY_LAND = null;
+    public static Biome FAIRY_LAND;
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event)
     {
-        registerBiome(new BiomeDawn(new Biome.BiomeProperties("Fairy Land")), "fairy_land");
+        FAIRY_LAND = registerBiome(new BiomeDawn(new Biome.BiomeProperties("Fairy Land")), "fairy_land");
     }
 
-    private static void registerBiome(Biome biome, String name)
+    private static Biome registerBiome(Biome biome, String name)
     {
         ForgeRegistries.BIOMES.register(biome.setRegistryName(name));
+        return biome;
     }
 
     @Deprecated

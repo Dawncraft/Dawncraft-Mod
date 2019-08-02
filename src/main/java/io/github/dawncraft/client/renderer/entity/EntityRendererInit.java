@@ -21,7 +21,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
  *
  * @author QingChenW
  */
-public class EntityRenderInit
+public class EntityRendererInit
 {
     public static void initEntityRender()
     {
@@ -52,12 +52,6 @@ public class EntityRenderInit
     private static <T extends Entity> void registerEntityRenderer(Class<T> entityClass, IRenderFactory<? super T> renderFactory)
     {
         RenderingRegistry.registerEntityRenderingHandler(entityClass, renderFactory);
-    }
-
-    @Deprecated
-    private static <T extends Entity> void registerEntityRenderer(Class<T> entityClass, Render<T> render)
-    {
-        RenderingRegistry.registerEntityRenderingHandler(entityClass, render);
     }
 
     /**

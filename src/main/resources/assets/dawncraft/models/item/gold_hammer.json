@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "dawncraft:items/computer/super_cpu"
+        "layer0": "dawncraft:items/magnet/magnet_hammer"
     },
     "display": {
         "thirdperson": {

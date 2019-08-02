@@ -4,9 +4,8 @@ import java.util.List;
 
 import io.github.dawncraft.config.LogLoader;
 import io.github.dawncraft.util.DawnEnumHelper;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandResultStats;
-import net.minecraft.util.text.event.HoverEvent;
+import net.minecraft.command.ICommand;
 
 /**
  * Register some commands.
@@ -15,7 +14,6 @@ import net.minecraft.util.text.event.HoverEvent;
  */
 public class CommandInit
 {
-    public static final HoverEvent.Action SHOW_SKILL = DawnEnumHelper.addHoverActionType("SHOW_SKILL", "show_skill", true);
     public static final CommandResultStats.Type AFFECTED_SKILLS = DawnEnumHelper.addCommandResultType("AFFECTED_SKILLS", "AffectedSkills");
 
     public static void initReflections()
@@ -26,7 +24,7 @@ public class CommandInit
         }
     }
 
-    public static void initCommands(List<CommandBase> commands)
+    public static void registerCommands(List<ICommand> commands)
     {
         commands.add(new CommandMagic());
         commands.add(new CommandLearn());

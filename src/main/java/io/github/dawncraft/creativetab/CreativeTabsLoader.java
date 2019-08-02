@@ -22,41 +22,39 @@ import net.minecraft.item.ItemStack;
  */
 public class CreativeTabsLoader
 {
-    public static CreativeTabs tabScience;
-    public static CreativeTabs tabEnergy;
-    public static CreativeTabs tabMachine;
-    public static CreativeTabs tabComputer;
-    public static CreativeTabs tabFurniture;
-    public static CreativeTabs tabCuisine;
-    public static CreativeTabs tabWeapons;
-    public static CreativeTabs tabMagic;
-    public static CreativeTabs tabColourEgg;
+    public static final CreativeTabs SCIENCE;
+    public static final CreativeTabs ENERGY;
+    public static final CreativeTabs MACHINE;
+    public static final CreativeTabs COMPUTER;
+    public static final CreativeTabs FURNITURE;
+    public static final CreativeTabs CUISINE;
+    public static final CreativeTabs WEAPONS;
+    public static final CreativeTabs MAGIC;
+    public static final CreativeTabs COLOUR_EGG;
 
-    public static CreativeSkillTabs tabSkills;
-    public static CreativeSkillTabs tabSearch;
-    public static CreativeSkillTabs tabInventory;
+    public static final CreativeSkillTabs SKILLS;
+    public static final CreativeSkillTabs SEARCH;
+    public static final CreativeSkillTabs INVENTORY;
 
-    public static void initCreativeTabs()
+    static
     {
-        addEnchantmentTypes(CreativeTabs.COMBAT, EnchantmentInit.WAND);
-
-        tabScience = new CreativeTabs("Science")
+        SCIENCE = new CreativeTabs("Science")
         {
             @Override
             public ItemStack createIcon()
             {
-                return null;
+                return new ItemStack(ItemInit.MAGNET_STICK);
             }
         };
-        tabEnergy = new CreativeTabs("Energy")
+        ENERGY = new CreativeTabs("Energy")
         {
             @Override
             public ItemStack createIcon()
             {
-                return null;
+                return new ItemStack(BlockInit.ELECTRIC_CABLE);
             }
         };
-        tabMachine = new CreativeTabs("Machine")
+        MACHINE = new CreativeTabs("Machine")
         {
             @Override
             public ItemStack createIcon()
@@ -64,7 +62,7 @@ public class CreativeTabsLoader
                 return new ItemStack(BlockInit.MACHINE_FURNACE);
             }
         };
-        tabComputer = new CreativeTabs("Computer")
+        COMPUTER = new CreativeTabs("Computer")
         {
             @Override
             public ItemStack createIcon()
@@ -73,7 +71,7 @@ public class CreativeTabsLoader
             }
         };
 
-        tabFurniture = new CreativeTabs("Furniture")
+        FURNITURE = new CreativeTabs("Furniture")
         {
             @Override
             public ItemStack createIcon()
@@ -81,7 +79,7 @@ public class CreativeTabsLoader
                 return  new ItemStack(BlockInit.WOOD_TABLE);
             }
         };
-        tabCuisine = new CreativeTabs("Cuisine")
+        CUISINE = new CreativeTabs("Cuisine")
         {
             @Override
             public ItemStack createIcon()
@@ -89,7 +87,7 @@ public class CreativeTabsLoader
                 return new ItemStack(ItemInit.COOKED_EGG);
             }
         };
-        tabWeapons = new CreativeTabs("Weapons")
+        WEAPONS = new CreativeTabs("Weapons")
         {
             @Override
             public ItemStack createIcon()
@@ -97,7 +95,7 @@ public class CreativeTabsLoader
                 return new ItemStack(ItemInit.GUN_RPG);
             }
         };
-        tabMagic = new CreativeTabs("Magic")
+        MAGIC = new CreativeTabs("Magic")
         {
             @Override
             public ItemStack createIcon()
@@ -105,7 +103,7 @@ public class CreativeTabsLoader
                 return new ItemStack(ItemInit.MAGIC_DUST);
             }
         };
-        tabColourEgg = new CreativeTabs("ColourEgg")
+        COLOUR_EGG = new CreativeTabs("ColourEgg")
         {
             @Override
             public ItemStack createIcon()
@@ -114,7 +112,7 @@ public class CreativeTabsLoader
             }
         };
 
-        tabSkills = new CreativeSkillTabs("Skills")
+        SKILLS = new CreativeSkillTabs("Skills")
         {
             @Override
             public SkillStack createIcon()
@@ -122,7 +120,7 @@ public class CreativeTabsLoader
                 return new SkillStack(SkillInit.HEAL);
             }
         };
-        tabSearch = new CreativeSkillTabs(5, "Search")
+        SEARCH = new CreativeSkillTabs(5, "Search")
         {
             @Override
             public SkillStack createIcon()
@@ -136,7 +134,7 @@ public class CreativeTabsLoader
                 return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("minecraft:items/paper");
             }
         }.setBackgroundImageName("skill_search.png");
-        tabInventory = new CreativeSkillTabs(11, "skillInventory")
+        INVENTORY = new CreativeSkillTabs(11, "SkillInventory")
         {
             @Override
             public SkillStack createIcon()
@@ -150,6 +148,11 @@ public class CreativeTabsLoader
                 return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(Dawncraft.MODID + ":" + "items/magic/skill_book");
             }
         }.setBackgroundImageName("skill_inventory.png").setNoScrollbar().setNoTitle();
+    }
+
+    public static void initCreativeTabs()
+    {
+        addEnchantmentTypes(CreativeTabs.COMBAT, EnchantmentInit.WAND);
     }
 
     public static void addEnchantmentTypes(CreativeTabs tab, EnumEnchantmentType... types)

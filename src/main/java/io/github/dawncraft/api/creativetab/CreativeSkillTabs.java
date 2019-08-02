@@ -40,7 +40,7 @@ public abstract class CreativeSkillTabs
         }
         this.index = index;
         this.label = label;
-        this.icon = SkillStack.EMPTY;
+        this.icon = null;
         CREATIVE_TAB_ARRAY[index] = this;
     }
 
@@ -71,7 +71,7 @@ public abstract class CreativeSkillTabs
     @SideOnly(Side.CLIENT)
     public SkillStack getIcon()
     {
-        if (this.icon.isEmpty())
+        if (this.icon == null)
         {
             this.icon = this.createIcon();
         }
@@ -114,7 +114,7 @@ public abstract class CreativeSkillTabs
 
     public boolean hasSearchBar()
     {
-        return this.index == CreativeTabsLoader.tabSearch.index;
+        return this.index == CreativeTabsLoader.SEARCH.index;
     }
 
     public int getSearchbarWidth()
@@ -185,7 +185,7 @@ public abstract class CreativeSkillTabs
             {
                 continue;
             }
-            if (skill.getCreativeTab() == this)
+            if (skill.isInCreativeTab(this))
             {
                 skillList.add(skill);
             }

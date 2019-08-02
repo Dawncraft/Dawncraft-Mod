@@ -31,7 +31,7 @@ public abstract class GuiStatsSlot
             this.guiStats = (GuiStatsDawn) guiStats;
 
             this.statsHolder = Lists.<StatLearning>newArrayList();
-            for (StatLearning statlearning : StatLoader.skillStats)
+            for (StatLearning statlearning : StatLoader.SPELL_SKILL_STATS)
             {
                 boolean flag = false;
                 int i = Skill.getIdFromSkill(statlearning.getSkill());
@@ -40,11 +40,11 @@ public abstract class GuiStatsSlot
                 {
                     flag = true;
                 }
-                else if (StatLoader.objectSpellStats[i] != null && this.guiStats.stats.readStat(StatLoader.objectSpellStats[i]) > 0)
+                else if (StatLoader.OBJECT_SPELL_STATS[i] != null && this.guiStats.stats.readStat(StatLoader.OBJECT_SPELL_STATS[i]) > 0)
                 {
                     flag = true;
                 }
-                else if (StatLoader.objectLearnStats[i] != null && this.guiStats.stats.readStat(StatLoader.objectLearnStats[i]) > 0)
+                else if (StatLoader.LEARN_STATS[i] != null && this.guiStats.stats.readStat(StatLoader.LEARN_STATS[i]) > 0)
                 {
                     flag = true;
                 }
@@ -105,7 +105,7 @@ public abstract class GuiStatsSlot
             Skill skill = statlearning.getSkill();
             this.guiStats.drawStatsScreen(xPos + 40, yPos, skill);
             int i = Skill.getIdFromSkill(skill);
-            this.drawStat(StatLoader.objectSpellStats[i], xPos + 165, yPos, slotIndex % 2 == 0);
+            this.drawStat(StatLoader.OBJECT_SPELL_STATS[i], xPos + 165, yPos, slotIndex % 2 == 0);
             this.drawStat(statlearning, xPos + 215, yPos, slotIndex % 2 == 0);
         }
 

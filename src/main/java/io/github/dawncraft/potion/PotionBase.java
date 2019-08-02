@@ -1,39 +1,25 @@
 package io.github.dawncraft.potion;
 
+import javax.annotation.Nullable;
+
 import io.github.dawncraft.Dawncraft;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class PotionBase extends Potion
 {
     private static final ResourceLocation POTION_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/potion.png");
-    private static int nextIndex = 0;
 
-    private int statusIconX = 0;
-    private int statusIconY = 0;
-
-    protected PotionBase(boolean badEffect, int potionColor)
+    public PotionBase(boolean badEffect, int potionColor)
     {
         super(badEffect, potionColor);
-        this.setIconIndex(nextIndex++);
-    }
-
-    public Potion setIconIndex(int index)
-    {
-        int x = index % 16;
-        int y = Math.floorDiv(index, 16);
-        return this.setIconIndex(x, y);
-    }
-
-    @Override
-    public Potion setIconIndex(int x, int y)
-    {
-        this.statusIconX = x;
-        this.statusIconY = y;
-        return this;
     }
 
     @Override
@@ -54,12 +40,26 @@ public class PotionBase extends Potion
     }
 
     @Override
-    public void renderInventoryEffect(int x, int y, PotionEffect effect, Minecraft mc)
+    public void affectEntity(@Nullable Entity source, @Nullable Entity indirectSource, EntityLivingBase entityLivingBaseIn, int amplifier, double health)
     {
-        mc.getTextureManager().bindTexture(this.getPotionTexture(effect));
-        mc.currentScreen.drawTexturedModalRect(x + 6, y + 7, this.statusIconX * 16, this.statusIconY * 16, 16, 16);
     }
 
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void renderInventoryEffect(PotionEffect effect, Gui gui, int x, int y, float z)
+    {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(this.getPotionTexture(effect));
+        // mc.currentScreen.drawTexturedModalRect(x + 6, y + 7, this.statusIconX * 16, this.statusIconY * 16, 16, 16);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void renderHUDEffect(PotionEffect effect, Gui gui, int x, int y, float z, float alpha)
+    {
+
+    }
+
+    @SideOnly(Side.CLIENT)
     public ResourceLocation getPotionTexture(PotionEffect effect)
     {
         return POTION_TEXTURE;

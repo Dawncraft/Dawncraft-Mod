@@ -1,17 +1,15 @@
 package io.github.dawncraft.client;
 
 import io.github.dawncraft.CommonProxy;
+import io.github.dawncraft.client.event.TooltipEventHandler;
 import io.github.dawncraft.client.gui.GuiIngameDawn;
 import io.github.dawncraft.client.gui.stats.GuiStatLoader;
 import io.github.dawncraft.client.particle.ParticleInit;
-import io.github.dawncraft.client.renderer.block.BlockRenderInit;
-import io.github.dawncraft.client.renderer.entity.EntityRenderInit;
-import io.github.dawncraft.client.renderer.item.ItemRenderInit;
+import io.github.dawncraft.client.renderer.entity.EntityRendererInit;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.RenderSkill;
-import io.github.dawncraft.client.renderer.skill.SkillRenderLoader;
 import io.github.dawncraft.client.renderer.texture.TextureLoader;
-import io.github.dawncraft.client.renderer.tileentity.TileEntityRenderInit;
+import io.github.dawncraft.client.renderer.tileentity.TileEntityRendererInit;
 import io.github.dawncraft.config.KeyLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -43,6 +41,10 @@ public class ClientProxy extends CommonProxy
         super.preInit(event);
         this.textureLoader = new TextureLoader();
         this.modelLoader = new ModelLoader(this.textureLoader);
+
+        KeyLoader.initKeys();
+        EntityRendererInit.initEntityRender();
+        TileEntityRendererInit.initTileEntityRenderer();
     }
 
     @Override
@@ -50,13 +52,9 @@ public class ClientProxy extends CommonProxy
     {
         super.init(event);
         this.skillRender = new RenderSkill(Minecraft.getMinecraft().getTextureManager(), this.modelLoader);
-        BlockRenderInit.initBlockRender();
-        ItemRenderInit.initItemRender();
-        SkillRenderLoader.initSkillRender();
-        EntityRenderInit.initEntityRender();
-        TileEntityRenderInit.initTileEntityRender();
+
+        TooltipEventHandler.initTooltips();
         ParticleInit.initParticles();
-        KeyLoader.initKeys();
         GuiStatLoader.initStatSlots();
     }
 

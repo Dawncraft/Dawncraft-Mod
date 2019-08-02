@@ -4,9 +4,12 @@ import io.github.dawncraft.api.block.BlockFurniture;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 public class BlockFurnitureTable extends BlockFurniture
 {
@@ -55,5 +58,11 @@ public class BlockFurnitureTable extends BlockFurniture
         boolean west = world.getBlockState(pos.west()).getBlock() == this;
         boolean east = world.getBlockState(pos.east()).getBlock() == this;
         return state.withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west);
+    }
+
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    {
+        return this.getStateFromMeta(meta);
     }
 }

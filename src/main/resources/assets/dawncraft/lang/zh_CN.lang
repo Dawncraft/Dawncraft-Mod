@@ -1,18 +1,15 @@
 // 曙光工艺Mod，中文语言文件，作者QingChenW
 dawncraft.name=曙光工艺模组
 
+itemGroup.Science=科学
 itemGroup.Energy=能源
-itemGroup.Magnet=磁力
 itemGroup.Machine=机械
 itemGroup.Computer=电脑
-itemGroup.Science=科学
 itemGroup.Furniture=家具
 itemGroup.Cuisine=烹饪
-itemGroup.War=战争
+itemGroup.Weapons=武器
 itemGroup.Magic=魔法
 itemGroup.ColourEgg=彩蛋
-
-item.petroleumBucket.name=石油桶
 
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
@@ -44,7 +41,7 @@ item.simpleCPU.name=普通CPU
 item.simpleCPU.desc=曙光一代CPU,慢的要死
 item.advancedCPU.name=高级CPU
 item.advancedCPU.desc=曙光二代CPU,速度还算可以
-item.professionalCPU.name=超级CPU
+item.professionalCPU.name=专业CPU
 item.professionalCPU.desc=曙光三代CPU,嗖嗖的飞一般的感觉
 
 item.tumbler.name=平底玻璃杯
@@ -70,9 +67,9 @@ item.skillBook.name=技能书
 item.skillBook.desc=学习 %s
 item.skillBook.null=空白技能书
 
-item.skull.dawncraft.savage.name=野蛮人的头
-item.skull.dawncraft.barbarianking.name=野蛮人之王的头
-item.skull.dawncraft.gerking.name=§7ger王的头
+item.skull.Savage.name=野蛮人的头
+item.skull.BarbarianKing.name=野蛮人之王的头
+item.skull.GerKing.name=§7ger王的头
 item.gerHeart.name=§7巨Ger之心
 item.brainDead.name=脑残片
 item.record.dj.desc=Usher - dj got us fallin in love
@@ -85,7 +82,7 @@ item.infinityGauntlet.name=§b无限手套
 
 skillGroup.Skills=基础法术
 skillGroup.Search=搜索技能
-skillGroup.skillInventory=技能栏
+skillGroup.SkillInventory=技能栏
 
 skill.attack.name=死亡缠绕
 skill.heal.name=治疗术
@@ -99,7 +96,6 @@ skill.level=等级：%1$d/%2$d
 skill.maxLevel=已达到最大等级
 skill.moreInfo=按 %s 显示下一级信息
 skill.nextLevel=下一等级：
-skill.nbtTags=NBT： %s 个标签
 
 tile.electricityCable.name=电缆
 tile.heatGenerator.name=热能发电机
@@ -108,7 +104,7 @@ tile.solarGenerator.name=太阳能发电机
 tile.windGenerator.name=风能发电机
 tile.nuclearGenerator.name=核能反应堆
 tile.magicGenerator.name=魔法发电机
-tile.fluidPetroleum.name=石油
+tile.petroleum.name=石油
 
 tile.magnetOre.name=磁石矿
 tile.magnetBlock.name=磁石块
@@ -121,7 +117,7 @@ tile.machineFurnace.name=电炉
 
 tile.simpleComputer.name=普通电脑
 tile.advancedComputer.name=高级电脑
-tile.superComputer.name=超级电脑
+tile.professionalComputer.name=专业电脑
 
 tile.woodTable.name=木质桌子
 tile.stoneTable.name=石质桌子

@@ -1,7 +1,8 @@
 package io.github.dawncraft.client.renderer.item;
 
+import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockInit;
-import io.github.dawncraft.client.event.TooltipEventHandler;
+import io.github.dawncraft.client.renderer.tileentity.TileEntityRendererInit;
 import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.item.ItemSkull;
@@ -9,39 +10,54 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Register items' inventory model.(Include ItemBlock)
  *
  * @author QingChenW
  */
-public class ItemRenderInit
+@Mod.EventBusSubscriber(modid = Dawncraft.MODID, value = Side.CLIENT)
+public class ItemModelInit
 {
-    public static void initItemRender()
+    @SubscribeEvent
+    public static void registerItemModels(ModelRegistryEvent event)
     {
-        // Energy
-        registerBlock(BlockInit.ELECTRIC_CABLE);
-        registerBlock(BlockInit.HEAT_GENERATOR);
-        //        register(BlockLoader.energyGeneratorFluid);
-        //        register(BlockLoader.energyGeneratorSolar);
-        //        register(BlockLoader.energyGeneratorWind);
-        //        register(BlockLoader.energyGeneratorNuclear);
-        //        register(BlockLoader.energyGeneratorMagic);
+        // Building blocks
+        registerBlock(BlockInit.MAGIC_ORE);
+        registerBlock(BlockInit.MAGNET_BLOCK);
 
-        // Magnet
+        registerBlock(BlockInit.COPPER_ORE);
+        registerBlock(BlockInit.COPPER_BLOCK);
+
+        // Decorations
+        registerBlock(BlockInit.MAGNET_CHEST);
+
+        // Redstone
+        registerItem(ItemInit.MAGNET_DOOR);
+        registerBlock(BlockInit.MAGNET_RAIL);
+        registerItem(ItemInit.MAGNET_CARD);
+
+        // Materials/Misc
         registerItem(ItemInit.MAGNET);
         registerItem(ItemInit.MAGNET_INGOT);
         registerItem(ItemInit.MAGNET_STICK);
         registerItem(ItemInit.MAGNET_BALL);
-        registerItem(ItemInit.MAGNET_CARD);
-        registerItem(ItemInit.MAGNET_DOOR);
 
+        registerItem(ItemInit.COPPER_INGOT);
+
+        // Tools
         registerItem(ItemInit.MAGNET_AXE);
         registerItem(ItemInit.MAGNET_PICKAXE);
         registerItem(ItemInit.MAGNET_HAMMER);
-        registerItem(ItemInit.MAGNET_SPADE);
+        registerItem(ItemInit.MAGNET_SHOVEL);
         registerItem(ItemInit.MAGNET_HOE);
+
+        // Compat
         registerItem(ItemInit.MAGNET_SWORD);
         registerItem(ItemInit.MAGNET_WAND);
         registerItem(ItemInit.MAGNET_HELMET);
@@ -49,16 +65,19 @@ public class ItemRenderInit
         registerItem(ItemInit.MAGNET_LEGGINGS);
         registerItem(ItemInit.MAGNET_BOOTS);
 
-        registerBlock(BlockInit.MAGIC_ORE);
-        registerBlock(BlockInit.MAGNET_BLOCK);
-        registerBlock(BlockInit.MAGNET_RAIL);
-        registerBlock(BlockInit.MAGNET_CHEST);
+        // Science
+
+        // Energy
+        registerBlock(BlockInit.ELECTRIC_CABLE);
+
+        registerBlock(BlockInit.HEAT_GENERATOR);
+        registerBlock(BlockInit.FLUID_GENERATOR);
+        registerBlock(BlockInit.WIND_GENERATOR);
+        registerBlock(BlockInit.SOLAR_GENERATOR);
+        registerBlock(BlockInit.NUCLEAR_GENERATOR);
+        registerBlock(BlockInit.MAGIC_GENERATOR);
 
         // Machine
-        registerItem(ItemInit.COPPER_INGOT);
-
-        registerBlock(BlockInit.COPPER_ORE);
-        registerBlock(BlockInit.COPPER_BLOCK);
         registerBlock(BlockInit.MACHINE_FURNACE);
 
         // Computer
@@ -70,8 +89,6 @@ public class ItemRenderInit
         registerBlock(BlockInit.ADVANCED_COMPUTER);
         registerBlock(BlockInit.PROFESSIONAL_COMPUTER);
 
-        // Science
-
         // Furniture
         registerBlock(BlockInit.WOOD_TABLE);
         registerBlock(BlockInit.STONE_TABLE);
@@ -81,25 +98,24 @@ public class ItemRenderInit
 
         // Cuisine
         registerItem(ItemInit.TUMBLER);
-        registerItem(ItemInit.FAECES);
+        registerItem(ItemInit.FROG);
+        registerItem(ItemInit.HONEY);
         registerItem(ItemInit.COOKED_EGG);
         registerItem(ItemInit.HONEY_CHICKEN);
         registerItem(ItemInit.HONEY_STEW);
         registerItem(ItemInit.FROG_STEW);
-        registerItem(ItemInit.HONEY);
-        registerItem(ItemInit.FROG);
 
-        // Magic
-        registerBlock(BlockInit.MAGIC_ORE);
-        registerItem(ItemInit.MAGIC_DUST);
-        registerItem(ItemInit.SKILL_BOOK);
-
-        // War
+        // Weapons
         registerItem(ItemInit.GUN_AK47);
         registerItem(ItemInit.GUN_BULLET);
         registerItem(ItemInit.GUN_RPG);
         registerItem(ItemInit.GUN_ROCKET);
         registerItem(ItemInit.THROWABLE_TORCH);
+
+        // Magic
+        registerBlock(BlockInit.MAGIC_ORE);
+        registerItem(ItemInit.MAGIC_DUST);
+        registerItem(ItemInit.SKILL_BOOK);
 
         // ColourEgg
         registerBlock(BlockInit.SUPER_CHEST);
@@ -107,8 +123,10 @@ public class ItemRenderInit
         for (int i = 0; i < ItemSkull.skullTypes.length; i++)
         {
             Class<? extends Entity> entity = ItemSkull.skullTypes[i];
-            registerItem(ItemInit.SKULL, i, suffix + EntityUtils.getEntityStringFromClass(entity).toLowerCase());
+            String name = EntityUtils.getEntityName(entity).toLowerCase();
+            registerItem(ItemInit.SKULL, i, suffix + name);
         }
+        registerItem(ItemInit.FAECES);
         registerItem(ItemInit.GER_HEART);
         registerItem(ItemInit.BRAIN_DEAD);
         registerItem(ItemInit.FUNNY);
@@ -120,7 +138,8 @@ public class ItemRenderInit
         registerItem(ItemInit.MJOLNIR);
         registerItem(ItemInit.INFINITY_GAUNTLET);
 
-        TooltipEventHandler.initTooltips();
+        // TEISR
+        TileEntityRendererInit.initTileEntityItemStackRenderer();
     }
 
     /**

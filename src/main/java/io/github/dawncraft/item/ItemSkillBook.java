@@ -44,8 +44,8 @@ public class ItemSkillBook extends Item
         ItemStack stack = player.getHeldItem(hand);
         if (!world.isRemote && stack.hasTagCompound())
         {
-            SkillStack skillStack = SkillStack.loadSkillStackFromNBT(stack.getTagCompound());
-            if (skillStack != null)
+            SkillStack skillStack = new SkillStack(stack.getTagCompound().getCompoundTag("Skill"));
+            if (skillStack.getSkill() != null)
             {
                 SkillInventoryPlayer inventory = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventory();
                 if (inventory.addSkillStackToInventory(skillStack))
@@ -69,8 +69,8 @@ public class ItemSkillBook extends Item
     {
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Skill", NBT.TAG_COMPOUND))
         {
-            SkillStack skillStack = SkillStack.loadSkillStackFromNBT(stack.getTagCompound().getCompoundTag("Skill"));
-            if (skillStack != null)
+            SkillStack skillStack = new SkillStack(stack.getTagCompound().getCompoundTag("Skill"));
+            if (skillStack.getSkill() != null)
             {
                 tooltip.add(TextFormatting.GRAY + I18n.format("item.skillBook.desc", skillStack.getDisplayName()));
             }

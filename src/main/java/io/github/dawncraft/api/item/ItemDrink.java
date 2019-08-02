@@ -45,7 +45,7 @@ public class ItemDrink extends Item
         this.itemUseDuration = 32;
         this.waterAmount = amount;
         this.saturationModifier = saturation;
-        this.setCreativeTab(CreativeTabsLoader.tabCuisine);
+        this.setCreativeTab(CreativeTabsLoader.CUISINE);
     }
 
     public ItemDrink(int amount)

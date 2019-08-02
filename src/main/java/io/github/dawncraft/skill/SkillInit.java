@@ -6,7 +6,6 @@ import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 /**
  * Register some skills.
@@ -14,19 +13,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
  * @author QingChenW
  */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
-@ObjectHolder(Dawncraft.MODID)
 public class SkillInit
 {
-    public static final Skill ATTACK = null;
-    public static final Skill HEAL = null;
-    public static final Skill FIREBALL = null;
+    public static Skill ATTACK;
+    public static Skill HEAL;
+    public static Skill FIREBALL;
 
     @SubscribeEvent
     public static void registerSkills(RegistryEvent.Register<Skill> event)
     {
-        registerSkill(new SkillInstant(3).setUnlocalizedName("attack").setCreativeTab(CreativeTabsLoader.tabSkills), "attack");
-        registerSkill(new SkillInstant(3).setUnlocalizedName("heal").setCreativeTab(CreativeTabsLoader.tabSkills), "heal");
-        registerSkill(new SkillProjectile(3).setUnlocalizedName("fireball").setCreativeTab(CreativeTabsLoader.tabSkills), "fireball");
+        ATTACK = registerSkill(new SkillInstant(3).setTranslationKey("attack").setCreativeTab(CreativeTabsLoader.SKILLS), "attack");
+        HEAL = registerSkill(new SkillInstant(3).setTranslationKey("heal").setCreativeTab(CreativeTabsLoader.SKILLS), "heal");
+        FIREBALL = registerSkill(new SkillProjectile(3).setTranslationKey("fireball").setCreativeTab(CreativeTabsLoader.SKILLS), "fireball");
     }
 
     /**
@@ -35,8 +33,9 @@ public class SkillInit
      * @param skill The skill to register
      * @param name The skill's name-id
      */
-    private static void registerSkill(Skill skill, String name)
+    private static Skill registerSkill(Skill skill, String name)
     {
         ModRegistry.SKILLS.register(skill.setRegistryName(name));
+        return skill;
     }
 }
