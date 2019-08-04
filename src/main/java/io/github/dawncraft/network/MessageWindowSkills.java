@@ -2,7 +2,7 @@ package io.github.dawncraft.network;
 
 import java.util.List;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.skill.SkillStack;
@@ -69,7 +69,7 @@ public class MessageWindowSkills implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().player;
-                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
 
                         if (message.windowId == 0)
                         {

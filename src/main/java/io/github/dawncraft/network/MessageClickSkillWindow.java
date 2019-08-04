@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.skill.SkillStack;
@@ -82,7 +82,7 @@ public class MessageClickSkillWindow implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                         serverPlayer.markPlayerActive();
 
                         if (!(serverPlayer.openContainer instanceof SkillContainer)) return;

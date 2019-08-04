@@ -1,10 +1,10 @@
 package io.github.dawncraft.client.renderer.skill;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
-import io.github.dawncraft.client.renderer.texture.TextureLoader;
+import io.github.dawncraft.client.renderer.texture.TextureInit;
 import io.github.dawncraft.skill.SkillStack;
 import io.github.dawncraft.util.StringUtils;
 import net.minecraft.client.Minecraft;
@@ -55,8 +55,8 @@ public class RenderSkill implements IResourceManagerReloadListener
     public void renderSkillIntoGUI(SkillStack stack, int x, int y)
     {
         GlStateManager.pushMatrix();
-        this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
-        this.textureManager.getTexture(TextureLoader.locationSkillsTexture).setBlurMipmap(false, false);
+        this.textureManager.bindTexture(TextureInit.locationSkillsTexture);
+        this.textureManager.getTexture(TextureInit.locationSkillsTexture).setBlurMipmap(false, false);
         GlStateManager.enableLighting();
         GlStateManager.enableRescaleNormal();
         GlStateManager.enableAlpha();
@@ -69,8 +69,8 @@ public class RenderSkill implements IResourceManagerReloadListener
         GlStateManager.disableRescaleNormal();
         GlStateManager.disableLighting();
         GlStateManager.popMatrix();
-        this.textureManager.bindTexture(TextureLoader.locationSkillsTexture);
-        this.textureManager.getTexture(TextureLoader.locationSkillsTexture).restoreLastBlurMipmap();
+        this.textureManager.bindTexture(TextureInit.locationSkillsTexture);
+        this.textureManager.getTexture(TextureInit.locationSkillsTexture).restoreLastBlurMipmap();
     }
 
     public void renderSkillAndEffectIntoGUI(final SkillStack stack, int x, int y)
@@ -144,7 +144,7 @@ public class RenderSkill implements IResourceManagerReloadListener
 
             float cooldown = 0.0F;
             EntityPlayer player = Minecraft.getMinecraft().player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
             cooldown = playerMagic.getCooldownTracker().getCooldownPercent(stack.getSkill(), 0);
 
             if (cooldown > 0.0F)

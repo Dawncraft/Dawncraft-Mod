@@ -1,46 +1,134 @@
 package io.github.dawncraft.tileentity;
 
+import javax.annotation.Nonnull;
+
 import io.github.dawncraft.api.block.BlockMachine;
-import net.minecraft.block.state.IBlockState;
+import io.github.dawncraft.api.tileentity.TileEntityMachine;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 /**
+ * The block entity of machine furnace
  *
  * @author QingChenW
  */
-public class TileEntityMachineFurnace extends TileEntity implements ITickable
+public class TileEntityMachineFurnace extends TileEntityMachine
 {
     public ItemStackHandler upItemStack = new ItemStackHandler();
-    public ItemStackHandler downItemStack = new ItemStackHandler();
-    public final int Max_Electricity = 32;
-    public int electricity;
+    public ItemStackHandler downItemStack = new ItemStackHandler()
+    {
+        @Override
+        public boolean isItemValid(int slot, @Nonnull ItemStack stack)
+        {
+            return false;
+        }
+    };
     public int cookTime;
     public int totalCookTime;
 
     @Override
-    public ITextComponent getDisplayName()
+    public String getTranslationKey()
     {
-        String name = "container.machineFurnace";
-        return new TextComponentTranslation(name);
+        return "container.machineFurnace";
+    }
+
+    @Override
+    public int getMaxEnergyStored()
+    {
+        return 32;
+    }
+
+    @Override
+    public void update()
+    {
+        boolean update = false;
+        boolean wasWorking = this.isWorking();
+
+        if (wasWorking) this.extractEnergy(1, false);
+
+        if (!this.world.isRemote)
+        {
+            if (this.isWorking())
+            {
+                if (this.canSmelt())
+                {
+                    ++this.cookTime;
+
+                    if (this.cookTime == this.totalCookTime)
+                    {
+                        this.cookTime = 0;
+                        this.totalCookTime = 200;
+                        this.smeltItem();
+                        update = true;
+                    }
+                }
+                else if (this.downItemStack.getStackInSlot(0).isEmpty())
+                {
+                    this.cookTime = 0;
+                }
+            }
+            else if (!this.canExtract() && this.cookTime > 0)
+            {
+                this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
+            }
+
+            if (wasWorking != this.isWorking())
+            {
+                update = true;
+                BlockMachine.setBlockState(this.isWorking(), this.world, this.pos);
+            }
+        }
+
+        if (update)
+        {
+            this.markDirty();
+        }
+    }
+
+    public boolean isWorking()
+    {
+        return this.canExtract();
+    }
+
+    public boolean canSmelt()
+    {
+        ItemStack itemStack = this.downItemStack.getStackInSlot(0);
+        if (itemStack.isEmpty())
+        {
+            return false;
+        }
+        else
+        {
+            ItemStack itemStack1 = FurnaceRecipes.instance().getSmeltingResult(itemStack);
+            if (itemStack1.isEmpty()) return false;
+            ItemStack itemStack2 = this.upItemStack.getStackInSlot(0);
+            if (itemStack2.isEmpty()) return true;
+            else if (!itemStack2.isItemEqual(itemStack1)) return false;
+            int result = itemStack2.getCount() + itemStack1.getCount();
+            return result <= 64 && result <= itemStack1.getMaxStackSize() && result <= itemStack2.getMaxStackSize();
+        }
+    }
+
+    public void smeltItem()
+    {
+        if (this.canSmelt())
+        {
+            ItemStack itemStack = this.downItemStack.extractItem(0, 1, false);
+            ItemStack itemStack1 = FurnaceRecipes.instance().getSmeltingResult(itemStack);
+            this.upItemStack.insertItem(0, itemStack1, false);
+        }
     }
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing)
     {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
+        if (capability.equals(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY))
         {
             return true;
         }
@@ -50,10 +138,10 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
     @Override
     public <T> T getCapability(Capability<T> capability, EnumFacing facing)
     {
-        if (CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.equals(capability))
+        if (capability.equals(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY))
         {
-            ItemStackHandler result = facing == EnumFacing.DOWN ? this.downItemStack : this.upItemStack;
-            return (T) result;
+            ItemStackHandler result = facing != EnumFacing.DOWN ? this.upItemStack : this.downItemStack;
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(result);
         }
         return super.getCapability(capability, facing);
     }
@@ -64,7 +152,6 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
         super.readFromNBT(compound);
         this.upItemStack.deserializeNBT(compound.getCompoundTag("UpInventory"));
         this.downItemStack.deserializeNBT(compound.getCompoundTag("DownInventory"));
-        this.electricity = compound.getShort("Electricity");
         this.cookTime = compound.getShort("CookTime");
         this.totalCookTime = compound.getShort("CookTimeTotal");
     }
@@ -75,84 +162,8 @@ public class TileEntityMachineFurnace extends TileEntity implements ITickable
         super.writeToNBT(compound);
         compound.setTag("UpInventory", this.upItemStack.serializeNBT());
         compound.setTag("DownInventory", this.downItemStack.serializeNBT());
-        compound.setShort("Electricity", (short) this.electricity);
         compound.setShort("CookTime", (short) this.cookTime);
         compound.setShort("CookTimeTotal", (short) this.totalCookTime);
         return compound;
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState)
-    {
-        return oldState.getBlock() != newState.getBlock();
-    }
-
-    @Override
-    public void update()
-    {
-        boolean wasWorking = this.isWorking();
-
-        //        if (wasWorking) --this.electricity;
-
-        if (!this.world.isRemote)
-        {
-            if (this.isWorking())
-            {
-                ++this.cookTime;
-
-                if (this.cookTime == this.totalCookTime)
-                {
-                    this.markDirty();
-                    this.cookTime = 0;
-                    this.totalCookTime = 200;// Should use void if need.
-                    ItemStack itemStack = FurnaceRecipes.instance().getSmeltingResult(this.upItemStack.extractItem(0, 1, false));
-                    this.downItemStack.insertItem(0, itemStack, false);
-                }
-            }
-            else if (!this.hasElectricity() && this.cookTime > 0)
-            {
-                this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
-            }
-            else
-            {
-                this.cookTime = 0;
-            }
-
-            if (wasWorking != this.isWorking())
-            {
-                this.markDirty();
-                BlockMachine.setBlockState(this.isWorking(), this.world, this.pos);
-            }
-        }
-    }
-
-    public boolean isWorking()
-    {
-        return this.hasElectricity() && this.canSmelt();
-    }
-
-    public boolean hasElectricity()
-    {
-        //        return this.electricity > 0;
-        return true;
-    }
-
-    public boolean canSmelt()
-    {
-        ItemStack itemStack = this.upItemStack.getStackInSlot(0);
-        if (itemStack == null)
-        {
-            return false;
-        }
-        else
-        {
-            itemStack = FurnaceRecipes.instance().getSmeltingResult(itemStack);
-            if (itemStack == null) return false;
-            ItemStack itemStack2 = this.downItemStack.getStackInSlot(0);
-            if (itemStack2 == null) return true;
-            if (!itemStack2.isItemEqual(itemStack)) return false;
-            int result = itemStack2.getCount() + itemStack.getCount();
-            return result <= 64 && result <= itemStack2.getMaxStackSize();
-        }
     }
 }

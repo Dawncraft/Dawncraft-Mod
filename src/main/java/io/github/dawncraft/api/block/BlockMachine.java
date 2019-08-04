@@ -4,6 +4,9 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import io.github.dawncraft.api.tileentity.TileEntityMachine;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
+import io.github.dawncraft.tileentity.TileEntityHelper;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
@@ -18,7 +21,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
@@ -26,6 +28,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldNameable;
 import net.minecraft.world.World;
@@ -54,6 +58,7 @@ public abstract class BlockMachine extends BlockContainer
         this.setResistance(10.0f);
         this.setHarvestLevel("hammer", 1);
         this.setSoundType(SoundType.METAL);
+        this.setCreativeTab(CreativeTabsLoader.MACHINE);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
     }
 
@@ -89,18 +94,21 @@ public abstract class BlockMachine extends BlockContainer
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    public IBlockState withRotation(IBlockState state, Rotation rotation)
     {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(WORKING, false);
+        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
+    public IBlockState withMirror(IBlockState state, Mirror mirror)
     {
-        if (stack.hasDisplayName())
-        {
-            TileEntity tileentity = world.getTileEntity(pos);
-        }
+        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand)
+    {
+        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(WORKING, false);
     }
 
     @Override
@@ -141,10 +149,20 @@ public abstract class BlockMachine extends BlockContainer
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
-        return false;
+        if (stack.hasDisplayName())
+        {
+            TileEntity tileentity = world.getTileEntity(pos);
+            if (tileentity instanceof TileEntityMachine)
+            {
+                ((TileEntityMachine) tileentity).setCustomName(stack.getDisplayName());
+            }
+        }
     }
+
+    @Override
+    public abstract boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ);
 
     @Override
     public boolean hasComparatorInputOverride(IBlockState state)
@@ -155,7 +173,7 @@ public abstract class BlockMachine extends BlockContainer
     @Override
     public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos)
     {
-        return Container.calcRedstone(world.getTileEntity(pos));
+        return TileEntityHelper.calcRedstone(world.getTileEntity(pos));
     }
 
     @Override
@@ -193,7 +211,12 @@ public abstract class BlockMachine extends BlockContainer
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
-        world.updateComparatorOutputLevel(pos, this);
+        TileEntity tileentity = world.getTileEntity(pos);
+        if (tileentity instanceof TileEntityMachine)
+        {
+            TileEntityHelper.dropInventoriesItems(world, pos, TileEntityHelper.getInventoriesFromTileEntity(tileentity));
+            world.updateComparatorOutputLevel(pos, this);
+        }
         super.breakBlock(world, pos, state);
     }
 
@@ -205,6 +228,8 @@ public abstract class BlockMachine extends BlockContainer
 
     public static void setBlockState(boolean active, World world, BlockPos pos)
     {
+        if (!(world.getBlockState(pos).getBlock() instanceof BlockMachine)) return; // FIXME 有时会设置空气方块的状态
+
         world.setBlockState(pos, world.getBlockState(pos).withProperty(WORKING, active), 3);
 
         TileEntity tileentity = world.getTileEntity(pos);

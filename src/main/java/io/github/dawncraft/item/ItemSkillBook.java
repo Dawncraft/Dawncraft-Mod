@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.resources.I18n;
@@ -47,7 +47,7 @@ public class ItemSkillBook extends Item
             SkillStack skillStack = new SkillStack(stack.getTagCompound().getCompoundTag("Skill"));
             if (skillStack.getSkill() != null)
             {
-                SkillInventoryPlayer inventory = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventory();
+                SkillInventoryPlayer inventory = player.getCapability(CapabilityInit.PLAYER_MAGIC, null).getSkillInventory();
                 if (inventory.addSkillStackToInventory(skillStack))
                 {
                     world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, ((player.getRNG().nextFloat() - player.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);

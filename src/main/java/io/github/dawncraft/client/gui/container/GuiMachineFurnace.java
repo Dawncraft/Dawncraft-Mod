@@ -9,19 +9,30 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-
+/**
+ *
+ *
+ * @author QingChenW
+ */
 public class GuiMachineFurnace extends GuiContainer
 {
-    private static final ResourceLocation machineFurnaceGuiTextures = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/iron_furnace.png");
-
+    private static final ResourceLocation MACHINE_FURNACE_GUI_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/machine_furnace.png");
     private final EntityPlayer entityPlayer;
-    public final TileEntityMachineFurnace tileFurnace;
+    private final TileEntityMachineFurnace tileFurnace;
 
     public GuiMachineFurnace(EntityPlayer player, TileEntity tileEntity)
     {
         super(new ContainerMachineFurnace(player, tileEntity));
         this.entityPlayer = player;
         this.tileFurnace = (TileEntityMachineFurnace) tileEntity;
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
@@ -36,38 +47,36 @@ public class GuiMachineFurnace extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(machineFurnaceGuiTextures);
-        int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
-
-        int pixels;
+        this.mc.getTextureManager().bindTexture(MACHINE_FURNACE_GUI_TEXTURE);
+        int x = (this.width - this.xSize) / 2, y = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 
         if (this.tileFurnace.isWorking())
         {
-            pixels = this.getElectricScaled(13);
-            this.drawTexturedModalRect(offsetX + 56, offsetY + 36 + 12 - pixels, 176, 12 - pixels, 14, pixels);
+            int pixels = this.getEnergyScaled(13);
+            this.drawTexturedModalRect(x + 56, y + 36 + 12 - pixels, 176, 12 - pixels, 14, pixels);
         }
 
-        pixels = this.getCookProgressScaled(24);
-        this.drawTexturedModalRect(offsetX + 79, offsetY + 34, 176, 14, pixels + 1, 16);
+        int pixels = this.getCookProgressScaled(24);
+        this.drawTexturedModalRect(x + 79, y + 34, 176, 14, pixels + 1, 16);
     }
 
     private int getCookProgressScaled(int pixels)
     {
-        int j = this.tileFurnace.cookTime;
-        int k = this.tileFurnace.totalCookTime;
-        return k != 0 && j != 0 ? j * pixels / k : 0;
+        int current = this.tileFurnace.cookTime;
+        int total = this.tileFurnace.totalCookTime;
+        return total != 0 && current != 0 ? current * pixels / total : 0;
     }
 
-    private int getElectricScaled(int pixels)
+    private int getEnergyScaled(int pixels)
     {
-        int j = this.tileFurnace.electricity;
+        int energy = this.tileFurnace.getEnergyStored();
 
-        if (j == 0)
+        if (energy == 0)
         {
-            j = 32;
+            energy = 32;
         }
 
-        return j * pixels / this.tileFurnace.Max_Electricity;
+        return energy * pixels / this.tileFurnace.getMaxEnergyStored();
     }
 }

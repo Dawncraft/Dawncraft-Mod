@@ -12,7 +12,7 @@ import io.github.dawncraft.CommonProxy;
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.event.DawnEventFactory;
 import io.github.dawncraft.config.KeyLoader;
-import io.github.dawncraft.stats.StatLoader;
+import io.github.dawncraft.stats.StatInit;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -356,7 +356,7 @@ public class SkillStack
 
     public void onLearning(World world, EntityPlayer player)
     {
-        player.addStat(StatLoader.getLearnStats(this.skill));
+        player.addStat(StatInit.getLearnStats(this.skill));
         this.skill.onCreated(this, world, player);
     }
 
@@ -383,7 +383,7 @@ public class SkillStack
         EnumActionResult result = this.getSkill().onSkillSpell(this, world, player);
         if (result == EnumActionResult.SUCCESS)
         {
-            player.addStat(StatLoader.getObjectSpellStats(this.skill));
+            player.addStat(StatInit.getObjectSpellStats(this.skill));
         }
         return result;
     }

@@ -1,7 +1,7 @@
 package io.github.dawncraft.event;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.item.ItemInit;
@@ -40,7 +40,7 @@ public class GameEventHandler
         if (event.phase == Phase.END)
         {
             EntityPlayer player = event.player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
             playerMagic.update();
         }
     }

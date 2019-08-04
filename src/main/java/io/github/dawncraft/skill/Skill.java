@@ -3,7 +3,7 @@ package io.github.dawncraft.skill;
 import java.util.List;
 
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
@@ -258,7 +258,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
     public EnumActionResult onSkillPreparing(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
         boolean isInit = duration == 0;
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         if (playerMagic.getCooldownTracker().isGlobalCooldown())
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.globalcool"), !isInit);
@@ -306,7 +306,7 @@ public class Skill extends IForgeRegistryEntry.Impl<Skill>
      */
     public EnumActionResult onSkillSpelling(SkillStack skillStack, World world, EntityPlayer player, int duration)
     {
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         if (player.getActivePotionEffect(PotionInit.SILENT) != null)
         {
             playerMagic.sendCancelSpellReason(new TextComponentTranslation("gui.skill.silent"), true);

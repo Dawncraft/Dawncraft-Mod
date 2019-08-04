@@ -1,6 +1,6 @@
 package io.github.dawncraft.api.item;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerThirst;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.item.ItemInit;
@@ -69,7 +69,7 @@ public class ItemDrink extends Item
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
         ItemStack stack = player.getHeldItem(hand);
-        IPlayerThirst playerThirst = player.getCapability(CapabilityLoader.PLAYER_THIRST, null);
+        IPlayerThirst playerThirst = player.getCapability(CapabilityInit.PLAYER_THIRST, null);
 
         if (playerThirst.canDrink(this.alwaysDrinkable))
         {
@@ -88,7 +88,7 @@ public class ItemDrink extends Item
             EntityPlayer player = (EntityPlayer) entityLiving;
             if (!player.capabilities.isCreativeMode)
                 stack.shrink(1);
-            IPlayerThirst playerThirst = entityLiving.getCapability(CapabilityLoader.PLAYER_THIRST, null);
+            IPlayerThirst playerThirst = entityLiving.getCapability(CapabilityInit.PLAYER_THIRST, null);
             if (playerThirst.getDrinkStats() != null)
                 playerThirst.getDrinkStats().addStats(this, stack);
             world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_BURP, SoundCategory.PLAYERS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);

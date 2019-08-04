@@ -1,6 +1,9 @@
 package io.github.dawncraft.block;
 
+import java.util.List;
 import java.util.Random;
+
+import javax.annotation.Nullable;
 
 import io.github.dawncraft.world.TeleporterDawn;
 import io.github.dawncraft.world.WorldInit;
@@ -30,13 +33,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class BlockDawnPortal extends BlockBreakable
 {
-    protected static final AxisAlignedBB END_PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
+    protected static final AxisAlignedBB DAWN_PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 
     public BlockDawnPortal()
     {
         super(Material.PORTAL, false, MapColor.BLACK);
         this.setBlockUnbreakable();
         this.setLightLevel(1.0F);
+    }
+
+    @Override
+    public boolean isOpaqueCube(IBlockState state)
+    {
+        return false;
     }
 
     @Override
@@ -66,8 +75,11 @@ public class BlockDawnPortal extends BlockBreakable
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
     {
-        return END_PORTAL_AABB;
+        return DAWN_PORTAL_AABB;
     }
+
+    @Override
+    public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entity, boolean isActualState) {}
 
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity)

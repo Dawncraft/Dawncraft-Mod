@@ -11,7 +11,7 @@ import io.github.dawncraft.config.ConfigLoader;
 import io.github.dawncraft.container.SkillContainer;
 import io.github.dawncraft.container.SkillContainerPlayer;
 import io.github.dawncraft.container.SkillSlotLearning;
-import io.github.dawncraft.entity.AttributesLoader;
+import io.github.dawncraft.entity.AttributesConstants;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.entity.player.SpellCooldownTracker;
 import io.github.dawncraft.item.ItemInit;
@@ -128,7 +128,7 @@ public class CapabilityMagic
         @Override
         public float getMaxMana()
         {
-            return (float) this.player.getEntityAttribute(AttributesLoader.MAX_MANA).getAttributeValue();
+            return (float) this.player.getEntityAttribute(AttributesConstants.MAX_MANA).getAttributeValue();
         }
 
         @Override
@@ -301,7 +301,7 @@ public class CapabilityMagic
                     this.recover(1.0F);
                 }
 
-                IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.PLAYER_THIRST, null);
+                IPlayerThirst playerThirst = this.player.getCapability(CapabilityInit.PLAYER_THIRST, null);
 
                 if (ConfigLoader.isThirstEnabled && playerThirst.getDrinkStats().needDrink() && this.player.ticksExisted % 10 == 0)
                 {
@@ -448,7 +448,7 @@ public class CapabilityMagic
                 this.cancelSpellingSkill();
             }
 
-            IPlayerThirst playerThirst = this.player.getCapability(CapabilityLoader.PLAYER_THIRST, null);
+            IPlayerThirst playerThirst = this.player.getCapability(CapabilityInit.PLAYER_THIRST, null);
             playerThirst.getDrinkStats().onUpdate(this.player);
 
             if (this.getMana() != this.lastMana || ConfigLoader.isThirstEnabled && (this.lastDrinkLevel != playerThirst.getDrinkStats().getDrinkLevel() || playerThirst.getDrinkStats().getSaturationLevel() == 0.0F != this.wasThirst))
@@ -641,22 +641,21 @@ public class CapabilityMagic
             {
                 this.instance = new Common(player);
             }
-            this.storage = CapabilityLoader.PLAYER_MAGIC.getStorage();
+            this.storage = CapabilityInit.PLAYER_MAGIC.getStorage();
         }
 
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
-            return CapabilityLoader.PLAYER_MAGIC.equals(capability);
+            return CapabilityInit.PLAYER_MAGIC.equals(capability);
         }
 
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
-            if (this.hasCapability(capability, facing))
+            if (CapabilityInit.PLAYER_MAGIC.equals(capability))
             {
-                T result = (T) this.instance;
-                return result;
+                return CapabilityInit.PLAYER_MAGIC.cast(this.instance);
             }
             return null;
         }
@@ -664,13 +663,13 @@ public class CapabilityMagic
         @Override
         public NBTTagCompound serializeNBT()
         {
-            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.PLAYER_MAGIC, this.instance, null);
+            return (NBTTagCompound) this.storage.writeNBT(CapabilityInit.PLAYER_MAGIC, this.instance, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound tagCompound)
         {
-            this.storage.readNBT(CapabilityLoader.PLAYER_MAGIC, this.instance, null, tagCompound);
+            this.storage.readNBT(CapabilityInit.PLAYER_MAGIC, this.instance, null, tagCompound);
         }
     }
 }

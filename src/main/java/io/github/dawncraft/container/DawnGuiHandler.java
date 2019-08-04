@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GuiLoader implements IGuiHandler
+public class DawnGuiHandler implements IGuiHandler
 {
     // Energy
     public static final int GUI_HEAT_GENERATOR = 1;
@@ -23,14 +23,14 @@ public class GuiLoader implements IGuiHandler
 
     // Cuisine
 
-    // War
+    // Weapons
 
     // Magic
     public static final int GUI_SKILL_INVENTORY = 100;
 
     public static void initGuiHandler()
     {
-        registerGuiHandler(new GuiLoader());
+        registerGuiHandler(new DawnGuiHandler());
     }
 
     @Override

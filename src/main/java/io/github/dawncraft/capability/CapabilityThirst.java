@@ -74,22 +74,21 @@ public class CapabilityThirst
         public Provider(EntityPlayer player)
         {
             this.playerThirst = new Implementation(player);
-            this.storage = CapabilityLoader.PLAYER_THIRST.getStorage();
+            this.storage = CapabilityInit.PLAYER_THIRST.getStorage();
         }
 
         @Override
         public boolean hasCapability(Capability<?> capability, EnumFacing facing)
         {
-            return CapabilityLoader.PLAYER_THIRST.equals(capability);
+            return CapabilityInit.PLAYER_THIRST.equals(capability);
         }
 
         @Override
         public <T> T getCapability(Capability<T> capability, EnumFacing facing)
         {
-            if (this.hasCapability(capability, facing))
+            if (CapabilityInit.PLAYER_THIRST.equals(capability))
             {
-                T result = (T) this.playerThirst;
-                return result;
+                return CapabilityInit.PLAYER_THIRST.cast(this.playerThirst);
             }
             return null;
         }
@@ -97,13 +96,13 @@ public class CapabilityThirst
         @Override
         public NBTTagCompound serializeNBT()
         {
-            return (NBTTagCompound) this.storage.writeNBT(CapabilityLoader.PLAYER_THIRST, this.playerThirst, null);
+            return (NBTTagCompound) this.storage.writeNBT(CapabilityInit.PLAYER_THIRST, this.playerThirst, null);
         }
 
         @Override
         public void deserializeNBT(NBTTagCompound tagCompound)
         {
-            this.storage.readNBT(CapabilityLoader.PLAYER_THIRST, this.playerThirst, null, tagCompound);
+            this.storage.readNBT(CapabilityInit.PLAYER_THIRST, this.playerThirst, null, tagCompound);
         }
     }
 }

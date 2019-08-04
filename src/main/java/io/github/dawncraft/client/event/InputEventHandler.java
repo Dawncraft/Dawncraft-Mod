@@ -1,7 +1,7 @@
 package io.github.dawncraft.client.event;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.gui.GuiEncyclopedia;
@@ -48,7 +48,7 @@ public class InputEventHandler
                 {
                     if (mc.gameSettings.keyBindsHotbar[i].isPressed())
                     {
-                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                         SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(i);
                         if (skillStack != null && (playerMagic.getSpellAction() == EnumSpellAction.NONE || playerMagic.getSkillInventory().getSkillStackInSlot(i) != playerMagic.getSkillInSpell()))
                         {

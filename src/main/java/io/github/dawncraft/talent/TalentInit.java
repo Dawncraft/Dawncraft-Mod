@@ -7,7 +7,7 @@ import io.github.dawncraft.api.registry.ModData;
  *
  * @author QingChenW
  */
-public class TalentLoader
+public class TalentInit
 {
     public static void initSkills()
     {

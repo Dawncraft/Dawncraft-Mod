@@ -11,14 +11,21 @@ import com.google.common.collect.Sets;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.stats.StatBase;
+import net.minecraft.stats.StatBasic;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 
-public class StatLoader
+/**
+ * Register some stats
+ *
+ * @author QingChenW
+ */
+public class StatInit
 {
     public static final List<StatLearning> SPELL_SKILL_STATS = Lists.<StatLearning>newArrayList();
     public static final StatBase[] LEARN_STATS = new StatBase[32000];
     public static final StatBase[] OBJECT_SPELL_STATS = new StatBase[32000];
+    public static final StatBase MACHINE_INTERACTION = new StatBasic("stat.machineInteraction", new TextComponentTranslation("stat.machineInteraction")).registerStat();
 
     public static void initStats()
     {

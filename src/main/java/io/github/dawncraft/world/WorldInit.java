@@ -3,6 +3,11 @@ package io.github.dawncraft.world;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;
 
+/**
+ * Register some worlds
+ *
+ * @author QingChenW
+ */
 public class WorldInit
 {
     private static final int DAWNWORLD_ID = 23;

@@ -1,6 +1,6 @@
 package io.github.dawncraft.network;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -32,7 +32,7 @@ public class MessageOpenSkillInventory implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                         serverPlayer.openContainer = playerMagic.getSkillInventoryContainer();
                     }
                 });

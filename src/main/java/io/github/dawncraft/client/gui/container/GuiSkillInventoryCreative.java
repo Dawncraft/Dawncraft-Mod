@@ -12,7 +12,7 @@ import com.google.common.collect.Lists;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.creativetab.CreativeSkillTabs;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.gui.GuiUtils;
 import io.github.dawncraft.container.ILearning;
@@ -99,7 +99,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
             int i = currentTab;
             currentTab = -1;
             this.setCurrentCreativeSkillTab(CreativeSkillTabs.CREATIVE_TAB_ARRAY[i]);
-            IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+            IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
             playerMagic.getSkillInventoryContainer().onLearnGuiOpened(this);
         }
         else
@@ -201,7 +201,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
         if (creativetab == CreativeTabsLoader.INVENTORY)
         {
             EntityPlayer player = this.mc.player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
             GuiUtils.drawCentreString(this.fontRenderer, player.getName(), 34, 8, 0x404040);
             this.fontRenderer.drawString(player.experienceLevel + "", 21, 19, 0x404040);
             this.fontRenderer.drawString(player.getHealth() + "/" + player.getMaxHealth(), 21, 28, 0x404040);
@@ -467,7 +467,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     protected void handleClick(SkillSlot slot, int slotId, int clickedButton, int clickType)
     {
         this.clearSearch = true;
-        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         boolean move = clickType == 1;
 
         if (slot != null)
@@ -648,7 +648,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
     {
         super.onGuiClosed();
 
-        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         playerMagic.getSkillInventoryContainer().removeLearner(this);
 
         Keyboard.enableRepeatEvents(false);
@@ -659,7 +659,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
         if (tab == null) return;
         int tabIndex = currentTab;
         currentTab = tab.getIndex();
-        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = this.mc.player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         SkillContainerCreative containerCreative = (SkillContainerCreative) this.inventorySlots;
         containerCreative.skillList.clear();
         List<Skill> skillList = Lists.newArrayList();
@@ -816,7 +816,7 @@ public class GuiSkillInventoryCreative extends GuiSkillContainer implements ILea
 
         public SkillContainerCreative(EntityPlayer player)
         {
-            SkillInventoryPlayer inventoryPlayer = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null).getSkillInventory();
+            SkillInventoryPlayer inventoryPlayer = player.getCapability(CapabilityInit.PLAYER_MAGIC, null).getSkillInventory();
 
             for (int i = 0; i < 5; ++i)
             {

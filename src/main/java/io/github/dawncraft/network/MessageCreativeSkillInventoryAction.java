@@ -1,6 +1,6 @@
 package io.github.dawncraft.network;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.skill.SkillStack;
 import io.netty.buffer.ByteBuf;
@@ -50,7 +50,7 @@ public class MessageCreativeSkillInventoryAction implements IMessage
                     @Override
                     public void run()
                     {
-                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                        IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
 
                         if (serverPlayer.interactionManager.isCreative() && message.slotId >= 0 && message.slotId < playerMagic.getSkillInventoryContainer().inventorySkillSlots.size())
                         {

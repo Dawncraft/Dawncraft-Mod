@@ -1,6 +1,6 @@
 package io.github.dawncraft.item;
 
-import io.github.dawncraft.block.BlockSkull;
+import io.github.dawncraft.api.block.BlockSkull;
 import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.entity.boss.EntityBarbarianKing;
 import io.github.dawncraft.entity.boss.EntityGerKing;

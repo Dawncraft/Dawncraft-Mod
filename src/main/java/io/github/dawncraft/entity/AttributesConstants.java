@@ -3,7 +3,7 @@ package io.github.dawncraft.entity;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 
-public class AttributesLoader
+public class AttributesConstants
 {
     public static final IAttribute MAX_MANA = new RangedAttribute((IAttribute) null, "generic.maxMana", 20.0D, 0.0D, 1024.0D).setDescription("Max Mana").setShouldWatch(true);
 

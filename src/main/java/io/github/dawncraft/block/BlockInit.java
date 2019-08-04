@@ -86,7 +86,7 @@ public class BlockInit
     {
         // Building blocks
         COPPER_ORE = registerBlock(new BlockOre().setTranslationKey("copperOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "copper_ore");
-        COPPER_BLOCK = registerBlock(new Block(Material.IRON).setTranslationKey("copperBlock").setCreativeTab(CreativeTabsLoader.MACHINE).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "copper_block");
+        COPPER_BLOCK = registerBlock(new Block(Material.IRON).setTranslationKey("copperBlock").setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "copper_block");
 
         MAGNET_ORE = registerBlock(new BlockOre().setTranslationKey("magnetOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "magnet_ore");
         MAGNET_ORE.setHarvestLevel("pickaxe", 1);
@@ -109,26 +109,26 @@ public class BlockInit
 
         // Energy
         ELECTRIC_CABLE = registerBlock(new BlockElectricCable().setTranslationKey("electricityCable").setCreativeTab(CreativeTabsLoader.ENERGY), "electric_cable");
-        HEAT_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.HEAT).setTranslationKey("heatGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "heat_generator");
-        FLUID_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.FLUID).setTranslationKey("fluidGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "fluid_generator");
-        WIND_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.WIND).setTranslationKey("windGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "wind_generator");
-        SOLAR_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.SOLAR).setTranslationKey("solarGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "solar_generator");
-        NUCLEAR_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.NUCLEAR).setTranslationKey("nuclearGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "nuclear_generator");
-        MAGIC_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.MAGIC).setTranslationKey("magicGenerator").setCreativeTab(CreativeTabsLoader.ENERGY), "magic_generator");
+        HEAT_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.HEAT).setTranslationKey("heatGenerator"), "heat_generator");
+        FLUID_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.FLUID).setTranslationKey("fluidGenerator"), "fluid_generator");
+        WIND_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.WIND).setTranslationKey("windGenerator"), "wind_generator");
+        SOLAR_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.SOLAR).setTranslationKey("solarGenerator"), "solar_generator");
+        NUCLEAR_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.NUCLEAR).setTranslationKey("nuclearGenerator"), "nuclear_generator");
+        MAGIC_GENERATOR = registerBlock(new BlockEnergyGenerator(BlockEnergyGenerator.EnumGeneratorType.MAGIC).setTranslationKey("magicGenerator"), "magic_generator");
 
         // Machine
-        MACHINE_FURNACE = registerBlock(new BlockMachineFurnace().setTranslationKey("machineFurnace").setCreativeTab(CreativeTabsLoader.MACHINE), "machine_furnace");
+        MACHINE_FURNACE = registerBlock(new BlockMachineFurnace().setTranslationKey("machineFurnace"), "machine_furnace");
 
         // Computer
-        SIMPLE_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.SIMPLE).setTranslationKey("simpleComputer").setCreativeTab(CreativeTabsLoader.COMPUTER), "simple_computer");
-        ADVANCED_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.ADVANCED).setTranslationKey("advancedComputer").setCreativeTab(CreativeTabsLoader.COMPUTER), "advanced_computer");
-        PROFESSIONAL_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.PROFESSIONAL).setTranslationKey("professionalComputer").setCreativeTab(CreativeTabsLoader.COMPUTER), "professional_computer");
+        SIMPLE_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.SIMPLE).setTranslationKey("simpleComputer"), "simple_computer");
+        ADVANCED_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.ADVANCED).setTranslationKey("advancedComputer"), "advanced_computer");
+        PROFESSIONAL_COMPUTER = registerBlock(new BlockComputerCase(BlockComputerCase.EnumCaseType.PROFESSIONAL).setTranslationKey("professionalComputer"), "professional_computer");
 
         // Furniture
-        WOOD_TABLE = registerBlock(new BlockFurnitureTable(EnumMaterialType.WOOD).setTranslationKey("woodTable").setCreativeTab(CreativeTabsLoader.FURNITURE), "wood_table");
-        STONE_TABLE = registerBlock(new BlockFurnitureTable(EnumMaterialType.STONE).setTranslationKey("stoneTable").setCreativeTab(CreativeTabsLoader.FURNITURE), "stone_table");
-        WOOD_CHAIR = registerBlock(new BlockFurnitureChair(EnumMaterialType.WOOD).setTranslationKey("woodChair").setCreativeTab(CreativeTabsLoader.FURNITURE), "wood_chair");
-        STONE_CHAIR = registerBlock(new BlockFurnitureChair(EnumMaterialType.STONE).setTranslationKey("stoneChair").setCreativeTab(CreativeTabsLoader.FURNITURE), "stone_chair");
+        WOOD_TABLE = registerBlock(new BlockFurnitureTable(EnumMaterialType.WOOD).setTranslationKey("woodTable"), "wood_table");
+        STONE_TABLE = registerBlock(new BlockFurnitureTable(EnumMaterialType.STONE).setTranslationKey("stoneTable"), "stone_table");
+        WOOD_CHAIR = registerBlock(new BlockFurnitureChair(EnumMaterialType.WOOD).setTranslationKey("woodChair"), "wood_chair");
+        STONE_CHAIR = registerBlock(new BlockFurnitureChair(EnumMaterialType.STONE).setTranslationKey("stoneChair"), "stone_chair");
         ALARM_CLOCK = registerBlock(new BlockFurnitureAlarmClock().setTranslationKey("alarmClock").setCreativeTab(CreativeTabsLoader.FURNITURE), "alarm_clock");
 
         // Cuisine

@@ -8,7 +8,7 @@ import io.github.dawncraft.client.particle.ParticleInit;
 import io.github.dawncraft.client.renderer.entity.EntityRendererInit;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
 import io.github.dawncraft.client.renderer.skill.RenderSkill;
-import io.github.dawncraft.client.renderer.texture.TextureLoader;
+import io.github.dawncraft.client.renderer.texture.TextureInit;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRendererInit;
 import io.github.dawncraft.config.KeyLoader;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ public class ClientProxy extends CommonProxy
 {
     private static ClientProxy instance;
 
-    private TextureLoader textureLoader;
+    private TextureInit textureLoader;
     private ModelLoader modelLoader;
     private RenderSkill skillRender;
     private GuiIngameDawn ingameGUIDawn;
@@ -39,7 +39,7 @@ public class ClientProxy extends CommonProxy
     public void preInit(FMLPreInitializationEvent event)
     {
         super.preInit(event);
-        this.textureLoader = new TextureLoader();
+        this.textureLoader = new TextureInit();
         this.modelLoader = new ModelLoader(this.textureLoader);
 
         KeyLoader.initKeys();
@@ -65,7 +65,7 @@ public class ClientProxy extends CommonProxy
         this.ingameGUIDawn = new GuiIngameDawn();
     }
 
-    public TextureLoader getTextureLoader()
+    public TextureInit getTextureLoader()
     {
         return this.textureLoader;
     }

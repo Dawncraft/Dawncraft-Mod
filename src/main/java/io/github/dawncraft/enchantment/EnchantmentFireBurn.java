@@ -15,15 +15,15 @@ public class EnchantmentFireBurn extends Enchantment
     }
 
     @Override
-    public int getMinEnchantability(int enchantmentLevel)
+    public int getMinEnchantability(int level)
     {
         return 15;
     }
 
     @Override
-    public int getMaxEnchantability(int enchantmentLevel)
+    public int getMaxEnchantability(int level)
     {
-        return super.getMinEnchantability(enchantmentLevel) + 50;
+        return super.getMinEnchantability(level) + 50;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.api.block.BlockSkull;
 import io.github.dawncraft.api.item.ItemAxe;
 import io.github.dawncraft.api.item.ItemGlove;
 import io.github.dawncraft.api.item.ItemGunLauncher;
@@ -8,7 +9,6 @@ import io.github.dawncraft.api.item.ItemGunRifle;
 import io.github.dawncraft.api.item.ItemHammer;
 import io.github.dawncraft.api.item.ItemWand;
 import io.github.dawncraft.block.BlockInit;
-import io.github.dawncraft.block.BlockSkull;
 import io.github.dawncraft.client.sound.SoundInit;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.potion.PotionInit;

@@ -1,8 +1,8 @@
 package io.github.dawncraft.command;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
-import io.github.dawncraft.entity.AttributesLoader;
+import io.github.dawncraft.entity.AttributesConstants;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -41,10 +41,10 @@ public class CommandMagic extends CommandTreeBase
             public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
             {
                 EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
-                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                 float mana = playerMagic.getMana();
                 double maxMana = playerMagic.getMaxMana();
-                NBTBase nbt = CapabilityLoader.PLAYER_MAGIC.getStorage().writeNBT(CapabilityLoader.PLAYER_MAGIC, playerMagic, null);
+                NBTBase nbt = CapabilityInit.PLAYER_MAGIC.getStorage().writeNBT(CapabilityInit.PLAYER_MAGIC, playerMagic, null);
                 serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.view", mana, maxMana, nbt.toString()));
             }
         });
@@ -72,11 +72,11 @@ public class CommandMagic extends CommandTreeBase
             public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
             {
                 EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
-                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                 int i = parseInt(args[0], 0);
                 if (i >= 0 && i <= playerMagic.getMaxMana())
                 {
-                    playerMagic.setMana((float) AttributesLoader.MAX_MANA.clampValue(i));
+                    playerMagic.setMana((float) AttributesConstants.MAX_MANA.clampValue(i));
                     float mana = playerMagic.getMana();
                     serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.set", mana));
                 }
@@ -107,9 +107,9 @@ public class CommandMagic extends CommandTreeBase
             public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
             {
                 EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
-                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                 int i = parseInt(args[0], 0);
-                serverPlayer.getEntityAttribute(AttributesLoader.MAX_MANA).setBaseValue(i);
+                serverPlayer.getEntityAttribute(AttributesConstants.MAX_MANA).setBaseValue(i);
                 float mana = playerMagic.getMaxMana();
                 serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.max", mana));
             }
@@ -138,7 +138,7 @@ public class CommandMagic extends CommandTreeBase
             public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
             {
                 EntityPlayerMP serverPlayer = CommandBase.getCommandSenderAsPlayer(sender);
-                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                IPlayerMagic playerMagic = serverPlayer.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                 playerMagic.setMana(playerMagic.getMaxMana());
                 serverPlayer.sendMessage(new TextComponentTranslation("commands.magic.reset"));
             }

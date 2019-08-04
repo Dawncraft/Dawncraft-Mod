@@ -4,7 +4,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.GameData;
 
-public class TileEntityLoader
+/**
+ * Register some block entities
+ *
+ * @author QingChenW
+ */
+public class TileEntityInit
 {
     public static void initTileEntities()
     {

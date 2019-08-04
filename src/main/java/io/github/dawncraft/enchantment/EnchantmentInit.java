@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
 public class EnchantmentInit
 {
-    public static EnumEnchantmentType WAND = EnumHelper.addEnchantmentType("WAND", new Predicate<Item>()
+    public static final EnumEnchantmentType WAND = EnumHelper.addEnchantmentType("WAND", new Predicate<Item>()
     {
         @Override
         public boolean apply(Item item)

@@ -2,6 +2,7 @@ package io.github.dawncraft.block;
 
 import com.google.common.base.Predicate;
 
+import io.github.dawncraft.api.block.BlockSkull;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.item.ItemSkull;
@@ -14,6 +15,7 @@ import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +40,16 @@ public class BlockSkullDawn extends BlockSkull
     public ItemSkull getSkullItem()
     {
         return (ItemSkull) ItemInit.SKULL;
+    }
+
+    @Override
+    public boolean canDispenserPlace(World world, BlockPos pos, ItemStack itemStack)
+    {
+        if (!world.isRemote && itemStack.getMetadata() == 1 && world.getDifficulty() != EnumDifficulty.PEACEFUL)
+        {
+            return this.getWitherBasePattern().match(world, pos) != null;
+        }
+        return super.canDispenserPlace(world, pos, itemStack);
     }
 
     @Override

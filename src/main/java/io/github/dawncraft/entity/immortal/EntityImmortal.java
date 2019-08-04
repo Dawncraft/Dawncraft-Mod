@@ -2,7 +2,7 @@ package io.github.dawncraft.entity.immortal;
 
 import io.github.dawncraft.api.event.DawnEventFactory;
 import io.github.dawncraft.capability.IEntityMana;
-import io.github.dawncraft.entity.AttributesLoader;
+import io.github.dawncraft.entity.AttributesConstants;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -23,7 +23,7 @@ public abstract class EntityImmortal extends EntityAgeable implements IEntityMan
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getAttributeMap().registerAttribute(AttributesLoader.MAX_MANA);
+        this.getAttributeMap().registerAttribute(AttributesConstants.MAX_MANA);
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class EntityImmortal extends EntityAgeable implements IEntityMan
     @Override
     public final float getMaxMana()
     {
-        return (float) this.getEntityAttribute(AttributesLoader.MAX_MANA).getAttributeValue();
+        return (float) this.getEntityAttribute(AttributesConstants.MAX_MANA).getAttributeValue();
     }
 
     @Override

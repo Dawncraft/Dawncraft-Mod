@@ -2,9 +2,9 @@ package io.github.dawncraft.block;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.block.BlockMachine;
-import io.github.dawncraft.container.GuiLoader;
+import io.github.dawncraft.container.DawnGuiHandler;
+import io.github.dawncraft.stats.StatInit;
 import io.github.dawncraft.tileentity.TileEntityMachineFurnace;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,9 +12,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 /**
  * Electric furnace
@@ -26,7 +23,6 @@ public class BlockMachineFurnace extends BlockMachine
     public BlockMachineFurnace()
     {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(WORKING, false));
     }
 
     @Override
@@ -42,38 +38,11 @@ public class BlockMachineFurnace extends BlockMachine
         {
             TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof TileEntityMachineFurnace)
-                player.openGui(Dawncraft.instance, GuiLoader.GUI_MACHINE_FURNACE, world, pos.getX(), pos.getY(), pos.getZ());
+            {
+                player.openGui(Dawncraft.instance, DawnGuiHandler.GUI_MACHINE_FURNACE, world, pos.getX(), pos.getY(), pos.getZ());
+                player.addStat(StatInit.MACHINE_INTERACTION);
+            }
         }
         return true;
-    }
-
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state)
-    {
-        TileEntity tileentity = world.getTileEntity(pos);
-
-        IItemHandler slots = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.UP);
-
-        for (int i = slots.getSlots() - 1; i >= 0; --i)
-        {
-            if (slots.getStackInSlot(i) != null)
-            {
-                Block.spawnAsEntity(world, pos, slots.getStackInSlot(i));
-                ((IItemHandlerModifiable) slots).setStackInSlot(i, null);
-            }
-        }
-
-        slots = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN);
-
-        for (int i = slots.getSlots() - 1; i >= 0; --i)
-        {
-            if (slots.getStackInSlot(i) != null)
-            {
-                Block.spawnAsEntity(world, pos, slots.getStackInSlot(i));
-                ((IItemHandlerModifiable) slots).setStackInSlot(i, null);
-            }
-        }
-
-        super.breakBlock(world, pos, state);
     }
 }

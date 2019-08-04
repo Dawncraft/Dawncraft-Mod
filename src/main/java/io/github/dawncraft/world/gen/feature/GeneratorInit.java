@@ -16,11 +16,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
- * Register ore generators and worlds.
+ * Register some ore generators.
  *
  * @author QingChenW
  */
-public class GeneratorLoader
+public class GeneratorInit
 {
     private BlockPos lastOrePos;
 
@@ -46,7 +46,7 @@ public class GeneratorLoader
 
     public static void initGenerators()
     {
-        registerEvent(new GeneratorLoader());
+        registerEvent(new GeneratorInit());
     }
 
     @SubscribeEvent

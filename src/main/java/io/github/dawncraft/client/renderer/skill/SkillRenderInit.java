@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID, value = Side.CLIENT)
-public class SkillRenderLoader
+public class SkillRenderInit
 {
     @SubscribeEvent
     public static void registerSkillModels(ModelRegistryEvent event)

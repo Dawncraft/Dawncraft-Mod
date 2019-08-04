@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.item.ItemGun;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.client.DawnEnumHelperClient;
@@ -196,7 +196,7 @@ public class GuiIngameDawn extends Gui
         if (this.mc.player != null)
         {
             EntityPlayer player = this.mc.player;
-            IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+            IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
 
             if (player.isHandActive())
             {
@@ -301,7 +301,7 @@ public class GuiIngameDawn extends Gui
         this.mc.profiler.startSection("skillBar");
 
         EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
 
         int left = width / 2 - 91;
         int top = height - 22;
@@ -348,7 +348,7 @@ public class GuiIngameDawn extends Gui
 
     protected void renderHotbarSkill(int index, int xPos, int yPos, float partialTicks, EntityPlayer player)
     {
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         SkillStack skillStack = playerMagic.getSkillInventory().getSkillStackInSlot(index);
 
         if (skillStack != null)
@@ -383,7 +383,7 @@ public class GuiIngameDawn extends Gui
         GlStateManager.enableBlend();
 
         EntityPlayer player = (EntityPlayer) this.mc.getRenderViewEntity();
-        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
         int mana = MathHelper.ceil(playerMagic.getMana());
         boolean highlight = this.manaUpdateCounter > this.getIngameGUI().getUpdateCounter() && (this.manaUpdateCounter - this.getIngameGUI().getUpdateCounter()) / 3L % 2L == 1L;
 

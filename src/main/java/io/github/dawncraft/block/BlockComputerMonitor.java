@@ -1,6 +1,7 @@
 package io.github.dawncraft.block;
 
 import io.github.dawncraft.api.block.BlockMachine;
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -28,6 +29,7 @@ public class BlockComputerMonitor extends BlockMachine
     {
         super();
         this.type = monitorType;
+        this.setCreativeTab(CreativeTabsLoader.COMPUTER);
     }
 
     @Override

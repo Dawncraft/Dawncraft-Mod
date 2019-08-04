@@ -13,15 +13,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  *
+ *
  * @author QingChenW
  */
 @SideOnly(Side.CLIENT)
 public class GuiEnergyGenerator extends GuiContainer
 {
-    private static final ResourceLocation heatGeneratorGuiTextures = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/heat_generator.png");
+    private static final ResourceLocation HEAT_GENERATOR_GUI_TEXTURE = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/container/heat_generator.png");
 
     private final EntityPlayer entityPlayer;
-    public final TileEntityEnergyGenerator tileGenerator;
+    private final TileEntityEnergyGenerator tileGenerator;
 
     public GuiEnergyGenerator(EntityPlayer player, TileEntity tileEntity)
     {
@@ -31,55 +32,61 @@ public class GuiEnergyGenerator extends GuiContainer
     }
 
     @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         String name = this.tileGenerator.getDisplayName().getUnformattedText();
         this.fontRenderer.drawString(name, this.xSize / 2 - this.fontRenderer.getStringWidth(name) / 2, 6, 0x404040);
         this.fontRenderer.drawString(this.entityPlayer.inventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 0x404040);
 
-        this.fontRenderer.drawStringWithShadow(this.tileGenerator.electricity + "A/12800A", 104, 64, 0x404040);
+        this.fontRenderer.drawStringWithShadow(this.tileGenerator.getEnergyStored() + "J/12800J", 104, 64, 0x404040);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(heatGeneratorGuiTextures);
-        int offsetX = (this.width - this.xSize) / 2, offsetY = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(offsetX, offsetY, 0, 0, this.xSize, this.ySize);
-
-        int pixels;
+        this.mc.getTextureManager().bindTexture(HEAT_GENERATOR_GUI_TEXTURE);
+        int x = (this.width - this.xSize) / 2, y = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 
         if (this.tileGenerator.isWorking())
         {
-            pixels = this.getBurnLeftScaled(13);
-            this.drawTexturedModalRect(offsetX + 55, offsetY + 29 + 12 - pixels, 176, 12 - pixels, 14, pixels + 1);
+            int pixels = this.getBurnLeftScaled(13);
+            this.drawTexturedModalRect(x + 55, y + 29 + 12 - pixels, 176, 12 - pixels, 14, pixels + 1);
         }
 
-        pixels = this.getElectricScaled(32);
-        this.drawTexturedModalRect(offsetX + 105, offsetY + 30 + 31 - pixels, 176, 14 + 31 - pixels, 14, pixels + 1);
+        int pixels = this.getElectricScaled(32);
+        this.drawTexturedModalRect(x + 105, y + 30 + 31 - pixels, 176, 14 + 31 - pixels, 14, pixels + 1);
     }
 
     private int getBurnLeftScaled(int pixels)
     {
-        int j = this.tileGenerator.currentItemBurnTime;
+        int maxBurnTime = this.tileGenerator.currentItemBurnTime;
 
-        if (j == 0)
+        if (maxBurnTime == 0)
         {
-            j = 200;
+            maxBurnTime = 200;
         }
 
-        return this.tileGenerator.generatorBurnTime * pixels / j;
+        return this.tileGenerator.generatorBurnTime * pixels / maxBurnTime;
     }
 
     private int getElectricScaled(int pixels)
     {
-        int j = this.tileGenerator.electricity;
-        int k = this.tileGenerator.Max_Electricity;
-        if (j > k)
+        int current = this.tileGenerator.getEnergyStored();
+        int max = this.tileGenerator.getMaxEnergyStored();
+        if (current > max)
         {
-            j = k;
+            current = max;
         }
-        return k != 0 && j != 0 ? j * pixels / k : 0;
+        return max != 0 && current != 0 ? current * pixels / max : 0;
     }
 }

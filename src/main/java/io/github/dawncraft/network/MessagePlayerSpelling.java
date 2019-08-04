@@ -1,6 +1,6 @@
 package io.github.dawncraft.network;
 
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.client.ClientProxy;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
@@ -60,7 +60,7 @@ public class MessagePlayerSpelling implements IMessage
                     public void run()
                     {
                         EntityPlayer player = Minecraft.getMinecraft().player;
-                        IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                        IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                         if (message.spellAction != EnumSpellAction.NONE)
                         {
                             int slotId = ClientProxy.getInstance().getIngameGUIDawn().skillIndex;

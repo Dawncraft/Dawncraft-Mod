@@ -8,11 +8,11 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 
 /**
- * Register capabilities.
+ * Register some capabilities.
  *
  * @author QingChenW
  */
-public class CapabilityLoader
+public class CapabilityInit
 {
     /** A capability to handle thirst for player. */
     @CapabilityInject(IPlayerThirst.class)

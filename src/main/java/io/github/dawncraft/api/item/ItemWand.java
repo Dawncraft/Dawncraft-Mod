@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Multimap;
 
-import io.github.dawncraft.entity.AttributesLoader;
+import io.github.dawncraft.entity.AttributesConstants;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
@@ -90,7 +90,7 @@ public class ItemWand extends Item
         Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
         multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.material.getAttackDamage(), AttributeModifierOperation.ADD));
         multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.2D, AttributeModifierOperation.ADD));
-        multimap.put(AttributesLoader.SPELL_SPEED.getName(), new AttributeModifier(SPELL_SPEED_MODIFIER, "Weapon modifier", this.spellSpeed, AttributeModifierOperation.ADD));
+        multimap.put(AttributesConstants.SPELL_SPEED.getName(), new AttributeModifier(SPELL_SPEED_MODIFIER, "Weapon modifier", this.spellSpeed, AttributeModifierOperation.ADD));
         return multimap;
     }
 }

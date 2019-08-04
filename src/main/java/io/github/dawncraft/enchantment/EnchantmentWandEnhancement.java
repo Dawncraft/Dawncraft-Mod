@@ -13,15 +13,15 @@ public class EnchantmentWandEnhancement extends Enchantment
     }
 
     @Override
-    public int getMinEnchantability(int enchantmentLevel)
+    public int getMinEnchantability(int level)
     {
-        return 1 + (enchantmentLevel - 1) * 10;
+        return 1 + (level - 1) * 10;
     }
 
     @Override
-    public int getMaxEnchantability(int enchantmentLevel)
+    public int getMaxEnchantability(int level)
     {
-        return this.getMinEnchantability(enchantmentLevel) + 20;
+        return this.getMinEnchantability(level) + 20;
     }
 
     @Override

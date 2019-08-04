@@ -11,6 +11,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+/**
+ * Register some biomes
+ *
+ * @author QingChenW
+ */
 @Mod.EventBusSubscriber(modid = Dawncraft.MODID)
 public class BiomeInit
 {

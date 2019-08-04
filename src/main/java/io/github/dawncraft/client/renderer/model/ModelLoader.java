@@ -17,7 +17,7 @@ import com.google.common.collect.Sets;
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.client.renderer.skill.ModelSkill;
 import io.github.dawncraft.client.renderer.skill.SkillMeshDefinition;
-import io.github.dawncraft.client.renderer.texture.TextureLoader;
+import io.github.dawncraft.client.renderer.texture.TextureInit;
 import io.github.dawncraft.skill.Skill;
 import io.github.dawncraft.skill.SkillStack;
 import net.minecraft.client.Minecraft;
@@ -47,7 +47,7 @@ import net.minecraftforge.registries.IRegistryDelegate;
 public class ModelLoader
 {
     private Minecraft mc;
-    private TextureLoader textureLoader;
+    private TextureInit textureLoader;
 
     private final Map<ResourceLocation, ModelSkill> models = Maps.newHashMap();
     private final Set<ResourceLocation> textures = Sets.newHashSet();
@@ -56,7 +56,7 @@ public class ModelLoader
 
     private ProgressBar skillBar;
 
-    public ModelLoader(TextureLoader textureLoader)
+    public ModelLoader(TextureInit textureLoader)
     {
         this.mc = Minecraft.getMinecraft();
         this.textureLoader = textureLoader;

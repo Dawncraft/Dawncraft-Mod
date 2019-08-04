@@ -4,7 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 
 import io.github.dawncraft.api.skill.learning.LearningManager;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IPlayerMagic;
 import io.github.dawncraft.entity.player.SkillInventoryPlayer;
 import io.github.dawncraft.skill.SkillStack;
@@ -76,7 +76,7 @@ public class SkillContainerPlayer extends SkillContainer
             
             if (skillStack != null)
             {
-                IPlayerMagic playerMagic = player.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                IPlayerMagic playerMagic = player.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                 playerMagic.getSkillInventory().addSkillStackToInventory(skillStack);
             }
         }

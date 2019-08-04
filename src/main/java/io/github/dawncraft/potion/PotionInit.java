@@ -1,7 +1,7 @@
 package io.github.dawncraft.potion;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.capability.CapabilityLoader;
+import io.github.dawncraft.capability.CapabilityInit;
 import io.github.dawncraft.capability.IEntityMana;
 import io.github.dawncraft.entity.immortal.EntityImmortal;
 import net.minecraft.entity.EntityLivingBase;
@@ -54,7 +54,7 @@ public class PotionInit
 
                 if (entity instanceof EntityPlayer)
                 {
-                    entityMana = entity.getCapability(CapabilityLoader.PLAYER_MAGIC, null);
+                    entityMana = entity.getCapability(CapabilityInit.PLAYER_MAGIC, null);
                 }
                 else if (entity instanceof EntityImmortal)
                 {

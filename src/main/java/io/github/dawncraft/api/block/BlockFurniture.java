@@ -1,5 +1,6 @@
 package io.github.dawncraft.api.block;
 
+import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
@@ -10,6 +11,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -30,6 +33,7 @@ public abstract class BlockFurniture extends Block
         this.setResistance(type.resistance);
         this.setHarvestLevel("hammer", 0);
         this.setSoundType(type.sound);
+        this.setCreativeTab(CreativeTabsLoader.FURNITURE);
     }
 
     public BlockFurniture(Material material)
@@ -73,6 +77,18 @@ public abstract class BlockFurniture extends Block
     {
         int facing = state.getValue(FACING).getHorizontalIndex();
         return facing;
+    }
+
+    @Override
+    public IBlockState withRotation(IBlockState state, Rotation rotation)
+    {
+        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    public IBlockState withMirror(IBlockState state, Mirror mirror)
+    {
+        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
     }
 
     @Override
