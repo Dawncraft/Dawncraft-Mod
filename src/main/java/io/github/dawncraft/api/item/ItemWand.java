@@ -88,9 +88,12 @@ public class ItemWand extends Item
     public Multimap<String, AttributeModifier> getAttributeModifiers(EntityEquipmentSlot slot, ItemStack stack)
     {
         Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
-        multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.material.getAttackDamage(), AttributeModifierOperation.ADD));
-        multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.2D, AttributeModifierOperation.ADD));
-        multimap.put(AttributesConstants.SPELL_SPEED.getName(), new AttributeModifier(SPELL_SPEED_MODIFIER, "Weapon modifier", this.spellSpeed, AttributeModifierOperation.ADD));
+        if (slot == EntityEquipmentSlot.MAINHAND)
+        {
+            multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.material.getAttackDamage(), AttributeModifierOperation.ADD));
+            multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.2D, AttributeModifierOperation.ADD));
+            multimap.put(AttributesConstants.SPELL_SPEED.getName(), new AttributeModifier(SPELL_SPEED_MODIFIER, "Weapon modifier", this.spellSpeed, AttributeModifierOperation.ADD));
+        }
         return multimap;
     }
 }

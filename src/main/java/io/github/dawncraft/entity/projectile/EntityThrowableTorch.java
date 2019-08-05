@@ -18,14 +18,14 @@ public class EntityThrowableTorch extends EntityThrowable
         super(world);
     }
 
-    public EntityThrowableTorch(World world, EntityLivingBase thrower)
-    {
-        super(world, thrower);
-    }
-
     public EntityThrowableTorch(World world, double x, double y, double z)
     {
         super(world, x, y, z);
+    }
+
+    public EntityThrowableTorch(World world, EntityLivingBase thrower)
+    {
+        super(world, thrower);
     }
 
     @Override

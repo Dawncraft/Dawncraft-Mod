@@ -45,15 +45,8 @@ public class ItemGunLauncher extends ItemGun
 
                 if (!world.isRemote)
                 {
-                    try
-                    {
-                        Entity entity = this.getAmmoEntity().getConstructor(World.class, EntityLivingBase.class, float.class, float.class).newInstance(world, player, 1.5F, 2.0F);
-                        world.spawnEntity(entity);
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                    Entity entity = this.createAmmoEntity(stack, world, entityLiving, power);
+                    world.spawnEntity(entity);
                 }
             }
         }
@@ -73,8 +66,10 @@ public class ItemGunLauncher extends ItemGun
         return new ItemStack(ItemInit.GUN_ROCKET);
     }
 
-    public Class<? extends Entity> getAmmoEntity()
+    public EntityRocket createAmmoEntity(ItemStack stack, World world, EntityLivingBase shooter, int timeLeft)
     {
-        return EntityRocket.class;
+        EntityRocket entityRocket = new EntityRocket(world, shooter);
+        entityRocket.shoot(shooter, shooter.rotationPitch, shooter.rotationYaw, 0.0F, 1.5F, 2.0F);
+        return entityRocket;
     }
 }

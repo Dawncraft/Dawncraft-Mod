@@ -8,7 +8,7 @@ import io.github.dawncraft.Dawncraft;
  *
  * @author QingChenW
  */
-public class GuiStatLoader
+public class GuiStatInit
 {
     public static StatPage pageDawncraft = new StatPage(Dawncraft.NAME);
 

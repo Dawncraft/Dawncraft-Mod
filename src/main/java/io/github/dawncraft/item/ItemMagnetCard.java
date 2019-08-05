@@ -22,11 +22,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ *
+ *
+ * @author QingChenW
+ */
 public class ItemMagnetCard extends Item
 {
     public ItemMagnetCard()
     {
-        super();
         this.setMaxStackSize(16);
     }
 

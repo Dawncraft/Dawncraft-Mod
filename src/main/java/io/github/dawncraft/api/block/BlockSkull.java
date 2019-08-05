@@ -2,7 +2,7 @@ package io.github.dawncraft.api.block;
 
 import java.util.Random;
 
-import io.github.dawncraft.item.ItemSkull;
+import io.github.dawncraft.api.item.ItemSkull;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;

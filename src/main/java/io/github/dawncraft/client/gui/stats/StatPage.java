@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.gui.achievement.GuiStats;
@@ -16,38 +17,38 @@ import net.minecraft.client.resources.I18n;
 public class StatPage
 {
     private String name;
-    private Map<String, Class<? extends GuiSlot>> statSlotClasses = new LinkedHashMap<String, Class<? extends GuiSlot>>();
-    
+    private Map<String, Class<? extends GuiSlot>> statSlotClasses = new LinkedHashMap<>();
+
     public StatPage(String name)
     {
         this.name = name;
     }
-    
+
     public String getName()
     {
         return this.name;
     }
-    
+
     public void addSlot(String name, Class<? extends GuiSlot> slotClass)
     {
         this.statSlotClasses.put(name, slotClass);
     }
-    
+
     public boolean hasSlot(String name)
     {
         return this.statSlotClasses.containsKey(name);
     }
-    
+
     public Class<? extends GuiSlot> getSlot(String name)
     {
         return this.statSlotClasses.get(name);
     }
-    
+
     public void removeSlot(String name)
     {
         this.statSlotClasses.remove(name);
     }
-    
+
     public void createButtons(List<GuiButton> buttonList, int suggestId, int slotWidth, int slotHeight)
     {
         int x = slotWidth / 2 - 160;
@@ -61,7 +62,7 @@ public class StatPage
             x += width;
         }
     }
-    
+
     public void initStatSlots(GuiStats guiStats, List<GuiSlot> statSlots)
     {
         for (Entry<String, Class<? extends GuiSlot>> entry : this.statSlotClasses.entrySet())
@@ -73,14 +74,15 @@ public class StatPage
                 constructor = clazz.getConstructor(GuiStats.class);
                 GuiSlot statSlot = constructor.newInstance(guiStats);
                 statSlots.add(statSlot);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
     }
 
-    private static LinkedList<StatPage> statPages = new LinkedList<StatPage>();
+    private static LinkedList<StatPage> statPages = new LinkedList<>();
 
     /**
      * Registers a stat page.
@@ -127,11 +129,11 @@ public class StatPage
     /**
      * Will return the list of stat pages.
      *
-     * @return the list's size
+     * @return the list
      */
     public static Set<StatPage> getStatPages()
     {
-        return new HashSet<StatPage>(statPages);
+        return new HashSet<>(statPages);
     }
 
     public static String getTitle(int index)

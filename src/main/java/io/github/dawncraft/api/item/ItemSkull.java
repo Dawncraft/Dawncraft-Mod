@@ -1,10 +1,6 @@
-package io.github.dawncraft.item;
+package io.github.dawncraft.api.item;
 
 import io.github.dawncraft.api.block.BlockSkull;
-import io.github.dawncraft.entity.EntityUtils;
-import io.github.dawncraft.entity.boss.EntityBarbarianKing;
-import io.github.dawncraft.entity.boss.EntityGerKing;
-import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
@@ -30,30 +26,25 @@ import net.minecraft.world.World;
  *
  * @author QingChenW
  */
-public abstract class ItemSkull extends net.minecraft.item.ItemSkull
+public class ItemSkull extends net.minecraft.item.ItemSkull
 {
-    public static final Class<? extends Entity>[] skullTypes = new Class[] {EntitySavage.class, EntityBarbarianKing.class, EntityGerKing.class};
+    public ISkullType[] skullTypes;
+    private final BlockSkull block;
 
-    public ItemSkull()
+    public ItemSkull(BlockSkull block, ISkullType... types)
     {
-        super();
+        this.skullTypes = types;
+        this.block = block;
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
-
-    /**
-     * Return skull block.
-     *
-     * @return BlockSkull
-     */
-    public abstract BlockSkull getSkullBlock();
 
     @Override
     public String getTranslationKey(ItemStack itemStack)
     {
         int i = itemStack.getMetadata();
-        if (i < 0 || i >= skullTypes.length) i = 0;
-        return super.getTranslationKey() + "." + EntityUtils.getEntityName(skullTypes[i]);
+        if (i < 0 || i >= this.skullTypes.length) i = 0;
+        return super.getTranslationKey() + "." + this.skullTypes[i].getEntityName();
     }
 
     @Override
@@ -61,7 +52,7 @@ public abstract class ItemSkull extends net.minecraft.item.ItemSkull
     {
         if (this.isInCreativeTab(tab))
         {
-            for (int i = 0; i < skullTypes.length; ++i)
+            for (int i = 0; i < this.skullTypes.length; ++i)
             {
                 items.add(new ItemStack(this, 1, i));
             }
@@ -109,11 +100,11 @@ public abstract class ItemSkull extends net.minecraft.item.ItemSkull
 
             ItemStack itemStack = player.getHeldItem(hand);
 
-            if (player.canPlayerEdit(pos, facing, itemStack) && this.getSkullBlock().canPlaceBlockAt(world, pos))
+            if (player.canPlayerEdit(pos, facing, itemStack) && this.block.canPlaceBlockAt(world, pos))
             {
                 if (!world.isRemote)
                 {
-                    world.setBlockState(pos, this.getSkullBlock().getDefaultState().withProperty(net.minecraft.block.BlockSkull.FACING, facing), 11);
+                    world.setBlockState(pos, this.block.getDefaultState().withProperty(net.minecraft.block.BlockSkull.FACING, facing), 11);
 
                     TileEntity tileentity = world.getTileEntity(pos);
                     if (tileentity instanceof TileEntitySkull)
@@ -122,7 +113,7 @@ public abstract class ItemSkull extends net.minecraft.item.ItemSkull
                         tileentitySkull.setSkullType(itemStack.getMetadata());
                         int rotation = facing == EnumFacing.UP ? MathHelper.floor(player.rotationYaw * 16.0F / 360.0F + 0.5D) & 15 : 0;
                         tileentitySkull.setSkullRotation(rotation);
-                        this.getSkullBlock().checkEntitySpawn(world, pos, tileentitySkull);
+                        this.block.checkEntitySpawn(world, pos, tileentitySkull);
                     }
 
                     if (player instanceof EntityPlayerMP)

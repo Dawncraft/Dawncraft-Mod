@@ -31,5 +31,6 @@ public class FluidInit
     private static void registerFluid(Fluid fluid)
     {
         FluidRegistry.registerFluid(fluid);
+        FluidRegistry.addBucketForFluid(fluid);
     }
 }

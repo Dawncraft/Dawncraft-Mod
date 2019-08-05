@@ -1,21 +1,14 @@
 package io.github.dawncraft.client.renderer.tileentity;
 
-import java.lang.reflect.Method;
-
-import io.github.dawncraft.item.ItemSkull;
+import io.github.dawncraft.item.ItemInit;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelSkeletonHead;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -29,7 +22,6 @@ public class TileEntityRendererSkull extends TileEntitySpecialRenderer<TileEntit
 {
     public static TileEntityRendererSkull instance;
     private RenderManager renderManager;
-    private final ModelSkeletonHead skeletonHead = new ModelSkeletonHead(0, 0, 64, 32);
 
     @Override
     public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcher)
@@ -52,7 +44,7 @@ public class TileEntityRendererSkull extends TileEntitySpecialRenderer<TileEntit
     {
         if (this.renderManager == null) this.renderManager = Minecraft.getMinecraft().getRenderManager();
 
-        ModelBase modelbase = this.skeletonHead;
+        ModelBase modelbase = ItemInit.SKULL.skullTypes[skullType].getEntitySkull();
 
         if (destroyStage >= 0)
         {
@@ -65,18 +57,7 @@ public class TileEntityRendererSkull extends TileEntitySpecialRenderer<TileEntit
         }
         else
         {
-            Render<? extends Entity> renderer = this.renderManager.getEntityClassRenderObject(ItemSkull.skullTypes[skullType]);
-            Method method = ReflectionHelper.findMethod(Render.class, "getEntityTexture", "func_110775_a", Entity.class);
-            ResourceLocation textureResource = null;
-            try
-            {
-                textureResource = (ResourceLocation) method.invoke(renderer, (Entity) null);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            this.bindTexture(textureResource);
+            this.bindTexture(ItemInit.SKULL.skullTypes[skullType].getEntityTexure(this.renderManager));
         }
 
         GlStateManager.pushMatrix();

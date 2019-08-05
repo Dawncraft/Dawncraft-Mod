@@ -23,7 +23,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiStatsDawn extends GuiStats
 {
-    public static final ResourceLocation statIconsDawn = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/stats_icons.png");
+    public static final ResourceLocation STAT_ICONS = new ResourceLocation(Dawncraft.MODID + ":" + "textures/gui/stats_icons.png");
 
     /** Holds a instance of RenderSkill, used to draw the achievement icons on screen (is based on SkillStack) */
     protected RenderSkill skillRender;
@@ -36,6 +36,12 @@ public class GuiStatsDawn extends GuiStats
     {
         super(parentScreen, statisticsManager);
         this.skillRender = ClientProxy.getInstance().getSkillRender();
+    }
+
+    @Override
+    public void initLists()
+    {
+        super.initLists();
         this.statSlots = new ArrayList<>();
     }
 
@@ -62,15 +68,14 @@ public class GuiStatsDawn extends GuiStats
             }
             else
             {
+                this.statSlots.clear();
+                StatPage.getStatPage(this.currentPage).initStatSlots(this, this.statSlots);
                 this.buttonList.clear();
                 this.buttonList.add(this.buttonDone);
                 this.buttonPage.displayString = StatPage.getTitle(this.currentPage);
                 this.buttonList.add(this.buttonPage);
                 StatPage.getStatPage(this.currentPage).createButtons(this.buttonList, 6, this.width, this.height);
-                this.statSlots.clear();
-                StatPage.getStatPage(this.currentPage).initStatSlots(this, this.statSlots);
             }
-
         }
         else if (button.id > 5)
         {
@@ -92,18 +97,22 @@ public class GuiStatsDawn extends GuiStats
     @Override
     public void drawSprite(int x, int y, int u, int v)
     {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         if (this.currentPage == -1)
-            this.mc.getTextureManager().bindTexture(STAT_ICONS);
+        {
+            super.drawSprite(x, y, u, v);
+        }
         else
-            this.mc.getTextureManager().bindTexture(statIconsDawn);
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder worldrenderer = tessellator.getBuffer();
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(x + 0, y + 18, this.zLevel).tex((u + 0) * 0.0078125F, (v + 18) * 0.0078125F).endVertex();
-        worldrenderer.pos(x + 18, y + 18, this.zLevel).tex((u + 18) * 0.0078125F, (v + 18) * 0.0078125F).endVertex();
-        worldrenderer.pos(x + 18, y + 0, this.zLevel).tex((u + 18) * 0.0078125F, (v + 0) * 0.0078125F).endVertex();
-        worldrenderer.pos(x + 0, y + 0, this.zLevel).tex((u + 0) * 0.0078125F, (v + 0) * 0.0078125F).endVertex();
-        tessellator.draw();
+        {
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            this.mc.getTextureManager().bindTexture(STAT_ICONS);
+            Tessellator tessellator = Tessellator.getInstance();
+            BufferBuilder bufferbuilder = tessellator.getBuffer();
+            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+            bufferbuilder.pos(x + 0, y + 18, this.zLevel).tex((u + 0) * 0.0078125F, (v + 18) * 0.0078125F).endVertex();
+            bufferbuilder.pos(x + 18, y + 18, this.zLevel).tex((u + 18) * 0.0078125F, (v + 18) * 0.0078125F).endVertex();
+            bufferbuilder.pos(x + 18, y + 0, this.zLevel).tex((u + 18) * 0.0078125F, (v + 0) * 0.0078125F).endVertex();
+            bufferbuilder.pos(x + 0, y + 0, this.zLevel).tex((u + 0) * 0.0078125F, (v + 0) * 0.0078125F).endVertex();
+            tessellator.draw();
+        }
     }
 }

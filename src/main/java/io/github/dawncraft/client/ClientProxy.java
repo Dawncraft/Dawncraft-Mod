@@ -3,7 +3,7 @@ package io.github.dawncraft.client;
 import io.github.dawncraft.CommonProxy;
 import io.github.dawncraft.client.event.TooltipEventHandler;
 import io.github.dawncraft.client.gui.GuiIngameDawn;
-import io.github.dawncraft.client.gui.stats.GuiStatLoader;
+import io.github.dawncraft.client.gui.stats.GuiStatInit;
 import io.github.dawncraft.client.particle.ParticleInit;
 import io.github.dawncraft.client.renderer.entity.EntityRendererInit;
 import io.github.dawncraft.client.renderer.model.ModelLoader;
@@ -55,7 +55,7 @@ public class ClientProxy extends CommonProxy
 
         TooltipEventHandler.initTooltips();
         ParticleInit.initParticles();
-        GuiStatLoader.initStatSlots();
+        GuiStatInit.initStatSlots();
     }
 
     @Override

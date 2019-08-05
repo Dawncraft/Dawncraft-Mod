@@ -1,12 +1,12 @@
 package io.github.dawncraft.item;
 
 import io.github.dawncraft.Dawncraft;
-import io.github.dawncraft.api.block.BlockSkull;
 import io.github.dawncraft.api.item.ItemAxe;
 import io.github.dawncraft.api.item.ItemGlove;
 import io.github.dawncraft.api.item.ItemGunLauncher;
 import io.github.dawncraft.api.item.ItemGunRifle;
 import io.github.dawncraft.api.item.ItemHammer;
+import io.github.dawncraft.api.item.ItemSkull;
 import io.github.dawncraft.api.item.ItemWand;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.client.sound.SoundInit;
@@ -70,6 +70,11 @@ public class ItemInit
     public static Item COPPER_INGOT;
 
     // Tools
+    public static Item WOOD_HAMMER;
+    public static Item STONE_HAMMER;
+    public static Item IRON_HAMMER;
+    public static Item GOLD_HAMMER;
+    public static Item DIAMOND_HAMMER;
     public static Item MAGNET_AXE;
     public static Item MAGNET_PICKAXE;
     public static Item MAGNET_SHOVEL;
@@ -77,6 +82,11 @@ public class ItemInit
     public static Item MAGNET_HOE;
 
     // Compat
+    public static Item WOOD_WAND;
+    public static Item STONE_WAND;
+    public static Item IRON_WAND;
+    public static Item GOLD_WAND;
+    public static Item DIAMOND_WAND;
     public static Item MAGNET_SWORD;
     public static Item MAGNET_WAND;
     public static Item MAGNET_HELMET;
@@ -121,7 +131,7 @@ public class ItemInit
     public static final Item.ToolMaterial GOLDIAMOND_TOOL = EnumHelper.addToolMaterial("GOLDIAMOND", 3, 797, 10.0F, 2.0F, 16);
     public static final Item.ToolMaterial MJOLNIR_WEAPON = EnumHelper.addToolMaterial("MJOLNIR", 4, 2586, 10.0F, 2.0F, 24);
 
-    public static Item SKULL;
+    public static ItemSkull SKULL;
     public static Item FAECES;
     public static Item GER_HEART;
     public static Item BRAIN_DEAD;
@@ -165,11 +175,11 @@ public class ItemInit
         MAGNET_BALL = registerItem(new ItemMagnetBall().setTranslationKey("magnetBall").setCreativeTab(CreativeTabs.MISC), "magnet_ball");
 
         // Tools
-        registerItem(new ItemHammer(ToolMaterial.WOOD).setTranslationKey("woodHammer"), "wood_hammer");
-        registerItem(new ItemHammer(ToolMaterial.STONE).setTranslationKey("stoneHammer"), "stone_hammer");
-        registerItem(new ItemHammer(ToolMaterial.IRON).setTranslationKey("ironHammer"), "iron_hammer");
-        registerItem(new ItemHammer(ToolMaterial.GOLD).setTranslationKey("goldHammer"), "gold_hammer");
-        registerItem(new ItemHammer(ToolMaterial.DIAMOND).setTranslationKey("diamondHammer"), "diamond_hammer");
+        WOOD_HAMMER = registerItem(new ItemHammer(ToolMaterial.WOOD).setTranslationKey("woodHammer"), "wood_hammer");
+        STONE_HAMMER = registerItem(new ItemHammer(ToolMaterial.STONE).setTranslationKey("stoneHammer"), "stone_hammer");
+        IRON_HAMMER = registerItem(new ItemHammer(ToolMaterial.IRON).setTranslationKey("ironHammer"), "iron_hammer");
+        GOLD_HAMMER = registerItem(new ItemHammer(ToolMaterial.GOLD).setTranslationKey("goldHammer"), "gold_hammer");
+        DIAMOND_HAMMER = registerItem(new ItemHammer(ToolMaterial.DIAMOND).setTranslationKey("diamondHammer"), "diamond_hammer");
         MAGNET_AXE = registerItem(new ItemAxe(MAGNET_TOOL, 8.0F,-3.2F).setTranslationKey("magnetAxe"), "magnet_axe");
         MAGNET_PICKAXE = registerItem(new ItemPickaxe(MAGNET_TOOL).setTranslationKey("magnetPickaxe"), "magnet_pickaxe");
         MAGNET_SHOVEL = registerItem(new ItemSpade(MAGNET_TOOL).setTranslationKey("magnetSpade"), "magnet_shovel");
@@ -177,6 +187,11 @@ public class ItemInit
         MAGNET_HOE = registerItem(new ItemHoe(MAGNET_TOOL).setTranslationKey("magnetHoe"), "magnet_hoe");
 
         // Combat
+        WOOD_WAND = registerItem(new ItemWand(Item.ToolMaterial.WOOD, 0.05F).setTranslationKey("woodWand"), "wood_wand");
+        STONE_WAND = registerItem(new ItemWand(Item.ToolMaterial.STONE, 0.10F).setTranslationKey("stoneWand"), "stone_wand");
+        IRON_WAND = registerItem(new ItemWand(Item.ToolMaterial.IRON, 0.20F).setTranslationKey("ironWand"), "iron_wand");
+        GOLD_WAND = registerItem(new ItemWand(Item.ToolMaterial.GOLD, 0.35F).setTranslationKey("goldWand"), "gold_wand");
+        DIAMOND_WAND = registerItem(new ItemWand(Item.ToolMaterial.DIAMOND, 0.30F).setTranslationKey("diamondWand"), "diamond_wand");
         MAGNET_SWORD = registerItem(new ItemSword(MAGNET_TOOL).setTranslationKey("magnetSword"), "magnet_sword");
         MAGNET_WAND = registerItem(new ItemWand(MAGNET_TOOL, 0.20F).setTranslationKey("magnetWand"), "magnet_wand");
         MAGNET_HELMET = registerItem(new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.HEAD).setTranslationKey("magnetHelmet"), "magnet_helmet");
@@ -239,14 +254,7 @@ public class ItemInit
 
         // ColourEgg
         registerItemBlock(BlockInit.SUPER_CHEST);
-        SKULL = registerItemBlock(BlockInit.SKULL, new ItemSkull()
-        {
-            @Override
-            public BlockSkull getSkullBlock()
-            {
-                return (BlockSkull) BlockInit.SKULL;
-            }
-        }.setTranslationKey("skull").setCreativeTab(CreativeTabsLoader.COLOUR_EGG), "skull");
+        SKULL = (ItemSkull) registerItemBlock(BlockInit.SKULL, new ItemSkull(BlockInit.SKULL, EnumSkullType.VALUES).setTranslationKey("skull").setCreativeTab(CreativeTabsLoader.COLOUR_EGG), "skull");
 
         FAECES = registerItem(new ItemFood(1, 0.0F, true)
         {

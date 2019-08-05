@@ -3,9 +3,9 @@ package io.github.dawncraft.block;
 import com.google.common.base.Predicate;
 
 import io.github.dawncraft.api.block.BlockSkull;
+import io.github.dawncraft.api.item.ItemSkull;
 import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.item.ItemSkull;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.state.BlockWorldState;

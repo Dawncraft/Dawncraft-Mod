@@ -49,8 +49,9 @@ public class ItemGunRifle extends ItemGun
 
                     if (!player.world.isRemote)
                     {
-                        EntityBullet entity = new EntityBullet(player.world, player, 3.0F);
+                        EntityBullet entity = new EntityBullet(player.world, player);
                         entity.setDamage(this.getDamage());
+                        entity.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 6.0F, 0.2F);
                         player.world.spawnEntity(entity);
                     }
                 }

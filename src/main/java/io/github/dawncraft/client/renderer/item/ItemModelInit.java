@@ -1,11 +1,10 @@
 package io.github.dawncraft.client.renderer.item;
 
 import io.github.dawncraft.Dawncraft;
+import io.github.dawncraft.api.item.ISkullType;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.client.renderer.tileentity.TileEntityRendererInit;
-import io.github.dawncraft.entity.EntityUtils;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.item.ItemSkull;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
@@ -51,6 +50,11 @@ public class ItemModelInit
         registerItem(ItemInit.COPPER_INGOT);
 
         // Tools
+        registerItem(ItemInit.WOOD_HAMMER);
+        registerItem(ItemInit.STONE_HAMMER);
+        registerItem(ItemInit.IRON_HAMMER);
+        registerItem(ItemInit.GOLD_HAMMER);
+        registerItem(ItemInit.DIAMOND_HAMMER);
         registerItem(ItemInit.MAGNET_AXE);
         registerItem(ItemInit.MAGNET_PICKAXE);
         registerItem(ItemInit.MAGNET_HAMMER);
@@ -58,6 +62,11 @@ public class ItemModelInit
         registerItem(ItemInit.MAGNET_HOE);
 
         // Compat
+        registerItem(ItemInit.WOOD_WAND);
+        registerItem(ItemInit.STONE_WAND);
+        registerItem(ItemInit.IRON_WAND);
+        registerItem(ItemInit.GOLD_WAND);
+        registerItem(ItemInit.DIAMOND_WAND);
         registerItem(ItemInit.MAGNET_SWORD);
         registerItem(ItemInit.MAGNET_WAND);
         registerItem(ItemInit.MAGNET_HELMET);
@@ -120,10 +129,11 @@ public class ItemModelInit
         // ColourEgg
         registerBlock(BlockInit.SUPER_CHEST);
         String suffix = ItemInit.SKULL.getRegistryName() + "_";
-        for (int i = 0; i < ItemSkull.skullTypes.length; i++)
+        for (int i = 0; i < ItemInit.SKULL.skullTypes.length; i++)
         {
-            Class<? extends Entity> entity = ItemSkull.skullTypes[i];
-            String name = EntityUtils.getEntityName(entity).toLowerCase();
+            ISkullType skullType = ItemInit.SKULL.skullTypes[i];
+            Class<? extends Entity> entity = skullType.getEntityClass();
+            String name = skullType.getEntityName().toLowerCase();
             registerItem(ItemInit.SKULL, i, suffix + name);
         }
         registerItem(ItemInit.FAECES);

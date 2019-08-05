@@ -3,6 +3,7 @@ package io.github.dawncraft.block;
 import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.block.BlockFurniture.EnumMaterialType;
 import io.github.dawncraft.api.block.BlockOre;
+import io.github.dawncraft.api.block.BlockSkull;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
 import io.github.dawncraft.fluid.FluidInit;
 import io.github.dawncraft.item.ItemInit;
@@ -79,7 +80,7 @@ public class BlockInit
     // ColourEgg
     public static Block SUPER_CHEST;
     public static Block DAWN_PORTAL;
-    public static Block SKULL;
+    public static BlockSkull SKULL;
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event)
@@ -148,7 +149,7 @@ public class BlockInit
         // ColourEgg
         SUPER_CHEST = registerBlock(new BlockFurnitureSuperChest().setTranslationKey("superChest").setCreativeTab(CreativeTabsLoader.COLOUR_EGG), "super_chest");
         DAWN_PORTAL = registerBlock(new BlockDawnPortal().setTranslationKey("dawnPortal"), "dawn_portal");
-        SKULL = registerBlock(new BlockSkullDawn().setTranslationKey("skull"), "skull");
+        SKULL = (BlockSkull) registerBlock(new BlockSkullDawn().setTranslationKey("skull"), "skull");
     }
 
     /**
