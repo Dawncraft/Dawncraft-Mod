@@ -1,0 +1,6 @@
+{
+    "parent": "dawncraft:block/table_leg_centre",
+    "textures": {
+        "leg": "blocks/stone"
+    }
+}

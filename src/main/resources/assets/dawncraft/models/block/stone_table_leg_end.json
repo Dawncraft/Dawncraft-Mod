@@ -1,7 +1,6 @@
 {
     "parent": "dawncraft:block/table_leg_end",
     "textures": {
-        "surface": "blocks/stone",
-        "stick": "blocks/stone"
+        "leg": "blocks/stone"
     }
 }

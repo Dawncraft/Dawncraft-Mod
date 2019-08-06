@@ -1,0 +1,6 @@
+{
+    "parent": "dawncraft:block/table_surface",
+    "textures": {
+        "surface": "blocks/planks_oak"
+    }
+}

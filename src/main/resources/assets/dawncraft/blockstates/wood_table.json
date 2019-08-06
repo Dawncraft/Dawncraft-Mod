@@ -1,20 +1,39 @@
 {
-    "variants": {
-        "east=true,north=true,south=true,west=true": {"model": "dawncraft:table_oak_leg_none"},
-        "east=true,north=true,south=true,west=false": {"model": "dawncraft:table_oak_leg_none"},
-        "east=true,north=true,south=false,west=true": {"model": "dawncraft:table_oak_leg_none"},
-        "east=false,north=true,south=true,west=true": {"model": "dawncraft:table_oak_leg_none"},
-        "east=true,north=false,south=true,west=true": {"model": "dawncraft:table_oak_leg_none"},
-        "east=false,north=true,south=true,west=false": {"model": "dawncraft:table_oak_leg_none"},
-        "east=true,north=false,south=false,west=true": {"model": "dawncraft:table_oak_leg_none"},
-        "east=true,north=false,south=true,west=false": {"model": "dawncraft:table_oak_leg_corner"},
-        "east=false,north=false,south=true,west=true": {"model": "dawncraft:table_oak_leg_corner", "y": 90, "uvlock": true},
-        "east=false,north=true,south=false,west=true": {"model": "dawncraft:table_oak_leg_corner", "y": 180, "uvlock": true},
-        "east=true,north=true,south=false,west=false": {"model": "dawncraft:table_oak_leg_corner", "y": 270, "uvlock": true},
-        "east=true,north=false,south=false,west=false": {"model": "dawncraft:table_oak_leg_end"},
-        "east=false,north=false,south=true,west=false": {"model": "dawncraft:table_oak_leg_end", "y": 90, "uvlock": true},
-        "east=false,north=false,south=false,west=true": {"model": "dawncraft:table_oak_leg_end", "y": 180, "uvlock": true},
-        "east=false,north=true,south=false,west=false": {"model": "dawncraft:table_oak_leg_end", "y": 270, "uvlock": true},
-        "east=false,north=false,south=false,west=false": {"model": "dawncraft:table_oak_leg_center"}
-    }
+    "multipart": [
+        {
+            "apply": { "model": "oak_table_surface" }
+        },
+        {
+            "when": { "north": "false", "east": "true", "south": "true", "west": "false" },
+            "apply": { "model": "oak_table_leg_corner", "uvlock": true }
+        },
+        {
+            "when": { "north": "false", "east": "false", "south": "true", "west": "true" },
+            "apply": { "model": "oak_table_leg_corner", "y": 90, "uvlock": true }
+        },
+        {
+            "when": { "north": "true", "east": "false", "south": "false", "west": "true" },
+            "apply": { "model": "oak_table_leg_corner", "y": 180, "uvlock": true }
+        },
+        {
+            "when": { "north": "true", "east": "true", "south": "false", "west": "false" },
+            "apply": { "model": "oak_table_leg_corner", "y": 270, "uvlock": true }
+        },
+        {
+            "when": { "north": "false", "east": "true", "south": "false", "west": "false" },
+            "apply": { "model": "oak_table_leg_end", "uvlock": true }
+        },
+        {
+            "when": { "north": "false", "east": "false", "south": "true", "west": "false" },
+            "apply": { "model": "oak_table_leg_end", "y": 90, "uvlock": true }
+        },
+        {
+            "when": { "north": "false", "east": "false", "south": "false", "west": "true" },
+            "apply": { "model": "oak_table_leg_end", "y": 180, "uvlock": true }
+        },
+        {
+            "when": { "north": "true", "east": "false", "south": "false", "west": "false" },
+            "apply": { "model": "oak_table_leg_end", "y": 270, "uvlock": true }
+        }
+    ]
 }
