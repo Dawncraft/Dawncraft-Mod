@@ -1,5 +1,5 @@
 {
-	"parent": "dawncraft:block/table_oak_leg_center",
+	"parent": "dawncraft:block/oak_table_item",
     "display": {
         "thirdperson": {
             "rotation": [ 90, 0, 180 ],

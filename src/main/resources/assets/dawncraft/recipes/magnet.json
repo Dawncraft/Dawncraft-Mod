@@ -1,0 +1,20 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "B R",
+        "M M",
+        "MMM"
+    ],
+    "key": {
+        "M": {
+            "type": "forge:ore_dict",
+            "ore": "ingotMagnet"
+        },
+        "B": {
+            "item": "minecraft:dye",
+            "data": 4
+        },
+        "R": { "item": "minecraft:redstone" }
+    },
+    "result": { "item": "dawncraft:magnet" }
+}

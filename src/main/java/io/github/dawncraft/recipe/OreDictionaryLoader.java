@@ -16,12 +16,14 @@ public class OreDictionaryLoader
 {
     public static void initOreDictionary()
     {
-        registerOre("ingotMagnet", ItemInit.MAGNET_INGOT);
         registerOre("oreMagnet", BlockInit.MAGIC_ORE);
         registerOre("blockMagnet", BlockInit.MAGNET_BLOCK);
-        registerOre("ingotCopper", ItemInit.COPPER_INGOT);
+        registerOre("ingotMagnet", ItemInit.MAGNET_INGOT);
+
         registerOre("oreCopper", BlockInit.COPPER_ORE);
         registerOre("blockCopper", BlockInit.COPPER_BLOCK);
+        registerOre("ingotCopper", ItemInit.COPPER_INGOT);
+
         registerOre("dustMagic", ItemInit.MAGIC_DUST);
         registerOre("oreMagic", BlockInit.MAGIC_ORE);
     }

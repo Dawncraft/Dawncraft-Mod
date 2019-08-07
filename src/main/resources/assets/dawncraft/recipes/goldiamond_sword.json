@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "G",
+        "D",
+        "#"
+    ],
+    "key": {
+        "G": {
+            "item": "minecraft:gold_ingot"
+        },
+        "D": {
+            "item": "minecraft:diamond"
+        },
+        "#": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "dawncraft:goldiamond_sword"
+    }
+}

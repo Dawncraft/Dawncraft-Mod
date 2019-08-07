@@ -1,0 +1,13 @@
+{
+    "type": "forge:ore_shapeless",
+    "ingredients": [
+        {
+            "type": "forge:ore_dict",
+            "ore": "ingotMagnet"
+        }
+    ],
+    "result": {
+        "item": "dawncraft:magnet_ball",
+        "count": 4
+    }
+}

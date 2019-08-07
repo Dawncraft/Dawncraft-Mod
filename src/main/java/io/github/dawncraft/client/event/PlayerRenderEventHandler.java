@@ -14,6 +14,6 @@ public class PlayerRenderEventHandler
     public static void onFOVUpdate(FOVUpdateEvent event)
     {
         if (KeyLoader.USE.isKeyDown())
-            event.setNewfov(10.0F);
+            event.setNewfov(20.0F);
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fluids.BlockFluidBase;
@@ -29,7 +30,7 @@ public class BlockModelInit
     @SubscribeEvent
     public static void registerBlockModels(ModelRegistryEvent event)
     {
-        registerFieldModel(BlockInit.PETROLEUM);
+        registerFluidModel(BlockInit.PETROLEUM);
 
         registerStateMapper(BlockInit.MAGNET_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
         registerStateMapper(BlockInit.ALARM_CLOCK, new StateMap.Builder().ignore(BlockHorizontal.FACING).build());
@@ -39,12 +40,18 @@ public class BlockModelInit
         registerBuiltIn(BlockInit.SKULL, "minecraft:blocks/soul_sand");
     }
 
+    @SubscribeEvent
+    public static void blockColors(ColorHandlerEvent.Block event)
+    {
+
+    }
+
     /**
      * Register a fluid's model.
      *
      * @param block Fluid block to register
      */
-    private static void registerFieldModel(Block block)
+    private static void registerFluidModel(Block block)
     {
         if (!(block instanceof BlockFluidBase)) return;
         BlockFluidBase blockFluid = (BlockFluidBase) block;

@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
- * Register smelting and fuels.
+ * Register some smelt recipes and fuels.
  *
  * @author QingChenW
  */

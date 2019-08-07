@@ -1,12 +1,11 @@
 package io.github.dawncraft.recipe;
 
 import net.minecraft.item.ItemStack;
-
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.common.brewing.IBrewingRecipe;
 
 /**
- * Register Brewing.
+ * Register some brew recipes.
  *
  * @author QingChenW
  */
@@ -16,7 +15,7 @@ public class BrewingLoader
     {
 
     }
-    
+
     private static void registerPotion(ItemStack input, ItemStack ingredient, ItemStack output)
     {
         BrewingRecipeRegistry.addRecipe(input, ingredient, output);

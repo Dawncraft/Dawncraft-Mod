@@ -1,7 +1,6 @@
 package io.github.dawncraft.network;
 
 import io.github.dawncraft.Dawncraft;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -13,9 +12,11 @@ public class NetworkLoader
 {
     public static final SimpleNetworkWrapper instance = NetworkRegistry.INSTANCE.newSimpleChannel(Dawncraft.MODID);
     private static int nextID = 0;
-    
+
     public static void initNetwork()
     {
+        MinecraftForge.EVENT_BUS.register(new CustomPacketHandler());
+
         registerMessage(MessageUpdateMana.class, MessageUpdateMana.Handler.class, Side.CLIENT);
         registerMessage(MessageWindowSkills.class, MessageWindowSkills.Handler.class, Side.CLIENT);
         registerMessage(MessageSetSkillSlot.class, MessageSetSkillSlot.Handler.class, Side.CLIENT);
@@ -27,10 +28,8 @@ public class NetworkLoader
         registerMessage(MessageSpellSkillChange.class, MessageSpellSkillChange.Handler.class, Side.SERVER);
         registerMessage(MessagePlayerSpelling.class, MessagePlayerSpelling.Handler.class, Side.CLIENT);
         registerMessage(MessageSpellFeedback.class, MessageSpellFeedback.Handler.class, Side.CLIENT);
-        
-        MinecraftForge.EVENT_BUS.register(new CustomPacketHandler());
     }
-    
+
     private static <REQ extends IMessage, REPLY extends IMessage> void registerMessage(
             Class<REQ> requestMessage, Class<? extends IMessageHandler<REQ, REPLY>> messageHandler, Side handlerSide)
     {

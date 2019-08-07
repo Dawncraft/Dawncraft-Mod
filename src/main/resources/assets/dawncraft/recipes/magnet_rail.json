@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "X X",
+        "X#X",
+        "XMX"
+    ],
+    "key": {
+        "X": {
+            "item": "minecraft:iron_ingot"
+        },
+        "#": {
+            "item": "minecraft:stick"
+        },
+        "M": {
+            "item": "dawncraft:magnet"
+        }
+    },
+    "result": {
+        "item": "dawncraft:magnet_rail",
+        "count": 6
+    }
+}

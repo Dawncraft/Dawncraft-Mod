@@ -7,8 +7,10 @@ import io.github.dawncraft.client.renderer.tileentity.TileEntityRendererInit;
 import io.github.dawncraft.item.ItemInit;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
@@ -150,6 +152,12 @@ public class ItemModelInit
 
         // TEISR
         TileEntityRendererInit.initTileEntityItemStackRenderer();
+    }
+
+    @SubscribeEvent
+    public static void itemColors(ColorHandlerEvent.Item event)
+    {
+        BlockColors blockColorHandler = event.getBlockColors();
     }
 
     /**

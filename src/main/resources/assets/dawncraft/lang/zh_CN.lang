@@ -11,6 +11,8 @@ itemGroup.Weapons=武器
 itemGroup.Magic=魔法
 itemGroup.ColourEgg=彩蛋
 
+item.forge.bucketFilled.name=%s桶
+
 item.magnet.name=磁铁
 item.magnetIngot.name=磁石锭
 item.magnetStick.name=磁力棒

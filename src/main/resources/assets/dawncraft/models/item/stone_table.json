@@ -1,5 +1,5 @@
 {
-	"parent": "dawncraft:block/table_stone_leg_center",
+	"parent": "dawncraft:block/stone_table_item",
     "display": {
         "thirdperson": {
             "rotation": [ 90, 0, 180 ],

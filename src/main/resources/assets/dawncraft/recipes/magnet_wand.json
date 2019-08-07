@@ -1,0 +1,20 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "X#X",
+        " # ",
+        " # "
+    ],
+    "key": {
+        "X": {
+            "type": "forge:ore_dict",
+            "ore": "ingotMagnet"
+        },
+        "#": {
+            "item": "minecraft:stick"
+        }
+    },
+    "result": {
+        "item": "dawncraft:magnet_wand"
+    }
+}

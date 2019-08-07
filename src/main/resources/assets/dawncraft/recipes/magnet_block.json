@@ -1,0 +1,15 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "MMM",
+        "MMM",
+        "MMM"
+    ],
+    "key": {
+        "M": {
+            "type": "forge:ore_dict",
+            "ore": "ingotMagnet"
+        }
+    },
+    "result": { "item": "dawncraft:magnet_block" }
+}
