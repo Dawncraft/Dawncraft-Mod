@@ -1,5 +1,6 @@
 # Dawncraft Mod For Minecraft 1.12.2
 ## 正在移植到1.12.2
+## 由于学业原因暂停开发, 预计将于2020年末恢复
 
 ----------
 
@@ -95,6 +96,7 @@
 *(wiki似乎已经挂掉了)*
 * [**Harbinger**](https://harbinger.covertdragon.team/)
 * [**ustc-zzzz的教程**](https://ustc-zzzz.gitbooks.io/fmltutor/content/)
+* [**xfl03的CoreMod教程**](https://xfl03.gitbook.io/coremodtutor/)
 * [**szszss的教程**](http://blog.hakugyokurou.net/?page_id=126)
 *(并没有被墙，但是需要刷新个二三十次和一张好脸，不知道为啥，建议挂vpn)*
 
@@ -114,8 +116,8 @@
 9. 尽量**简化**代码结构，过长的代码要分成**多行**。
 10. 请勿**恶意上传**大文件。
 11. 写代码请注意**规范**,例如:
-    在`io.github.dawncraft.item.ItemLoader`中注册物品
-    而不是在`io.github.dawncraft.common.CommonProxy`的`preInit`阶段中注册
+    在`io.github.dawncraft.item.ItemInit`中注册物品
+    而不是在`io.github.dawncraft.CommonProxy`的`preInit`阶段中注册
 12. 还有其他的就不一一列举了
 
 ## 小提示
@@ -148,7 +150,7 @@
 
 Mojang为我们带来的Minecraft，MCP和Forge团队的Forge/FML.
 
-CovertDragon的Mod教程，ustc-zzzz的Mod教程和szszss的CoreMod教程.
+CovertDragon的Mod教程，ustc-zzzz的Mod教程，szszss和xfl03的CoreMod教程.
 
 KevinWalker的[Gun-Domain](https://coding.net/u/KevinWalker/p/Gun-Domain/git)项目
 

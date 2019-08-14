@@ -2,7 +2,6 @@ package io.github.dawncraft.api.tileentity;
 
 import net.minecraftforge.energy.IEnergyStorage;
 
-// max receive/extract per tick = 100
 public class EnergyStorage implements IEnergyStorage
 {
     protected int energy;

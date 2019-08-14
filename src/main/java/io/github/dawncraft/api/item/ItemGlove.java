@@ -14,6 +14,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.AttributeModifierOperation;
 
+/**
+ * 3D glove like story mode: the second season
+ *
+ * @author QingChenW
+ */
 public class ItemGlove extends Item
 {
     private float attackDamage;

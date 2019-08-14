@@ -20,6 +20,7 @@ import net.minecraftforge.energy.IEnergyStorage;
  *
  * @author QingChenW
  */
+//max receive/extract per tick = 100
 public abstract class TileEntityMachine extends TileEntity implements IEnergyStorage, IWorldNameable, ITickable
 {
     private String customName;

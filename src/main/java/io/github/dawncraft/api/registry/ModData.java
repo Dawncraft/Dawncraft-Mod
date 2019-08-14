@@ -31,12 +31,36 @@ public class ModData
     @SubscribeEvent
     public static void newRegistry(RegistryEvent.NewRegistry event)
     {
-        makeRegistry(SKILLS, Skill.class, MAX_SKILL_ID).create();
+        makeVanillaRegistry(SKILLS, Skill.class, MAX_SKILL_ID).create();
         makeRegistry(TALENTS, Talent.class, MAX_TALENT_ID).create();
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Make a registry builder.
+     *
+     * @param <T>
+     * @param name
+     * @param type
+     * @param max
+     * @return
+     */
     private static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistry(ResourceLocation name, Class<T> type, int max)
+    {
+        return new RegistryBuilder<T>().setName(name).setType(type).setMaxID(max);
+    }
+
+    /**
+     * Make a registry builder with forge's vanilla wrapper.
+     * <br>The vanilla wrapper is private, so I use reflection.</br>
+     *
+     * @param <T>
+     * @param name
+     * @param type
+     * @param max
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    private static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeVanillaRegistry(ResourceLocation name, Class<T> type, int max)
     {
         try
         {

@@ -4,6 +4,7 @@ import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.api.block.BlockMachine;
 import io.github.dawncraft.container.DawnGuiHandler;
 import io.github.dawncraft.creativetab.CreativeTabsLoader;
+import io.github.dawncraft.stats.StatInit;
 import io.github.dawncraft.tileentity.TileEntityEnergyGenerator;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,8 +37,7 @@ public class BlockEnergyGenerator extends BlockMachine
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand,
-            EnumFacing facing, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         if (!world.isRemote)
         {
@@ -50,6 +50,7 @@ public class BlockEnergyGenerator extends BlockMachine
                 break;
             }
             player.openGui(Dawncraft.instance, id, world, pos.getX(), pos.getY(), pos.getZ());
+            player.addStat(StatInit.MACHINE_INTERACTION);
         }
         return true;
     }

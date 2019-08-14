@@ -20,6 +20,12 @@ public class TileEntityInit
         registerTileEntity(TileEntitySkull.class, "Skull");
     }
 
+    /**
+     * Register a tile entity
+     *
+     * @param tileEntityClass
+     * @param id
+     */
     private static void registerTileEntity(Class<? extends TileEntity> tileEntityClass, String id)
     {
         GameRegistry.registerTileEntity(tileEntityClass, GameData.checkPrefix(id, true));
