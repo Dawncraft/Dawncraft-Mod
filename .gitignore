@@ -7,7 +7,7 @@
 !docs/
 !licenses/
 
-# need gradle 
+# need gradle
 !gradle/
 !gradlew
 !gradlew.bat
