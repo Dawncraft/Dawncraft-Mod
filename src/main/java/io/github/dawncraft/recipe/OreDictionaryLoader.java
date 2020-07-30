@@ -17,8 +17,6 @@ public class OreDictionaryLoader
     public static void initOreDictionary()
     {
         registerOre("oreMagnet", BlockInit.MAGIC_ORE);
-        registerOre("blockMagnet", BlockInit.MAGNET_BLOCK);
-        registerOre("ingotMagnet", ItemInit.MAGNET_INGOT);
 
         registerOre("oreCopper", BlockInit.COPPER_ORE);
         registerOre("blockCopper", BlockInit.COPPER_BLOCK);

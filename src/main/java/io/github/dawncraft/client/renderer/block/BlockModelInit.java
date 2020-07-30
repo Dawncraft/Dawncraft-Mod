@@ -4,7 +4,6 @@ import io.github.dawncraft.Dawncraft;
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.core.client.DawnClientHooks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -32,10 +31,8 @@ public class BlockModelInit
     {
         registerFluidModel(BlockInit.PETROLEUM);
 
-        registerStateMapper(BlockInit.MAGNET_DOOR, new StateMap.Builder().ignore(BlockDoor.POWERED).build());
         registerStateMapper(BlockInit.ALARM_CLOCK, new StateMap.Builder().ignore(BlockHorizontal.FACING).build());
 
-        registerBuiltIn(BlockInit.MAGNET_CHEST, "minecraft:blocks/planks_oak");
         registerBuiltIn(BlockInit.SUPER_CHEST, "minecraft:blocks/planks_oak");
         registerBuiltIn(BlockInit.SKULL, "minecraft:blocks/soul_sand");
     }

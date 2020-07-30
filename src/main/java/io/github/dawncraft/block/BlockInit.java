@@ -27,18 +27,14 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 public class BlockInit
 {
     // Building blocks
-    public static Block MAGNET_ORE;
-    public static Block MAGNET_BLOCK;
-
     public static Block COPPER_ORE;
     public static Block COPPER_BLOCK;
 
     // Decorations
-    public static Block MAGNET_CHEST;
+    
 
     // Redstone
-    public static Block MAGNET_DOOR;
-    public static Block MAGNET_RAIL;
+    
 
     // Material/Misc
     public static Block PETROLEUM;
@@ -89,18 +85,14 @@ public class BlockInit
         COPPER_ORE = registerBlock(new BlockOre().setTranslationKey("copperOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "copper_ore");
         COPPER_BLOCK = registerBlock(new Block(Material.IRON).setTranslationKey("copperBlock").setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "copper_block");
 
-        MAGNET_ORE = registerBlock(new BlockOre().setTranslationKey("magnetOre").setCreativeTab(CreativeTabs.BUILDING_BLOCKS), "magnet_ore");
-        MAGNET_ORE.setHarvestLevel("pickaxe", 1);
-        MAGNET_BLOCK = registerBlock(new Block(Material.IRON).setTranslationKey("magnetBlock").setCreativeTab(CreativeTabs.BUILDING_BLOCKS).setHardness(5.0f).setResistance(10.0f).setSoundType(SoundType.METAL), "magnet_block");
+        
 
         // Decorations
-        MAGNET_CHEST = registerBlock(new BlockMagnetChest().setTranslationKey("magnetChest").setCreativeTab(CreativeTabs.DECORATIONS), "magnet_chest");
 
         // Redstone
-        MAGNET_DOOR = registerBlock(new BlockMagnetDoor().setTranslationKey("magnetDoor").setCreativeTab(CreativeTabs.REDSTONE), "magnet_door");
+
 
         // Transportation
-        MAGNET_RAIL = registerBlock(new BlockMagnetRail().setTranslationKey("magnetRail").setCreativeTab(CreativeTabs.TRANSPORTATION), "magnet_rail");
 
         // Material/Misc
         PETROLEUM = registerBlock(new BlockFluidClassic(FluidInit.PETROLEUM, Material.WATER).setTranslationKey("petroleum"), "petroleum");

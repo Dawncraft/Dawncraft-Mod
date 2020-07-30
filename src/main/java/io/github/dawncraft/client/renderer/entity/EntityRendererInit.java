@@ -6,7 +6,6 @@ import io.github.dawncraft.entity.boss.EntityGerKing;
 import io.github.dawncraft.entity.passive.EntityMouse;
 import io.github.dawncraft.entity.passive.EntitySavage;
 import io.github.dawncraft.entity.projectile.EntityBullet;
-import io.github.dawncraft.entity.projectile.EntityMagnetBall;
 import io.github.dawncraft.entity.projectile.EntityRocket;
 import io.github.dawncraft.entity.projectile.EntityThrowableTorch;
 import io.github.dawncraft.magicfield.EntityMFFireBall;
@@ -30,7 +29,6 @@ public class EntityRendererInit
         registerEntityRenderer(EntityBarbarianKing.class, RenderBarbarianKing.class);
         registerEntityRenderer(EntityGerKing.class, RenderGerKing.class);
 
-        registerEntityRenderer(EntityMagnetBall.class, RenderMagnetBall.class);
         registerEntityRenderer(EntityBullet.class, RenderBullet.class);
         registerEntityRenderer(EntityRocket.class, RenderRocket.class);
         registerEntityRenderer(EntityThrowableTorch.class, RenderThrowableTorch.class);

@@ -14,8 +14,6 @@ public class TileEntityInit
     public static void initTileEntities()
     {
         registerTileEntity(TileEntityEnergyGenerator.class, "EnergyGenerator");
-        registerTileEntity(TileEntityMagnetChest.class, "MagnetChest");
-        registerTileEntity(TileEntityMagnetDoor.class, "MagnetDoor");
         registerTileEntity(TileEntityMachineFurnace.class, "MachineFurnace");
         registerTileEntity(TileEntitySkull.class, "Skull");
     }

@@ -13,30 +13,6 @@ itemGroup.ColourEgg=彩蛋
 
 item.forge.bucketFilled.name=%s桶
 
-item.magnet.name=磁铁
-item.magnetIngot.name=磁石锭
-item.magnetStick.name=磁力棒
-item.magnetBall.name=磁珠
-item.magnetCard.name=磁卡
-item.magnetCard.null=空白的磁卡
-item.magnetCard.id=卡号: %s
-item.magnetCard.desc=额外信息: %s
-item.magnetCard.owner=持卡人: %s
-item.magnetDoor.name=磁铁门
-item.magnetDoor.desc=所有者卡号: %s
-
-item.magnetAxe.name=磁铁斧
-item.magnetPickaxe.name=磁铁镐
-item.magnetHammer.name=磁铁锤子
-item.magnetSpade.name=磁铁铲
-item.magnetHoe.name=磁铁锄
-item.magnetSword.name=磁能脉冲剑
-item.magnetWand.name=磁能法杖
-item.magnetHelmet.name=磁铁头盔
-item.magnetChestplate.name=磁铁胸甲
-item.magnetLeggings.name=磁铁护腿
-item.magnetBoots.name=磁铁靴子
-
 item.copperIngot.name=铜锭
 
 item.simpleCPU.name=普通CPU
@@ -108,11 +84,6 @@ tile.nuclearGenerator.name=核能反应堆
 tile.magicGenerator.name=魔法发电机
 tile.petroleum.name=石油
 
-tile.magnetOre.name=磁石矿
-tile.magnetBlock.name=磁石块
-tile.magnetRail.name=磁力铁轨
-tile.magnetChest.name=磁力箱
-
 tile.copperOre.name=铜矿
 tile.copperBlock.name=铜块
 tile.machineFurnace.name=电炉
@@ -148,7 +119,6 @@ enchantment.fireBurn=火焰灼烧
 potion.recover=魔法恢复
 potion.recover.postfix=活力药水
 potion.silent=沉默
-potion.paralysis=麻痹
 potion.confusion=混乱
 potion.brainDead=脑残
 potion.gerPower=巨Ger之力
@@ -156,7 +126,6 @@ potion.badGer=Ger化
 
 container.lock=已为 %s 上锁
 container.heatGenerator=热能发电机
-container.magnetChest=磁力箱
 container.machineFurnace=电炉
 
 container.learning=学习
@@ -189,10 +158,6 @@ achievement.dawncraft.energy=新能源
 achievement.dawncraft.energy.desc=用石油填满你的水桶
 achievement.dawncraft.electricity=电力供应
 achievement.dawncraft.electricity.desc=成功使用发电机输出电力
-achievement.dawncraft.magnetism=磁能的应用
-achievement.dawncraft.magnetism.desc=烧炼一块磁铁锭
-achievement.dawncraft.magnetCard=刷卡时代
-achievement.dawncraft.magnetCard.desc=记录你的磁卡信息,然后把它刷爆吧
 achievement.dawncraft.machine=工业时代
 achievement.dawncraft.machine.desc=制造一堆电缆,迈入工业时代
 achievement.dawncraft.machineStarted=机器大生产
@@ -246,7 +211,6 @@ chat.dawncraft.nope=[§6曙光工艺§r] 抱歉，你不能这么做。
 chat.dawncraft.future=[§6曙光工艺§r] 功能尚未开放,敬请期待。
 chat.entity.GerKing.say1=[§6曙光工艺§r] Ger王降临，天下无Ger
 chat.entity.GerKing.say2=[§6曙光工艺§r] Ger王：我一定会回来的!
-chat.potion.paralysis=[§6曙光工艺§r] 您已被麻痹，无法攻击实体!
 
 commands.magic.usage=/magic <view|set|reset> <值> 查看或设置或重置玩家魔法(测试用)
 commands.magic.view=当前玩家魔法值为 %1$s, 最大魔法值为 %2$s, 魔法系统NBT为 %3$s.
@@ -277,10 +241,6 @@ config.dawncraft.energy=能源
 config.dawncraft.energy.tooltip=管理能源类别的设置
 config.dawncraft.energy.isEnergyEnabled=开启能源条目
 config.dawncraft.energy.isEnergyEnabled.tooltip=是否开启能源条目
-config.dawncraft.magnet=磁力
-config.dawncraft.magnet.tooltip=管理磁力类别的设置
-config.dawncraft.magnet.isMagnetEnabled=开启磁力条目
-config.dawncraft.magnet.isMagnetEnabled.tooltip=是否开启磁力条目
 config.dawncraft.machine=机器
 config.dawncraft.machine.tooltip=管理机器类别的设置
 config.dawncraft.machine.isMachineEnabled=开启机器条目

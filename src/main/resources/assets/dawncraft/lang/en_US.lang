@@ -1,7 +1,6 @@
 ﻿//The english language setting of Wc's seience Mod by Wc.
 
 itemGroup.Furniture=Furniture
-itemGroup.Magnetism=Magnetism
 itemGroup.Electricity=Electricity
 itemGroup.Computer=Computer
 itemGroup.Machine=Machine
@@ -10,19 +9,12 @@ itemGroup.Magic=Magic
 itemGroup.Flans=Flans
 itemGroup.ColourEgg=Colour Egg
 
-item.magnet.name=magnet
-item.magnetIngot.name=Magnet ingot
-item.magnetStick.name=Magnet stick
-item.magnetBall.name=Magnet ball
-item.magnetCard.name=Magnet card
 item.bucketPetroleum.name=Petroleum bucket
 item.simpleCPU.name=Simple CPU
 item.highCPU.name=High CPU
 item.proCPU.name=Pro CPU
 item.superCPU.name=Super CPU
 
-tile.magnetOre.name=Magnet ore
-tile.magnetBlock.name=Magnet block
 tile.superChest.name=Super Chest
 tile.electricityFurnace.name=Heat electric generator
 tile.fluidPetroleum.name=Petroleum
@@ -34,16 +26,10 @@ tile.superComputer.name=Super computer
 
 fluid.petroleum=Petroleum
 
-item.magnetSword.name=Magnet Sword
 item.goldiamondSword.name=§eGol§fd§biamond §5Sword
 
 item.flanRPG.name=RPG-7
 item.flanRPGRocket.name=RPG rocket
-
-item.magnetHelmet.name=Magnet Helmet
-item.magnetChestplate.name=Magnet Chestplate
-item.magnetLeggings.name=Magnet Leggings
-item.magnetBoots.name=Magnet Boots
 
 item.cakeEgg.name=Cake Egg
 

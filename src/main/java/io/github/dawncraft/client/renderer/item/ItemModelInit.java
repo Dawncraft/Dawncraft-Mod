@@ -30,25 +30,15 @@ public class ItemModelInit
     {
         // Building blocks
         registerBlock(BlockInit.MAGIC_ORE);
-        registerBlock(BlockInit.MAGNET_BLOCK);
 
         registerBlock(BlockInit.COPPER_ORE);
         registerBlock(BlockInit.COPPER_BLOCK);
 
         // Decorations
-        registerBlock(BlockInit.MAGNET_CHEST);
 
         // Redstone
-        registerItem(ItemInit.MAGNET_DOOR);
-        registerBlock(BlockInit.MAGNET_RAIL);
-        registerItem(ItemInit.MAGNET_CARD);
 
         // Materials/Misc
-        registerItem(ItemInit.MAGNET);
-        registerItem(ItemInit.MAGNET_INGOT);
-        registerItem(ItemInit.MAGNET_STICK);
-        registerItem(ItemInit.MAGNET_BALL);
-
         registerItem(ItemInit.COPPER_INGOT);
 
         // Tools
@@ -57,11 +47,6 @@ public class ItemModelInit
         registerItem(ItemInit.IRON_HAMMER);
         registerItem(ItemInit.GOLD_HAMMER);
         registerItem(ItemInit.DIAMOND_HAMMER);
-        registerItem(ItemInit.MAGNET_AXE);
-        registerItem(ItemInit.MAGNET_PICKAXE);
-        registerItem(ItemInit.MAGNET_HAMMER);
-        registerItem(ItemInit.MAGNET_SHOVEL);
-        registerItem(ItemInit.MAGNET_HOE);
 
         // Compat
         registerItem(ItemInit.WOOD_WAND);
@@ -69,12 +54,6 @@ public class ItemModelInit
         registerItem(ItemInit.IRON_WAND);
         registerItem(ItemInit.GOLD_WAND);
         registerItem(ItemInit.DIAMOND_WAND);
-        registerItem(ItemInit.MAGNET_SWORD);
-        registerItem(ItemInit.MAGNET_WAND);
-        registerItem(ItemInit.MAGNET_HELMET);
-        registerItem(ItemInit.MAGNET_CHESTPLATE);
-        registerItem(ItemInit.MAGNET_LEGGINGS);
-        registerItem(ItemInit.MAGNET_BOOTS);
 
         // Science
 

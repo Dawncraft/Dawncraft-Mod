@@ -138,6 +138,8 @@
 
 2019/7/18注:请到[MCPBot](http://export.mcpbot.bspk.rs/)查看最新版本的MCP快照
 
+2020/7/30注:Block类的onBlockActivated方法会执行两次,分别是主手和副手
+
 ## 未来展望
 
 等待更新。

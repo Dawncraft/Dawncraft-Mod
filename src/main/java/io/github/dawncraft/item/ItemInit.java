@@ -53,20 +53,10 @@ public class ItemInit
     public static final EnumAction SHOOT = EnumHelper.addAction("SHOOT");
     public static final EnumAction RELOAD = EnumHelper.addAction("RELOAD");
 
-    public static final Item.ToolMaterial MAGNET_TOOL = EnumHelper.addToolMaterial("MAGNET", 2, 285, 6.0F, 2.0F, 11);
-    public static final ItemArmor.ArmorMaterial MAGNET_ARMOR = EnumHelper.addArmorMaterial("MAGNET", Dawncraft.MODID + ":" + "magnet", 17, new int[] { 1, 5, 4, 2 }, 11, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
+
     public static final ItemArmor.ArmorMaterial COPPER_ARMOR = EnumHelper.addArmorMaterial("COPPER", Dawncraft.MODID + ":" + "copper", 13, new int[] { 1, 4, 3, 1 }, 8, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F);
 
-    // Redstone
-    public static Item MAGNET_DOOR;
-    public static Item MAGNET_CARD;
-
     // Materials/Misc
-    public static Item MAGNET;
-    public static Item MAGNET_INGOT;
-    public static Item MAGNET_STICK;
-    public static Item MAGNET_BALL;
-
     public static Item COPPER_INGOT;
 
     // Tools
@@ -75,11 +65,6 @@ public class ItemInit
     public static Item IRON_HAMMER;
     public static Item GOLD_HAMMER;
     public static Item DIAMOND_HAMMER;
-    public static Item MAGNET_AXE;
-    public static Item MAGNET_PICKAXE;
-    public static Item MAGNET_SHOVEL;
-    public static Item MAGNET_HAMMER;
-    public static Item MAGNET_HOE;
 
     // Compat
     public static Item WOOD_WAND;
@@ -87,12 +72,6 @@ public class ItemInit
     public static Item IRON_WAND;
     public static Item GOLD_WAND;
     public static Item DIAMOND_WAND;
-    public static Item MAGNET_SWORD;
-    public static Item MAGNET_WAND;
-    public static Item MAGNET_HELMET;
-    public static Item MAGNET_CHESTPLATE;
-    public static Item MAGNET_LEGGINGS;
-    public static Item MAGNET_BOOTS;
 
     // Science
 
@@ -151,28 +130,14 @@ public class ItemInit
         registerItemBlock(BlockInit.COPPER_ORE);
         registerItemBlock(BlockInit.COPPER_BLOCK);
 
-        registerItemBlock(BlockInit.MAGNET_ORE);
-        registerItemBlock(BlockInit.MAGNET_BLOCK);
-
-        // Decorations
-        registerItemBlock(BlockInit.MAGNET_CHEST);
-
         // Redstone
-        MAGNET_DOOR = registerItemBlock(BlockInit.MAGNET_DOOR, new ItemMagnetDoor().setTranslationKey("magnetDoor").setCreativeTab(CreativeTabs.REDSTONE), "magnet_door");
-
-        MAGNET_CARD = registerItem(new ItemMagnetCard().setTranslationKey("magnetCard").setCreativeTab(CreativeTabs.REDSTONE), "magnet_card");
 
         // Transportation
-        registerItemBlock(BlockInit.MAGNET_RAIL);
 
         // Materials/Misc
         COPPER_INGOT = registerItem(new Item().setTranslationKey("copperIngot").setCreativeTab(CreativeTabs.MATERIALS), "copper_ingot");
 
-        MAGNET = registerItem(new Item().setTranslationKey("magnet").setCreativeTab(CreativeTabs.MATERIALS), "magnet");
-        MAGNET_INGOT = registerItem(new Item().setTranslationKey("magnetIngot").setCreativeTab(CreativeTabs.MATERIALS), "magnet_ingot");
-        MAGNET_TOOL.setRepairItem(new ItemStack(MAGNET_INGOT));
-        MAGNET_STICK = registerItem(new Item().setTranslationKey("magnetStick").setCreativeTab(CreativeTabs.MATERIALS), "magnet_stick");
-        MAGNET_BALL = registerItem(new ItemMagnetBall().setTranslationKey("magnetBall").setCreativeTab(CreativeTabs.MISC), "magnet_ball");
+       
 
         // Tools
         WOOD_HAMMER = registerItem(new ItemHammer(ToolMaterial.WOOD).setTranslationKey("woodHammer"), "wood_hammer");
@@ -180,11 +145,7 @@ public class ItemInit
         IRON_HAMMER = registerItem(new ItemHammer(ToolMaterial.IRON).setTranslationKey("ironHammer"), "iron_hammer");
         GOLD_HAMMER = registerItem(new ItemHammer(ToolMaterial.GOLD).setTranslationKey("goldHammer"), "gold_hammer");
         DIAMOND_HAMMER = registerItem(new ItemHammer(ToolMaterial.DIAMOND).setTranslationKey("diamondHammer"), "diamond_hammer");
-        MAGNET_AXE = registerItem(new ItemAxe(MAGNET_TOOL, 8.0F,-3.2F).setTranslationKey("magnetAxe"), "magnet_axe");
-        MAGNET_PICKAXE = registerItem(new ItemPickaxe(MAGNET_TOOL).setTranslationKey("magnetPickaxe"), "magnet_pickaxe");
-        MAGNET_SHOVEL = registerItem(new ItemSpade(MAGNET_TOOL).setTranslationKey("magnetSpade"), "magnet_shovel");
-        MAGNET_HAMMER = registerItem(new ItemHammer(MAGNET_TOOL).setTranslationKey("magnetHammer"), "magnet_hammer");
-        MAGNET_HOE = registerItem(new ItemHoe(MAGNET_TOOL).setTranslationKey("magnetHoe"), "magnet_hoe");
+       
 
         // Combat
         WOOD_WAND = registerItem(new ItemWand(Item.ToolMaterial.WOOD, 0.05F).setTranslationKey("woodWand"), "wood_wand");
@@ -192,13 +153,7 @@ public class ItemInit
         IRON_WAND = registerItem(new ItemWand(Item.ToolMaterial.IRON, 0.20F).setTranslationKey("ironWand"), "iron_wand");
         GOLD_WAND = registerItem(new ItemWand(Item.ToolMaterial.GOLD, 0.35F).setTranslationKey("goldWand"), "gold_wand");
         DIAMOND_WAND = registerItem(new ItemWand(Item.ToolMaterial.DIAMOND, 0.30F).setTranslationKey("diamondWand"), "diamond_wand");
-        MAGNET_SWORD = registerItem(new ItemSword(MAGNET_TOOL).setTranslationKey("magnetSword"), "magnet_sword");
-        MAGNET_WAND = registerItem(new ItemWand(MAGNET_TOOL, 0.20F).setTranslationKey("magnetWand"), "magnet_wand");
-        MAGNET_HELMET = registerItem(new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.HEAD).setTranslationKey("magnetHelmet"), "magnet_helmet");
-        MAGNET_CHESTPLATE = registerItem(new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.CHEST).setTranslationKey("magnetChestplate"), "magnet_chestplate");
-        MAGNET_LEGGINGS = registerItem(new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.LEGS).setTranslationKey("magnetLeggings"), "magnet_leggings");
-        MAGNET_BOOTS = registerItem(new ItemArmor(MAGNET_ARMOR, MAGNET_ARMOR.ordinal(), EntityEquipmentSlot.FEET).setTranslationKey("magnetBoots"), "magnet_boots");
-
+        
         // Science
 
         // Energy

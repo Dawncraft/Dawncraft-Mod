@@ -2,7 +2,6 @@ package io.github.dawncraft.client.renderer.tileentity;
 
 import io.github.dawncraft.block.BlockInit;
 import io.github.dawncraft.item.ItemInit;
-import io.github.dawncraft.tileentity.TileEntityMagnetChest;
 import io.github.dawncraft.tileentity.TileEntitySkull;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
@@ -20,13 +19,11 @@ public class TileEntityRendererInit
 {
     public static void initTileEntityRenderer()
     {
-        registerTileEntityRenderer(TileEntityMagnetChest.class, new TileEntityRendererChest());
         registerTileEntityRenderer(TileEntitySkull.class, new TileEntityRendererSkull());
     }
 
     public static void initTileEntityItemStackRenderer()
     {
-        registerTileEntityItemStackRenderer(BlockInit.MAGNET_CHEST, DawnTileEntityItemStackRenderer.instance);
         registerTileEntityItemStackRenderer(BlockInit.SUPER_CHEST, DawnTileEntityItemStackRenderer.instance);
         registerTileEntityItemStackRenderer(ItemInit.SKULL, DawnTileEntityItemStackRenderer.instance);
     }

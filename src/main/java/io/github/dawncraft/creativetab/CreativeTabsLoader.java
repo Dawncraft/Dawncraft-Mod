@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnumEnchantmentType;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -43,7 +44,7 @@ public class CreativeTabsLoader
             @Override
             public ItemStack createIcon()
             {
-                return new ItemStack(ItemInit.MAGNET_STICK);
+                return new ItemStack(Items.STICK);
             }
         };
         ENERGY = new CreativeTabs("Energy")

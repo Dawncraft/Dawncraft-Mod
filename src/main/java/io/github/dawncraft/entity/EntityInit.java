@@ -39,7 +39,6 @@ public class EntityInit
         registerEntity(EntityEntryBuilder.create().entity(EntityBarbarianKing.class).name("BarbarianKing").tracker(64, 3, true), "barbarian_king");
         registerEntity(EntityEntryBuilder.create().entity(EntityGerKing.class).name("GerKing").tracker(64, 3, true), "ger_king");
 
-        registerEntity(EntityEntryBuilder.create().entity(EntityMagnetBall.class).name("MagnetBall").tracker(64, 10, true), "magnet_ball");
         registerEntity(EntityEntryBuilder.create().entity(EntityBullet.class).name("Bullet").tracker(64, 10, true), "bullet");
         registerEntity(EntityEntryBuilder.create().entity(EntityRocket.class).name("SmallRocket").tracker(64, 10, true), "smallrocket");
         registerEntity(EntityEntryBuilder.create().entity(EntityThrowableTorch.class).name("ThrowableTorch").tracker(64, 10, true), "throwable_torch");
